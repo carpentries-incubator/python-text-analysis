@@ -7,7 +7,6 @@ Current maintainers of this lesson are
 
 * [Sarah Stevens](https://github.com/sstevens2/)
 * FIXME
-* FIXME
 
 
 ## Authors
