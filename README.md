@@ -6,6 +6,8 @@
 Current maintainers of this lesson are
 
 * [Karl Holten](https://github.com/Karl-Holten/)
+* [Ann Hanlon](https://github.com/annhanlon)
+* [Clare Michaud](https://github.com/claremichaud)
 * FIXME
 * FIXME
 
