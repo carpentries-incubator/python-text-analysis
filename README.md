@@ -10,6 +10,7 @@ Current maintainers of this lesson are
 * [Karl Holten](https://github.com/Karl-Holten/)
 * [Steve Meyer](https://github.com/steve-meyer)
 * [Clare Michaud](https://github.com/claremichaud)
+* [Sarah Stevens](https://github.com/sstevens2/)
 * [Maij Xyooj](https://github.com/maijxyooj)
 
 
