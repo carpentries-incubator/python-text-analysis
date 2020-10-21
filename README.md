@@ -7,7 +7,7 @@ Current maintainers of this lesson are
 
 * FIXME
 * FIXME
-* Maxwell Gray
+* (Maxwell Gray)[https://github.com/maxgray20]
 
 
 ## Authors
