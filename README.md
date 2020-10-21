@@ -5,8 +5,10 @@
 
 Current maintainers of this lesson are
 
-* FIXME
-* [Maij Xyooj](github.com/maijxyooj)
+
+* [Ann Hanlon](https://github.com/annhanlon)
+* [Clare Michaud](https://github.com/claremichaud)
+* [Maij Xyooj](https://github.com/maijxyooj)
 * FIXME
 
 
