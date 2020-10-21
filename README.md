@@ -5,8 +5,8 @@
 
 Current maintainers of this lesson are
 
-
 * [Ann Hanlon](https://github.com/annhanlon)
+* [Karl Holten](https://github.com/Karl-Holten/)
 * [Clare Michaud](https://github.com/claremichaud)
 * [Maij Xyooj](https://github.com/maijxyooj)
 * FIXME
