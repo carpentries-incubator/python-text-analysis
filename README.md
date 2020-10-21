@@ -5,7 +5,7 @@
 
 Current maintainers of this lesson are
 
-* [Clare Michaud] (github.com/claremichaud)
+* [Clare Michaud](github.com/claremichaud)
 * FIXME
 * FIXME
 
