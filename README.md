@@ -5,10 +5,10 @@
 
 Current maintainers of this lesson are
 
-* [Karl Holten](https://github.com/Karl-Holten/)
 * [Ann Hanlon](https://github.com/annhanlon)
+* [Karl Holten](https://github.com/Karl-Holten/)
 * [Clare Michaud](https://github.com/claremichaud)
-* FIXME
+* [Maij Xyooj](https://github.com/maijxyooj)
 * FIXME
 
 
