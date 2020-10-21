@@ -5,7 +5,7 @@
 
 Current maintainers of this lesson are
 
-* FIXME
+* [Steve Meyer](https://github.com/steve-meyer)
 * FIXME
 * FIXME
 
