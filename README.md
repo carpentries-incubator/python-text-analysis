@@ -12,6 +12,7 @@ Current maintainers of this lesson are
 * [Clare Michaud](https://github.com/claremichaud)
 * [Sarah Stevens](https://github.com/sstevens2/)
 * [Maij Xyooj](https://github.com/maijxyooj)
+* [Nina Clements](https://github.com/ninaclements)
 
 
 ## Authors
