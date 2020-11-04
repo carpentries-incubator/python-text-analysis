@@ -1,4 +1,4 @@
-# Digitial Humanities - Text Analysis in Python
+# Digital Humanities - Text Analysis in Python
 
 
 ## Maintainer(s)
