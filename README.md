@@ -1,5 +1,6 @@
 # Digital Humanities - Text Analysis in Python
 
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/carpentries-incubator/python-text-analysis)
 
 ## Maintainer(s)
 
