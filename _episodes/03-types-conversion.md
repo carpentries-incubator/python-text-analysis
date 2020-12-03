@@ -27,6 +27,7 @@ keypoints:
 *   Character string (usually called "string", `str`): text.
     *   Written in either single quotes or double quotes (as long as they match).
     *   The quote marks aren't printed when the string is displayed.
+    *   We will focus on strings since they are very important in text analysis.
 
 ## Use the built-in function `type` to find the type of a value.
 
@@ -168,21 +169,6 @@ print(str(1) + '2')
 ~~~
 {: .output}
 
-## Can mix integers and floats freely in operations.
-
-*   Integers and floating-point numbers can be mixed in arithmetic.
-    *   Python 3 automatically converts integers to floats as needed. (Integer division in Python 2 will return an integer, the *floor* of the division.)
-
-~~~
-print('half is', 1 / 2.0)
-print('three squared is', 3.0 ** 2)
-~~~
-{: .language-python}
-~~~
-half is 0.5
-three squared is 9.0
-~~~
-{: .output}
 
 ## Variables only change value when something is assigned to them.
 
@@ -192,29 +178,32 @@ three squared is 9.0
 *   This does **not** happen in programming languages.
 
 ~~~
-first = 1
-second = 5 * first
-first = 2
+first = "Ahmed"
+second = first + " J"
+first = "Piper"
 print('first is', first, 'and second is', second)
 ~~~
 {: .language-python}
 ~~~
-first is 2 and second is 5
+first is Piper and second is Ahmed J
 ~~~
 {: .output}
 
-*   The computer reads the value of `first` when doing the multiplication,
+*   The computer reads the value of `first` when doing the concatenation,
     creates a new value, and assigns it to `second`.
 *   After that, `second` does not remember where it came from.
 
-> ## Fractions
+> ## What type is it?
 >
-> What type of value is 3.4?
+> 1) What type of the value 3.4?
+> 2) What is the type of "Alice"?
+> 
 > How can you find out?
 >
 > > ## Solution
 > >
-> > It is a floating-point number (often abbreviated "float").
+> > 1) 3.4 it is a decimal number which is called a floating-point number (often abbreviated "float") in python.
+> > 2) "Alice" is a string of characters (called "string") which is a common type of text.
 > >
 > > ~~~
 > > print(type(3.4))
@@ -222,6 +211,15 @@ first is 2 and second is 5
 > > {: .language-python}
 > > ~~~
 > > <class 'float'>
+> > ~~~
+> > {: .output}
+> > 
+> > ~~~
+> > print(type("Alice"))
+> > ~~~
+> > {: .language-python}
+> > ~~~
+> > <class 'str'>
 > > ~~~
 > > {: .output}
 > {: .solution}
