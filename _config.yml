@@ -101,14 +101,14 @@ highlighter: rouge
 
 # Reorder lessons
 episode_order:
-    run-quit
-    variables
-    types-conversion
-    built-in
-    lists
-    for-loops
-    conditionals
-    libraries
+  - run-quit
+  - variables
+  - types-conversion
+  - built-in
+  - lists
+  - for-loops
+  - conditionals
+  - libraries
 
 # Remote theme
 remote_theme: carpentries/carpentries-theme
