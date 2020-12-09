@@ -24,17 +24,17 @@ keypoints:
     *   Body containing one or more statements is indented (usually by 4 spaces)
 
 ~~~
-mass = 3.54
-if mass > 3.0:
-    print(mass, 'is large')
+animal = "dog"
+if animal == "dog":
+    print(animal, 'is fluffy')
 
-mass = 2.07
-if mass > 3.0:
-    print (mass, 'is large')
+animal = "snake"
+if animal == "dog":
+    print (animal, 'is fluffy')
 ~~~
 {: .language-python}
 ~~~
-3.54 is large
+dog is fluffy
 ~~~
 {: .output}
 
@@ -44,15 +44,17 @@ if mass > 3.0:
 *   But useful when we have a collection to process.
 
 ~~~
-masses = [3.54, 2.07, 9.22, 1.86, 1.71]
-for m in masses:
-    if m > 3.0:
-        print(m, 'is large')
+animals = ["aardvark", "bat", "cat", "dog"]
+acount = 0
+for animal in animals:
+   for letter in animal:
+      if letter == 'a':
+         acount += 1
+print("Count of letter a:", acount)
 ~~~
 {: .language-python}
 ~~~
-3.54 is large
-9.22 is large
+Count of letter a: 5
 ~~~
 {: .output}
 
@@ -62,20 +64,19 @@ for m in masses:
 *   Allows us to specify an alternative to execute when the `if` *branch* isn't taken.
 
 ~~~
-masses = [3.54, 2.07, 9.22, 1.86, 1.71]
-for m in masses:
-    if m > 3.0:
-        print(m, 'is large')
+animals = ["aardvark", "bat", "cat", "dog"]
+for animal in animals:
+    if animal == "cat":
+        print(animal, 'is a cat')
     else:
-        print(m, 'is small')
+        print(animal, 'is not a cat')
 ~~~
 {: .language-python}
 ~~~
-3.54 is large
-2.07 is small
-9.22 is large
-1.86 is small
-1.71 is small
+aardvark is not a cat
+bat is not a cat
+cat is a cat
+dog is not a cat
 ~~~
 {: .output}
 
@@ -87,22 +88,22 @@ for m in masses:
 *   Must come before the `else` (which is the "catch all").
 
 ~~~
-masses = [3.54, 2.07, 9.22, 1.86, 1.71]
-for m in masses:
-    if m > 9.0:
-        print(m, 'is HUGE')
-    elif m > 3.0:
-        print(m, 'is large')
+animals = ["aardvark", "bear", "cat", "dog", "elephant"]
+for animal in animals:
+    if len(animal) > 5:
+        print(animal, 'has a long name')
+    elif len(animal) > 3:
+        print(animal, 'has a medium name')
     else:
-        print(m, 'is small')
+        print(animal, 'has a short name')
 ~~~
 {: .language-python}
 ~~~
-3.54 is large
-2.07 is small
-9.22 is HUGE
-1.86 is small
-1.71 is small
+aardvark has a long name
+bear has a medium name
+cat has a short name
+dog has a short name
+elephant has a long name
 ~~~
 {: .output}
 
@@ -112,33 +113,33 @@ for m in masses:
 *   So ordering matters.
 
 ~~~
-grade = 85
-if grade >= 70:
-    print('grade is C')
-elif grade >= 80:
-    print('grade is B')
-elif grade >= 90:
-    print('grade is A')
+animal = "tyrannosaurus rex"
+if len(animal) > 3:
+    print(animal, 'has a medium name')
+elif len(animal) > 5:
+    print(animal, 'has a long name')
+else:
+    print(animal, 'has a short name')
 ~~~
 {: .language-python}
 ~~~
-grade is C
+tyrannosaurus rex has a medium name
 ~~~
 {: .output}
 
 *   Does *not* automatically go back and re-evaluate if values change.
 
 ~~~
-velocity = 10.0
-if velocity > 20.0:
-    print('moving too fast')
+name = "Thomas"
+if len(name) < 4 :
+    print("He already has a short name")
 else:
-    print('adjusting velocity')
-    velocity = 50.0
+    print("Let's give him a nickname")
+    name = "Tom"
 ~~~
 {: .language-python}
 ~~~
-adjusting velocity
+Let's give him a nickname
 ~~~
 {: .output}
 
