@@ -11,7 +11,7 @@ FIXME: home page introduction
 
 > ## Prerequisites
 >
-> FIXME
+> You don't need any experience with python or other programming languages to take this workshop.
 {: .prereq}
 
 {% include links.md %}
