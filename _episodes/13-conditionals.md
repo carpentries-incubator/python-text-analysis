@@ -42,7 +42,7 @@ dog is fluffy
 
 *   Not much point using a conditional when we know the value (as above).
 *   But useful when we have a collection to process.
-
+*   We can also use the in operator on strings directly.
 ~~~
 animals = ["aardvark", "bat", "cat", "dog"]
 acount = 0
@@ -58,6 +58,12 @@ Count of letter a: 5
 ~~~
 {: .output}
 
+*   We can also use the in operator on strings directly.
+~~~
+sentence = "Is there a bat in here?"
+if "bat" in sentence:
+   print("There's a bat!")
+~~~
 ## Use `else` to execute a block of code when an `if` condition is *not* true.
 
 *   `else` can be used following an `if`.
@@ -146,30 +152,20 @@ Let's give him a nickname
 *   Often use conditionals in a loop to "evolve" the values of variables.
 
 ~~~
-velocity = 10.0
-for i in range(5): # execute the loop 5 times
-    print(i, ':', velocity)
-    if velocity > 20.0:
-        print('moving too fast')
-        velocity = velocity - 5.0
-    else:
-        print('moving too slow')
-        velocity = velocity + 10.0
-print('final velocity:', velocity)
+sentence= "I understand no python."
+for i in range(3):
+  print(sentence)
+  if "no" in sentence:
+    sentence = sentence.replace("no", "a little")
+  elif "a little" in sentence:
+    sentence = sentence.replace("a little", "a lot of")
+
 ~~~
 {: .language-python}
 ~~~
-0 : 10.0
-moving too slow
-1 : 20.0
-moving too slow
-2 : 30.0
-moving too fast
-3 : 25.0
-moving too fast
-4 : 20.0
-moving too slow
-final velocity: 30.0
+I understand no python.
+I understand a little python.
+I understand a lot of python.
 ~~~
 {: .output}
 
