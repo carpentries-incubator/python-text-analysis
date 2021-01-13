@@ -267,7 +267,6 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 *   Notice that the <kbd>Return</kbd> and <kbd>Shift</kbd> keys on the right of the keyboard are
     right next to each other.
 
-
 > ## Reports using markdown in Jupyter notebooks
 >
 > You can use Jupyter Notebook to create reports with both code and text in them using what is
@@ -275,7 +274,6 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 [Software Carpentry Python Lesson][swc_python] for more info about using [markdown][markdown] in Jupyter.
 >
 {: .callout}
-
 
 > ## Change an Existing Cell from Code to Markdown
 >
@@ -307,7 +305,6 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 > {: .solution}
 {: .challenge}
 
-
 ## Closing JupyterLab
 
 *   From the Menu Bar select the "File" menu and the choose "Quit" at the bottom of the dropdown menu. You will be prompted to confirm that you wish to shutdown the JupyterLab server (don't forget to save your work!). Click "Confirm" to shutdown the JupyterLab server.
@@ -327,5 +324,6 @@ $ jupyter lab
 [literate_programming_wiki]: https://en.wikipedia.org/wiki/Literate_programming
 [markdown]: https://en.wikipedia.org/wiki/Markdown
 [swc_python]: http://swcarpentry.github.io/python-novice-gapminder/
+
 
 {% include links.md %}
