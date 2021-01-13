@@ -267,207 +267,13 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 *   Notice that the <kbd>Return</kbd> and <kbd>Shift</kbd> keys on the right of the keyboard are
     right next to each other.
 
-### The Notebook will turn Markdown into pretty-printed documentation.
-
-*   Notebooks can also render [Markdown][markdown].
-    *   A simple plain-text format for writing lists, links,
-        and other things that might go into a web page.
-    *   Equivalently, a subset of HTML that looks like what you'd send in an old-fashioned email.
-*   Turn the current cell into a Markdown cell by entering the Command mode (<kbd>Esc</kbd>/gray)
-    and press the <kbd>M</kbd> key.
-*   `In [ ]:` will disappear to show it is no longer a code cell and you will be able to write in
-    Markdown.
-*   Turn the current cell into a Code cell by entering the Command mode (<kbd>Esc</kbd>/gray) and
-    press the <kbd>y</kbd> key.
-
-### Markdown does most of what HTML does.
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-*   Use asterisks
-*   to create
-*   bullet lists.
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-*   Use asterisks
-*   to create
-*   bullet lists.
-
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-1.  Use numbers
-1.  to create
-1.  numbered lists.
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-1.  Use numbers
-1.  to create
-1.  numbered lists.
-
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-*  You can use indents
-	*  To create sublists
-	*  of the same type
-*  Or sublists
-	1. Of different
-	1. types
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-*  You can use indents
-	*  To create sublists
-	*  of the same type
-*  Or sublists
-	1. Of different
-	1. types
-
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-# A Level-1 Heading
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-# A Level-1 Heading
-
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-## A Level-2 Heading (etc.)
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-## A Level-2 Heading (etc.)
-
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-Line breaks
-don't matter.
-
-But blank lines
-create new paragraphs.
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-Line breaks
-don't matter.
-
-But blank lines
-create new paragraphs.
-
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6" markdown="1">
-
-~~~
-[Create links](http://software-carpentry.org) with `[...](...)`.
-Or use [named links][data_carpentry].
-
-[data_carpentry]: http://datacarpentry.org
-~~~
-
-  </div>
-  <div class="col-md-6" markdown="1">
-
-[Create links](http://software-carpentry.org) with `[...](...)`.
-Or use [named links][data_carpentry].
-
-[data_carpentry]: http://datacarpentry.org
-
-  </div>
-</div>
-
-> ## Creating Lists in Markdown
+> ## Reports using markdown in Jupyter notebooks
 >
-> Create a nested list in a Markdown cell in a notebook that looks like this:
+> You can use Jupyter Notebook to create reports with both code and text in them using what is
+> called [literate programming][literate_programming_wiki].  See the first lesson of the
+[Software Carpentry Python Lesson][swc_python] for more info about using [markdown][markdown] in Jupyter.
 >
-> 1.  Get funding.
-> 2.  Do work.
->     *   Design experiment.
->     *   Collect data.
->     *   Analyze.
-> 3.  Write up.
-> 4.  Publish.
->
-> > ## Solution
-> >
-> > This challenge integrates both the numbered list and bullet list.
-> > Note that the bullet list is indented 2 spaces so that it is inline with the items of the numbered list.
-> > ~~~
-> > 1.  Get funding.
-> > 2.  Do work.
-> >     *   Design experiment.
-> >     *   Collect data.
-> >     *   Analyze.
-> > 3.  Write up.
-> > 4.  Publish.
-> > ~~~
-> {: .solution}
-{: .challenge}
-
-> ## More Math
->
-> What is displayed when a Python cell in a notebook
-> that contains several calculations is executed?
-> For example, what happens when this cell is executed?
->
-> ~~~
-> 7 * 3
-> 2 + 1
-> ~~~
-> {: .language-python}
->
-> > ## Solution
-> >
-> > Python returns the output of the last calculation.
-> > ~~~
-> > 3
-> > ~~~
-> > {: .language-python}
-> {: .solution}
-{: .challenge}
+{: .callout}
 
 > ## Change an Existing Cell from Code to Markdown
 >
@@ -499,32 +305,6 @@ Or use [named links][data_carpentry].
 > {: .solution}
 {: .challenge}
 
-> ## Equations
->
-> Standard Markdown (such as we're using for these notes) won't render equations,
-> but the Notebook will.
-> Create a new Markdown cell
-> and enter the following:
->
-> ~~~
-> $\sum_{i=1}^{N} 2^{-i} \approx 1$
-> ~~~
->
-> (It's probably easier to copy and paste.)
-> What does it display?
-> What do you think the underscore, `_`, circumflex, `^`, and dollar sign, `$`, do?
->
-> > ## Solution
-> >
-> > The notebook shows the equation as it would be rendered from LaTeX equation syntax.
-> > The dollar sign, `$`, is used to tell Markdown that the text in between is a LaTeX equation.
-> > If you're not familiar with LaTeX,  underscore, `_`, is used for subscripts and circumflex, `^`, is used for superscripts.
-> > A pair of curly braces, `{` and `}`, is used to group text together so that the statement `i=1` becomes the subscript and `N` becomes the superscript.
-> > Similarly, `-i` is in curly braces to make the whole statement the superscript for `2`.
-> > `\sum` and `\approx` are LaTeX commands for "sum over" and "approximate" symbols.
-> {: .solution}
-{: .challenge}
-
 ## Closing JupyterLab
 
 *   From the Menu Bar select the "File" menu and the choose "Quit" at the bottom of the dropdown menu. You will be prompted to confirm that you wish to shutdown the JupyterLab server (don't forget to save your work!). Click "Confirm" to shutdown the JupyterLab server.
@@ -541,7 +321,9 @@ $ jupyter lab
 [anaconda]: https://docs.continuum.io/anaconda/install
 [jupyterlab-ui]: https://jupyterlab.readthedocs.io/en/stable/user/interface.html
 [jupyterlab-notebook-docs]: https://jupyterlab.readthedocs.io/en/stable/user/notebook.html
+[literate_programming_wiki]: https://en.wikipedia.org/wiki/Literate_programming
 [markdown]: https://en.wikipedia.org/wiki/Markdown
-[jupyterlab]: https://jupyterlab.readthedocs.io/en/stable/
+[swc_python]: http://swcarpentry.github.io/python-novice-gapminder/
+
 
 {% include links.md %}
