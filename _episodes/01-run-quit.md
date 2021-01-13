@@ -268,7 +268,7 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
     right next to each other.
 
 
-> ## Reports using markdown in Jypter notebooks
+> ## Reports using markdown in Jupyter notebooks
 >
 > You can use Jupyter Notebook to create reports with both code and text in them using what is
 > called [literate programming][literate_programming_wiki].  See the first lesson of the
