@@ -18,4 +18,4 @@ Practioners of digital humanities often employ text analysis to look for pattern
 ###Tokenization
 
 Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as words, or even terms made up of more than one word.
-[https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html] https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html and [https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html] https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html 
+[https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html] (https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html) and [https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html] (https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html). 
