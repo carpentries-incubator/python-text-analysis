@@ -18,7 +18,7 @@ Practioners of digital humanities often employ text analysis to look for pattern
 ### Tokenization
 
 Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as words, or even terms made up of more than one word.
-[https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html] (https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html) and [https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html] (https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html). 
+(https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html) and (https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html). 
 
 ### Stop-Words
 
@@ -33,8 +33,8 @@ Stemming and Lemmatization are used to group together words that are similar or 
 Tf-idf stands for term frequency-inverse document frequency, and is a weight used as a statistical measure in information retrieval and text mining to evaluate the distinctiveness of a word in a collection or a corpus. **TF** stands for term frequency, and measures how frequently a term occurs in a document, and is determined by comparing a word’s count with the total number of words in a document. **IDF**, or inverse document frequency, measures a term’s importance. When computing TF, all of the terms are considered equally important; IDF then weighs down words that appear more frequently, as a way of picking out terms with rare occurrences.  
 Because tf-idf sorts words by their frequency, it’s a useful tool for extracting terms from text. Tf-idf can be used to filter out stop-words. It can also be used to identify similar texts in a corpus. 
 
-A more thorough discussion of Tf-idf and its applications for document analysis can be found at the *Programming Historian*: [https://programminghistorian.org/en/lessons/analyzing-documents-with-tfidf#tf-idf-definition-and-background] (https://programminghistorian.org/en/lessons/analyzing-documents-with-tfidf#tf-idf-definition-and-background)
+A more thorough discussion of Tf-idf and its applications for document analysis can be found at the *Programming Historian*: (https://programminghistorian.org/en/lessons/analyzing-documents-with-tfidf#tf-idf-definition-and-background)
 
 ### Topic Modeling
 
-Topic modeling is a type of analysis that looks categories, or topics, within the text to determine what a set of documents are about. The topic model is based on a statistical model of occurrences of words. LDA, or Latent Dirichlet Allocation, is a commonly used model for natual language processing. An excellent introduction to topic modeling for the humanities is Ted Underwood's [Topic modeling made just simple enough] (https://tedunderwood.com/2012/04/07/topic-modeling-made-just-simple-enough/). 
+Topic modeling is a type of analysis that looks categories, or topics, within the text to determine what a set of documents are about. The topic model is based on a statistical model of occurrences of words. LDA, or Latent Dirichlet Allocation, is a commonly used model for natual language processing. An excellent introduction to topic modeling for the humanities is Ted Underwood's [Topic modeling made just simple enough](https://tedunderwood.com/2012/04/07/topic-modeling-made-just-simple-enough/). 
