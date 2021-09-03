@@ -1,1 +1,15 @@
+---
+title: "Text analysis: Key concepts"
+teaching: 0
+exercises: 0
+questions:
+- ""
+objectives:
+- "Learn basic concepts to understand text analysis."
+- "Learn which concepts are necessary for pre-processing a text."
+- "Learn the limitations of text analysis as evidence."
+keypoints:
+- "FIXME"
+---
+
 Practioners of digital humanities often employ text analysis to look for patterns across a single text, or across a corpus of text that may be too large for a single human to read. Python includes several libraries that address text analysis, including nltk and sci-kit. Before we get to those, we'll discuss some fundamental concepts of text analysis, especially as they relate to pre-processing of the text (to make it amenable to analysis) and the methods and limitations of some common methods for analysis. 
