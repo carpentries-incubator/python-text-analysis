@@ -13,4 +13,9 @@ keypoints:
 ---
 ##Key Concepts for Text Analysis
 
-Practioners of digital humanities often employ text analysis to look for patterns across a single text, or across a corpus of text that may be too large for a single human to read. Python includes several libraries that address text analysis, including nltk and sci-kit. Before we get to those, we'll discuss some fundamental concepts of text analysis, especially as they relate to pre-processing of the text (to make it amenable to analysis) and the methods and limitations of some common methods for analysis. 
+Practioners of digital humanities often employ text analysis to look for patterns across a single text, or across a corpus of text that may be too large for a single human to read. Python includes several libraries that address text analysis, including nltk and sci-kit. Before we get to those, we'll discuss some fundamental concepts of text analysis, especially as they relate to pre-processing of the text (to make it amenable to analysis) and the methods and limitations of some common methods. 
+
+###Tokenization
+
+Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as words, or even terms made up of more than one word.
+[https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html] https://librarycarpentry.org/lc-tdm/04-tokenising-text/index.html and [https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html] https://librarycarpentry.org/lc-tdm/08-counting-tokens/index.html 
