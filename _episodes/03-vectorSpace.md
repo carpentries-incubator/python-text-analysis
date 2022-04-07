@@ -10,17 +10,17 @@ keypoints:
 - "todo"
 ---
 
-##Vector Space
+Vector Space
+==================
 Many NLP models make use of a concept called Vector Space. This is a very complex concept, and so we will be starting with some basic assumptions of the model.
 Many of these assumptions will later be broken down or ignored. We are starting with a simplified version of the model and will scale up in complexity.
 
-1)	We create surrogates, or embeddings, of words and documents in vector space. The relationships between embeddings in this vector space we assume will correspond to relationships in the actual documents.
-2)	We have a “bag of words” assumption as well. We will not consider the placement of words in sentences, their context or their conjugation into different forms (run vs ran) to start. 
-The effect of this assumption is like putting all words from a sentence in a bag and considering them by count without regard to order. Later, we’ll talk about embeddings where this no longer holds true.
+1)	We create __embeddings__, or surrogates, of words and documents in vector space. These embeddings should extract meaningful features from our original documents, so that relationships between embeddings in this vector space will correspond to relationships in the actual documents.
+2)	We have a “bag of words” assumption as well. We will not consider the placement of words in sentences, their context or their conjugation into different forms (run vs ran) to start. The effect of this assumption is like putting all words from a sentence in a bag and considering them by count without regard to order. Later, we’ll talk about embeddings where this no longer holds true.
 
-We start with a very simple set of toy documents. These model documents contain only two words. 
-We can use a 2-dimensional vector space model to represent those words. We will say that dimension one represents the number of times word A occurs, 
-and dimension two represents the number of times word B occurs. Let's model three documents using this model.
+We start with a very simple set of toy documents. These model documents contain only two words, but we will show how it can be expanded to fit an arbitrarily large vocabulary. 
+
+We will use a 2-dimensional vector space model to represent those words. We will say that dimension one represents the number of times word A occurs, and dimension two represents the number of times word B occurs. Let's model three documents using this model.
 
 | Document   | Word A      | Word B |
 | ---------- | ----------- | ----------- |
@@ -86,7 +86,7 @@ euclid(pointC, pointD)
 {: .language-python}
 
 
-Notice that document A is not the closest document to D! This is why we don't consider documents as points, because but rather as vectors. 
+Notice that document A is not the closest document to D! This is why we don't consider documents as points, but rather as vectors. 
 Vectors are geometric objects with both length and direction. They can be thought of as a ray or an arrow pointing from one point to another. 
 Consider documents as vectors, going from the origin at (0,0) to each document, represented by the word count coordinates above.
  
@@ -110,7 +110,8 @@ cosSim(pointC, pointD)
 
 We can now see that documents A and D have an identical score.
 
-##Generalizing over more dimensions
+Generalizing over more dimensions
+==================
 
 If we want to add another word to our model, we simply add another dimension, which we can represent as another column in our table.
 
@@ -120,12 +121,11 @@ If we want to add another word to our model, we simply add another dimension, wh
 | Document B | 80 | 20 | 20|
 | Document C | 10 | 20 | 5|
 
-~~~
+```python
 pointA = np.array((50, 50, 45))
 pointB = np.array((80, 20, 20))
 pointC = np.array((10,20,5))
-~~~
-{: .language-python}
+```
 
 It’s still possible to visualize a graph with three dimensions with only three words, but visualizing will rapidly become very difficult as we add more and more words. 
 Vocabularies for natural languages can easily reach thousands of words, which is difficult to mentally visualize. 
