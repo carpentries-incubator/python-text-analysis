@@ -15,8 +15,9 @@ Vector Space
 Many NLP models make use of a concept called Vector Space. This is a very complex concept, and so we will be starting with some basic assumptions of the model.
 Many of these assumptions will later be broken down or ignored. We are starting with a simplified version of the model and will scale up in complexity.
 
-1)	We create __embeddings__, or surrogates, of words and documents in vector space. These embeddings should extract meaningful features from our original documents, so that relationships between embeddings in this vector space will correspond to relationships in the actual documents.
-2)	We have a “bag of words” assumption as well. We will not consider the placement of words in sentences, their context or their conjugation into different forms (run vs ran) to start. The effect of this assumption is like putting all words from a sentence in a bag and considering them by count without regard to order. Later, we’ll talk about embeddings where this no longer holds true.
+1)	We create __embeddings__, or surrogates, of words and documents in vector space. 
+2)	These embeddings should be based on some sort of __feature extraction__, meaning that meaningful features from our original documents are somehow represented in our embedding. This will make it so that relationships between embeddings in this vector space will correspond to relationships in the actual documents.
+3)	We have a “bag of words” assumption as well. We will not consider the placement of words in sentences, their context or their conjugation into different forms (run vs ran) to start. The effect of this assumption is like putting all words from a sentence in a bag and considering them by count without regard to order. Later, we’ll talk about embeddings where this no longer holds true.
 
 We start with a very simple set of toy documents. These model documents contain only two words, but we will show how it can be expanded to fit an arbitrarily large vocabulary. 
 
@@ -29,18 +30,19 @@ We will use a 2-dimensional vector space model to represent those words. We will
 | Document C | 10 | 20 |
 
 
-~~~
+```python
 import numpy as np
 import scipy as sp	
 pointA = np.array((50, 50))
 pointB = np.array((80, 20))
 pointC = np.array((10,20))
-~~~
-{: .language-python}
+```
 
 ![Graph of three points](images/03-3points.png)
 
-Which document is C the most like? One way we could calculate this is by using a distance formula. 
+Which document is C the most like? 
+--------------
+One way we could calculate this is by using a distance formula. 
 The Euclidian distance formula makes use of the Pythagorean theorem, where a^2 + b^2 = c^2. 
 We can draw a triangle between two points, and calculate the hypotenuse to find the distance. 
 This distance formula can be generalized over as many dimensions as we want.
@@ -48,26 +50,22 @@ Numpy is a math library used by spacy. We will use it to demonstrate our model.
 
 
 
-~~~
+```python
 def euclid(pointA, pointB): 
 	sum_sq = np.sum(np.square(pointA – pointB))
 	print(np.sqrt(sum_sq)
-	
-~~~
-{: .language-python}
+```
 
 Now we can calculate distance between two documents.
-~~~
+```python
 euclid(pointA, pointC)
 euclid(pointB, pointC)
+```
 
-~~~
-{: .language-python}
 ~~~
 50
 70
 ~~~
-{: .output}
 
 We would conclude that A and C are the most similar because they have the least distance between the two points. 
 This is a simple model to determine document similarity. Let’s add another document to our two word model from before- document D. 
@@ -77,13 +75,12 @@ In fact, let's say that document A is just document D copy and pasted ten times.
 
 ![Graph of four points](images/03-4points.png)
 
-~~~
+```python
 pointD = np.array((5,5))
 euclid(pointA, pointD)
 euclid(pointB, pointD)
 euclid(pointC, pointD)
-~~~
-{: .language-python}
+```
 
 
 Notice that document A is not the closest document to D! This is why we don't consider documents as points, but rather as vectors. 
@@ -98,15 +95,14 @@ It is only concerned with the direction of the vector, not its length. The more 
 the closer the cosine similarity score gets to 1. And the more orthogonal two vectors get, the closer it gets to 0. 
 
 
-~~~
+```python
 def cosSim(pointA, pointB):
 	Print(Np.dot(pointA, pointB) / (np.linalg.norm(pointA) * np.linalg.norm(pointB)))
 
 cosSim(pointA, pointD)
 cosSim(pointB, pointD)
 cosSim(pointC, pointD)
-~~~
-{: .language-python}
+```
 
 We can now see that documents A and D have an identical score.
 
@@ -127,19 +123,18 @@ pointB = np.array((80, 20, 20))
 pointC = np.array((10,20,5))
 ```
 
-It’s still possible to visualize a graph with three dimensions with only three words, but visualizing will rapidly become very difficult as we add more and more words. 
+We can do this for however many words we want to add. It’s still possible to visualize a graph with three dimensions with only three words, but visualizing will rapidly become very difficult as we add more and more words. 
 Vocabularies for natural languages can easily reach thousands of words, which is difficult to mentally visualize. 
 However, it’s not necessary to visualize how a high dimensional vector space looks. 
 We can still calculate things like distance and cosine similarity over an arbitrary number of dimensions since the formulae work over an arbitrary number of dimensions. 
 
-~~~
+```python
 euclid(pointA, pointB)
 cosSim(pointA, pointB)
-~~~
-{: .language-python}
+```
 
 Both methods still work and will work no matter how many dimensions we add.
 This principle of using vector space will hold up over an arbitrary number of dimensions, and therefore over a vocabulary of arbitrary size. 
-This is the essence of vector space modelling- documents are transformed into coordinates and vectors in very high dimensional space.
-Methods for calculating similarity may change and become more complex, but they operate on these "embeddings" rather than original documents.
+This is the essence of vector space modelling- documents are embedded as coordinates and vectors in very high dimensional space.
+Methods for feature extraction may change and become more complex, but the essential idea remains the same.
 
