@@ -123,8 +123,8 @@ pointB = np.array((80, 20, 20))
 pointC = np.array((10,20,5))
 ```
 
-We can do this for however many words we want to add. It’s still possible to visualize a graph with three dimensions with only three words, but visualizing will rapidly become very difficult as we add more and more words. 
-Vocabularies for natural languages can easily reach thousands of words, which is difficult to mentally visualize. 
+We can do this for however many words we want to add. It’s still possible to visualize a graph with only three words as existing in three dimensions, but visualizing will rapidly become very difficult as we add more and more words. 
+Vocabularies for natural languages can easily reach thousands of words, and a space with thousands of dimensions is difficult to mentally visualize. 
 However, it’s not necessary to visualize how a high dimensional vector space looks. 
 We can still calculate things like distance and cosine similarity over an arbitrary number of dimensions since the formulae work over an arbitrary number of dimensions. 
 
