@@ -38,12 +38,15 @@ pointC = np.array((10,20))
 ~~~
 {: .language-python}
 
+![Graph of three points](images/03-3points.png)
 
 Which document is C the most like? One way we could calculate this is by using a distance formula. 
 The Euclidian distance formula makes use of the Pythagorean theorem, where a^2 + b^2 = c^2. 
 We can draw a triangle between two points, and calculate the hypotenuse to find the distance. 
 This distance formula can be generalized over as many dimensions as we want.
 Numpy is a math library used by spacy. We will use it to demonstrate our model.
+
+
 
 ~~~
 def euclid(pointA, pointB): 
@@ -71,6 +74,9 @@ This is a simple model to determine document similarity. Let’s add another doc
 Let’s say this document is shorter than the others, but very similar to document A. We'll say the same words are in the same proportions.
 In fact, let's say that document A is just document D copy and pasted ten times.
 
+
+![Graph of four points](images/03-4points.png)
+
 ~~~
 pointD = np.array((5,5))
 euclid(pointA, pointD)
@@ -80,11 +86,13 @@ euclid(pointC, pointD)
 {: .language-python}
 
 
-Notice that document A is not the closest document to D! This is why we don't consider documents as points, but rather as vectors. 
+Notice that document A is not the closest document to D! This is why we don't consider documents as points, because but rather as vectors. 
 Vectors are geometric objects with both length and direction. They can be thought of as a ray or an arrow pointing from one point to another. 
 Consider documents as vectors, going from the origin at (0,0) to each document, represented by the word count coordinates above.
  
-Instead of using distance a measure, we can instead use a metric called cosine similarity. 
+![Graph of four vectors](images/03-vectors.png)
+ 
+Instead of using distance a measure, which is highly dependent on document length, we can instead use a metric called cosine similarity. 
 Cosine similarity measures the angle between two vectors without considering the difference in each document’s size. 
 It is only concerned with the direction of the vector, not its length. The more similar two vectors are in direction, 
 the closer the cosine similarity score gets to 1. And the more orthogonal two vectors get, the closer it gets to 0. 
