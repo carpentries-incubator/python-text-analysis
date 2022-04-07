@@ -89,7 +89,7 @@ Consider documents as vectors, going from the origin at (0,0) to each document, 
  
 ![Graph of four vectors](images/03-vectors.png)
  
-Instead of using distance a measure, which is highly dependent on document length, we can instead use a metric called cosine similarity. 
+Instead of using distance as our measure, which is highly dependent on document length, we can instead use a metric called cosine similarity. 
 Cosine similarity measures the angle between two vectors without considering the difference in each document’s size. 
 It is only concerned with the direction of the vector, not its length. The more similar two vectors are in direction, 
 the closer the cosine similarity score gets to 1. And the more orthogonal two vectors get, the closer it gets to 0. 
