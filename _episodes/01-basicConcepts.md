@@ -55,9 +55,12 @@ A search query can be thought of as a small input document, and the outputs coul
 Document summarization takes documents which are longer, and attempts to output a document with the same meaning by finding 
 relevant snippets or by generating a smaller document that conveys the meaning of the first document.
 
+#Text Prediction
+Text prediction attempts to predict future text inputs from a user based on previous text inputs. Predictive text is used in search engines and also on smartphones to help correct inputs and speed up the process of text input.
 
 #Preprocessing
 Despite the variety of tasks, many NLP models have related underlying models and techniques to process data. 
 But before data can be processed, it has to be prepared by the machine for analysis in a step called “preprocessing.”
+Our next lesson will discuss some of the steps of preprocessing in greater detail.
 
 {% include links.md %}
