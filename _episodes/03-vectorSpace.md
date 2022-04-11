@@ -53,7 +53,7 @@ Numpy is a math library used by spacy. We will use it to demonstrate our model.
 ```python
 def euclid(pointA, pointB): 
 	sum_sq = np.sum(np.square(pointA – pointB))
-	print(np.sqrt(sum_sq)
+	print(np.sqrt(sum_sq))
 ```
 
 Now we can calculate distance between two documents.
