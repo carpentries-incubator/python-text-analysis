@@ -83,13 +83,13 @@ euclid(pointC, pointD)
 ```
 
 
-Notice that document A is not the closest document to D! This is why we don't consider documents as points, but rather as vectors. 
+Notice that document A is not the closest document to D! While distance may be an intuitive measure of similarity, it is actually highly dependent on document length. This is why we don't just consider documents as points, but rather as vectors. 
 Vectors are geometric objects with both length and direction. They can be thought of as a ray or an arrow pointing from one point to another. 
 Consider documents as vectors, going from the origin at (0,0) to each document, represented by the word count coordinates above.
  
 ![Graph of four vectors](images/03-vectors.png)
  
-Instead of using distance as our measure, which is highly dependent on document length, we can instead use a metric called cosine similarity. 
+Instead of using distance as our measure, which is highly dependent on document length, we instead use a metric called cosine similarity. 
 Cosine similarity measures the angle between two vectors without considering the difference in each document’s size. 
 It is only concerned with the direction of the vector, not its length. The more similar two vectors are in direction, 
 the closer the cosine similarity score gets to 1. And the more orthogonal two vectors get, the closer it gets to 0. 
@@ -104,7 +104,7 @@ cosSim(pointB, pointD)
 cosSim(pointC, pointD)
 ```
 
-We can now see that documents A and D have an identical score.
+We can now see that documents A and D have an identical score. Cosine similarity captures the intuition that two documents which are very similar should have a high similarity score, even if they are different in terms of document length.
 
 Generalizing over more dimensions
 ==================
