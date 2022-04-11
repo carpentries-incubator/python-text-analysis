@@ -38,6 +38,12 @@ doc = eng(sent)
 Running the document we created through the NLP model we loaded performs a variety of tasks for us.
 Let's look at these in greater detail.
 
+### OCR and Speech Transcription
+We open with the assumption that all of your test documents are in text format- that is, in a file format that can be copied and pasted into a notepad file. Not all data is of this type, for example, there may be documents that are stored as image files or sound files. 
+Fortunately, there exist tools to convert file types like these into text. While these tools are beyond the scope of our lesson, they are still worth mentioning. 
+Optical Character Recognition, or OCR, is a field of study that converts images to text. Tools such as Tesseract, Amazon Textract, or Google's Document AI can perform OCR tasks. 
+Speech transcription will take audio files and convert them to text as well. Google's Speech-to-Text and Amazon Transcribe are two cloud solutions for speech transcription.
+
 ### Tokenization
 Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. 
 Humans automatically understand words and sentences as discrete units of meaning. 
