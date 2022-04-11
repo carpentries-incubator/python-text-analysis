@@ -16,7 +16,7 @@ keypoints:
 
 ## Preprocessing
 To prepare our text for use in an NLP model, we first need to select an appropriate model for our task.
-Spacy is a python program capable of doing a variety of tasks. We will be using spacy for our lessons.
+Spacy is a python program capable of doing a variety of tasks. We will be using spacy for our lessons, but there are other packages in Python such as NLTK, pytorch, and gensim which also implement text analysis tools. 
 Let's load spacy now.
 
 ~~~
