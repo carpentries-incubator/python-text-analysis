@@ -19,6 +19,10 @@ keypoints:
 ---
 
 
+##What is Natural Language Processing?
+
+Natural Language Processing, or NLP, attempts to process human languages using computer models. 
+
 ##What does NLP do?
 There are many possible uses for NLP. Machine Learning and Artificial Intelligence can be thought of as a set of computer
 algorithms used to take a piece of text as an input and produce a desired output. What distinguishes NLP 
