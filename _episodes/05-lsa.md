@@ -135,7 +135,7 @@ plt.show()  # show first chart
 {: .language-python}
 
 
-![Image of singular value decomposition. ](images/05-truncatedsvd.png)
+![Image of singular value decomposition dropoff. ](images/05-svd-dropoff.png)
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic. 
 Typically the rate of data explained will be high at first, dropoff quickly and then start to level out. 
