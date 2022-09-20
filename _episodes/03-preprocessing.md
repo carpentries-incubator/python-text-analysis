@@ -541,11 +541,14 @@ cs(matrix[0], matrix[1])
 cs(matrix[0], matrix[2])
 ~~~
 {: .language-python}
+
 ~~~~
 array([[0.26726124]])
 array([[0.31622777]])
 ~~~
 {: .output}
+
+
 According to this model, our third sentence is closer to our original sentence than the second one. We could conduct similar analysis over larger groups of text, such as all the documents in our corpus.
 
 This lesson has covered a number of preprocessing steps. We created a list of our files in our corpus, which we can use in future lessons.
