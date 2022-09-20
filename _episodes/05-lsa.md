@@ -134,10 +134,8 @@ plt.show()  # show first chart
 ~~~
 {: .language-python}
 
-~~~
+
 ![Image of singular value decomposition. ](images/05-truncatedsvd.png)
-~~~
-{: .output}
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic. 
 Typically the rate of data explained will be high at first, dropoff quickly and then start to level out. 
@@ -327,10 +325,7 @@ plt.show()
 {: .python}
 
 Can we draw any conclusions about how documents are distributed on this graph?
-~~~
 ![Image of plotted documents. ](images/05-visualization.png)
-~~~
-{: .output}
 
 ##Conclusion 
 
