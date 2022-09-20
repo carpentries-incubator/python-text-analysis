@@ -542,7 +542,7 @@ cs(matrix[0], matrix[2])
 ~~~
 {: .language-python}
 
-~~~~
+~~~
 array([[0.26726124]])
 array([[0.31622777]])
 ~~~
