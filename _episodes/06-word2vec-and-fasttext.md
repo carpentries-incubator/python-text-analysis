@@ -1,0 +1,151 @@
+---
+title: "Word2Vec and FastText"
+teaching: 20
+exercises: 20
+questions:
+- "todo"
+objectives:
+- "todo"
+keypoints:
+- "todo"
+---
+
+We are moving to more sophisticated models, which have benefits and drawbacks. 
+Much like with our LSA model, dimensions become more reflective of context and semantic meaning. 
+However, the dimensions in these models become more abstract and harder to manually interpret. These more sophisticated models have better performance at many tasks. 
+They are better at crafting features that reflect the surrounding context of words, but they require more data to craft these features. 
+
+When we built our original models, we used something called a “bag of words” assumption that didn’t care about context or word order, just that words co-occurred in a document. 
+Now we are going to look at models that use modified versions of this assumption, or do not use this assumption at all. One of these is word2vec. Word2Vec uses something called a 'continuous bag of words' and machine learning to train its embeddings.  
+
+Word2Vec uses something called the distributional hypothesis, which is an important concept in computational linguistics. 
+It is summarized by a quote by linguist JR Firth who said “You shall know a word by the company it keeps.” This means words that repeatedly occur in similar contexts probably have similar meanings. 
+Word2Vec doesn't just use the word itself to determine a representation in vector space, it also uses the words surrounding our target word to help determine how it is embedded. 
+
+Word2vec starts by randomly initializing its embeddings for all words in the vocabulary. 
+This means that an arbitrarily large number of dimensions are selected and random values are put for each word. By default, pretrained models in the library we're using have between 30 and 500 dimensions.
+Before the training process, these dimensions are meaningless and the embeddings do not work very well. 
+However, Word2Vec will gradually adjust the values of these embeddings by slowly changing them based on training data. 
+
+How does Word2Vec adjust these embeddings? Word2Vec looks at a sliding window of words as it does two tasks. 
+Word2Vec starts by looking at a window of text. The size of the window is a parameter we set, so we will say it is size N. Our target word is in the middle of our window of text- N words in this window occur directly before our target word, and N words occur directly after it. 
+The “Continuous Bag of Words” training method takes as an input the words before and after our target word, and tries to guess our target word based on those words. 
+The “skipgram” method flips the task, taking as an input the one ‘target’ word and trying to predict the surrounding context of N words. 
+Word2Vec also selects random words from our corpus that are not related and asks the model to predict that these words are unrelated, in a process called “negative sampling.” 
+Negative sampling ensures unrelated words will have embeddings that drift further and further apart, while the other tasks bring related embeddings closer together.
+
+Word2Vec trains using two matrices. One consists of target words and their embeddings, the other contains context words and their embeddings. 
+Every time Word2Vec takes the input data, converts it to an embedding, and then calculates a probability for each word in our vocabulary. 
+It does this by taking the dot product of the target word's embedding and each context word's embedding. All of these values are then converted into probabilities using the sigmoid function.
+The embeddings are adjusted depending on the difference between the probability scores and the actual values, which are encoded as 0 for the incorrect answers and 1 for the correct one.
+
+Over time and a large set of data, embeddings will come to reflect the relationships between words.
+Once embeddings are trained, it is difficult to say what each dimension means, only that collectively they have been trained to represent a set of semantic features. 
+Understandably it requires a decent amount data to train Word2Vec. It is not always possible to train smaller datasets specifically for each task.
+However, models are often pretrained on larger general sets of data and then refined on smaller sets more specifically related to the task we want to do.
+Pretrained models have been trained for python on corpora such as wikipedia and twitter. Let's take a look at how some of these models handle embeddings.
+
+Spacy is a library we've been using for tokenization. It also automatically calculates word vectors using an embedding algorithm called FastText.
+FastText is essentially the same as Word2Vec, the only difference is that instead of operating on tokens of entire words, it operates on sets of characters instead.
+It also adds special characters for the beginning and end of words. A word such as Hello would be represented not one token, but six- "<H", "He", "el", "ll", "lo", "o>".
+
+Let's take a look at how Spacy handles embeddings.
+
+~~~
+import spacy
+nlp = spacy.load("en_core_web_md")
+doc = nlp("dog")
+
+sentence1 = list(doc.sents)[0]
+sentence1[0].vector
+len(sentence1[0].vector)
+~~~
+
+~~~
+array([ 1.2330e+00,  4.2963e+00, -7.9738e+00, -1.0121e+01,  1.8207e+00,
+        1.4098e+00, -4.5180e+00, -5.2261e+00, -2.9157e-01,  9.5234e-01,
+        6.9880e+00,  5.0637e+00, -5.5726e-03,  3.3395e+00,  6.4596e+00,
+       -6.3742e+00,  3.9045e-02, -3.9855e+00,  1.2085e+00, -1.3186e+00,
+       -4.8886e+00,  3.7066e+00, -2.8281e+00, -3.5447e+00,  7.6888e-01,
+        1.5016e+00, -4.3632e+00,  8.6480e+00, -5.9286e+00, -1.3055e+00,
+        8.3870e-01,  9.0137e-01, -1.7843e+00, -1.0148e+00,  2.7300e+00,
+       -6.9039e+00,  8.0413e-01,  7.4880e+00,  6.1078e+00, -4.2130e+00,
+       -1.5384e-01, -5.4995e+00,  1.0896e+01,  3.9278e+00, -1.3601e-01,
+        7.7732e-02,  3.2218e+00, -5.8777e+00,  6.1359e-01, -2.4287e+00,
+        6.2820e+00,  1.3461e+01,  4.3236e+00,  2.4266e+00, -2.6512e+00,
+        1.1577e+00,  5.0848e+00, -1.7058e+00,  3.3824e+00,  3.2850e+00,
+        1.0969e+00, -8.3711e+00, -1.5554e+00,  2.0296e+00, -2.6796e+00,
+       -6.9195e+00, -2.3386e+00, -1.9916e+00, -3.0450e+00,  2.4890e+00,
+        7.3247e+00,  1.3364e+00,  2.3828e-01,  8.4388e-02,  3.1480e+00,
+       -1.1128e+00, -3.5598e+00, -1.2115e-01, -2.0357e+00, -3.2731e+00,
+       -7.7205e+00,  4.0948e+00, -2.0732e+00,  2.0833e+00, -2.2803e+00,
+       -4.9850e+00,  9.7667e+00,  6.1779e+00, -1.0352e+01, -2.2268e+00,
+        2.5765e+00, -5.7440e+00,  5.5564e+00, -5.2735e+00,  3.0004e+00,
+       -4.2512e+00, -1.5682e+00,  2.2698e+00,  1.0491e+00, -9.0486e+00,
+        4.2936e+00,  1.8709e+00,  5.1985e+00, -1.3153e+00,  6.5224e+00,
+        4.0113e-01, -1.2583e+01,  3.6534e+00, -2.0961e+00,  1.0022e+00,
+       -1.7873e+00, -4.2555e+00,  7.7471e+00,  1.0173e+00,  3.1626e+00,
+        2.3558e+00,  3.3589e-01, -4.4178e+00,  5.0584e+00, -2.4118e+00,
+       -2.7445e+00,  3.4170e+00, -1.1574e+01, -2.6568e+00, -3.6933e+00,
+       -2.0398e+00,  5.0976e+00,  6.5249e+00,  3.3573e+00,  9.5334e-01,
+       -9.4430e-01, -9.4395e+00,  2.7867e+00, -1.7549e+00,  1.7287e+00,
+        3.4942e+00, -1.6883e+00, -3.5771e+00, -1.9013e+00,  2.2239e+00,
+       -5.4335e+00, -6.5724e+00, -6.7228e-01, -1.9748e+00, -3.1080e+00,
+       -1.8570e+00,  9.9496e-01,  8.9135e-01, -4.4254e+00,  3.3125e-01,
+        5.8815e+00,  1.9384e+00,  5.7294e-01, -2.8830e+00,  3.8087e+00,
+       -1.3095e+00,  5.9208e+00,  3.3620e+00,  3.3571e+00, -3.8807e-01,
+        9.0022e-01, -5.5742e+00, -4.2939e+00,  1.4992e+00, -4.7080e+00,
+       -2.9402e+00, -1.2259e+00,  3.0980e-01,  1.8858e+00, -1.9867e+00,
+       -2.3554e-01, -5.4535e-01, -2.1387e-01,  2.4797e+00,  5.9710e+00,
+       -7.1249e+00,  1.6257e+00, -1.5241e+00,  7.5974e-01,  1.4312e+00,
+        2.3641e+00, -3.5566e+00,  9.2066e-01,  4.4934e-01, -1.3233e+00,
+        3.1733e+00, -4.7059e+00, -1.2090e+01, -3.9241e-01, -6.8457e-01,
+       -3.6789e+00,  6.6279e+00, -2.9937e+00, -3.8361e+00,  1.3868e+00,
+       -4.9002e+00, -2.4299e+00,  6.4312e+00,  2.5056e+00, -4.5080e+00,
+       -5.1278e+00, -1.5585e+00, -3.0226e+00, -8.6811e-01, -1.1538e+00,
+       -1.0022e+00, -9.1651e-01, -4.7810e-01, -1.6084e+00, -2.7307e+00,
+        3.7080e+00,  7.7423e-01, -1.1085e+00, -6.8755e-01, -8.2901e+00,
+        3.2405e+00, -1.6108e-01, -6.2837e-01, -5.5960e+00, -4.4865e+00,
+        4.0115e-01, -3.7063e+00, -2.1704e+00,  4.0789e+00, -1.7973e+00,
+        8.9538e+00,  8.9421e-01, -4.8128e+00,  4.5367e+00, -3.2579e-01,
+       -5.2344e+00, -3.9766e+00, -2.1979e+00,  3.5699e+00,  1.4982e+00,
+        6.0972e+00, -1.9704e+00,  4.6522e+00, -3.7734e-01,  3.9101e-02,
+        2.5361e+00, -1.8096e+00,  8.7035e+00, -8.6372e+00, -3.5257e+00,
+        3.1034e+00,  3.2635e+00,  4.5437e+00, -5.7290e+00, -2.9141e-01,
+       -2.0011e+00,  8.5328e+00, -4.5064e+00, -4.8276e+00, -1.1786e+01,
+        3.5607e-01, -5.7115e+00,  6.3122e+00, -3.6650e+00,  3.3597e-01,
+        2.5017e+00, -3.5025e+00, -3.7891e+00, -3.1343e+00, -1.4429e+00,
+       -6.9119e+00, -2.6114e+00, -5.9757e-01,  3.7847e-01,  6.3187e+00,
+        2.8965e+00, -2.5397e+00,  1.8022e+00,  3.5486e+00,  4.4721e+00,
+       -4.8481e+00, -3.6252e+00,  4.0969e+00, -2.0081e+00, -2.0122e-01,
+        2.5244e+00, -6.8817e-01,  6.7184e-01, -7.0466e+00,  1.6641e+00,
+       -2.2308e+00, -3.8960e+00,  6.1320e+00, -8.0335e+00, -1.7130e+00,
+        2.5688e+00, -5.2547e+00,  6.9845e+00,  2.7835e-01, -6.4554e+00,
+       -2.1327e+00, -5.6515e+00,  1.1174e+01, -8.0568e+00,  5.7985e+00],
+      dtype=float32)
+
+300
+~~~
+
+We're looking at the embedding for the word "Hello". Spacy uses 300 dimensions for its word embeddings. 
+One interesting property of these more complex embeddings is that they allow us to use consine similarity scores to find similar words.
+
+~~~
+your_word = "dog"
+ms = nlp.vocab.vectors.most_similar(
+    np.asarray([nlp.vocab.vectors[nlp.vocab.strings[your_word]]]), n=10)
+words = [nlp.vocab.strings[w] for w in ms[0][0]]
+distances = ms[2]
+print(words)
+~~~
+
+~~~
+['dog', 'KENNEL', 'dogs', 'CANINES', 'GREYHOUND', 'pet', 'Pet-Care', 'FELINE', 'cat', 'BEAGLES']
+~~~
+
+Notice that not all words are synonyms for dogs. Why do you suppose that words such as "cat" appear as being related?
+The reason is that because these embeddings are trained based on the contexts in which they appear. It may be the case that things such as pet or cat often appear in similar contexts as the word dog.
+
+In summary, Word2Vec is an embedding algorithm that converts words into multidimensional embeddings. 
+More sophisticated models on a variety of tasks such as spacy use complicated embeddings like those generated by Word2Vec. 
+While Word2Vec's embeddings are less easily manually interpretable they also capture related meanings in a way that our previous models did not.

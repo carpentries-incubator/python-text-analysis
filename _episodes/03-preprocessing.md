@@ -112,7 +112,8 @@ Let's look at these in greater detail.
 Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. 
 Humans automatically understand words and sentences as discrete units of meaning. 
 However, for computers, we have to break up documents containing larger chunks of text into these discrete units of meaning. These are called tokens.
-A string of characters needs to be understood by a program as words, or even terms made up of more than one word.
+A string of characters needs to be understood by a program as words, or even terms made up of more than one word. 
+Tokens can be punctuation, parts of words, full individual words, or multiple words. We will be using a tokenizer that breaks documents into single words.
 Now let's load our test sentence into our tokenizer.
 
 ~~~
@@ -182,12 +183,12 @@ her
 ~~~
 {: .output}
 
-The single sentence has been broken down into a set of tokens. Tokens for spacy are objects with a variety of attributes.
-The documentation for these can be found at https://spacy.io/api/token
+The single sentence has been broken down into a set of tokens. Tokens in spacy are python objects with a variety of attributes.
+The documentation for these attributes can be found at https://spacy.io/api/token
 
 ### Lemmas (Stemming and Lemmatization)
 Think about similar words, such as running, ran, and runs.
-All of these words have a similar root, but a computer does not know this. Withour preprocessing, these words would be considered dissimilar.
+All of these words have a similar root, but a computer does not know this. Without preprocessing, these words would be considered dissimilar.
 Stemming and Lemmatization are used to group together words that are similar or forms of the same word. 
 **Stemming** is removing the conjugation and pluralized endings for words. For example; words like “digitization”, and “digitizing” might chopped down to "digitiz." 
 **Lemmatization** is the more sophisticated of the two, and looks for the linguistic base of a word. 
