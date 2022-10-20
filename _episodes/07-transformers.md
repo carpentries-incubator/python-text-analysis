@@ -20,6 +20,9 @@ This also meant that word embeddings were not universal, so a word such as "duck
 The model also made use of very little preprocessing, meaning tasks like lemmatizing and lower-casing were not required.
 
 The embedding mechanism is more complex than the ones we've looked at, and we will only discuss an overview of what is occurring.
+
+![Image of topic hierarchy.](images/07-transformers.png)
+
 First, input embeddings are calculated using an embedding algorithm such as word2vec, and then values for the position of the token in the text are added to the embeddings.
 Next, these values are passed to a stack of "encoders". There is an encoder for each token in our input documents.
 Each encoder processes the input it gets from the previous encoder and the word embedding for one token.
