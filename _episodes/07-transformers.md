@@ -1,5 +1,5 @@
 ---
-title: "Transformers"
+title: "Transformers and BERTopic"
 teaching: 20
 exercises: 20
 questions:
@@ -87,13 +87,7 @@ topic_model.visualize_topics()
 
 ![Image of BERTopic visualization.](images/07-topic-visualization.png)
 
-This gives us a huge number of topics. Fortunately, we can zoom in by highlighting a particular section. We can also look at a hierarchy of topics which will help us better understand how these topics are related.
-
-~~~
-topic_model.visualize_topics()
-~~~
-
-We can list the top 10 topics.
+This gives us a huge number of topics. Fortunately, we can zoom in by highlighting a particular section. We can also look at a hierarchy of topics which will help us better understand how these topics are related. Let's list the top 10 topics.
 
 ~~~
 freq = topic_model.get_topic_info(); freq.head(10)
@@ -119,6 +113,13 @@ topic_model.get_topic(4)
  ('moon', 0.001828283583366602)]
  ~~~
 
+We can also create a chart with topics and their weights.
+~~~
+topic_model.visualize_barchart(top_n_topics=12)
+~~~
+
+![Image of bar charts with words and weights.](images/07-barcharts.png)
+
 We can view a hierarchy of topics to see how different topics would be combined if we reduced the number of topics.
 
 ~~~
@@ -130,7 +131,10 @@ We can reduce the number of topics. Once reduced, we can still do the functions 
 
 ~~~
 topic_model.reduce_topics(docs, nr_topics=100)
+topic_model.visualize_topics()
 ~~~
+
+![Image of topic hierarchy.](images/07-fewertopicsmap.png)
 
 We can also find the most similar topic for a given topic. Let's try doing a search for the word "ship"
 
@@ -159,7 +163,8 @@ topic_model.get_topic(68)
  ('said', 0.010336756543549224)]
  ~~~
 
- Finally, we can save and load this model.
+Finally, we can save and load this model for later use if we want.
+
 ~~~
 # Save model
 topic_model.save("bert_gutenberg_model")
