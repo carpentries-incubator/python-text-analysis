@@ -10,8 +10,14 @@ keypoints:
 - "todo"
 ---
 
-In 2017, a revolutionary natural language model called BERT (Bidirectional Encoder Representations from Transformers) was published.
-The key component of this model called "Transformers" proved influential and is utilized in current state of the art models for many natural language tasks.
+In 2017, a revolutionary machine learning model called the Transformer model (not to be confused with Optimus Prime) was published by a team at Google Brain. Since then, the Transformer model has become the top model of choice for many NLP and computer vision problems. The key to the model's success in the domain of NLP is its ability to predict output sequences from input sequences — what is commonly referred to as sequence prediction tasks. Sequence prediction tasks arise in many applications in NLP such as a chatbots that can answer questions (input = user question, output = answer), translating text from one language to another, search engines, generating catchy news headlines given an input article, and many others.
+
+Like most machine learning models, a Transformer model consists of numerous weights or coefficients that must be trained or optimized to perform some task using vast quantities of training data. That is, the model is shown many, many example inputs and example outputs, and is tasked with optimizing its weights or coefficients in a manner that reduces the error between the model's predicted output and the desired output. The learned weights of the model can be thought of as feature detectors that scan text for different kinds of relationships or meanings in order to accurately predict future words or sentences. 
+
+Soon after the Transformer model was released, researchers began pushing the envelop in terms of expanding the size of the model (i.e., the number of model weights) and training on larger quantities of data. Intro BERT.
+
+natural language model called BERT (Bidirectional Encoder Representations from Transformers) was published.
+The key component of this model called "Transformers" proved influential and is utilized in current state of the art models for many natural language tasks. The transformer model has been extremely successful in tasks that require predicting sequences from input sequences, such as 
 
 BERT utilized embedding algorithms but also a new component called "transformers."
 This was a machine learning model that accounted for the relative positions of each word within a text and their relationships to each other.
