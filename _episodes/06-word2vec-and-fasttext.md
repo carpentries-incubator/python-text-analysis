@@ -10,10 +10,8 @@ keypoints:
 - "todo"
 ---
 
-We are moving to more sophisticated models, which have benefits and drawbacks.
-Much like with our LSA model, dimensions become more reflective of context and semantic meaning.
-However, the dimensions in these models become more abstract and harder to manually interpret. These more sophisticated models have better performance at many tasks such as search.
-They are trained by machine learning, based on the context in which words appear in a corpus.
+### Extracting more sophisticated representations of text data
+So far, we've seen how word counts, TF-IDF, and LSA can help us extract useful features from text data and embed documents into vector spaces. LSA is one method that moves from simple representations (e.g., word counts) towards representations that reflect context and semantic meaning. With the help of machine learning, we can extract even more sophisticated representations compared to LSA. Representations built from machine learning models typically have better performance at many tasks such as text/author classificaiton.
 
 The model used by Spacy is something called "FastText". We will discuss how it works later in the lesson. For now, let's focus on what we can do with more sophisticated embeddings.
 
