@@ -104,6 +104,7 @@ Like LSA, these are machine driven dimensions that are intended to represent som
 Unlike LSA, they are much harder for a human being to manually interpret.
 One interesting property of these more complex embeddings is that they allow us to use consine similarity scores to find similar words.
 What happens when we try computing the closest cosine similarity scores?
+
 ~~~
 # we can determine the hash value of any word stored in spacy using the following code
 your_word = "dog"
@@ -119,22 +120,52 @@ ms = nlp.vocab.vectors.most_similar(
     np.asarray([vector_rep]), n=10)
 
 # the most_similar function returns keys (ms[0]), key indices (ms[1]), and similarity scores (ms[2]) for the top n most similar tokens. We can print the token in string format with the following
-# print(ms)
 words = [nlp.vocab.strings[w] for w in ms[0][0]]
 print(words)
 ~~~
 {: .language-python }
-
-
 ~~~
 Hash value for dog: 7562983679033046312
-['dogsbody', 'wolfdogs', 'Baeg', 'duppy', 'pet(s', 'postcanine', 'Kebira', 'uppies', 'Toropets', 'moggie']~~~
+['dogsbody', 'wolfdogs', 'Baeg', 'duppy', 'pet(s', 'postcanine', 'Kebira', 'uppies', 'Toropets', 'moggie']
+~~~
 {: .output }
-
 
 Notice that not all words are synonyms for dogs.
 The reason is that because these embeddings are trained by machine learning models, based on the contexts in which they appear.
 It may be the case that related words such as 'pet' or 'cat' often appear in similar contexts as the word dog over the corpus this model was trained on.
+
+> ## Comparing with spaCy's large language model
+>
+> In a new cell block, download and load spaCy's large language model (Hint: see our first couple of code blocks from this episode). Use this model to determine the 10 most similar words relative to "dog". What do you notice about the results? Do these words seem more comparable to dog than when using the medium-sized model? If you finish this exercise early, try changing your_word to a new reference word and exploring what words spaCy things are similar based on vector similarity (using the same procedure as before, i.e., spaCy's most_similar() function)
+>
+> > ## Solution
+> > ~~~
+> > spacy.cli.download("en_core_web_lg") # download spaCy's large model of english language
+> > nlp = spacy.load("en_core_web_lg") # load the model
+> > 
+> > # specify word and extract hash value
+> > your_word = "dog"
+> > hash_value = nlp.vocab.strings[your_word]
+> > print('Hash value for', your_word + ':', hash_value)
+> > 
+> > # using this hash value, we can extract this word's vector representation as follows
+> > vector_rep = nlp.vocab.vectors[hash_value]
+> > 
+> > # using this vector and spaCy's .most_similar function, we can extract some of the most similar tokens (10, in this case)
+> > ms = nlp.vocab.vectors.most_similar(np.asarray([vector_rep]), n=10)
+> > 
+> > # the most_similar function returns keys (ms[0]), key indices (ms[1]), and similarity scores (ms[2]) for the top n most similar tokens. We can print the token in string format with the following
+> > words = [nlp.vocab.strings[w] for w in ms[0][0]]
+> > print(words)
+> > ~~~
+> > {: .language-python }
+> > ~~~
+> > Hash value for dog: 7562983679033046312
+> > ['dog', 'dogs', 'cat', 'puppy', 'pet', 'pup', 'canine', 'wolfdogs', 'dogsled', 'uppy']
+> > ~~~
+> > {: .output }
+> {: .solution}
+{: .challenge}
 
 
 
