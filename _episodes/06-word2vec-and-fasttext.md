@@ -164,6 +164,7 @@ It may be the case that related words such as 'pet' or 'cat' often appear in sim
 > > ['dog', 'dogs', 'cat', 'puppy', 'pet', 'pup', 'canine', 'wolfdogs', 'dogsled', 'uppy']
 > > ~~~
 > > {: .output }
+> > These words appear to be much more similar to dog than when we used the medium-sized model. This is because the large model has 685k vectors while the medium model only has 20k vectors. Remember to always use the large model once your code is up and running.
 > {: .solution}
 {: .challenge}
 
