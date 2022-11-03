@@ -24,6 +24,7 @@ sentence1 = list(doc.sents)[0]
 len(sentence1[0].vector)
 sentence1[0].vector
 ~~~
+{: .language-python }
 
 We've just embedded the word "dog" in spacy. How many dimensions does it have? What does this embedding look like?
 
@@ -93,6 +94,8 @@ array([ 1.2330e+00,  4.2963e+00, -7.9738e+00, -1.0121e+01,  1.8207e+00,
       dtype=float32)
 
 ~~~
+{: .output }
+
 All of the 300 dimensions in our model are used in the embedding for this one word!
 Like LSA, these are machine driven dimensions that are intended to represent some hidden semantic meaning.
 Unlike LSA, they are much harder for a human being to manually interpret.
@@ -106,17 +109,21 @@ words = [nlp.vocab.strings[w] for w in ms[0][0]]
 distances = ms[2]
 print(words)
 ~~~
+{: .language-python }
+
 
 ~~~
 ['dog', 'KENNEL', 'dogs', 'CANINES', 'GREYHOUND', 'pet', 'Pet-Care', 'FELINE', 'cat', 'BEAGLES']
 ~~~
+{: .output }
+
 
 Notice that not all words are synonyms for dogs.
 The reason is that because these embeddings are trained by machine learning models, based on the contexts in which they appear.
 It may be the case that related words such as 'pet' or 'cat' often appear in similar contexts as the word dog over the corpus this model was trained on.
 
-How are these embeddings created?
-A linguist called JR Firth once famously said “You shall know a word by the company it keeps.” This means words that repeatedly occur in similar contexts probably have similar meanings.
+### Distributional hypothesis and Word2Vec
+How are these embeddings created? A linguist called JR Firth once famously said “You shall know a word by the company it keeps.” This means words that repeatedly occur in similar contexts probably have similar meanings; often referred to as the distributional hypothesis.
 This property is used in embedding models such as FastText and the related model Word2Vec. We'll start with Word2Vec as it's the basis for FastText.
 Word2Vec doesn't just use the word itself to determine a representation in vector space, it uses the words surrounding our target word to help determine how it is embedded.
 
