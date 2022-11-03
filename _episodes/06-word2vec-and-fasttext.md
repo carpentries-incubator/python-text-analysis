@@ -15,7 +15,7 @@ So far, we've seen how word counts, TF-IDF, and LSA can help us extract useful f
 
 The model used by spaCy is something called "FastText". We will discuss how it works later in the lesson. For now, let's focus on what we can do with more sophisticated embeddings.
 
-We'll start by importing spaCy and downloading its medium-sized pre-trained model of English language. In general, larger models are expected to perform "better" and be more accurate overall. We could load spaCy's large model (en_core_web_lg) for optimal performance, but this model has a higher computational cost. A good practice is to first test your code using the small or medium model, and then switch to the large model once everything has been tested.
+We'll start by importing spaCy and downloading its large-sized pre-trained model of English language. In general, larger models are expected to perform "better" and be more accurate overall. We could load spaCy's large model (en_core_web_lg) for optimal performance, but this model has a higher computational cost. A good practice is to first test your code using the small or medium model, and then switch to the large model once everything has been tested.
 
 ~~~
 import spacy
@@ -105,25 +105,38 @@ Unlike LSA, they are much harder for a human being to manually interpret.
 One interesting property of these more complex embeddings is that they allow us to use consine similarity scores to find similar words.
 What happens when we try computing the closest cosine similarity scores?
 ~~~
+# we can determine the hash value of any word stored in spacy using the following code
 your_word = "dog"
+hash_value = nlp.vocab.strings[your_word]
+print(hash_value)
+
+# using this hash value, we can extract this word's vector representation as follows
+vector_rep = nlp.vocab.vectors[hash_value]
+
+# using this vector and spaCy's .most_similar function, we can extract some of the most similar tokens (10, in this case)
+import numpy as np 
 ms = nlp.vocab.vectors.most_similar(
-    np.asarray([nlp.vocab.vectors[nlp.vocab.strings[your_word]]]), n=10)
+    np.asarray([vector_rep]), n=10)
+
+# the most_similar function returns keys (ms[0]), key indices (ms[1]), and similarity scores (ms[2]) for the top n most similar tokens. We can print the token in string format with the following
+# print(ms)
 words = [nlp.vocab.strings[w] for w in ms[0][0]]
-distances = ms[2]
 print(words)
 ~~~
 {: .language-python }
 
 
 ~~~
-['dog', 'KENNEL', 'dogs', 'CANINES', 'GREYHOUND', 'pet', 'Pet-Care', 'FELINE', 'cat', 'BEAGLES']
-~~~
+Hash value for dog: 7562983679033046312
+['dogsbody', 'wolfdogs', 'Baeg', 'duppy', 'pet(s', 'postcanine', 'Kebira', 'uppies', 'Toropets', 'moggie']~~~
 {: .output }
 
 
 Notice that not all words are synonyms for dogs.
 The reason is that because these embeddings are trained by machine learning models, based on the contexts in which they appear.
 It may be the case that related words such as 'pet' or 'cat' often appear in similar contexts as the word dog over the corpus this model was trained on.
+
+
 
 ### Distributional hypothesis and Word2Vec
 How are these embeddings created? A linguist called JR Firth once famously said “You shall know a word by the company it keeps.” This means words that repeatedly occur in similar contexts probably have similar meanings; often referred to as the distributional hypothesis.
