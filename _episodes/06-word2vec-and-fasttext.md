@@ -11,15 +11,15 @@ keypoints:
 ---
 
 ### Extracting more sophisticated representations of text data
-So far, we've seen how word counts, TF-IDF, and LSA can help us extract useful features from text data and embed documents into vector spaces. LSA is one method that moves from simple representations (e.g., word counts) towards representations that reflect context and semantic meaning. With the help of machine learning, we can extract even more sophisticated representations compared to LSA. Representations built from machine learning models typically have better performance at many tasks such as text/author classificaiton.
+So far, we've seen how word counts, TF-IDF, and LSA can help us extract useful features from text data and embed documents into vector spaces. LSA is one method that moves from simple representations (e.g., word counts) towards representations that reflect semantic meaning. With the help of machine learning, we can extract even more sophisticated representations compared to LSA. Representations built from machine learning models typically have better performance at many tasks such as text/author classificaiton.
 
 The model used by spaCy is something called "FastText". We will discuss how it works later in the lesson. For now, let's focus on what we can do with more sophisticated embeddings.
 
-We'll start by importing spaCy and downloading its large-sized pre-trained model of English language. In general, larger models are expected to perform "better" and be more accurate overall. We could load spaCy's large model (en_core_web_lg) for optimal performance, but this model has a higher computational cost. A good practice is to first test your code using the small or medium model, and then switch to the large model once everything has been tested.
+We'll start by importing spaCy and downloading its medium-sized pre-trained model of English language. In general, larger models are expected to perform "better" and be more accurate overall. We could load spaCy's large model (en_core_web_lg) for optimal performance, but this model has a higher computational cost. A good practice is to first test your code using the small or medium model, and then switch to the large model once everything has been tested.
 
 ~~~
 import spacy
-spacy.cli.download("en_core_web_md") # download the medium sized model of english language from spacy
+spacy.cli.download("en_core_web_md") # download the medium-sized model of english language from spacy
 ~~~
 {: .language-python }
 
