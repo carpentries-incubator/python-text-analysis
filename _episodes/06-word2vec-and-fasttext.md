@@ -131,8 +131,9 @@ Hash value for dog: 7562983679033046312
 {: .output }
 
 Notice that not all words are synonyms for dogs.
-The reason is that because these embeddings are trained by machine learning models, based on the contexts in which they appear.
-It may be the case that related words such as 'pet' or 'cat' often appear in similar contexts as the word dog over the corpus this model was trained on.
+There are two key reasons for this: 
+1. These embeddings are trained by machine learning models, based on the contexts in which they appear. It may be the case that related words such as 'dogsbody' often appear in similar contexts as the word dog over the corpus this model was trained on.
+2. Since we are using the medium-sized model rather than the large model, there are fewer vectors available to represent each word (i.e. some words will map onto the same vector). 
 
 > ## Comparing with spaCy's large language model
 >
