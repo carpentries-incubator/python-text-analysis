@@ -26,8 +26,11 @@ In an October 2022 webinar on AI and publishing, Lucy Lu Wang (LLW), Assistant P
 Resources: 
 * Stanford Human Centered Artificial Intelligence: [Definitions](https://hai.stanford.edu/sites/default/files/2020-09/AI-Definitions-HAI.pdf)
 * AI and Scholarly Publishing: A View from Three Experts. Scholarly Kitchen website, January 2023. (https://scholarlykitchen.sspnet.org/2023/01/18/guest-post-ai-and-scholarly-publishing-a-view-from-three-experts/)
+* Using this curriculum to understand methods, concepts, vocabulary
 
 ## Humans in the loop and AI as assistant, not authority
+
+Interpreting results; understanding the limitations of the model; the right model for the task; 
 
 ~~~
 code goes here
