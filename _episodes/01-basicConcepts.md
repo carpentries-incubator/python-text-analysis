@@ -18,11 +18,10 @@ keypoints:
 - "Document summarization has a summary as the output."
 ---
 
-##Limitations of Digital Humanities
-There are a wide variety of fields of study within the humanities. When planning this workshop, a informal survey was sent to discover what would be of interest to those identifying as humanists.
-We received responses from art and literature scholars, historians, political scientists, psychologists, sociologists, librarians and many others.
-Each of those fields brings a variety of research interests and methods to focus on a wide variety of questions.
-Because the humanities is a broad field, we will touch on a variety of techniques and tasks which natural language processing can help accomplish.
+##Context for Digital Humanists 
+
+There are a wide variety of fields of study within the humanities. Each of those fields brings a variety of research interests and methods to focus on a wide variety of questions.
+For this reason, we will touch on a variety of techniques and tasks which natural language processing can help accomplish.
 We will also discuss some details about how these models work, so that researchers can understand the concepts underlying common tasks and how text analysis approaches these problems.
 However, these methods are not infallible or without bias. They are simply another tool you can use to analyze texts and should be critically considered in the same way any other tool would be.
 The goal of this workshop is not to replace or discredit existing humanist methods, but to help humanists learn about some of the things text analysis can help do and how these models work.
@@ -33,7 +32,7 @@ Natural Language Processing, or NLP, attempts to process human languages using c
 
 ##What does NLP do?
 There are many possible uses for NLP. Machine Learning and Artificial Intelligence can be thought of as a set of computer
-algorithms used to take a piece of text as an input and produce a desired output. What distinguishes NLP
+algorithms used to take data as an input and produce a desired output. What distinguishes NLP
 from other types of machine learning is that text and human language is the main input for NLP tasks.
 
 A model is a mathematical construct designed to turn our text input into a desired output,
@@ -47,7 +46,7 @@ named entity recognition, search, summarization and more.
 ##Topic Modelling
 Topic modeling is a type of analysis that attempts to categorize texts.
 Documents might be made to match categories defined by the user, in a process called supervised learning.
-For example, we might set a number of authors as “categories” and try to identify which author wrote a text.
+For example, in a process called authorship identification, we might set a number of authors as “categories” and try to identify which author wrote a text.
 Alternatively, the computer might be asked to come up with a set number of topics, and create categories without precoded documents,
 in a process called unsupervised learning. Supervised learning requires human labelling and intervention, where
 unsupervised learning does not.
