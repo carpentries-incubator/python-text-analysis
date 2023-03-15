@@ -31,14 +31,20 @@ There are numerous examples of how training data - or the language model, ultima
 * Loomis v. Wisconsin: This case involved the use of "algorithmic risk assessments" to assist in sentencing offenders, and considered the proprietary nature of the tool used to determine outcomes and issues with race and gender being factors weighed in the risk assessment. The same  year that the case was brought in Wisconsin (State v. Loomis, 2016), ProPublica published an investigative report that exposed the clear bias against Black people in computer programs used to determine the likelihood of defendants committing crimes in the future. That bias was built into the tool because the training data that it relied on included historical data about crime statistics, which reflected - and then reproduced - existing racist bias in sentencing. 
   1. This case illustrates how training data can negtively influence results and reproduce bias. 
 
-    * How does is demonstrate interpreting the relevance of the results? 
-    * Is there any responsible way to use the results of a tool where the training data has been shown to negatively influenced the results?
-
+    * How does it demonstrate interpreting the relevance of the results? 
+    * Is there any responsible way to use the results of a tool where the training data has been shown to negatively influence the results?
 
 Resources: 
-* State v. Loomis: Wisconsin Supreme Court Requires Warning Before Use of Algorithmic Risk Assessments in Sentencing. Harvard Law Review, March 10, 2017. [https://harvardlawreview.org/2017/03/state-v-loomis/](https://harvardlawreview.org/2017/03/state-v-loomis/)
-* Julia Angwin, Jeff Larson, Surya Mattua, and Lauren Kirchner. *Machine Bias*. ProPublica, May 23, 2016. [https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing)
-* Stanford Human Centered Artificial Intelligence: [Definitions](https://hai.stanford.edu/sites/default/files/2020-09/AI-Definitions-HAI.pdf)
+* State v. Loomis: Wisconsin Supreme Court Requires Warning Before Use of Algorithmic Risk Assessments in Sentencing. *Harvard Law Review*, March 10, 2017. [https://harvardlawreview.org/2017/03/state-v-loomis/](https://harvardlawreview.org/2017/03/state-v-loomis/)
+* Julia Angwin, Jeff Larson, Surya Mattua, and Lauren Kirchner. Machine Bias. *ProPublica*, May 23, 2016. [https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing)
+
+
+## Explaining your results
+
+Rarely will results from topic modeling, text analysis, etc. stand on their own as evidence of anything. Researchers should be able to explain their method and how they got their results.
+(exercise to demonstrate explaining results - maybe based on a task from an earlier module?)
+Exercise: Which of the methods you learned today would be best for X research question?
+
 
 
 ???
