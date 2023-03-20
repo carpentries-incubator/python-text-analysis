@@ -1,6 +1,10 @@
 # Load model and retrieve attention weights
 from bertviz import head_view, model_view
 from transformers import BertTokenizer, BertModel
+from bertviz.transformers_neuron_view import BertTokenizer as NBT
+from bertviz.transformers_neuron_view import BertModel as NBM
+from bertviz.neuron_view import show
+
 
 class AttentionViz:
   def __init__(self):
@@ -32,9 +36,9 @@ class AttentionViz:
     model_view(self.attention, self.tokens, self.sentence_b_start)
 
   def nview(self):    
-    #TODO- pull this initialization stuff out of the function if needed, not clear if it will be used as part of lesson though
+    #TODO- pull this stuff out of the function, not clear if it will be used as part of lesson though
     model_type = 'bert'
     model_version = 'bert-base-uncased'
-    model = BertModel.from_pretrained(model_version, output_attentions=True)
-    tokenizer = BertTokenizer.from_pretrained(model_version, do_lower_case=True)
+    model = NBM.from_pretrained(model_version, output_attentions=True)
+    tokenizer = NBT.from_pretrained(model_version, do_lower_case=True)
     show(model, model_type, tokenizer, sentence_a, sentence_b, layer=4, head=3)
