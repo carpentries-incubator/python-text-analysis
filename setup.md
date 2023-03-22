@@ -1,8 +1,8 @@
 ---
 title: Setup
 ---
-## Download the python file, helpers.py, containing some helper functions that we'll use throughout the workshop
-Download the following python script and place it into a new folder called "text-analysis" on your Desktop (e.g., `/Users/username/Desktop/text-analysis/helpers.py`)
+## Download the helpers.py file
+This file contains helper functions that we'll use throughout the workshop. Click the link below to download it, and place it into a new folder called "text-analysis" on your Desktop (e.g., `/Users/username/Desktop/text-analysis/helpers.py`)
 * [helpers.py](code/helpers.py)
 
 ## Google Colab Setup 
