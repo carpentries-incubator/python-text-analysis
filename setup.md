@@ -10,7 +10,7 @@ We will be using [Google Colab](https://research.google.com/colaboratory/faq.htm
 
 1. Visit the [Google Colab website](https://colab.research.google.com/) and click "New notebook" from the pop-up that shows up
 2. Visit [Google Drive](https://drive.google.com/drive/my-drive) and find a newly created "Colab Notebooks" folder stored under MyDrive, ```/My Drive/Colab Notebooks```
-3. Upload the text-analysis folder created on your Desktop earlier: ```/My Drive/Colab Notebooks/text-analysis/```
+3. Upload the text-analysis folder (on your Desktop) to the Colab Notebooks folder on Google Drive: ```/My Drive/Colab Notebooks/text-analysis/```
 4. **Note for instructors**: At the start of each section, create a new Colab file within the text-analysis folder by navigating to ```/My Drive/Colab Notebooks/text-analysis/``` within [Google Drive](https://drive.google.com/drive/my-drive), followed by clicking ```New -> More -> Google Colaboratory```
 
 ## Local Setup (Alternative to Colab)
