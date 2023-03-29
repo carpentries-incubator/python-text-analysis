@@ -16,6 +16,19 @@ def create_file_list(directory, filter_str='*'):
     files_to_analyze = list(map(str, files))
     return files_to_analyze
 
+def parse_authors_titles(data_dir, corpus_file_list):
+    import parse
+    authors = []
+    titles = []
+    for filename in corpus_file_list:
+        bookdata = parse.search(data_dir+"{author}-{title}.txt", filename)
+        if bookdata is not None:
+            authors.append(bookdata["author"])
+            titles.append(bookdata["title"])
+        else:
+            print(f"Problem processing {filename}")
+    return authors, titles
+
 def parse_into_dataframe(pattern, items, col_name="Item"):
     """
     Example:
@@ -28,8 +41,9 @@ def parse_into_dataframe(pattern, items, col_name="Item"):
         if result is not None:
             result.named[col_name] = item
             results.append(result.named)
-    
-    return pandas.DataFrame.from_dict(results)
+            
+    return pandas.DataFrame.from_dict(results).sort_values('Author')
+
 
 def lemmatize_files(tokenizer, corpus_file_list, pos_set={"ADJ", "ADV", "INTJ", "NOUN", "VERB"}, stop_set=set()):
     """
@@ -50,7 +64,7 @@ def lemmatize_files(tokenizer, corpus_file_list, pos_set={"ADJ", "ADV", "INTJ", 
             and token.lemma_.lower() not in stop_set
             and token.text_.lower() not in stop_set
         )
-    
+
     return lemma_filename_list
 
 def var_explained_plot(model):
@@ -111,7 +125,7 @@ def lsa_plot(data, model, x="X", y="Y", xlabel="Topic X", ylabel="Topic Y", titl
                 xlabel=f"{xlabel} ({xR2}%)",
                 ylabel=f"{ylabel} ({yR2}%)"
             )
-    
+
     plt.show()
 
 def showTopics(vectorizer, model, topic_number, n):
