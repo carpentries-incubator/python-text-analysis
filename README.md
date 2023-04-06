@@ -6,11 +6,11 @@
 
 Current maintainers of this lesson are
 
-* [Chris Endemann]
+* Chris Endemann
 * [Ann Hanlon](https://github.com/annhanlon)
 * [Karl Holten](https://github.com/Karl-Holten/)
-* [Mariah Knowles]
-* [Jennifer Patino](https://github.com/Karl-Holten/)
+* Mariah Knowles
+* Jennifer Patino
 
 ## Authors
 
