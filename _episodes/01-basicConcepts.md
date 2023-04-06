@@ -51,7 +51,7 @@ Alternatively, the computer might be asked to come up with a set number of topic
 in a process called unsupervised learning. Supervised learning requires human labelling and intervention, where
 unsupervised learning does not.
 
-![Topic Modelling Graph](images/01-topicmodelling.png)
+![Topic Modelling Graph](../images/01-topicmodelling.png)
 
 
 ##Named Entity Recognition
@@ -59,14 +59,14 @@ The task of Named Entity Recognition is trying to label words belonging to a cer
 The entities we are looking to recognize may be proper nouns, quantities, or even just words belonging to a certain category, such as animals.
 A possible application of this would be to track co-occurrence of characters in different chapters in a book.
 
-![Named Entity Recognition](images/01-ner.png)
+![Named Entity Recognition](../images/01-ner.png)
 
 #Search
 Search attempts to retrieve documents that are similar to your query.
 In order to do this, there must be some way to compute the similarity between documents.
 A search query can be thought of as a small input document, and the outputs could be relevant documents stored in the corpus.
 
-![Search and Document Summarization](images/01-search.png)
+![Search and Document Summarization](../images/01-search.png)
 
 #Document Summarization
 Document summarization takes documents which are longer, and attempts to output a document with the same meaning by finding
