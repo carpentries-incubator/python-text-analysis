@@ -27,7 +27,7 @@ The model also made use of very little preprocessing, meaning tasks like lemmati
 
 The embedding mechanism is more complex than the ones we've looked at, and we will only discuss an overview of what is occurring.
 
-![Image of transformers architecture.](images/07-transformers.png)
+![Image of transformers architecture.](../images/07-transformers.png)
 
 First, input embeddings are calculated using an embedding algorithm such as word2vec, and then values for the position of the token in the text are added to the embeddings.
 Next, these values are passed to a stack of "encoders", and the values generated from the encoders are passed onto a stack of decoders.
@@ -38,7 +38,7 @@ This final step can vary so the model can be used for many natural language task
 
 Now that we understand the general architecture, we will discuss the workings of the encoders and decoders in greater detail.
 
-![Image of encoders and decoders.](images/07-encoderdecoder.png)
+![Image of encoders and decoders.](../images/07-encoderdecoder.png)
 
 Each encoder processes the input it gets from the previous encoder.
 The encoder runs something called a "self-attention" calculation. It then runs a "feed forward" operation that passes the results forward to the next encoder.
@@ -100,7 +100,7 @@ Once trained, we can view the topics using the visualization tool included with 
 topic_model.visualize_topics()
 ~~~
 
-![Image of BERTopic visualization.](images/07-topic-visualization.png)
+![Image of BERTopic visualization.](../images/07-topic-visualization.png)
 
 This gives us a huge number of topics. Fortunately, we can zoom in by highlighting a particular section. We can also look at a hierarchy of topics which will help us better understand how these topics are related. Let's list the top 10 topics.
 
@@ -108,7 +108,7 @@ This gives us a huge number of topics. Fortunately, we can zoom in by highlighti
 freq = topic_model.get_topic_info(); freq.head(10)
 ~~~
 
-![Image of topic hierarchy.](images/07-top10topics.png)
+![Image of topic hierarchy.](../images/07-top10topics.png)
 
 Next, we'll select a common topic and see what words weigh most heavily.
 
@@ -133,14 +133,14 @@ We can also create a chart with topics and their weights.
 topic_model.visualize_barchart(top_n_topics=12)
 ~~~
 
-![Image of bar charts with words and weights.](images/07-barcharts.png)
+![Image of bar charts with words and weights.](../images/07-barcharts.png)
 
 We can view a hierarchy of topics to see how different topics would be combined if we reduced the number of topics.
 
 ~~~
 topic_model.visualize_hierarchy(top_n_topics=100)
 ~~~
-![Image of topic hierarchy.](images/07-topicalhierarchy.png)
+![Image of topic hierarchy.](../images/07-topicalhierarchy.png)
 
 We can reduce the number of topics. Once reduced, we can still do the functions listed above.
 
@@ -149,7 +149,7 @@ topic_model.reduce_topics(docs, nr_topics=100)
 topic_model.visualize_topics()
 ~~~
 
-![Image of topic hierarchy.](images/07-fewertopicsmap.png)
+![Image of topic hierarchy.](../images/07-fewertopicsmap.png)
 
 We can also find the most similar topic for a given topic. Let's try doing a search for the word "ship"
 
