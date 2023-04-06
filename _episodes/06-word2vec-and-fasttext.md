@@ -185,7 +185,7 @@ The size of the window is a parameter we set, so for now we will say it is size 
 Suppose we call the word we are training at position t in the text w(t). The word directly before the training word would be w(t-1) and the word after it, w(t+1).
 Word2Vec now does two training tasks, described below:
 
-![Image from Word2Vec research paper, by Mikolov et al](images/06-word2vecModel.png)
+![Image from Word2Vec research paper, by Mikolov et al](./images/06-word2vecModel.png) 
 
 The “Continuous Bag of Words” training method takes as an input the words before and after our target word, and tries to guess our target word based on those words.
 The “skipgram” method flips the task, taking as an input the one target word and trying to predict the surrounding context words.
