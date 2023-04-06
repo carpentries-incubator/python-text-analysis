@@ -89,7 +89,7 @@ The mathematical technique we are using is called “Singular Value Decompositio
 It’s a proven fact that any matrix M of arbitrary size can always be split or decomposed into three matrices that multiply together to make M. There are often many non-unique ways to do this decomposition. 
 The three resulting matrices are called U, Σ, and Vt.
 
-![Image of singular value decomposition. Visualisation of the priciple of singular value decomposition by CMG Lee.](images/05-svd.png)
+![Image of singular value decomposition. Visualisation of the priciple of singular value decomposition by CMG Lee.](../images/05-svd.png)
 
 The U matrix is a matrix where there are documents as rows, and different topics as columns. The scores in each cell show how much each document is ‘about’ each topic.  
 The Vt matrix is a matrix where there are a set of terms as columns, and different topics as rows. Again, the values in each cell correspond to how much a given word indicates a given topic. 
@@ -99,7 +99,7 @@ A good deal of variation can often be explained by a relatively small number of 
 Because of this, we can truncate or remove individual rows with the lowest singular values, since they are less important. 
 Once this truncation happens, we can multiply together our three matrices and end up with a smaller matrix with topics instead of words as dimensions.
 
-![Image of singular value decomposition with columns and rows truncated. ](images/05-truncatedsvd.png)
+![Image of singular value decomposition with columns and rows truncated. ](../images/05-truncatedsvd.png)
 
 Question: What's the most possible topics we could get from this model? Think about what the most singular values are that you could possibly fit in the Σ matrix.
 
@@ -135,7 +135,7 @@ plt.show()  # show first chart
 {: .language-python}
 
 
-![Image of singular value decomposition dropoff. ](images/05-svd-dropoff.png)
+![Image of singular value decomposition dropoff. ](../images/05-svd-dropoff.png)
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic. 
 Typically the rate of data explained will be high at first, dropoff quickly and then start to level out. 
@@ -325,7 +325,7 @@ plt.show()
 {: .python}
 
 Can we draw any conclusions about how documents are distributed on this graph?
-![Image of plotted documents. ](images/05-visualization.png)
+![Image of plotted documents. ](../images/05-visualization.png)
 
 ##Conclusion 
 
