@@ -42,7 +42,7 @@ pointB = np.array((80, 20))
 pointC = np.array((10,20))
 ```
 
-![Graph of three points](images/03-3points.png)
+![Graph of three points](../images/03-3points.png)
 
 Which document is C the most like? 
 --------------
@@ -74,7 +74,7 @@ Let’s say this document is shorter than the others, but very similar to docume
 In fact, let's say that document A is just document D copy and pasted ten times.
 
 
-![Graph of four points](images/03-4points.png)
+![Graph of four points](../images/03-4points.png)
 
 ```python
 pointD = np.array((5,5))
@@ -89,7 +89,7 @@ Vectors are geometric objects with both length and direction. They can be though
 Vectors can be added, subtracted, or multiplied together, just like regular numbers can.
 Most models consider documents as vectors, going from the origin at (0,0) to each document, represented by the word count coordinates above.
  
-![Graph of four vectors](images/03-vectors.png)
+![Graph of four vectors](../images/03-vectors.png)
  
 Now we can consider a different similarity metric. Instead of using distance as our measure, which is highly dependent on document length, we use a metric called cosine similarity. 
 Cosine similarity measures the angle between two vectors without considering the magnitude of the vector, that is, each document’s size. 
