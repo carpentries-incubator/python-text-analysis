@@ -1,7 +1,5 @@
 ---
-title: "Section1: Getting Started"
-colour: "#fafac8"
-start: true
+title: "Getting Started"
 teaching: 10
 exercises: 0
 questions:
