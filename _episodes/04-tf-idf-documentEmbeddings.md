@@ -1,5 +1,5 @@
 ---
-title: "Word Embeddings and TF-IDF"
+title: "Document Embeddings and TF-IDF"
 teaching: 20
 exercises: 20
 questions:
@@ -9,7 +9,7 @@ objectives:
 keypoints:
 - "todo"
 ---
-## Word embeddings 
+## Document embeddings 
 The method of using word counts is just one way we might embed a document in vector space.  
 Let’s talk about more complex and representational ways of constructing document embeddings.  
 To start, imagine we want to represent each word in our model individually, instead of considering an entire document. 
@@ -171,6 +171,6 @@ boy 	1.000000
 
 Values are no longer just whole numbers such as 0, 1 or 2. Instead, they are weighted according to how often they occur. More common words have lower weights, and less common words have higher weights.
 
-In this lesson, we learned about word embeddings and how they could be done in multiple ways. While one hot encoding is a simple way of doing embeddings, it may not be the best representation. 
+In this lesson, we learned about document embeddings and how they could be done in multiple ways. While one hot encoding is a simple way of doing embeddings, it may not be the best representation. 
 TF-IDF is another way of performing these embeddings that improves the representation of words in our model by weighting them. TF-IDF is often used as an intermediate step in some of the more advanced models we will construct later. 
 
