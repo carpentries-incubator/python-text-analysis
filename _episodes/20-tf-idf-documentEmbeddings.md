@@ -1,5 +1,7 @@
 ---
-title: "Document Embeddings and TF-IDF"
+title: "Section2: Document Embeddings and TF-IDF"
+colour: "#fafac8"
+start: true
 teaching: 20
 exercises: 20
 questions:

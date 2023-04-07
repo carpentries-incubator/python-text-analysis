@@ -1,5 +1,7 @@
 ---
-title: "Ethics and Text Analysis"
+title: "Section5: Ethics and Text Analysis"
+colour: "#fafac8"
+start: true
 teaching: 20
 exercises: 20
 questions:

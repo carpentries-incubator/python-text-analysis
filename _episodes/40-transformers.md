@@ -1,5 +1,7 @@
 ---
-title: "Transformers and BERTopic"
+title: "Section4: Transformers and BERTopic"
+colour: "#fafac8"
+start: true
 teaching: 20
 exercises: 20
 questions:

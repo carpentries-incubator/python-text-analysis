@@ -1,5 +1,7 @@
 ---
-title: "Word2Vec and FastText"
+title: "Section3: Word Embeddings"
+colour: "#fafac8"
+start: true
 teaching: 20
 exercises: 20
 questions:
