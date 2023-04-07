@@ -29,35 +29,24 @@ As with any research, the relevance or meaningfulness of your results is relativ
 
 The model is making a statistical determination based on the training data it has been fed, and on the training itself, as well as the methods you have used to parse the data set you're analyzing. If you are using a tool like ChatGPT, you may have access only to your own methods, and will need to make an educated guess about the training data and training methods. That doesn't mean you can't use that tool, but it does mean you need to keep what is known and what is obscured about your methods at the forefront as you conduct your research.  
 
-
+*Exercise*: You use LSA as a method to identify important topics that are common across a set of popular 19th century English novels, and conclude that X is most common. How might you explain this result and why you used LSA? 
 
 
 ## Training data can influence results
 
 There are numerous examples of how training data - or the language model, ultimately - can negatively influence results. Reproducing bias in the data is probably one of the most discussed negative outcomes. Let's look at one real world example:
-* Loomis v. Wisconsin: This case involved the use of "algorithmic risk assessments" to assist in sentencing offenders, and considered the proprietary nature of the tool used to determine outcomes and issues with race and gender being factors weighed in the risk assessment. The same  year that the case was brought in Wisconsin (State v. Loomis, 2016), ProPublica published an investigative report that exposed the clear bias against Black people in computer programs used to determine the likelihood of defendants committing crimes in the future. That bias was built into the tool because the training data that it relied on included historical data about crime statistics, which reflected - and then reproduced - existing racist bias in sentencing. 
-  1. This case illustrates how training data can negtively influence results and reproduce bias. 
 
-    * How does it demonstrate interpreting the relevance of the results? 
-    * Is there any responsible way to use the results of a tool where the training data has been shown to negatively influence the results?
+In 2016, ProPublica published an investigative report that exposed the clear bias against Black people in computer programs used to determine the likelihood of defendants committing crimes in the future. That bias was built into the tool because the training data that it relied on included historical data about crime statistics, which reflected - and then reproduced - existing racist bias in sentencing. 
 
-Resources: 
-* State v. Loomis: Wisconsin Supreme Court Requires Warning Before Use of Algorithmic Risk Assessments in Sentencing. *Harvard Law Review*, March 10, 2017. [https://harvardlawreview.org/2017/03/state-v-loomis/](https://harvardlawreview.org/2017/03/state-v-loomis/)
-* Julia Angwin, Jeff Larson, Surya Mattua, and Lauren Kirchner. Machine Bias. *ProPublica*, May 23, 2016. [https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing)
+*Exercise*: How might a researcher avoid introducing bias into their methodology when using pre-trained data to conduct text analysis? 
 
+## Using your research
 
-## Explaining your results
-
-Rarely will results from topic modeling, text analysis, etc. stand on their own as evidence of anything. Researchers should be able to explain their method and how they got their results.
-(exercise to demonstrate explaining results - maybe based on a task from an earlier module?)
-Exercise: Which of the methods you learned today would be best for X research question?
+Rarely will results from topic modeling, text analysis, etc. stand on their own as evidence of anything. Researchers should be able to explain their method and how they got their results, and be able to talk about the data sets and training models used. As discussed above, though, the nature of the large language models that may underlie the methods used to do LSA topic modeling, identify relationships between words using Word2Vec, or summarize themes using BERT, is that they contain vast numbers of parameters that cannot be reverse engineered or described. The tool can still be part of the explanation, and any results that may change due to the randommness of the LLM can be called out, for example. 
 
 
 
-???
-## Black box AI and understanding processes...
 
-## Humans in the loop and AI as assistant, not authority
 ~~~
 code goes here
 ~~~
