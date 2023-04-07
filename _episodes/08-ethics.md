@@ -18,14 +18,21 @@ Artificial intelligence is loosely defined as the ability for computer systems t
 * The methods in this lesson all demonstrate models that learn from data - specifically, from text corpora that are not structured to explicitly tell the machine anything other than, perhaps, title, author, date, and body of text.
 * As a method and a tool, it is important to understand the tasks to which it is best suited, and to understand the process well enough to be able to interpret the results, including:
 
-  1. whether they are relevant 
-  2. whether they have been overly influenced by the model or training data 
-  3. and how to use the results 
+  1. whether the results are relevant or meaningful
+  2. whether the results have been overly influenced by the model or training data 
+  3. how to responsibly use the results 
 
-## How to determine relevance (?)
-Any good way to address this? Maybe this is more of a research methods issues, than a tools or AI issue?
+We can describe these as commitments to ethical research methods. 
 
-## How the training data can influence results
+## Relevance or meaningfulness
+As with any research, the relevance or meaningfulness of your results is relative to the research question itself. However, when you have a particular research question (or a particular set of research interests), it can be hard to connect the results of these models back to your bigger picture aims. It can feel like trying to write a book report but all you were given were the table of contents. One reason for this difficulty is that the dimensions of the model are atheoretical. That is, regardless of what research questions you are asking, the models always start from the same starting point: the words of the text, with no understanding of what those words mean to you. Our job is to interpret the meaning of the model’s results, or the qualitative work that follows. 
+
+The model is making a statistical determination based on the training data it has been fed, and on the training itself, as well as the methods you have used to parse the data set you're analyzing. If you are using a tool like ChatGPT, you may have access only to your own methods, and will need to make an educated guess about the training data and training methods. That doesn't mean you can't use that tool, but it does mean you need to keep what is known and what is obscured about your methods at the forefront as you conduct your research.  
+
+
+
+
+## Training data can influence results
 
 There are numerous examples of how training data - or the language model, ultimately - can negatively influence results. Reproducing bias in the data is probably one of the most discussed negative outcomes. Let's look at one real world example:
 * Loomis v. Wisconsin: This case involved the use of "algorithmic risk assessments" to assist in sentencing offenders, and considered the proprietary nature of the tool used to determine outcomes and issues with race and gender being factors weighed in the risk assessment. The same  year that the case was brought in Wisconsin (State v. Loomis, 2016), ProPublica published an investigative report that exposed the clear bias against Black people in computer programs used to determine the likelihood of defendants committing crimes in the future. That bias was built into the tool because the training data that it relied on included historical data about crime statistics, which reflected - and then reproduced - existing racist bias in sentencing. 
