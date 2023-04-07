@@ -54,7 +54,7 @@ In the case of the LLMs that underlie many of the text analysis methods you lear
 
 > *Exercise*: You are identifying topics across a large number of archival texts from hundreds of 20th century collections documenting LGBTQ organizations. You are using a LLM where the training data is petabytes of data collected over a decade of web crawling, starting in 2013. What risks are introduced by this method and how might they be anticipated and mitigated? 
 
+## Hype cycles and AI
 
-~~~
-code goes here
-~~~
+Because this workshop is being introduced shortly after the release of ChatGPT3 by OpenAI, we want to address how AI and tech hype cycles can influence tool selection and use of tech. The inscrutability of LLMs, the ability of chatbots to output coherent and meaningful text on a seemingly infinite variety of topics, and the rhetoric of the tech industry can make these tools seem magical and unfathomable. They aren't magical, though the black box nature of the training data and the parameters does lend itself to unfathomability. Regardless, the output of any of the methods described in this workshop, and by LLMs to come, is the product of mathematical processes and statistical weights. That is why learning some of the methodology behind text analysis is important, even if it takes much longer to become fluent in LSA or Word2Vec. We all will use tools based on these methods in the years to come, whether for our research or for more mundane administrative tasks. 
+
