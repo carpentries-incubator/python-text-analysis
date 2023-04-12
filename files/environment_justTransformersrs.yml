@@ -1,7 +1,7 @@
 name: nlp1
 channels:
   - pytorch
-# Uncomment to enable GPU. WARNING: CUDA version tested was 11.8. May not work for other versions. For most up-to-date pytorch config visit: https://pytorch.org/get-started/locally/
+# WARNING: CUDA version tested was 11.8. May not work for other versions. For most up-to-date pytorch config visit: https://pytorch.org/get-started/locally/
   - nvidia
   - defaults
 dependencies:
