@@ -1,4 +1,4 @@
-name: nlp1
+name: text-analysis-tranformers-finetune
 channels:
   - pytorch
 # WARNING: CUDA version tested was 11.8. May not work for other versions. For most up-to-date pytorch config visit: https://pytorch.org/get-started/locally/
