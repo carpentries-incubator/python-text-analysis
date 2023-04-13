@@ -3,11 +3,16 @@ title: Setup
 exercises: 20
 ---
 ## Download the helpers.py file
-This file contains helper functions that we'll use throughout the workshop. Click the link below to download it, and place it into a new folder called "text-analysis" on your Desktop (e.g., `/Users/username/Desktop/text-analysis/helpers.py`)
-* [helpers.py](code/helpers.py)
+This file contains helper functions that we'll use throughout the workshop.
+
+1. Click the link below to open the Github page. * [helpers.py](code/helpers.py)
+2. Right click on the "Raw" button and select ```Save As```. Place it into a new folder called "text-analysis" on your Desktop (e.g., `/Users/username/Desktop/text-analysis/helpers.py`)
+
+## Choose Colab or Local Install
+You can either run this workshop on your local machine or Google Colab. Colab was chosen to ensure all learners have similar processing power (using Google's servers), and to streamline the setup required for the workshop. If you prefer to setup a local environment and download all necessary packages, please review the next section. However, unless your local machine has at least 12 GB of RAM AND a graphics card with CUDA enabled, your code may run slower than the rest of the learners.
 
 ## Google Colab Setup
-We will be using [Google Colab](https://research.google.com/colaboratory/faq.html) to run Python code in our browsers. Colab was chosen to ensure all learners have similar processing power (using Google's servers), and to streamline the setup required for the workshop. If you prefer to setup a local environment and download all necessary packages, please review the next section. However, unless your local machine has at least 12 GB of RAM AND a graphics card with CUDA enabled, your code may run slower than the rest of the learners.
+We will be using [Google Colab](https://research.google.com/colaboratory/faq.html) to run Python code in our browsers.
 
 1. Visit the [Google Colab website](https://colab.research.google.com/) and click "New notebook" from the pop-up that shows up
 2. Visit [Google Drive](https://drive.google.com/drive/my-drive) and find a newly created "Colab Notebooks" folder stored under MyDrive, ```/My Drive/Colab Notebooks```
