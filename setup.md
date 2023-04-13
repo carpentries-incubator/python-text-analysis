@@ -1,5 +1,6 @@
 ---
 title: Setup
+exercises: 20
 ---
 ## Download the helpers.py file
 This file contains helper functions that we'll use throughout the workshop. Click the link below to download it, and place it into a new folder called "text-analysis" on your Desktop (e.g., `/Users/username/Desktop/text-analysis/helpers.py`)
@@ -20,6 +21,5 @@ Software dependencies for data science can be complicated and easily conflict wi
 2. Download the appropriate environment.yml file to the working directory where you will be doing this workshop.
    1. [CPU environment](files/environment_cpu.yml) configures an environment for CPU only. If you are not sure what environment to use, use this one.
    2. [CUDA 11.8 environment](files/environment_cuda118.yml) configures an environment for a CUDA 11.8 enabled graphics card.
-3. Launch Anaconda Navigator. Select ```Environments``` from the Navigator sidebar, then ```Import```. Select the environment file you downloaded.
-4. 
- {% include links.md %}
+3. Launch Anaconda Navigator. Select ```Environments -> Import```. Select the environment file you downloaded for the import. For the name of the environment, type in ```text-analysis```. WARNING: This environment will likely take at least 10 minutes to configure. Give the installer time to configure the environment.
+4. Once installed, click the play button next to the text-analysis environment and select ```Open with Python``` to open a python terminal. You can close and relaunch this python terminal as needed.
