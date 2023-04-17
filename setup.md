@@ -2,11 +2,12 @@
 title: Setup
 exercises: 20
 ---
-## Download the helpers.py file
-This file contains helper functions that we'll use throughout the workshop.
+## Clone the git project
+There are a number of files we need to conduct the workshop. By cloning the git repository, you will be able to have a copy of all of the necessary files and functions required to run through the exercises. 
 
-1. Click the link below to open the Github page. * [helpers.py](code/helpers.py)
-2. Right click on the "Raw" button and select ```Save As```. Place it into a new folder called "text-analysis" on your Desktop (e.g., `/Users/username/Desktop/text-analysis/helpers.py`)
+1. Click the link below to open the Github page. * [Github](https://github.com/carpentries-incubator/python-text-analysis)
+2. Click on the green Code <> button and select "Download as .zip".
+3. Unzip the directory to your desktop.
 
 ## Choose Colab or Local Install
 You can either run this workshop on your local machine or Google Colab. Colab was chosen to ensure all learners have similar processing power (using Google's servers), and to streamline the setup required for the workshop. If you prefer to setup a local environment and download all necessary packages, please review the next section. However, unless your local machine has at least 12 GB of RAM AND a graphics card with CUDA enabled, your code may run slower than the rest of the learners.
@@ -17,7 +18,7 @@ We will be using [Google Colab](https://research.google.com/colaboratory/faq.htm
 1. Visit the [Google Colab website](https://colab.research.google.com/) and click "New notebook" from the pop-up that shows up
 2. Visit [Google Drive](https://drive.google.com/drive/my-drive) and find a newly created "Colab Notebooks" folder stored under MyDrive, ```/My Drive/Colab Notebooks```
 3. Create a folder named ```text-analysis``` in the Colab Notebooks folder on Google Drive. The path should look something like this: ```/My Drive/Colab Notebooks/text-analysis/```.
-4. Upload the helpers.py file to the text-analysis directory.
+4. Upload contents of the text-analysis file on your desktop to Google Drive.
 4. **Note for instructors**: At the start of each section, create a new Colab file within the text-analysis folder by navigating to ```/My Drive/Colab Notebooks/text-analysis/``` within [Google Drive](https://drive.google.com/drive/my-drive), followed by clicking ```New -> More -> Google Colaboratory```
 
 ## Anaconda Local Setup (Alternative to Colab)
