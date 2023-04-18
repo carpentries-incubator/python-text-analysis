@@ -62,7 +62,6 @@ def lemmatize_files(tokenizer, corpus_file_list, pos_set={"ADJ", "ADV", "INTJ", 
             for token in tokenizer(open(filename, "r", encoding="utf-8").read())
             if token.pos_ in pos_set
             and token.lemma_.lower() not in stop_set
-            and token.text_.lower() not in stop_set
         )
 
     return lemma_filename_list
