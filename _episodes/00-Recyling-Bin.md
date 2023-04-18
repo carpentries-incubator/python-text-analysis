@@ -60,3 +60,9 @@ This lesson has covered a number of preprocessing steps. We created a list of ou
 
 
 
+Stop words are usually thought of as the most common words in a language.
+"By removing these words, we remove the low-level information from our text in order to give more focus to the important information. In order words, we can say that the removal of such words does not show any negative consequences on the model we train for our task."
+
+
+
+Let's review the stop words included with nltk.
