@@ -56,3 +56,7 @@ print(cs(dtm[0], dtm[2]))
 According to this model, our third sentence is closer to our original sentence than the second one. We could conduct similar analysis over larger groups of text, such as all the documents in our corpus. However, running this method over everything would take a considerable amount of time. For this reason, we've provided pre-lemmatized versions of our texts for our next lesson.
 
 This lesson has covered a number of preprocessing steps. We created a list of our files in our corpus, which we can use in future lessons. We customized a tokenizer from Spacy, to better suit the needs of our corpus, which we can also use moving forward. Finally, we put our sample sentences in a term-document matrix for the first time and calculated cosine similarity scores between the two. Next we will use a more complex model called TF-IDF.
+
+
+
+
