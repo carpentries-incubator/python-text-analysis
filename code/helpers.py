@@ -45,7 +45,7 @@ def parse_into_dataframe(pattern, items, col_name="Item"):
     return pandas.DataFrame.from_dict(results).sort_values('Author')
 
 
-def lemmatize_files(tokenizer, corpus_file_list, pos_set={"ADJ", "ADV", "INTJ", "NOUN", "VERB"}, stop_set=set()):
+def lemmatize_files(tokenizer, corpus_file_list):
     """
     Example:
         data["Lemma_File"] = lemmatize_files(tokenizer, corpus_file_list)
@@ -59,9 +59,7 @@ def lemmatize_files(tokenizer, corpus_file_list, pos_set={"ADJ", "ADV", "INTJ", 
         lemma_filename_list.append(lemma_filename)
         open(lemma_filename, "w", encoding="utf-8").writelines(
             token.lemma_.lower() + "\n"
-            for token in tokenizer(open(filename, "r", encoding="utf-8").read())
-            if token.pos_ in pos_set
-            and token.lemma_.lower() not in stop_set
+            for token in tokenizer.tokenize(open(filename, "r", encoding="utf-8").read())
         )
 
     return lemma_filename_list
