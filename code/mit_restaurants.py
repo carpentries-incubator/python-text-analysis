@@ -39,7 +39,7 @@ A set of restaurant reviews and labels for entities for Amenities, Cuisine, Dish
 """
 
 ##Carpentries Note- We're changing the file names to match our dataset. You can also specify relative paths for data if you don't like requiring a URL. You'll see where this is downloaded later on.
-_URL = "https://github.com/carpentries-incubator/python-text-analysis/raw/gh-pages/data/mit_restaurant.zip"
+_URL = "https://github.com/carpentries-incubator/python-text-analysis/raw/gh-pages/data/mit_restaurant/mit_restaurant.zip"
 _TRAINING_FILE = "restauranttrain.bio"
 _DEV_FILE = "restaurantvalid.bio"
 _TEST_FILE = "restauranttest.bio"
