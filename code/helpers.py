@@ -89,7 +89,7 @@ def lsa_plot(data, model, x="X", y="Y", xlabel="Topic X", ylabel="Topic Y", titl
             "shakespeare": "magenta"
         }
 
-        las_plot(data, model, groupby="Author", colors=colors)
+        lsa_plot(data, model, groupby="Author", colors=colors)
     """
     xR2 = round(model.explained_variance_ratio_[1] * 100, 2)
     yR2 = round(model.explained_variance_ratio_[2] * 100, 2)
@@ -125,10 +125,10 @@ def lsa_plot(data, model, x="X", y="Y", xlabel="Topic X", ylabel="Topic Y", titl
 
     plt.show()
 
-def showTopics(vectorizer, model, topic_number, n):
+def showTopics(vectorizer, model, topic_number=1, n=10):
     """
     Example:
-        showTopics(vectorizer, model, 1, 5)
+        showTopics(vectorizer, model, topic_number=1, n=5)
     """
     terms = vectorizer.get_feature_names_out()
     weights = model.components_[topic_number]
