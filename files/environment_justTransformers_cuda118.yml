@@ -1,0 +1,23 @@
+name: text-analysis-tranformers-finetune
+channels:
+  - pytorch
+# WARNING: CUDA version tested was 11.8. May not work for other versions. For most up-to-date pytorch config visit: https://pytorch.org/get-started/locally/
+  - nvidia
+  - defaults
+dependencies:
+  - python
+  - numpy
+  - pandas
+  - spacy
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.8
+  - transformers
+  - datasets
+  - pip
+  - pip:
+    - seqeval
+    - parse
+    - scikit-learn
+    - scipy
