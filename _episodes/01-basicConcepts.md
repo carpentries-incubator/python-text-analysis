@@ -29,9 +29,28 @@ There are many possible uses for NLP. Machine Learning and Artificial Intelligen
 A __model__ is a mathematical construct designed to turn our text input into a desired output,
 which will vary based on the task. We can think of the various tasks NLP can do as different types of desired outputs, which may require different models depending on the task.
 
-### How can I use NLP?
+## Context for Digital Humanists
 
-Some of the many functions of NLP include topic modelling and categorization, named entity recognition, search, summarization and more.
+The humanities involves a wide variety of fields. Each of those fields brings a variety of research interests and methods to focus on a wide variety of questions.
+
+These methods are not infallible or without bias. They are simply another tool you can use to analyze texts and should be critically considered in the same way any other tool would be. The goal of this workshop is not to replace or discredit existing humanist methods, but to help humanists learn new tools to help them accomplish their research.
+
+## The Interpretive Loop
+
+![The Interpretive Loop](../images/01-task-tool.png)
+
+Despite the range of tasks we'll talk about, many NLP tasks, tools, and models have the same or related underlying data, techniques, and thought process.
+
+Throughout this course, we will talk about an "interpretive loop" between your humanities research tasks and your NLP research tools. Along this loop are a number of common tasks we'll see again and again:
+
+1. Designing a task, model and dataset to answer a question or solve some need in a way we think will be ethical and interesting.
+2. Preprocessing the data so it can be processed by our model.
+3. Representing our processed data as mathematical constructs that bridge (a) our human intuition on how we might solve a task and (b) the algorithms we're using to help with that task.
+4. Running our model, allowing us to compute some output.
+4. Outputting the result of our algorithms in a human readable format.
+5. Interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on.
+
+Before we can get to any of that, we need to better understand what tasks NLP can do. Some of the many functions of NLP include topic modelling and categorization, named entity recognition, search, summarization and more.
 
 We're going to explore some of these tasks in this lesson. We will start by using looking at some of the tasks achievable using the popular "HuggingFace" library.
 
@@ -47,7 +66,7 @@ If we scroll down, much more information is available. There is a link to sample
 
 We've got an overview of what different tasks we can accomplish. Now let's try getting started with doing these tasks in Python. We won't worry too much about how this model works for the time being, but will instead just focusing trying it out. We'll start by running a chatbot, just like the one we used online.
 
-NLP tasks often need to be broken down into simpler subtasks to be executed in a particular order. These are called "pipelines" since the output from one subtask is used as the input to the next subtask. We will define a "pipeline" in Python.
+NLP tasks often need to be broken down into simpler subtasks to be executed in a particular order. These are called __pipelines__ since the output from one subtask is used as the input to the next subtask. We will now define a "pipeline" in Python.
 
 Launch either colab or our Anaconda environment, depending on your setup. Try following the example below.
 
@@ -129,30 +148,11 @@ relevant snippets or by generating a smaller document that conveys the meaning o
 
 Text prediction attempts to predict future text inputs from a user based on previous text inputs. Predictive text is used in search engines and also on smartphones to help correct inputs and speed up the process of text input.
 
-## Context for Digital Humanists
-
-The humanities involves a wide variety of fields. Each of those fields brings a variety of research interests and methods to focus on a wide variety of questions.
-
-These methods are not infallible or without bias. They are simply another tool you can use to analyze texts and should be critically considered in the same way any other tool would be. The goal of this workshop is not to replace or discredit existing humanist methods, but to help humanists learn new tools to help them accomplish their research.
-
-
-## The Interpretive Loop
-
-![The Interpretive Loop](../images/01-task-tool.png)
-
-Despite the range of tasks we'll talk about, many NLP tasks, tools, and models have the same or related underlying data, techniques, and thought process.
-
-Throughout this course, we will talk about an "interpretive loop" between your humanities research tasks and your NLP research tools. Along this loop are a number of common tasks we'll see again and again:
-
-1. Preprocessing the data so it can be processed by the machine
-2. Representing the processed data as mathematical constructs that bridge (a) our human intuition on how we might solve a task and (b) the algorithms we're using to help with that task
-3. Outputting the result of our algorithms in a human readable format
-4. Interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on
-
-Our next lesson will discuss some of the steps of preprocessing in greater detail.
 
 ## Summary and Outro
 
-We've looked at a variety of different tasks you can accomplish with NLP, and used Python to generate text based on one of the models available through HuggingFace.
+We've looked at a general process or 'interpretive loop' for NLP. We've also seen a variety of different tasks you can accomplish with NLP. We used Python to generate text based on one of the models available through HuggingFace. Hopefully this gives some ideas about how you might use NLP in your area of research.
 
 In the lessons that follow, we will be working on better understanding what is happening in these models.
+
+Our next lesson will discuss some of the steps of preprocessing in greater detail.
