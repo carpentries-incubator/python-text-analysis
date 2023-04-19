@@ -50,6 +50,8 @@ Throughout this course, we will talk about an "interpretive loop" between your h
 4. Outputting the result of our algorithms in a human readable format.
 5. Interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on.
 
+## NLP Tasks
+
 Before we can get to any of that, we need to better understand what tasks NLP can do. Some of the many functions of NLP include topic modelling and categorization, named entity recognition, search, summarization and more.
 
 We're going to explore some of these tasks in this lesson. We will start by using looking at some of the tasks achievable using the popular "HuggingFace" library.
@@ -62,7 +64,7 @@ HuggingFace usefully provides an online demo as well as a description of the tas
 
 If we scroll down, much more information is available. There is a link to sample models and datasets HuggingFace has made available that can do variations of this task.  Documentation on how to use the model is available by scrolling down the page. Model specific information is available by clicking on the model.
 
-#### Worked Example: Chatbot in Python
+### Worked Example: Chatbot in Python
 
 We've got an overview of what different tasks we can accomplish. Now let's try getting started with doing these tasks in Python. We won't worry too much about how this model works for the time being, but will instead just focusing trying it out. We'll start by running a chatbot, just like the one we used online.
 
@@ -89,28 +91,9 @@ converse([conversation_1, conversation_2])
 ```
 Feel free to prompt the chatbot with a few prompts of your own.
 
-#### Group Activity and Discussion
+### Overview of Tasks
 
-With some experience with a task, let's get a broader overview of the types of tasks we can do. Relaunch a web browser and go back to  <https://huggingface.co/tasks>. Break out into groups and look at a couple of tasks for HuggingFace. The groups will be based on general categories for each task. Discuss possible applications of this type of model to your field of research. Try to brainstorm possible applications for now, don't worry about technical implementation.
-
-1. Tasks that seek to convert non-text into text
-    - <https://huggingface.co/tasks/image-to-text>
-    - <https://huggingface.co/tasks/text-to-image>
-    - <https://huggingface.co/tasks/automatic-speech-recognition>
-    - <https://huggingface.co/tasks/image-to-text>
-2. Searching and classifying documents as a whole
-    - <https://huggingface.co/tasks/text-classification>
-    - <https://huggingface.co/tasks/sentence-similarity>
-3. Classifying individual words- Sequence based tasks
-    - <https://huggingface.co/tasks/token-classification>
-    - <https://huggingface.co/tasks/translation>
-4. Interactive and generative tasks such as conversation and question answering
-    - <https://huggingface.co/tasks/conversational>
-    - <https://huggingface.co/tasks/question-answering>
-
-Briefly present a summary of some of the tasks you explored. What types of applications could you see this type of task used in? How might this be relevant to a research question you have? Summarize these tasks and present your findings to the group.
-
-{: .discussion}
+Let's discuss tasks you may find interesting in more detail.
 
 #### Topic Modeling
 
@@ -148,6 +131,28 @@ relevant snippets or by generating a smaller document that conveys the meaning o
 
 Text prediction attempts to predict future text inputs from a user based on previous text inputs. Predictive text is used in search engines and also on smartphones to help correct inputs and speed up the process of text input.
 
+### Group Activity and Discussion
+
+With some experience with a task, let's get a broader overview of the types of tasks we can do. Relaunch a web browser and go back to  <https://huggingface.co/tasks>. Break out into groups and look at a couple of tasks for HuggingFace. The groups will be based on general categories for each task. Discuss possible applications of this type of model to your field of research. Try to brainstorm possible applications for now, don't worry about technical implementation.
+
+1. Tasks that seek to convert non-text into text
+    - <https://huggingface.co/tasks/image-to-text>
+    - <https://huggingface.co/tasks/text-to-image>
+    - <https://huggingface.co/tasks/automatic-speech-recognition>
+    - <https://huggingface.co/tasks/image-to-text>
+2. Searching and classifying documents as a whole
+    - <https://huggingface.co/tasks/text-classification>
+    - <https://huggingface.co/tasks/sentence-similarity>
+3. Classifying individual words- Sequence based tasks
+    - <https://huggingface.co/tasks/token-classification>
+    - <https://huggingface.co/tasks/translation>
+4. Interactive and generative tasks such as conversation and question answering
+    - <https://huggingface.co/tasks/conversational>
+    - <https://huggingface.co/tasks/question-answering>
+
+Briefly present a summary of some of the tasks you explored. What types of applications could you see this type of task used in? How might this be relevant to a research question you have? Summarize these tasks and present your findings to the group.
+
+{: .discussion}
 
 ## Summary and Outro
 
