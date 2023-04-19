@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Natural Language Processing"
-teaching: -1
-exercises: -1
+teaching: 15 minutes
+exercises: 20 minutes
 questions:
 - "What is Natural Language Processing? What does NLP do?"
 objectives:
@@ -35,11 +35,9 @@ Some of the many functions of NLP include topic modelling and categorization, na
 
 We're going to explore some of these tasks in this lesson. We will start by using looking at some of the tasks achievable using the popular "HuggingFace" library.
 
-Navigating to <https://huggingface.co/tasks>, we can see examples of many of the tasks achievable using NLP.
+Launch a web browser and navigate to <https://huggingface.co/tasks>. Here we can see examples of many of the tasks achievable using NLP.
 
-What do these different tasks mean? Let's take a look at an example. Conversational tasks are also known as chatbots. A user engages in conversation with a bot. Let's click on this task now.
-
-<https://huggingface.co/tasks/conversational>
+What do these different tasks mean? Let's take a look at an example. Conversational tasks are also known as chatbots. A user engages in conversation with a bot. Let's click on this task now: <https://huggingface.co/tasks/conversational>
 
 HuggingFace usefully provides an online demo as well as a description of the task. On the right, we can see there is a demo of a particular model that does this task. Give conversing with the chatbot a try.
 
@@ -49,11 +47,9 @@ If we scroll down, much more information is available. There is a link to sample
 
 We've got an overview of what different tasks we can accomplish. Now let's try getting started with doing these tasks in Python. We won't worry too much about how this model works for the time being, but will instead just focusing trying it out. We'll start by running a chatbot, just like the one we used online.
 
-```python
-!pip install transformers
-```
+NLP tasks often need to be broken down into simpler subtasks to be executed in a particular order. These are called "pipelines" since the output from one subtask is used as the input to the next subtask. We will define a "pipeline" in Python.
 
-NLP tasks often need to be broken down into simpler subtasks to be executed in a particular order. These are called "pipelines" since the output from one subtask is used as the input to the next subtask. We will define a "pipeline" in Python. Feel free to prompt the chatbot as you wish.
+Launch either colab or our Anaconda environment, depending on your setup. Try following the example below.
 
 ```python
 from transformers import pipeline, Conversation
@@ -72,10 +68,11 @@ converse([conversation_1, conversation_2])
   user >> What's the last book you have read?
   bot >> The Last Question ]
 ```
+Feel free to prompt the chatbot with a few prompts of your own.
 
 #### Group Activity and Discussion
 
-Let's go back to  <https://huggingface.co/tasks>. Break out into groups and look at a couple of tasks for HuggingFace. The groups will be based on general categories for each task. Discuss possible applications of this type of model to your field of research. Try to brainstorm possible applications for now, don't worry about technical implementation.
+With some experience with a task, let's get a broader overview of the types of tasks we can do. Relaunch a web browser and go back to  <https://huggingface.co/tasks>. Break out into groups and look at a couple of tasks for HuggingFace. The groups will be based on general categories for each task. Discuss possible applications of this type of model to your field of research. Try to brainstorm possible applications for now, don't worry about technical implementation.
 
 1. Tasks that seek to convert non-text into text
     - <https://huggingface.co/tasks/image-to-text>
@@ -131,6 +128,13 @@ relevant snippets or by generating a smaller document that conveys the meaning o
 #### Text Prediction
 
 Text prediction attempts to predict future text inputs from a user based on previous text inputs. Predictive text is used in search engines and also on smartphones to help correct inputs and speed up the process of text input.
+
+## Context for Digital Humanists
+
+The humanities involves a wide variety of fields. Each of those fields brings a variety of research interests and methods to focus on a wide variety of questions.
+
+These methods are not infallible or without bias. They are simply another tool you can use to analyze texts and should be critically considered in the same way any other tool would be. The goal of this workshop is not to replace or discredit existing humanist methods, but to help humanists learn new tools to help them accomplish their research.
+
 
 ## The Interpretive Loop
 
