@@ -5,6 +5,15 @@ import logging
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
+import nltk # preprocess_text function
+import re # preprocess_text function
+# prep lemmatizer
+nltk.download('wordnet') # preprocess_text function
+from nltk.stem import WordNetLemmatizer # preprocess_text function
+# prep stopwords
+from nltk.corpus import stopwords # preprocess_text function
+nltk.download('stopwords') # preprocess_text function
+
 # TODO make a requirements.txt too that can be used with pip
 
 def create_file_list(directory, filter_str='*'):
@@ -41,7 +50,7 @@ def parse_into_dataframe(pattern, items, col_name="Item"):
         if result is not None:
             result.named[col_name] = item
             results.append(result.named)
-            
+
     return pandas.DataFrame.from_dict(results).sort_values('Author')
 
 
@@ -63,6 +72,50 @@ def lemmatize_files(tokenizer, corpus_file_list):
         )
 
     return lemma_filename_list
+
+
+def preprocess_text(text: str, remove_stopwords: bool, verbose: bool) -> list:
+    """Function that cleans the input text by going to:
+    - remove numbers
+    - remove special characters
+    - remove stopwords
+    - convert to lowercase
+    - remove excessive white spaces
+    Arguments:
+        text (str): text to clean
+        remove_stopwords (bool): whether to remove stopwords
+    Returns:
+        str: cleaned text
+    """
+    # remove numbers and special characters
+    text = re.sub("[^A-Za-z]+", " ", text)
+
+    # 1. create tokens with help from nltk
+    tokens = nltk.word_tokenize(text)
+    if verbose:
+        print('Tokens', tokens)
+    # 2. lowercase and strip out any extra whitepaces with .strip()
+    tokens = [w.lower().strip() for w in tokens]
+    if verbose:
+        print('Lowercase', tokens)
+
+    # 3. convert tokens to lemmatized versions
+    wnl = WordNetLemmatizer()  # fast lemmatizer
+    tokens = [wnl.lemmatize(w) for w in tokens]
+    if verbose:
+        print('Lemmas', tokens)
+
+    # remove stopwords
+    if remove_stopwords:
+        # 2. check if it's a stopword
+        tokens = [w for w in tokens if
+                  not w.lower() in stopwords.words("english")]
+        if verbose:
+            print('StopRemoved', tokens)
+
+    # return a list of cleaned tokens
+    return tokens
+
 
 def var_explained_plot(model):
     """

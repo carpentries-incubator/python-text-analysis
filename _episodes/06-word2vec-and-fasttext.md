@@ -1,5 +1,5 @@
 ---
-title: "Word2Vec and FastText"
+title: "Word Embeddings with Word2Vec"
 teaching: 20
 exercises: 20
 questions:
