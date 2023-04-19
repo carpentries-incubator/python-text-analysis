@@ -158,6 +158,4 @@ Text prediction attempts to predict future text inputs from a user based on prev
 
 We've looked at a general process or 'interpretive loop' for NLP. We've also seen a variety of different tasks you can accomplish with NLP. We used Python to generate text based on one of the models available through HuggingFace. Hopefully this gives some ideas about how you might use NLP in your area of research.
 
-In the lessons that follow, we will be working on better understanding what is happening in these models.
-
-Our next lesson will discuss some of the steps of preprocessing in greater detail.
+In the lessons that follow, we will be working on better understanding what is happening in these models. Before we can use a model though, we need to make sure we have data to build our model on. Our next lesson will be looking at one tool to build a dataset called APIs.
