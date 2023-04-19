@@ -9,12 +9,9 @@ objectives:
 - "Use a pretrained chatbot in python"
 - "Discuss our workflow for performing NLP tasks"
 keypoints:
-- "Text is the main input of NLP."
-- "Models are used to transform text into output, which will vary based on task."
-- "Topic Modelling has topics as the output."
-- "Named Entity recognition has word labels as the output."
-- "Search has relevant documents as the output."
-- "Document summarization has a summary as the output."
+- "NLP is comprised of models that perform different tasks."
+- "Our workflow for an NLP project consists of designing, preprocessing, representation, running, creating output, and interpreting that output."
+- "NLP tasks can be adapted to suit different research interests."
 ---
 # Introduction
 
