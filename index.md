@@ -11,7 +11,7 @@ Welcome to the Text Analysis workshop for Python! Below is the list of lessons i
 
 > ## Prerequisites
 >
-> You don't need any experience with python or other programming languages to take this workshop.
+> Python experience is required for this workshop.
 {: .prereq}
 
 {% include links.md %}
