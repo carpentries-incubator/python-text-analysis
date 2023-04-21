@@ -14,117 +14,54 @@ keypoints:
 - "Learn about casing"
 ---
 
-### OCR and Speech Transcription
-We open with the assumption that all of your test documents are in text format- that is, in a file format that can be copied and pasted into a notepad file. 
-Not all data is of this type, for example, there may be documents that are stored as image files or sound files. Or perhaps your documents are in PDF or DOC files.
-Fortunately, there exist tools to convert file types like these into text. While these tools are beyond the scope of our lesson, they are still worth mentioning. 
-Optical Character Recognition, or OCR, is a field of study that converts images to text. Tools such as Tesseract, Amazon Textract, or Google's Document AI can perform OCR tasks. 
-Speech transcription will take audio files and convert them to text as well. Google's Speech-to-Text and Amazon Transcribe are two cloud solutions for speech transcription.
-
-##Loading text files
-To start, we'll say you have a corpus of text files we want to analyze. Let's create a method to list the files we want to analyze. 
-To make this method more flexible, we will also use glob to allow us to put in regular expressions so we can filter the files if so desired.
-~~~
-import glob
-import os
-from pathlib import Path
-def create_file_list(directory, filter_str='*'):
-    #find files matching certain pattern. if no pattern, use star.
-    files = Path(directory).glob(filter_str)
-	#create an array of file paths as strings.
-    files_to_analyze = []
-    for f in files:
-        files_to_analyze.append(str(f))
-    return files_to_analyze
-
-corpus_dir = 'C:\\Users\\Desktop\\documents\\'
-corpus_file_list = create_file_list(corpus_dir)
-print(corpus_file_list)
-~~~
-{: .language-python}
-~~~
-['C:\\Users\\Desktop\\documents\\austen-emma.txt', 'C:\\Users\\Desktop\\documents\\austen-persuasion.txt', 'C:\\Users\\Desktop\\documents\\austen-sense.txt', 'C:\\Users\\Desktop\\documents\\bible-kjv.txt', 'C:\\Users\\Desktop\\documents\\blake-poems.txt', 'C:\\Users\\Desktop\\documents\\bryant-stories.txt', 'C:\\Users\\Desktop\\documents\\burgess-busterbrown.txt', 'C:\\Users\\Desktop\\documents\\carroll-alice.txt', 'C:\\Users\\Desktop\\documents\\chesterton-ball.txt', 'C:\\Users\\Desktop\\documents\\chesterton-brown.txt', 'C:\\Users\\Desktop\\documents\\chesterton-thursday.txt', 'C:\\Users\\Desktop\\documents\\edgeworth-parents.txt', 'C:\\Users\\Desktop\\documents\\melville-moby_dick.txt', 'C:\\Users\\Desktop\\documents\\milton-paradise.txt', 'C:\\Users\\Desktop\\documents\\shakespeare-caesar.txt', 'C:\\Users\\Desktop\\documents\\shakespeare-hamlet.txt', 'C:\\Users\\Desktop\\documents\\shakespeare-macbeth.txt', 'C:\\Users\\Desktop\\documents\\whitman-leaves.txt']
-~~~
-{: .output}
-
-We will use the full corpus, but it might be useful to filter if we have multiple file types in our directory. 
-We can filter our list using a regular expression as well. If I want just documents written by Austen, I can filter on part of the file path name.
-~~~
-austen_list = create_file_list(corpus_dir, '*austen*')
-print(austen_list)
-~~~
-{: .language-python}
-~~~
-['C:\\Users\\Desktop\\documents\\austen-emma.txt', 'C:\\Users\\Desktop\\documents\\austen-persuasion.txt', 'C:\\Users\\Desktop\\documents\\austen-sense.txt']
-~~~
-{: .output}
-
-Let's take a closer look at one of the documents in our corpus by pulling out a sentence. We are looking at the first full sentence, which begins with character 50 and ends at character 290.
-
-~~~
-preview_len = 290
-print(corpus_file_list[0])
-sentence = ""
-with open(corpus_file_list[0], 'r') as f:
-	sentence = f.read(preview_len)[50:preview_len]
-print sentence
-~~~
-{: .language-python}
-
-~~~
-C:\\Users\\Desktop\\documents\\austen-emma.txt
-
-Emma Woodhouse, handsome, clever, and rich, with a comfortable home
-and happy disposition, seemed to unite some of the best blessings
-of existence; and had lived nearly twenty-one years in the world
-with very little to distress or vex her.
-~~~
-{: .output}
-
 ## Preprocessing
-To prepare our text for use in an NLP model, we want to break the text up into discrete units that we can put into vector space.
-Spacy is a python library for Natural Language Processing capable of doing a variety of tasks. 
-We will be using spacy's preprocessor for our lessons, but there are other packages in Python such as NLTK, pytorch, and gensim which also implement text analysis tools. 
-We'll be customizing the tokenizer later, so we will define a special class for it, and add extra things to our class as we progress through the lesson. We'll also have a copy of our spacy tokenizer.
-~~~
-import spacy 
-import en_core_web_sm
 
-spacyt = en_core_web_sm.load()
+Currently, our data is still in a format that is best for humans to read. Humans, without having to think too consciously about it, understand how words and sentences group up and divide into discrete units of meaning. We also understand that the words *run*, *ran*, and *running* are just different grammatical forms of the same underlying concept. Finally, not only do we understand how punctuation affects the meaning of a text, we also can make sense of texts that have odd amounts or odd placements of punctuation.
 
-class Our_Tokenizer:
-    def __init__(self):
-        #import spacy tokenizer/language model
-        self.nlp = en_core_web_sm.load()
-        self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-	def tokenize(self, document):
-		tokens = self.nlp(document)
-		return tokens
-~~~
-{: .language-python}
+For example, Darcie Wilder's [*literally show me a healthy person*](https://www.mtv.com/news/1vw892/read-an-excerpt-of-darcie-wilders-literally-show-me-a-healthy-person) has very little capitalization or punctuation:
 
-This will load spacy and the preprocessing model for English. Different languages may have different 
-rulesets, and therefore require different preprocessing parsers. 
-Running the document we created through the NLP model we loaded performs a variety of tasks for us.
-Let's look at these in greater detail.
+> in the unauthorized biography of britney spears she says her advice is to lift 1 lb weights and always sing in elevators every time i left to skateboard in the schoolyard i would sing in the elevator i would sing britney spears really loud and once the door opened and there were so many people they heard everything so i never sang again
+
+Across the texts in our corpus, our authors write with different styles, preferring different dictions, punctuation, and so on.
+
+To prepare our data to be more uniformly understood by our algorithms later, we need to (a) break it into smaller units, (b) replace words with their roots, and (c) remove unwanted common or unhelpful words and punctuation.
 
 ### Tokenization
-Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. 
-Humans automatically understand words and sentences as discrete units of meaning. 
-However, for computers, we have to break up documents containing larger chunks of text into these discrete units of meaning. These are called tokens.
-A string of characters needs to be understood by a program as words, or even terms made up of more than one word. 
-Tokens can be punctuation, parts of words, full individual words, or multiple words. We will be using a tokenizer that breaks documents into single words.
-Now let's load our test sentence into our tokenizer.
 
-~~~
+Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as smaller units so that it can be embedded. These are called **tokens**.  
+
+While our tokens will be words, this will not always be the case. Different models may have different ways of tokenizing strings. The strings may be broken down into multiple word tokens, single word tokens, or even components of words like letters or morphology. Punctuation may or may not be included.
+
+We will be using a tokenizer that breaks documents into single words for this lesson.
+
+Let's load our tokenizer and test it with the first sentence of Emma:
+
+```python
+import spacy
+import en_core_web_sm
+spacyt = spacy.load("en_core_web_sm")
+```
+
+```python
+class Our_Tokenizer:
+  def __init__(self):
+    #import spacy tokenizer/language model
+    self.nlp = en_core_web_sm.load()
+    self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
+  def tokenize(self, document):
+    tokens = self.nlp(document)
+    return tokens
+```
+
+This will load spacy and its preprocessing pipeline for English. **Pipelines** are a series of interrelated tasks, where the output of one task is used as an input for another. Different languages may have different rulesets, and therefore require different preprocessing pipelines. Running the document we created through the NLP model we loaded performs a variety of tasks for us. Let's look at these in greater detail.
+
+```python
 tokens = spacyt(sentence)
 for t in tokens:
-	print(token.text)
+ print(t.text)
+```
 
-~~~
-{: .language-python}
-
-~~~
+```text
 Emma
 Woodhouse
 ,
@@ -180,46 +117,63 @@ or
 vex
 her
 .
-~~~
-{: .output}
+```
 
-The single sentence has been broken down into a set of tokens. Tokens in spacy are python objects with a variety of attributes.
-The documentation for these attributes can be found at https://spacy.io/api/token
+The single sentence has been broken down into a set of tokens. Tokens in spacy aren't just strings: They're python objects with a variety of attributes. Full documentation for these attributes can be found at: <https://spacy.io/api/token>
 
-### Lemmas (Stemming and Lemmatization)
-Think about similar words, such as running, ran, and runs.
-All of these words have a similar root, but a computer does not know this. Without preprocessing, these words would be considered dissimilar.
-Stemming and Lemmatization are used to group together words that are similar or forms of the same word. 
-**Stemming** is removing the conjugation and pluralized endings for words. For example; words like “digitization”, and “digitizing” might chopped down to "digitiz." 
-**Lemmatization** is the more sophisticated of the two, and looks for the linguistic base of a word. 
-Lemmatization can group words that mean the same thing but may not be grouped through simple “stemming,” such as [bring, brought…]
+### Stems and Lemmas
 
-Similarly, capital letters are considered different from non-capital letters, meaning that capitalized versions of words are considered different from non-capitalized versions. 
-Converting all words to lower case ensures that capitalized and non-capitalized versions of words are considered the same.
+Think about similar words, such as *running*, *ran*, and *runs*. All of these words have a similar root, but a computer does not know this. Without preprocessing, each of these words would be a new token.
 
-Spacy also created a lemmatized version of our document. Let's try accessing this by typing the following:
-~~~
-for token in tokens:
-	print(token.lemma)
-~~~
-{: .language-python}
+Stemming and Lemmatization are used to group together words that are similar or forms of the same word.
 
-~~~
-4398759943034541363
+Stemming is removing the conjugation and pluralized endings for words. For example, words like *digitization*, and *digitizing* might chopped down to *digitiz*.
+
+Lemmatization is the more sophisticated of the two, and looks for the linguistic base of a word. Lemmatization can group words that mean the same thing but may not be grouped through simple stemming, such as irregular verbs like *bring* and *brought*.
+
+Similarly, in naive tokenization, capital letters are considered different from non-capital letters, meaning that capitalized versions of words are considered different from non-capitalized versions. Converting all words to lower case ensures that capitalized and non-capitalized versions of words are considered the same.
+
+These steps are taken to reduce the complexities of our NLP models and to allow us to train them from less data.
+
+When we tokenized the first sentence of Emma above, Spacy also created a lemmatized version of itt. Let's try accessing this by typing the following:
+
+```python
+for t in tokens:
+  print(t.lemma)
+```
+
+```txt
 14931068470291635495
-16764210730586636600
-13439688181152664240
-1939021399366709707
-205562458315866255
-3806482680584466996
-908432558851201422
-12288588264913869032
-4690420944186131903
-908432558851201422
-17145585959182355159
-
-...
-
+17859265536816163747
+2593208677638477497
+7792995567492812500
+2593208677638477497
+5763234570816168059
+2593208677638477497
+2283656566040971221
+10580761479554314246
+2593208677638477497
+12510949447758279278
+11901859001352538922
+2973437733319511985
+12006852138382633966
+962983613142996970
+2283656566040971221
+244022080605231780
+3083117615156646091
+2593208677638477497
+15203660437495798636
+3791531372978436496
+1872149278863210280
+7000492816108906599
+886050111519832510
+7425985699627899538
+5711639017775284443
+451024245859800093
+962983613142996970
+886050111519832510
+4708766880135230039
+631425121691394544
 2283656566040971221
 14692702688101715474
 13874798850131827181
@@ -242,19 +196,16 @@ for token in tokens:
 6740321247510922449
 12646065887601541794
 962983613142996970
-~~~
-{: .output}
+```
 
-Spacy stores words by an ID number, and not as a full string, to save space in memory. Many spacy functions will return numbers and not words as you might expect. 
-Fortunately, adding an underscore for spacy will return text representations instead. We will also add in the lower case function so that all words are lower case.
+Spacy stores words by an ID number, and not as a full string, to save space in memory. Many spacy functions will return numbers and not words as you might expect. Fortunately, adding an underscore for spacy will return text representations instead. We will also add in the lower case function so that all words are lower case.
 
-~~~
+```python
 for token in tokens:
-	print(str.lower(token.lemma_))
-~~~
-{: .language-python}
+ print(str.lower(token.lemma_))
+```
 
-~~~
+```txt
 emma
 woodhouse
 ,
@@ -310,69 +261,75 @@ or
 vex
 she
 .
+```
 
-~~~
-{: .output}
+Notice how words like *best* and *her* have been changed to their root words like *good* and *she*. Let's change our tokenizer to save the lower cased, lemmatized versions of words instead of the original words.
 
-Notice how words like "best" and "her" have been changed to their root words such as "good" and "she". 
-Let's change our tokenizer to save the lower cased, lemmatized versions of words instead of the original words.
-~~~
+```python
 class Our_Tokenizer:
-    def __init__(self):
-        #import spacy tokenizer/language model
-        self.nlp = en_core_web_sm.load()
-        self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-	def tokenize(self, document):
-		tokens = self.nlp(document)
-		tokens = str.lower(token.lemma_) for token in tokens
-		return tokens
-~~~
-{: .language-python}
+  def __init__(self):
+    # import spacy tokenizer/language model
+    self.nlp = en_core_web_sm.load()
+    self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
+  def tokenize(self, document):
+    tokens = self.nlp(document)
+    simplified_tokens = [str.lower(token.lemma_) for token in tokens]
+    return simplified_tokens
+```
 
 ### Stop-Words and Punctuation
-Stop-words are common words that are often filtered out for more efficient natural language data processing. 
-Words such as “the,” “an,” “a,” “of,” “and/or,” “many” don't necessarily tell us a lot about a document's content and are often removed in simpler models. 
-Stop lists (groups of stop words) are curated by sorting terms by their collection frequency, or the total number of times that they appear in a document or corpus. 
-Punctuation also is something we are not interested in, since we have a "bag of words" assumption which does not care about the position of words or punctuation.
-Many open-source software packages for language processing, such as Spacy, include stop lists. Let's look at Spacy's stopword list.
 
-~~~
-stopwords = spacyt.Defaults.stop_words
-print(stopwords)
-~~~
-{: .language-python}
+Stop-words are common words that are often filtered out for more efficient natural language data processing. Words such as *the* and *and* don't necessarily tell us a lot about a document's content and are often removed in simpler models. Stop lists (groups of stop words) are curated by sorting terms by their collection frequency, or the total number of times that they appear in a document or corpus. Punctuation also is something we are not interested in, at least not until we get to more complex models. Many open-source software packages for language processing, such as Spacy, include stop lists. Let's look at Spacy's stopword list.
 
-~~~
-{'side', 'such', 'herself', 'many', 'latterly', 'front', 'down', 'might', 'being', 'sometime', 'hers', 'say', '‘ve', 'why', 'give', 'call', 'put', 'towards', 'how', 'is', 'seem', 'between', 'any', 'next', 'whereafter', 'anyhow', "'d", 'off', 'three', 'somehow', 'one', 'me', 'last', 'over', 'please', 'most', 'thereby', 'their', 'been', 'up', 'quite', 'still', 'would', 'his', 'your', 'show', 'serious', 'thru', 'although', 'namely', 'have', 'could', 'into', 'whereupon', 'always', 'was', 'forty', 'on', 'due', 'wherein', 'see', 'bottom', 'thence', 'beside', 'almost', 'neither', 'there', 'anything', 'whereas', 'eleven', 'the', 'under', '’ll', 'everything', 'others', 'thereupon', 'did', 'while', 'that', 'too', 'becomes', 'and', 'n’t', 'eight', 'unless', 'when', 'yourselves', 'third', 'all', 'a', 'as', "n't", "'re", 'keep', 'around', 'anywhere', 'if', 'our', 'name', 'to', 'per', 'her', 'here', 'whence', 'using', 'were', 'former', 'much', 'toward', 'upon', 'must', 'during', 'hereby', 'something', 'each', 'she', 'own', 'anyway', 'get', 'several', 'afterwards', 'hence', 'hereafter', 'every', 'just', '’re', 'himself', 'ca', 'same', 'thus', 'take', 'twenty', 'these', 'either', 'everyone', '‘m', 'become', 'should', 'whether', 'whatever', 'various', 'someone', 'him', "'s", 'hundred', 'do', 'moreover', 'amongst', 'none', 'can', 'five', 'themselves', 'twelve', 'else', 'never', 'becoming', 'however', 'more', 'nobody', '’m', 'yourself', 'whither', 'they', 'fifty', 'has', 'well', 'seeming', 'first', 'n‘t', 'therefore', 'which', 'go', 'yet', 'enough', 'since', 'where', 'its', "'ve", 'behind', 'wherever', 'fifteen', 'beyond', 'two', 'further', 'part', 'so', 'though', 'be', 'whole', 'anyone', 'or', 'only', 'in', 'mostly', 'against', 'whereby', 'once', 'perhaps', 'by', 'yours', 'out', 'i', 'latter', '‘s', 'we', 'thereafter', 'used', 'who', '‘ll', 'until', 'now', 'rather', 'move', 'already', 'otherwise', 'at', 'made', 'my', 'across', 'some', '‘re', '’d', 'whoever', 'sixty', 'nine', 'it', 'because', 'with', 'very', 'another', 'doing', 'really', 'nevertheless', 'then', 'regarding', 'before', 'this', 'seems', 'whose', 'therein', 'without', 'alone', 'done', 'became', 'an', 'again', 'sometimes', 'above', 'herein', "'m", 'ten', 'cannot', 'ever', 'elsewhere', 'back', 'indeed', 'may', 'meanwhile', 'onto', 'least', 'together', 'us', 'beforehand', 'throughout', 'even', '‘d', 'below', 'had', 'are', 'through', 'will', 'of', 'everywhere', 'along', 'myself', 'six', 'after', 'whom', 'but', 'for', 'make', 'am', 'except', 'often', 'hereupon', 'full', 'about', 'ourselves', 'those', 'what', 'also', 'besides', 'top', 'few', 'mine', 'four', 'less', '’ve', 'them', 'among', 'ours', 'both', 're', 'nor', 'itself', "'ll", 'from', 'nothing', 'formerly', 'he', 'whenever', 'you', 'nowhere', 'empty', 'amount', 'does', 'noone', 'seemed', 'no', 'than', 'via', '’s', 'somewhere', 'within', 'other', 'not'}
-~~~
-{: .output}
+```python
+from spacy.lang.en.stop_words import STOP_WORDS
+print(STOP_WORDS)
+```
 
-It's possible to add and remove words as well.
+```txt
+{''s', 'must', 'again', 'had', 'much', 'a', 'becomes', 'mostly', 'once', 'should', 'anyway', 'call', 'front', 'whence', ''ll', 'whereas', 'therein', 'himself', 'within', 'ourselves', 'than', 'they', 'toward', 'latterly', 'may', 'what', 'her', 'nowhere', 'so', 'whenever', 'herself', 'other', 'get', 'become', 'namely', 'done', 'could', 'although', 'which', 'fifteen', 'seems', 'hereafter', 'whereafter', 'two', "'ve", 'to', 'his', 'one', ''d', 'forty', 'being', 'i', 'four', 'whoever', 'somehow', 'indeed', 'that', 'afterwards', 'us', 'she', "'d", 'herein', ''ll', 'keep', 'latter', 'onto', 'just', 'too', "'m", ''re', 'you', 'no', 'thereby', 'various', 'enough', 'go', 'myself', 'first', 'seemed', 'up', 'until', 'yourselves', 'while', 'ours', 'can', 'am', 'throughout', 'hereupon', 'whereupon', 'somewhere', 'fifty', 'those', 'quite', 'together', 'wherein', 'because', 'itself', 'hundred', 'neither', 'give', 'alone', 'them', 'nor', 'as', 'hers', 'into', 'is', 'several', 'thus', 'whom', 'why', 'over', 'thence', 'doing', 'own', 'amongst', 'thereupon', 'otherwise', 'sometime', 'for', 'full', 'anyhow', 'nine', 'even', 'never', 'your', 'who', 'others', 'whole', 'hereby', 'ever', 'or', 'and', 'side', 'though', 'except', 'him', 'now', 'mine', 'none', 'sixty', "n't", 'nobody', ''m', 'well', "'s", 'then', 'part', 'someone', 'me', 'six', 'less', 'however', 'make', 'upon', ''s', ''re', 'back', 'did', 'during', 'when', ''d', 'perhaps', "'re", 'we', 'hence', 'any', 'our', 'cannot', 'moreover', 'along', 'whither', 'by', 'such', 'via', 'against', 'the', 'most', 'but', 'often', 'where', 'each', 'further', 'whereby', 'ca', 'here', 'he', 'regarding', 'every', 'always', 'are', 'anywhere', 'wherever', 'using', 'there', 'anyone', 'been', 'would', 'with', 'name', 'some', 'might', 'yours', 'becoming', 'seeming', 'former', 'only', 'it', 'became', 'since', 'also', 'beside', 'their', 'else', 'around', 're', 'five', 'an', 'anything', 'please', 'elsewhere', 'themselves', 'everyone', 'next', 'will', 'yourself', 'twelve', 'few', 'behind', 'nothing', 'seem', 'bottom', 'both', 'say', 'out', 'take', 'all', 'used', 'therefore', 'below', 'almost', 'towards', 'many', 'sometimes', 'put', 'were', 'ten', 'of', 'last', 'its', 'under', 'nevertheless', 'whatever', 'something', 'off', 'does', 'top', 'meanwhile', 'how', 'already', 'per', 'beyond', 'everything', 'not', 'thereafter', 'eleven', 'n't', 'above', 'eight', 'before', 'noone', 'besides', 'twenty', 'do', 'everywhere', 'due', 'empty', 'least', 'between', 'down', 'either', 'across', 'see', 'three', 'on', 'formerly', 'be', 'very', 'rather', 'made', 'has', 'this', 'move', 'beforehand', 'if', 'my', 'n't', "'ll", 'third', 'without', ''m', 'yet', 'after', 'still', 'same', 'show', 'in', 'more', 'unless', 'from', 'really', 'whether', ''ve', 'serious', 'these', 'was', 'amount', 'whose', 'have', 'through', 'thru', ''ve', 'about', 'among', 'another', 'at'}
+```
 
-~~~
-spacyt.Defaults.stop_words.add("zebra")
-spacyt.Defaults.stop_words.remove("side")
-print(stopwords)
-~~~
-{: .language-python}
+It's possible to add and remove words as well, for example, *zebra*:
 
-~~~
-{'such', 'herself', 'many', 'latterly', 'front', 'down', 'might', 'being', 'sometime', 'hers', 'say', '‘ve', 'why', 'give', 'call', 'put', 'towards', 'how', 'is', 'seem', 'between', 'any', 'next', 'whereafter', 'anyhow', "'d", 'off', 'three', 'somehow', 'one', 'me', 'last', 'over', 'please', 'most', 'thereby', 'their', 'been', 'up', 'quite', 'still', 'would', 'his', 'your', 'show', 'serious', 'thru', 'although', 'namely', 'have', 'could', 'into', 'whereupon', 'always', 'was', 'forty', 'on', 'due', 'wherein', 'see', 'bottom', 'thence', 'beside', 'almost', 'neither', 'there', 'anything', 'whereas', 'eleven', 'the', 'under', '’ll', 'everything', 'others', 'thereupon', 'did', 'while', 'that', 'too', 'becomes', 'and', 'n’t', 'eight', 'unless', 'when', 'yourselves', 'third', 'all', 'a', 'as', "n't", "'re", 'keep', 'around', 'anywhere', 'if', 'our', 'name', 'to', 'per', 'her', 'here', 'whence', 'using', 'were', 'former', 'much', 'toward', 'upon', 'must', 'during', 'hereby', 'something', 'each', 'she', 'own', 'anyway', 'get', 'several', 'afterwards', 'hence', 'hereafter', 'every', 'just', '’re', 'himself', 'ca', 'same', 'thus', 'take', 'twenty', 'these', 'either', 'everyone', '‘m', 'become', 'should', 'whether', 'whatever', 'various', 'someone', 'him', "'s", 'hundred', 'do', 'moreover', 'amongst', 'none', 'can', 'five', 'themselves', 'twelve', 'else', 'never', 'becoming', 'however', 'more', 'nobody', '’m', 'yourself', 'whither', 'they', 'fifty', 'has', 'well', 'seeming', 'first', 'n‘t', 'therefore', 'which', 'go', 'yet', 'enough', 'since', 'where', 'its', "'ve", 'behind', 'wherever', 'fifteen', 'beyond', 'two', 'further', 'part', 'so', 'though', 'be', 'whole', 'anyone', 'or', 'only', 'in', 'mostly', 'against', 'whereby', 'once', 'perhaps', 'by', 'zebra', 'yours', 'out', 'i', 'latter', '‘s', 'we', 'thereafter', 'used', 'who', '‘ll', 'until', 'now', 'rather', 'move', 'already', 'otherwise', 'at', 'made', 'my', 'across', 'some', '‘re', '’d', 'whoever', 'sixty', 'nine', 'it', 'because', 'with', 'very', 'another', 'doing', 'really', 'nevertheless', 'then', 'regarding', 'before', 'this', 'seems', 'whose', 'therein', 'without', 'alone', 'done', 'became', 'an', 'again', 'sometimes', 'above', 'herein', "'m", 'ten', 'cannot', 'ever', 'elsewhere', 'back', 'indeed', 'may', 'meanwhile', 'onto', 'least', 'together', 'us', 'beforehand', 'throughout', 'even', '‘d', 'below', 'had', 'are', 'through', 'will', 'of', 'everywhere', 'along', 'myself', 'six', 'after', 'whom', 'but', 'for', 'make', 'am', 'except', 'often', 'hereupon', 'full', 'about', 'ourselves', 'those', 'what', 'also', 'besides', 'top', 'few', 'mine', 'four', 'less', '’ve', 'them', 'among', 'ours', 'both', 're', 'nor', 'itself', "'ll", 'from', 'nothing', 'formerly', 'he', 'whenever', 'you', 'nowhere', 'empty', 'amount', 'does', 'noone', 'seemed', 'no', 'than', 'via', '’s', 'somewhere', 'within', 'other', 'not'}
-~~~
-{: .output}
+```python
+# remember, we need to tokenize things in order for our model to analyze them.
+z = spacyt("zebra")[0]
+print(z.is_stop) # False
 
-This will only adjust the stopwords for the current session, but it is possible to save them if desired. More information about how to do this can be found in the Spacy documentation.
-You might use this stopword list to filter words from documents using spacy, or just by manually iterating through it like a list. 
+# add zebra to our stopword list
+STOP_WORDS.add("zebra")
+spacyt = spacy.load("en_core_web_sm")
+z = spacyt("zebra")[0]
+print(z.is_stop) # True
 
-Let's see what our example looks like without stopwords and punctuation. 
-~~~
+# remove zebra from our list.
+STOP_WORDS.remove("zebra")
+spacyt = spacy.load("en_core_web_sm")
+z = spacyt("zebra")[0]
+print(z.is_stop) # False
+```
+
+Let's add "Emma" to our list of stopwords, since knowing that the name "Emma" is often in Jane Austin does not tell us anything interesting.
+
+This will only adjust the stopwords for the current session, but it is possible to save them if desired. More information about how to do this can be found in the Spacy documentation. You might use this stopword list to filter words from documents using spacy, or just by manually iterating through it like a list.
+
+Let's see what our example looks like without stopwords and punctuation:
+
+```python
+# add emma to our stopword list
+STOP_WORDS.add("emma")
+spacyt = spacy.load("en_core_web_sm")
+
+# retokenize our sentence
+tokens = spacyt(sentence)
+
 for token in tokens:
-    if token.is_stop == False and token.is_punct == False:
-	       print(str.lower(token.lemma_))
-~~~
-{: .language-python}
-~~~
-emma
+  if not token.is_stop and not token.is_punct:
+    print(str.lower(token.lemma_))
+```
+
+```txt
 woodhouse
 handsome
 clever
@@ -398,39 +355,42 @@ world
 little
 distress
 vex
-~~~
-{: .output}
+```
 
-Let's filter out stopwords and punctuation from our custom tokenizer now as well.
+Notice that because we added *emma* to our stopwords, she is not in our preprocessed sentence any more.
 
-~~~
+Let's filter out stopwords and punctuation from our custom tokenizer now as well:
+
+```python
 class Our_Tokenizer:
-    def __init__(self):
-        #import spacy tokenizer/language model
-        self.nlp = en_core_web_sm.load()
-        self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-	def tokenize(self, document):
-		tokens = self.nlp(document)
-		tokens = str.lower(token.lemma_) for token in tokens if (
-			token.is_stop == False and
-			token.is_punct == False)
-		return tokens
-~~~
+  def __init__(self):
+    # import spacy tokenizer/language model
+    self.nlp = en_core_web_sm.load()
+    self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
+  def tokenize(self, document):
+    tokens = self.nlp(document)
+    simplified_tokens = [
+      str.lower(token.lemma_)
+      for token in tokens
+      if not token.is_stop and not token.is_punct
+    ]
 
-### POS Tagging
-Parts of speech (POS) are things such as nouns, verbs and adjectives. 
-Technically, POS tagging is also a NLP task, as most documents do not come with POS tags already done.
-POS tags often prove useful, so some tokenizers also have built in POS tagging done. Spacy is one such library.
-Spacy's POS tags can be used by accessing the pos_ method for each token.
-~~~
+    return simplified_tokens
+```
+
+### Parts of Speech
+
+While we can manually add Emma to our stopword list, it may occur to you that novels are filled with characters with unique and unpredictable names. We've already missed the word "Woodhouse" from our list. Creating an enumerated list of all of the possible character names seems impossible.
+
+One way we might address this problem is by using **Parts of speech (POS)** tagging. POS are things such as nouns, verbs, and adjectives. POS tags often prove useful, so some tokenizers also have built in POS tagging done. Spacy is one such library. These tags are not 100% accurate, but they are a great place to start. Spacy's POS tags can be used by accessing the ```pos_``` method for each token.
+
+```python
 for token in tokens:
-    if token.is_stop == False and token.is_punct == False:
-	       print(str.lower(token.lemma_)+" "+token.pos_)
-~~~
-{: .language-python}
+  if token.is_stop == False and token.is_punct == False:
+    print(str.lower(token.lemma_)+" "+token.pos_)
+```
 
-~~~
-emma PROPN
+```txt
 woodhouse PROPN
 handsome ADJ
 clever ADJ
@@ -438,121 +398,511 @@ rich ADJ
 comfortable ADJ
 home NOUN
 
- SPACE
+  SPACE
 happy ADJ
 disposition NOUN
 unite VERB
 good ADJ
 blessing NOUN
 
- SPACE
+  SPACE
 existence NOUN
 live VERB
 nearly ADV
 year NOUN
 world NOUN
 
- SPACE
+  SPACE
 little ADJ
-distress NOUN
+distress VERB
 vex VERB
 
- SPACE
-~~~
-{: .output}
+  SPACE
+```
 
-Because our dataset is relatively small, we may find that character names and places weigh very heavily in our early models. 
-We also have a number of blank or white space tokens, which we will also want to remove.
-We will finish our special tokenizer by removing punctuation and proper nouns from our documents.
-~~~
+Because our dataset is relatively small, we may find that character names and places weigh very heavily in our early models. We also have a number of blank or white space tokens, which we will also want to remove.
+
+We will finish our special tokenizer by removing punctuation and proper nouns from our documents:
+
+```python
 class Our_Tokenizer:
-    def __init__(self):
-        #import spacy tokenizer/language model
-        self.nlp = en_core_web_sm.load()
-        self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
+  def __init__(self):
+    # import spacy tokenizer/language model
+    self.nlp = en_core_web_sm.load()
+    self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
+  def tokenize(self, document):
+    tokens = self.nlp(document)
+    simplified_tokens = [
+      str.lower(token.lemma_)
+      for token in tokens
+      if not token.is_stop
+      and not token.is_punct
+      and token.pos_ != "PROPN"
+    ]
 
-	def tokenize(self, document):
-		tokens = self.nlp(document)
-		tokens = str.lower(token.lemma_) for token in tokens if (
-			token.is_stop == False and
-			token.is_punct == False)
-		return tokens
-	def tokenize(self, document):
-		tokens = self.nlp(document)
-        tokens = [token.lemma_ for token in tokens if (
-            token.is_stop == False and # filter out stop words
-            token.is_punct == False and # filter out punct
-            token.is_space == False and #filter newlines
-            token.pos_ != 'PROPN')] #remove all proper nouns such as names
-		return tokens
-~~~
-{: .language-python}
+    return simplified_tokens
+```
 
+Alternative, instead of "blacklisting" all of the parts of speech we don't want to include, we can "whitelist" just the few that we want, based on what they information they might contribute to the meaning of a text:
 
+```python
+class Our_Tokenizer:
+  def __init__(self):
+    # import spacy tokenizer/language model
+    self.nlp = en_core_web_sm.load()
+    self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
+  def tokenize(self, document):
+    tokens = self.nlp(document)
+    simplified_tokens = [
+      str.lower(token.lemma_)
+      for token in tokens
+      if not token.is_stop
+      and not token.is_punct
+      and token.pos_ in {"ADJ", "ADV", "INTJ", "NOUN", "VERB"}
+    ]
 
-Let's test our custom tokenizer on this selection of text to see how it works.
+    return simplified_tokens
+```
 
-~~~
-our_tok = Our_Tokenizer()
-tokenset1= our_tok.tokenize(sentence)
-print(tokenset1)
-~~~
-{: .language-python}
-~~~
+Either way, let's test our custom tokenizer on this selection of text to see how it works.
+
+```python
+tokenizer = Our_Tokenizer()
+tokens = tokenizer.tokenize(sentence)
+print(tokens)
+```
+
+```txt
 ['handsome', 'clever', 'rich', 'comfortable', 'home', 'happy', 'disposition', 'unite', 'good', 'blessing', 'existence', 'live', 'nearly', 'year', 'world', 'little', 'distress', 'vex']
-~~~
-{: .output}
+```
 
-Let's add two more sentences to our corpus, and then put this representation in vector space. We'll do this using scikit learn. We can specify a tokenizer with sci-kit learn, so we will use the tokenizer we just defined.
-Then, we will take a look at all the different terms in our dictionary, which contains a list of all the words that occur in our corpus.
-~~~
-corp = [sentence, "Happy holidays! Have a happy new year!", "What a handsome, happy, healthy little baby!"] 
+## Putting it All Together
 
-from sklearn.feature_extraction.text import CountVectorizer
-vectorizer = CountVectorizer(tokenizer= our_tok.tokenize)
-matrix = vectorizer.fit_transform(corp)
-vectorizer.get_feature_names_out()
-~~~
-{: .language-python}
-~~~
-array(['baby', 'blessing', 'clever', 'comfortable', 'disposition',
-       'distress', 'existence', 'good', 'handsome', 'happy', 'healthy',
-       'holiday', 'home', 'little', 'live', 'nearly', 'new', 'rich',
-       'unite', 'vex', 'world', 'year'], dtype=object)
-~~~
-{: .output}
+Now that we've built a tokenizer we're happy with, lets use it to create lemmatized versions of all the books in our corpus.
 
-Finally, lets take a look a the term-document matrix. Each document is a row, and each column is a dimension that represents a word. The values in each cell are simple word counts.
-~~~
-print(matrix.toarray())
-~~~
-{: .language-python}
-~~~
-[[0 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 0 1 1 1 1 1]
- [0 0 0 0 0 0 0 0 0 2 0 1 0 0 0 0 1 0 0 0 0 1]
- [1 0 0 0 0 0 0 0 1 1 1 0 0 1 0 0 0 0 0 0 0 0]]
-~~~
-{: .output}
+That is, we want to turn this:
 
-If desired, we could calculate cosine similarity between different documents as well. While we defined cosine similarity ourselves earlier, sci-kit learn also has a method for it that we can use instead.
+```txt
+Emma Woodhouse, handsome, clever, and rich, with a comfortable home
+and happy disposition, seemed to unite some of the best blessings
+of existence; and had lived nearly twenty-one years in the world
+with very little to distress or vex her.
+```
 
-~~~
-from sklearn.metrics.pairwise import cosine_similarity as cs
-cs(matrix[0], matrix[1])
-cs(matrix[0], matrix[2])
-~~~
-{: .language-python}
+into this:
 
-~~~
-array([[0.26726124]])
-array([[0.31622777]])
-~~~
-{: .output}
+```txt
+handsome
+clever
+rich
+comfortable
+home
+happy
+disposition
+seem
+unite
+good
+blessing
+existence
+live
+nearly
+year
+world
+very
+little
+distress
+vex
+```
 
+To help make this quick for all the text in all our books, we'll use a helper function we prepared for learners:
 
-According to this model, our third sentence is closer to our original sentence than the second one. We could conduct similar analysis over larger groups of text, such as all the documents in our corpus.
+```python
+from helpers import lemmatize_files
+lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
+```
 
-This lesson has covered a number of preprocessing steps. We created a list of our files in our corpus, which we can use in future lessons.
-We customized a tokenizer from Spacy, to better suit the needs of our corpus, which we can also use moving forward.
-Finally, we put our sample sentences in a term-document matrix for the first time and calculated cosine similarity scores between the two. 
-Next we will use a more complex model called TF-IDF.
+```txt
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt.lemmas']
+```
+
+This process may take several minutes to run. Doing this preprocessing now however will save us much, much time later.
+
+## Saving Our Progress
+
+Let's save our progress by storing a spreadsheet (```*.csv``` or ```*.xlsx``` file) that lists all our authors, books, and associated filenames, both the original and lemmatized copies.
+
+We'll use another helper we prepared to make this easy:
+
+```python
+pattern = "/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/{author}-{title}.txt"
+data = parse_into_dataframe(pattern, corpus_file_list, col_name="File")
+data["Lemma_File"] = lemma_file_list
+```
+
+<div id="df-ad561d05-40ed-4c1f-97be-3b2928b28a1d">
+  <div class="colab-df-container">
+    <div>
+      <style scoped>
+          .dataframe tbody tr th:only-of-type {
+              vertical-align: middle;
+          }
+
+          .dataframe tbody tr th {
+              vertical-align: top;
+          }
+
+          .dataframe thead th {
+              text-align: right;
+          }
+      </style>
+      <table border="1" class="dataframe">
+        <thead>
+          <tr style="text-align: right;">
+            <th></th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Item</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>0</th>
+            <td>austen</td>
+            <td>sense</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>21</th>
+            <td>austen</td>
+            <td>persuasion</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>12</th>
+            <td>austen</td>
+            <td>pride</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>22</th>
+            <td>austen</td>
+            <td>northanger</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>9</th>
+            <td>austen</td>
+            <td>emma</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>7</th>
+            <td>austen</td>
+            <td>ladysusan</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>10</th>
+            <td>chesterton</td>
+            <td>thursday</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>8</th>
+            <td>chesterton</td>
+            <td>ball</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>5</th>
+            <td>chesterton</td>
+            <td>brown</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>30</th>
+            <td>chesterton</td>
+            <td>knewtoomuch</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>39</th>
+            <td>chesterton</td>
+            <td>whitehorse</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>27</th>
+            <td>chesterton</td>
+            <td>napoleon</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>18</th>
+            <td>dickens</td>
+            <td>hardtimes</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>28</th>
+            <td>dickens</td>
+            <td>bleakhouse</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>38</th>
+            <td>dickens</td>
+            <td>davidcopperfield</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>40</th>
+            <td>dickens</td>
+            <td>taleoftwocities</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>17</th>
+            <td>dickens</td>
+            <td>christmascarol</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>20</th>
+            <td>dickens</td>
+            <td>greatexpectations</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>41</th>
+            <td>dickens</td>
+            <td>pickwickpapers</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>2</th>
+            <td>dickens</td>
+            <td>ourmutualfriend</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>13</th>
+            <td>dickens</td>
+            <td>olivertwist</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>37</th>
+            <td>dumas</td>
+            <td>threemusketeers</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>33</th>
+            <td>dumas</td>
+            <td>montecristo</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>32</th>
+            <td>dumas</td>
+            <td>twentyyearsafter</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>3</th>
+            <td>dumas</td>
+            <td>tenyearslater</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>29</th>
+            <td>dumas</td>
+            <td>maninironmask</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>14</th>
+            <td>dumas</td>
+            <td>blacktulip</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>34</th>
+            <td>litbank</td>
+            <td>conll</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>4</th>
+            <td>melville</td>
+            <td>moby_dick</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>24</th>
+            <td>melville</td>
+            <td>typee</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>23</th>
+            <td>melville</td>
+            <td>pierre</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>11</th>
+            <td>melville</td>
+            <td>piazzatales</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>19</th>
+            <td>melville</td>
+            <td>conman</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>1</th>
+            <td>melville</td>
+            <td>omoo</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>15</th>
+            <td>melville</td>
+            <td>bartleby</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>26</th>
+            <td>shakespeare</td>
+            <td>othello</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>6</th>
+            <td>shakespeare</td>
+            <td>midsummer</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>16</th>
+            <td>shakespeare</td>
+            <td>muchado</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>31</th>
+            <td>shakespeare</td>
+            <td>caesar</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>35</th>
+            <td>shakespeare</td>
+            <td>lear</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>36</th>
+            <td>shakespeare</td>
+            <td>romeo</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+          <tr>
+            <th>25</th>
+            <td>shakespeare</td>
+            <td>twelfthnight</td>
+            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-ad561d05-40ed-4c1f-97be-3b2928b28a1d')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+          width="24px">
+        <path d="M0 0h24v24H0V0z" fill="none"/>
+        <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+        </svg>
+      </button>
+      <style>
+        .colab-df-container {
+          display:flex;
+          flex-wrap:wrap;
+          gap: 12px;
+        }
+
+        .colab-df-convert {
+          background-color: #E8F0FE;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          display: none;
+          fill: #1967D2;
+          height: 32px;
+          padding: 0 0 0 0;
+          width: 32px;
+        }
+
+        .colab-df-convert:hover {
+          background-color: #E2EBFA;
+          box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+          fill: #174EA6;
+        }
+
+        [theme=dark] .colab-df-convert {
+          background-color: #3B4455;
+          fill: #D2E3FC;
+        }
+
+        [theme=dark] .colab-df-convert:hover {
+          background-color: #434B5C;
+          box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+          filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+          fill: #FFFFFF;
+        }
+      </style>
+      <script>
+        const buttonEl =
+          document.querySelector('#df-ad561d05-40ed-4c1f-97be-3b2928b28a1d button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-ad561d05-40ed-4c1f-97be-3b2928b28a1d');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                      [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div>
+
+Finally, we'll save this table to a file:
+
+```python
+data.to_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv", index=False)
+data.to_xlsx("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.xlsx", index=False)
+```
+
+#Outro and Conclusion
+
+This lesson has covered a number of preprocessing steps. We created a list of our files in our corpus, which we can use in future lessons. We customized a tokenizer from Spacy, to better suit the needs of our corpus, which we can also use moving forward.
+
+Next lesson, we will start talking about the concepts behind our model.
