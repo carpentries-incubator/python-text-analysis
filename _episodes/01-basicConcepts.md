@@ -3,7 +3,9 @@ title: "Introduction to Natural Language Processing"
 teaching: 15 minutes
 exercises: 20 minutes
 questions:
-- "What is Natural Language Processing? What does NLP do?"
+- "What is Natural Language Processing?"
+- "What tasks can be done by Natural Language Processing?"
+- "What does a workflow for an NLP project look?"
 objectives:
 - "Learn the tasks that NLP can do"
 - "Use a pretrained chatbot in python"
