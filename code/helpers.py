@@ -63,14 +63,15 @@ def lemmatize_files(tokenizer, corpus_file_list):
     N = len(corpus_file_list)
     lemma_filename_list = []
     for i, filename in enumerate(corpus_file_list):
-        logging.info(f"{i+1} out of {N}: Lemmatizing {filename}")
+        progress_log = f"{i+1} out of {N}: Lemmatizing {filename}"
+        print(progress_log)
+        logging.info(progress_log)
         lemma_filename = filename + ".lemmas"
         lemma_filename_list.append(lemma_filename)
         open(lemma_filename, "w", encoding="utf-8").writelines(
             token.lemma_.lower() + "\n"
-            for token in tokenizer.tokenize(open(filename, "r", encoding="utf-8").read())
+            for token in tokenizer(open(filename, "r", encoding="utf-8").read())
         )
-
     return lemma_filename_list
 
 

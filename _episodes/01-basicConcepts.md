@@ -3,7 +3,9 @@ title: "Introduction to Natural Language Processing"
 teaching: 15 minutes
 exercises: 20 minutes
 questions:
-- "What is Natural Language Processing? What does NLP do?"
+- "What is Natural Language Processing?"
+- "What tasks can be done by Natural Language Processing?"
+- "What does a workflow for an NLP project look?"
 objectives:
 - "Learn the tasks that NLP can do"
 - "Use a pretrained chatbot in python"
@@ -46,6 +48,8 @@ Throughout this course, we will talk about an "interpretive loop" between your h
 4. Running our model, allowing us to compute some output.
 4. Outputting the result of our algorithms in a human readable format.
 5. Interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on.
+
+Once done, you may have ideas about how to refine your initial approach, which allows you to iterate on projects if needed.
 
 ## NLP Tasks
 
