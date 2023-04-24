@@ -5,11 +5,8 @@ exercises: 20 minutes
 questions:
 - "How does the Word2Vec model produce meaningful word embeddings?"
 objectives:
-- "Understand the basic building blocks of an artificial neural network"
-- "Understand the differences in design between the Continuous bag-of-words (CBOW) and Skip-gram training methods
 keypoints:
-- "Artifical neural networks are powerful models that can approximate any function given sufficient training data"
-- "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application (i.e., a "data-driven" approach)"
+
 ---
 # Unpacking the Word2Vec Algorithm
 
