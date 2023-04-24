@@ -70,7 +70,7 @@ Transformers make use of something called "self-attention calculation," which mi
 
 It is not necessary to understand the exact details of the calculation for this lesson, but if you are interested on the mathematics of self-attention and the details of the calculation, the Illustrated Transformer is an excellent resource: <https://jalammar.github.io/illustrated-transformer/>
 
-![Attention-Heads.jpg](TODO)
+![Attention-Heads.jpg](../images/10-Attention-Heads.jpg)
 
 You can see in our BERT diagram that each embedding of the word is fed into a transformer called an 'encoder.' Each encoder in a layer runs a self attention calculation and forwards the results to each encoder in the next layer, which runs them on the outputs of the layer before it. Once the attention calculation has been run for each layer, a sophisticated embedding for each input token is output.
 
@@ -79,6 +79,21 @@ One additional detail about this process: it does not happen for just one set of
 Each attention head has its own set of weights called parameters that are trained and calculated independently. They are trained using the same type of cloze tasks to fill in masked words that we used to train Word2Vec. All of the outputs of the attention heads are combined together to make a large matrix of values that represents a very robust representation of the input, which we have labelled "T."
 
 Let's take a look at how attention works in an example. Imagine we have two sentences, "The chicken didn't cross the road because it was too tired," and, "The chicken didn't cross the road because it was too wide." These are very similar sentences, but changing one word changes the meaning of both sentences dramatically. For the first sentence, 'it was too tired' refers to the chicken. For the second sentence, 'it was too wide' refers to the road. Ideally our representations for the road or chicken will incorporate these attributes.
+
+```python
+# Run this cell to mount your Google Drive.
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Show existing colab notebooks and helpers.py file
+from os import listdir
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis'
+listdir(wksp_dir)
+
+# Add folder to colab's path so we can import the helper functions
+import sys
+sys.path.insert(0, wksp_dir)
+```
 
 ```python
 import attentionviz as av
