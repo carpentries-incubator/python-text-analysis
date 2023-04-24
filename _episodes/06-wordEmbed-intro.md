@@ -3,7 +3,8 @@ title: "Intro to Word Embeddings"
 teaching: 20
 exercises: 20
 questions:
-- "todo"
+- How can we extract vector representations of individual words rather than documents?
+- What sort of research questions can be answered with word embedding models?
 objectives:
 - Understand the difference between document embeddings and word embeddings 
 - Introduce the Gensim python library and its word embedding fucntionality
