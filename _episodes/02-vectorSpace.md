@@ -98,7 +98,7 @@ plt.ylim(0, 12)
 plt.show()
 ```
 
-![png](VectorSpace_files/VectorSpace_5_0.png)
+![png](images/02-plot-points.png)
 
 ### Distance and Similarity
 
