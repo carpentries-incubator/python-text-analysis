@@ -214,7 +214,7 @@ print(wv.most_similar(positive=['woman','king'], negative=['man'], topn=3))
 
 Behind the scenes of the most_similar function, gensim first unit normalizes the *length* of all vectors included in the positive and negative function arguments. This is done before adding/subtracting, which prevents longer vectors from unjustly skewing the sum. Note that length here refers to the linear algebraic definition of summing the squared values of each element in a vector followed by taking the square root of that sum:
 
-$$ \lVert \mathbf{v} \rVert = \sqrt{\sum_{i=1}^n v_i^2}$$
+$ \lVert \mathbf{v} \rVert = \sqrt{\sum_{i=1}^n v_i^2}$
 
 where
 
