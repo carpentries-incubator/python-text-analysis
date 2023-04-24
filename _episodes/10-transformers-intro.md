@@ -25,7 +25,7 @@ LLMs are the current state of the art when it comes to many tasks, and although 
 
 We will go through the architecture of a highly influential LLM called BERT. BERT stands for Bidirectional Encoder Representations from Transformers. Let's look at each part of this model, starting with the input on the bottom and working toward the output on the top.
 
-![transformers.jpeg](TODO)
+![transformers.jpeg](../images/10-fullbert.jpg)
 
 This is a complex architecture, but it can be broken down into many of the things we've learned in this course. The model is displayed with the input on the bottom and the output at the top, as is common with neural networks. Let's take a look at one component at a time.
 
@@ -56,7 +56,7 @@ print(tokenizer.convert_ids_to_tokens(encoding))
 
 ### Embeddings
 
-![embeddings2.jpg](TODO)
+![embeddings2.jpg](../images/10-embeddings.jpg)
 
 Next the model calculates an embedding for each token. Three values are used to calculate our final embedding for each token. The first part is the token embedding, similar to the ones we have discussed with Word2Vec and Glove, only this embedding is trained by the BERT model. For BERT, this algorithm is called WordPiece. The second part is a combination of all the tokens in a given segment, also called a segment embedding. The third part is a positional embedding, which accounts for the locations of words in the document. All three parts are combined as the embedding that is fed into the model. This is how we get our initial input into the model.
 
