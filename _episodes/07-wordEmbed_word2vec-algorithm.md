@@ -1,15 +1,16 @@
 ---
-title: "Unpacking the Word2Vec Algorithm"
+title: "The Word2Vec Algorithm"
 teaching: 45
 exercises: 0
 questions:
-- "How does the Word2Vec model produce meaningful word embeddings?
+- "How does the Word2Vec model produce meaningful word embeddings?"
+- "How is a Word2Vec model trained?"
 objectives:
-- "Understand the basic building blocks of an artificial neural network"
-- "Understand the differences in design and performance between the Continuous bag-of-words (CBOW) and Skip-gram training methods
+- "Introduce artificial neural networks and their structure."
+- "Understand the two training methods employed by the Word2Vec, CBOW and Skip-gram."
 keypoints:
-- "Artifical neural networks are powerful models that can approximate any function given sufficient training data"
-- "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application (i.e., a "data-driven" approach)
+- "Artificial neural networks (ANNs) are powerful models that can approximate any function given sufficient training data."
+- "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application."
 ---
 
 # Unpacking the Word2Vec Algorithm
