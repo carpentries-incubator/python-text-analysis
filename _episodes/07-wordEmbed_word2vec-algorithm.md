@@ -1,13 +1,18 @@
 ---
 title: "The Word2Vec Algorithm"
-teaching: 15 minutes
-exercises: 20 minutes
+teaching: 45
+exercises: 0
 questions:
 - "How does the Word2Vec model produce meaningful word embeddings?"
+- "How is a Word2Vec model trained?"
 objectives:
+- "Introduce artificial neural networks and their structure."
+- "Understand the two training methods employed by the Word2Vec, CBOW and Skip-gram."
 keypoints:
-
+- "Artificial neural networks (ANNs) are powerful models that can approximate any function given sufficient training data."
+- "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application."
 ---
+
 # Unpacking the Word2Vec Algorithm
 
 
