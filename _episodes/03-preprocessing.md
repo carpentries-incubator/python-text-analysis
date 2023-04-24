@@ -1,9 +1,10 @@
 ---
-title: "Preprocessing"
+title: "Preparing and Preprocessing Your Data"
 teaching: 10
 exercises: 10
 questions:
 - "How can I prepare data for NLP?"
+- "What are tokenization, casing and lemmatization?"
 objectives:
 - "Load a test document into Spacy."
 - "Learn preprocessing tasks."
@@ -13,6 +14,162 @@ keypoints:
 - "Learn stopwords"
 - "Learn about casing"
 ---
+# Preparing and Preprocessing Your Data
+
+## Collection
+
+The first step to preparing your data is to collect it. Whether you use API's to gather your material or some other method depends on your research interests. For this workshop, we'll use pre-gathered data.
+
+During the setup instructions, we asked you to download a number of files. These included about forty texts downloaded from [Project Gutenberg](https://www.gutenberg.org/), which will make up our corpus of texts for our hands on lessons in this course.
+
+Take a moment to orient and familiarize yourself with them:
+
+- Austen
+  - Emma - [record](https://gutenberg.org/ebooks/158#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Emma_(novel))
+  - Lady Susan - [record](https://gutenberg.org/ebooks/946#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Lady_Susan)
+  - Northanger Abbey - [record](https://gutenberg.org/ebooks/121#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Northanger_Abbey)
+  - Persuasion - [record](https://www.gutenberg.org/ebooks/105#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Persuasion_(novel))
+  - Pride and Prejudice - [record](https://gutenberg.org/ebooks/1342#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Pride_and_Prejudice)
+  - Sense and Sensibility - [record](https://gutenberg.org/ebooks/21839#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Sense_and_Sensibility)
+- Chesteron
+  - The Ball and the Cross - [record](https://gutenberg.org/ebooks/5265#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Ball_and_the_Cross)
+  - The Innocence of Father Brown - [record](https://gutenberg.org/ebooks/204#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Father_Brown)
+  - The Man Who Knew Too Much - [record](https://gutenberg.org/ebooks/1720#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Man_Who_Knew_Too_Much_(book))
+  - The Napoleon of Notting Hill - [record](https://gutenberg.org/ebooks/20058#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Napoleon_of_Notting_Hill)
+  - The Man Who was Thursday - [record](https://gutenberg.org/ebooks/1695#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Man_Who_Was_Thursday)
+  - The Ballad of the White Horse - [record](https://gutenberg.org/ebooks/1719#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Ballad_of_the_White_Horse)
+- Dickens
+  - Bleak House - [record](https://www.gutenberg.org/ebooks/1023#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Bleak_House)
+  - A Christmas Carol - [record](https://gutenberg.org/ebooks/24022#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/A_Christmas_Carol)
+  - David Copperfield - [record](https://gutenberg.org/ebooks/766#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/David_Copperfield)
+  - Great Expectations - [record](https://gutenberg.org/ebooks/1400#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Great_Expectations)
+  - Hard Times - [record](https://gutenberg.org/ebooks/786#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Hard_Times_(novel))
+  - Oliver Twist - [record](https://gutenberg.org/ebooks/730#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Oliver_Twist)
+  - Our Mutual Friend - [record](https://gutenberg.org/ebooks/883#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Our_Mutual_Friend)
+  - The Pickwick Papers - [record](https://gutenberg.org/ebooks/580#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Pickwick_Papers)
+  - A Tale of Two Cities - [record](https://gutenberg.org/ebooks/98#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/A_Tale_of_Two_Cities)
+- Dumas
+  - The Black Tulip - [record](https://gutenberg.org/ebooks/965#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Black_Tulip)
+  - The Man in the Iron Mask - [record](https://gutenberg.org/ebooks/2759#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Vicomte_of_Bragelonne:_Ten_Years_Later#Part_Three:_The_Man_in_the_Iron_Mask_(Chapters_181%E2%80%93269))
+  - The Count of Monte Cristo - [record](https://www.gutenberg.org/ebooks/1184#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo)
+  - Ten Years Later - [record](https://gutenberg.org/ebooks/2681#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Vicomte_of_Bragelonne:_Ten_Years_Later)
+  - The Three Musketeers - [record](https://gutenberg.org/ebooks/1257#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Three_Musketeers)
+  - Twenty Years After - [record](https://gutenberg.org/ebooks/1259#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Twenty_Years_After)
+- Melville
+  - Bartleby, the Scrivener - [record](https://gutenberg.org/ebooks/11231#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Bartleby,_the_Scrivener)
+  - The Confidence-Man - [record](https://www.gutenberg.org/ebooks/21816) &middot; [wiki](https://en.wikipedia.org/wiki/The_Confidence-Man)
+  - Moby Dick - [record](https://gutenberg.org/ebooks/2701#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Moby-Dick)
+  - Omoo - [record](https://gutenberg.org/ebooks/4045#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Omoo)
+  - The Piazza Tales - [record](https://gutenberg.org/ebooks/15859#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Piazza_Tales)
+  - Pierre - [record](https://gutenberg.org/ebooks/34970#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Pierre;_or,_The_Ambiguities)
+  - Typee - [record](https://gutenberg.org/ebooks/1900#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Typee)
+- Shakespeare
+  - The Trajedy of Julius Caesar - [record](https://gutenberg.org/ebooks/1120#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Julius_Caesar_(play))
+  - The Trajedy of King Lear - [record](https://gutenberg.org/ebooks/1532#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/King_Lear)
+  - A Midsummer Night's Dream - [record](https://gutenberg.org/ebooks/1514#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/A_Midsummer_Night%27s_Dream)
+  - Much Ado about Nothing - [record](https://gutenberg.org/ebooks/1519#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Much_Ado_About_Nothing)
+  - Othello, the Moor of Venice - [record](https://www.gutenberg.org/ebooks/1531) &middot; [wiki](https://en.wikipedia.org/wiki/Othello)
+  - Romeo and Juliet - [record](https://gutenberg.org/ebooks/1513#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Romeo_and_Juliet)
+  - Twelfth Night - [record](https://gutenberg.org/ebooks/1526#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Twelfth_Night)
+
+While a full-sized corpus can include thousands of texts, these forty-odd texts will be enough for our illustrative purposes.
+
+## OCR and Speech Transcription
+
+In this course, we assume that all of your documents are in text format, ie. a file format that can be copied and pasted into a notepad file. The texts we collected above provided in this format to us by Project Gutenberg.
+
+Not all data is of this type, for example image, sound, PDF, and DOC files.
+
+Fortunately, there exists tools to convert file types like these into text. While these tools are beyond the scope of our lesson, they are still worth mentioning.
+Optical Character Recognition (OCR) is a field of study that converts images to text. Tools such as Tesseract, Amazon Textract, or Google's Document AI can perform OCR tasks.
+Speech transcription will take audio files and convert them to text as well. Google's Speech-to-Text and Amazon Transcribe are two cloud solutions for speech transcription.
+
+## Loading Data into Python
+
+We'll start by mounting our Google Drive so that Colab can read the helper functions. We'll also go through how many of these functions are written in this lesson.
+
+```python
+# Run this cell to mount your Google Drive.
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Show existing colab notebooks and helpers.py file
+from os import listdir
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis'
+listdir(wksp_dir)
+
+# Add folder to colab's path so we can import the helper functions
+import sys
+sys.path.insert(0, wksp_dir)
+```
+
+Next, we have a corpus of text files we want to analyze. Let's create a method to list those files. To make this method more flexible, we will also use ```glob``` to allow us to put in regular expressions so we can filter the files if so desired. ```glob``` is a tool for listing files in a directory whose file names match some pattern, like all files ending in ```*.txt```.
+
+```python
+!pip install pathlib
+```
+
+```python
+import glob
+import os
+from pathlib import Path
+```
+
+```python
+def create_file_list(directory, filter_str='*'):
+    files = Path(directory).glob(filter_str)
+    files_to_analyze = list(map(str, files))
+    return files_to_analyze
+```
+
+Alternatively, we can load this function from the ```helpers.py``` file we provided for learners in this course:
+
+```python
+from helpers import create_file_list
+```
+
+Either way, now we can use that function to list the books in our corpus:
+
+```python
+corpus_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books'
+corpus_file_list = create_file_list(corpus_dir)
+print(corpus_file_list)
+```
+
+```txt
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt']
+```
+
+We will use the full corpus later, but it might be useful to filter to just a few specific files. For example, if I want just documents written by Austen, I can filter on part of the file path name:
+
+```python
+austen_list = create_file_list(corpus_dir, 'austen*')
+print(austen_list)
+```
+
+```txt
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt']
+```
+
+Let's take a closer look at Emma. We are looking at the first full sentence, which begins with character 50 and ends at character 290.
+
+```python
+preview_len = 290
+print(austen_list[1])
+sentence = ""
+with open(austen_list[1], 'r') as f:
+  sentence = f.read(preview_len)[50:preview_len]
+
+print(sentence)
+```
+
+```txt
+/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt
+Emma Woodhouse, handsome, clever, and rich, with a comfortable home
+and happy disposition, seemed to unite some of the best blessings
+of existence; and had lived nearly twenty-one years in the world
+with very little to distress or vex her.
+```
 
 ## Preprocessing
 
