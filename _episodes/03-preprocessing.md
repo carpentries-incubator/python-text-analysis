@@ -9,10 +9,10 @@ objectives:
 - "Load a test document into Spacy."
 - "Learn preprocessing tasks."
 keypoints:
-- "Learn tokenization"
-- "Learn lemmatization"
-- "Learn stopwords"
-- "Learn about casing"
+- "Tokenization breaks strings into smaller parts for analysis."
+- "Casing removes capital letters."
+- "Stopwords are common words that do not contain much useful information."
+- "Lemmatization reduces words to their root form."
 ---
 # Preparing and Preprocessing Your Data
 
@@ -73,16 +73,6 @@ Take a moment to orient and familiarize yourself with them:
   - Twelfth Night - [record](https://gutenberg.org/ebooks/1526#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Twelfth_Night)
 
 While a full-sized corpus can include thousands of texts, these forty-odd texts will be enough for our illustrative purposes.
-
-## OCR and Speech Transcription
-
-In this course, we assume that all of your documents are in text format, ie. a file format that can be copied and pasted into a notepad file. The texts we collected above provided in this format to us by Project Gutenberg.
-
-Not all data is of this type, for example image, sound, PDF, and DOC files.
-
-Fortunately, there exists tools to convert file types like these into text. While these tools are beyond the scope of our lesson, they are still worth mentioning.
-Optical Character Recognition (OCR) is a field of study that converts images to text. Tools such as Tesseract, Amazon Textract, or Google's Document AI can perform OCR tasks.
-Speech transcription will take audio files and convert them to text as well. Google's Speech-to-Text and Amazon Transcribe are two cloud solutions for speech transcription.
 
 ## Loading Data into Python
 
@@ -155,9 +145,10 @@ Let's take a closer look at Emma. We are looking at the first full sentence, whi
 
 ```python
 preview_len = 290
-print(austen_list[1])
+emmapath = create_file_list(corpus_dir, 'austen-emma*')
+print(emmapath)
 sentence = ""
-with open(austen_list[1], 'r') as f:
+with open(emmapath, 'r') as f:
   sentence = f.read(preview_len)[50:preview_len]
 
 print(sentence)
@@ -181,13 +172,13 @@ For example, Darcie Wilder's [*literally show me a healthy person*](https://www.
 
 Across the texts in our corpus, our authors write with different styles, preferring different dictions, punctuation, and so on.
 
-To prepare our data to be more uniformly understood by our algorithms later, we need to (a) break it into smaller units, (b) replace words with their roots, and (c) remove unwanted common or unhelpful words and punctuation.
+To prepare our data to be more uniformly understood by our early models, we need to (a) break it into smaller units, (b) replace words with their roots, and (c) remove unwanted common or unhelpful words and punctuation.
 
 ### Tokenization
 
 Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as smaller units so that it can be embedded. These are called **tokens**.  
 
-While our tokens will be words, this will not always be the case. Different models may have different ways of tokenizing strings. The strings may be broken down into multiple word tokens, single word tokens, or even components of words like letters or morphology. Punctuation may or may not be included.
+While our tokens will be single words for now, this will not always be the case. Different models have different ways of tokenizing strings. The strings may be broken down into multiple word tokens, single word tokens, or even components of words like letters or morphology. Punctuation may or may not be included.
 
 We will be using a tokenizer that breaks documents into single words for this lesson.
 
@@ -199,13 +190,15 @@ import en_core_web_sm
 spacyt = spacy.load("en_core_web_sm")
 ```
 
+We will define a tokenizer method with the text editor. Keep this open so we can add to it throughout the lesson.
+
 ```python
 class Our_Tokenizer:
   def __init__(self):
     #import spacy tokenizer/language model
     self.nlp = en_core_web_sm.load()
     self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-  def tokenize(self, document):
+  def __call__(self, document):
     tokens = self.nlp(document)
     return tokens
 ```
@@ -358,8 +351,8 @@ for t in tokens:
 Spacy stores words by an ID number, and not as a full string, to save space in memory. Many spacy functions will return numbers and not words as you might expect. Fortunately, adding an underscore for spacy will return text representations instead. We will also add in the lower case function so that all words are lower case.
 
 ```python
-for token in tokens:
- print(str.lower(token.lemma_))
+for t in tokens:
+ print(str.lower(t.lemma_))
 ```
 
 ```txt
@@ -428,7 +421,7 @@ class Our_Tokenizer:
     # import spacy tokenizer/language model
     self.nlp = en_core_web_sm.load()
     self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-  def tokenize(self, document):
+  def __call__(self, document):
     tokens = self.nlp(document)
     simplified_tokens = [str.lower(token.lemma_) for token in tokens]
     return simplified_tokens
@@ -514,7 +507,7 @@ distress
 vex
 ```
 
-Notice that because we added *emma* to our stopwords, she is not in our preprocessed sentence any more.
+Notice that because we added *emma* to our stopwords, she is not in our preprocessed sentence any more. Other stopwords are also missing such as numbers.
 
 Let's filter out stopwords and punctuation from our custom tokenizer now as well:
 
@@ -524,14 +517,12 @@ class Our_Tokenizer:
     # import spacy tokenizer/language model
     self.nlp = en_core_web_sm.load()
     self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-  def tokenize(self, document):
+  def __call__(self, document):
     tokens = self.nlp(document)
-    simplified_tokens = [
-      str.lower(token.lemma_)
-      for token in tokens
-      if not token.is_stop and not token.is_punct
-    ]
-
+    simplified_tokens = []    
+    for token in tokens:
+        if not token.is_stop and not token.is_punct:
+            simplified_tokens.append(str.lower(token.lemma_))
     return simplified_tokens
 ```
 
@@ -587,16 +578,15 @@ class Our_Tokenizer:
     # import spacy tokenizer/language model
     self.nlp = en_core_web_sm.load()
     self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-  def tokenize(self, document):
+  def __call__(self, document):
     tokens = self.nlp(document)
     simplified_tokens = [
-      str.lower(token.lemma_)
-      for token in tokens
+      #our helper function expects spacy tokens. It will take care of making them lowercase lemmas.
+      token for token in tokens
       if not token.is_stop
       and not token.is_punct
       and token.pos_ != "PROPN"
     ]
-
     return simplified_tokens
 ```
 
@@ -608,16 +598,15 @@ class Our_Tokenizer:
     # import spacy tokenizer/language model
     self.nlp = en_core_web_sm.load()
     self.nlp.max_length = 4500000 # increase max number of characters that spacy can process (default = 1,000,000)
-  def tokenize(self, document):
+  def __call__(self, document):
     tokens = self.nlp(document)
     simplified_tokens = [
-      str.lower(token.lemma_)
-      for token in tokens
+      #our helper function expects spacy tokens. It will take care of making them lowercase lemmas.
+      token for token in tokens
       if not token.is_stop
       and not token.is_punct
       and token.pos_ in {"ADJ", "ADV", "INTJ", "NOUN", "VERB"}
     ]
-
     return simplified_tokens
 ```
 
@@ -625,7 +614,7 @@ Either way, let's test our custom tokenizer on this selection of text to see how
 
 ```python
 tokenizer = Our_Tokenizer()
-tokens = tokenizer.tokenize(sentence)
+tokens = tokenizer(sentence)
 print(tokens)
 ```
 
@@ -671,7 +660,7 @@ distress
 vex
 ```
 
-To help make this quick for all the text in all our books, we'll use a helper function we prepared for learners:
+To help make this quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
 
 ```python
 from helpers import lemmatize_files
@@ -681,384 +670,9 @@ lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
 ```txt
 ['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt.lemmas']
 ```
-
 This process may take several minutes to run. Doing this preprocessing now however will save us much, much time later.
 
-## Saving Our Progress
-
-Let's save our progress by storing a spreadsheet (```*.csv``` or ```*.xlsx``` file) that lists all our authors, books, and associated filenames, both the original and lemmatized copies.
-
-We'll use another helper we prepared to make this easy:
-
-```python
-pattern = "/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/{author}-{title}.txt"
-data = parse_into_dataframe(pattern, corpus_file_list, col_name="File")
-data["Lemma_File"] = lemma_file_list
-```
-
-<div id="df-ad561d05-40ed-4c1f-97be-3b2928b28a1d">
-  <div class="colab-df-container">
-    <div>
-      <style scoped>
-          .dataframe tbody tr th:only-of-type {
-              vertical-align: middle;
-          }
-
-          .dataframe tbody tr th {
-              vertical-align: top;
-          }
-
-          .dataframe thead th {
-              text-align: right;
-          }
-      </style>
-      <table border="1" class="dataframe">
-        <thead>
-          <tr style="text-align: right;">
-            <th></th>
-            <th>Author</th>
-            <th>Title</th>
-            <th>Item</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>0</th>
-            <td>austen</td>
-            <td>sense</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>21</th>
-            <td>austen</td>
-            <td>persuasion</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>12</th>
-            <td>austen</td>
-            <td>pride</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>22</th>
-            <td>austen</td>
-            <td>northanger</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>9</th>
-            <td>austen</td>
-            <td>emma</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>7</th>
-            <td>austen</td>
-            <td>ladysusan</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>10</th>
-            <td>chesterton</td>
-            <td>thursday</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>8</th>
-            <td>chesterton</td>
-            <td>ball</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>5</th>
-            <td>chesterton</td>
-            <td>brown</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>30</th>
-            <td>chesterton</td>
-            <td>knewtoomuch</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>39</th>
-            <td>chesterton</td>
-            <td>whitehorse</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>27</th>
-            <td>chesterton</td>
-            <td>napoleon</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>18</th>
-            <td>dickens</td>
-            <td>hardtimes</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>28</th>
-            <td>dickens</td>
-            <td>bleakhouse</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>38</th>
-            <td>dickens</td>
-            <td>davidcopperfield</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>40</th>
-            <td>dickens</td>
-            <td>taleoftwocities</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>17</th>
-            <td>dickens</td>
-            <td>christmascarol</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>20</th>
-            <td>dickens</td>
-            <td>greatexpectations</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>41</th>
-            <td>dickens</td>
-            <td>pickwickpapers</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>2</th>
-            <td>dickens</td>
-            <td>ourmutualfriend</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>13</th>
-            <td>dickens</td>
-            <td>olivertwist</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>37</th>
-            <td>dumas</td>
-            <td>threemusketeers</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>33</th>
-            <td>dumas</td>
-            <td>montecristo</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>32</th>
-            <td>dumas</td>
-            <td>twentyyearsafter</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>3</th>
-            <td>dumas</td>
-            <td>tenyearslater</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>29</th>
-            <td>dumas</td>
-            <td>maninironmask</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>14</th>
-            <td>dumas</td>
-            <td>blacktulip</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>34</th>
-            <td>litbank</td>
-            <td>conll</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>4</th>
-            <td>melville</td>
-            <td>moby_dick</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>24</th>
-            <td>melville</td>
-            <td>typee</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>23</th>
-            <td>melville</td>
-            <td>pierre</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>11</th>
-            <td>melville</td>
-            <td>piazzatales</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>19</th>
-            <td>melville</td>
-            <td>conman</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>1</th>
-            <td>melville</td>
-            <td>omoo</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>15</th>
-            <td>melville</td>
-            <td>bartleby</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>26</th>
-            <td>shakespeare</td>
-            <td>othello</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>6</th>
-            <td>shakespeare</td>
-            <td>midsummer</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>16</th>
-            <td>shakespeare</td>
-            <td>muchado</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>31</th>
-            <td>shakespeare</td>
-            <td>caesar</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>35</th>
-            <td>shakespeare</td>
-            <td>lear</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>36</th>
-            <td>shakespeare</td>
-            <td>romeo</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-          <tr>
-            <th>25</th>
-            <td>shakespeare</td>
-            <td>twelfthnight</td>
-            <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-ad561d05-40ed-4c1f-97be-3b2928b28a1d')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-          width="24px">
-        <path d="M0 0h24v24H0V0z" fill="none"/>
-        <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
-        </svg>
-      </button>
-      <style>
-        .colab-df-container {
-          display:flex;
-          flex-wrap:wrap;
-          gap: 12px;
-        }
-
-        .colab-df-convert {
-          background-color: #E8F0FE;
-          border: none;
-          border-radius: 50%;
-          cursor: pointer;
-          display: none;
-          fill: #1967D2;
-          height: 32px;
-          padding: 0 0 0 0;
-          width: 32px;
-        }
-
-        .colab-df-convert:hover {
-          background-color: #E2EBFA;
-          box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-          fill: #174EA6;
-        }
-
-        [theme=dark] .colab-df-convert {
-          background-color: #3B4455;
-          fill: #D2E3FC;
-        }
-
-        [theme=dark] .colab-df-convert:hover {
-          background-color: #434B5C;
-          box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-          filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-          fill: #FFFFFF;
-        }
-      </style>
-      <script>
-        const buttonEl =
-          document.querySelector('#df-ad561d05-40ed-4c1f-97be-3b2928b28a1d button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-ad561d05-40ed-4c1f-97be-3b2928b28a1d');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                      [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-</div>
-
-Finally, we'll save this table to a file:
-
-```python
-data.to_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv", index=False)
-data.to_xlsx("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.xlsx", index=False)
-```
-
-#Outro and Conclusion
+## Outro and Conclusion
 
 This lesson has covered a number of preprocessing steps. We created a list of our files in our corpus, which we can use in future lessons. We customized a tokenizer from Spacy, to better suit the needs of our corpus, which we can also use moving forward.
 
