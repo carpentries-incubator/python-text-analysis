@@ -3,17 +3,17 @@ title: "Intro to Word Embeddings"
 teaching: 20
 exercises: 20
 questions:
-- How can we extract vector representations of individual words rather than documents?
-- What sort of research questions can be answered with word embedding models?
+- "How can we extract vector representations of individual words rather than documents?"
+- "What sort of research questions can be answered with word embedding models?"
 objectives:
-- Understand the difference between document embeddings and word embeddings 
-- Introduce the Gensim python library and its word embedding fucntionality
-- Explore vector math with word embeddings using pretrained models
-- Visualize word embeddings with the help of principal component analysis (PCA)
-- Discuss word embedding use-cases
+- "Understand the difference between document embeddings and word embeddings "
+- "Introduce the Gensim python library and its word embedding fucntionality"
+- "Explore vector math with word embeddings using pretrained models"
+- "Visualize word embeddings with the help of principal component analysis (PCA)"
+- "Discuss word embedding use-cases"
 keypoints:
-- Word emebddings can help us derive additional meaning stored in text at the level of individual words 
-- Word embeddings have many use-cases in text-analysis and NLP related tasks
+- "Word emebddings can help us derive additional meaning stored in text at the level of individual words"
+- "Word embeddings have many use-cases in text-analysis and NLP related tasks"
 ---
 
 ## Document/Corpus Embeddings Recap
