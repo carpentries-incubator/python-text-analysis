@@ -19,7 +19,7 @@ keypoints:
 
 ## What are large language models? What is BERT?
 
-For this lesson, we will be learning about large language models (LLMs).
+For this lesson, we will be learning about large language models (LLMs). It is recommended you follow along in Colab for the BERT sections due to ease of installation and configuration.
 
 LLMs are the current state of the art when it comes to many tasks, and although LLMs can differ, they are mostly based on a similar architecture to one another.
 
@@ -102,8 +102,9 @@ sentence_b = "The chicken didn't cross the road because it was too wide"
 tfviz = av.AttentionViz(sentence_a, sentence_b)
 tfviz.hview()
 ```
+![bertviz](../images/10-bertviz.png)
 
-This visualization shows how attention works in the BERT model. The different colors represent different attention heads. The left side represents the input embedding and the depth of color shows how much each input weighs in the output of that layer.
+This visualization needs to run in a Jupyter notebook to render properly. It shows how attention works in the BERT model. The different colors represent different attention heads. The left side represents the input embedding and the depth of color shows how much each input weighs in the output of that layer.
 
 Select "Sentence A to Sentence A" on the attention dropdown and mouse over the word "it." In layers 0-7 we can see how different attention heads start to incorporate the embedding of "because" and "too tired" into our embedding for "it." Once we get to layers 8-10, we can see how "chicken" starts to attend to the word "it", indicating that the model has started to incorporate the qualities of being "too tired" that are already part of "it" into the representation for "chicken". Mousing over the word "it" we can also see that it starts to incorporate the embedding built into the word "chicken."
 
