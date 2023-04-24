@@ -112,7 +112,7 @@ How do you suppose the self attention calculation will change for sentence B? If
 
 ### Output and Classification
 
-![linear-layer.jpg](TODO)
+![linear-layer.jpg](../images/10-linear-layer.jpg)
 
 Once the input embeddings have been run through each layer and attention head, all of the outputs are combined together to give us a very robust matrix of values that represent a word and its relationships to other words, which we've called T. Training this component of the model is the vast majority of the work done in creating a pretrained large language model. But now that we have a very complex representation of the word, how do we use it to accomplish a task?
 
@@ -120,14 +120,14 @@ The last step in BERT is the classification layer. During fine-tuning, we add on
 
 ## The Power of Transfer Learning
 
-![bert-fine.png](TODO)
+![bert-fine.png](../images/10-bert-fine-tune.png)
 
-Above is a set of images from the creators of BERT showing how it could be easily adapted to different tasks. One of the reasons BERT became so ubiquitous is that it was very effective at transfer learning. Transfer learning means that the underlying model can be repurposed for different tasks.
+Above is a set of images from the creators of BERT showing how it could be easily adapted to different tasks. One of the reasons BERT became so ubiquitous is that it was very effective at __transfer learning__. Transfer learning means that the underlying model can be repurposed for different tasks.
 
 The underlying large language model for BERT was trained for thousands of compute hours on hundreds of millions of words, but the weights calculated can be reused on a variety of tasks with minimal adaptation. The model does get fine-tuned for each task, but this is much easier than the initial training.
 
 When we adapt BERT for a given NER task, we just need to provide a much smaller set of labelled data to retrain the last step of converting our output into a set of probabilities. These models have had great success at a variety of tasks like parts of speech tagging, translation, document summary, and NER labelling.
 
-State of the art LLMs like GPT-4 operate on this approach. LLMs have grown larger and larger to take advantage of the ability to compute in parallel. Modern LLMs have become so large that they are often run on specialied high performance machines, and only exposed to the public via API. They are scaled up versions, still using transformers as their primary component. LLM's have also become better at so called "zero-shot" tasks, where there is no fine-tuning phase, and instead the model is exposed to novel classes it has never seen outside of its test data. However, fine-tuning is still an important part of maximizing performance.
+State of the art LLMs like GPT-4 operate on this approach. LLMs have grown larger and larger to take advantage of the ability to compute in parallel. Modern LLMs have become so large that they are often run on specialized high performance machines, and only exposed to the public via API. They are scaled up versions, still using transformers as their primary component. LLM's have also become better at so called "zero-shot" tasks, where there is no fine-tuning phase, and instead the model is exposed to novel classes it has never seen outside of its test data. However, fine-tuning is still an important part of maximizing performance.
 
 At the beginning of our carpentries lessons, we used pretrained HuggingFace models to learn about different tasks we could accomplish using NLP. In our next lesson we will fine tune BERT to perform a custom task using a custom dataset.
