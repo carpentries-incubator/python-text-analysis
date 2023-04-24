@@ -98,7 +98,7 @@ plt.ylim(0, 12)
 plt.show()
 ```
 
-![png](images/02-plot-points.png)
+![png](../images/02-plot-points.png)
 
 ### Distance and Similarity
 
@@ -159,7 +159,7 @@ plt.ylim(0, 12)
 plt.show()
 ```
 
-![png](VectorSpace_files/VectorSpace_9_1.png)
+![png](../images/02-plot-vectors.png)
 
 Document A and document D are headed in exactly the same direction, which matches our intution that both documents are in some way similar to each other, even though they differ in length.
 
