@@ -1,17 +1,18 @@
 ---
 title: "Unpacking the Word2Vec Algorithm"
-teaching: 45
-exercises: 0
+teaching: 15 minutes
+exercises: 20 minutes
 questions:
-- "How does the Word2Vec model produce meaningful word embeddings?"
+- "What is Natural Language Processing? What does NLP do?"
 objectives:
-- "Understand the basic building blocks of an artificial neural network"
-- "Understand the differences in design and performance between the Continuous bag-of-words (CBOW) and Skip-gram training methods"
+- "Learn the tasks that NLP can do"
+- "Use a pretrained chatbot in python"
+- "Discuss our workflow for performing NLP tasks"
 keypoints:
-- "Artifical neural networks are powerful models that can approximate any function given sufficient training data"
-- "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application (i.e., a "data-driven" approach)"
+- "NLP is comprised of models that perform different tasks."
+- "Our workflow for an NLP project consists of designing, preprocessing, representation, running, creating output, and interpreting that output."
+- "NLP tasks can be adapted to suit different research interests."
 ---
-
 # Unpacking the Word2Vec Algorithm
 
 
