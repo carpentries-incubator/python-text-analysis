@@ -15,9 +15,19 @@ keypoints:
 - "Word emebddings can help us derive additional meaning stored in text at the level of individual words"
 - "Word embeddings have many use-cases in text-analysis and NLP related tasks"
 ---
+## Prep pre-trained model first
+Run the first code cell below to load the pre-trained Word2Vec model (takes a few minutes) before you do anything else.
+```python
+# RUN BEFORE INTRO LECTURE :)
+
+# api to load word2vec models
+import gensim.downloader as api
+
+# takes 3-10 minutes to load
+wv = api.load('word2vec-google-news-300') # takes 3-10 minutes to load 
+```
 
 ## Document/Corpus Embeddings Recap
-**Note to instructor:** Run the first code cell below to load the pretrained Word2Vec model (takes a few minutes) before explaining the below text.
 
 So far, we’ve seen how word counts, TF-IDF, and LSA can help us embed a document or set of documents into useful vector spaces that allow us to gain insights from text data. Let's review the embeddings covered thus far...
 
@@ -29,16 +39,15 @@ So far, we’ve seen how word counts, TF-IDF, and LSA can help us embed a docume
 Compared to TF-IDF, the text representations (a.k.a. embeddings) produced by LSA are arguably more useful since LSA can reveal some of the latent topics referenced throughout a corpus. While LSA gets closer to extracting some of the interesting features of text data, it is limited in the sense that it is a "bag of words" method. That is, it pays no attention to the exact order in which words appear (i.e., beyond co-occurrence patterns in large documents).
 
 ## Distributional hypothesis: extracting more meaningful representations of text 
- As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. This means that, to extract even richer and more meaningful representations of text, we'll need to pay closer attention to the temporal sequence of words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
+As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. This means that, to extract even richer and more meaningful representations of text, we'll need to pay closer attention to the temporal sequence of words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
 
 ### Word embeddings with Word2Vec
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781) [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to be look very similar for words that are used in similar contexts. We'll unpack the full algorithm behind Word2Vec shortly. First, let's see what we can do with meaningful word vectors (i.e. embeddings).
 
 #### Gensim
-We'll be using the Gensim library. The Gensim library comes with several word embedding models including Word2Vec, GloVe, and fastText. We'll start by exploring one of the pretrained Word2Vec models. We'll discuss the other options later in this lesson.
+We'll be using the Gensim library. The Gensim library comes with several word embedding models including Word2Vec, GloVe, and fastText. We'll start by exploring one of the pre-trained Word2Vec models. We'll discuss the other options later in this lesson.
 
 First, load the Word2Vec embedding model. The Word2Vec model takes 3- 10 minutes to load. If you can't get the below word2vec model to load quickly enough, you can use the GloVe model, instead. The GloVe model produces word embeddings that are often very similar to Word2Vec. GloVe can be loaded with:```wv = api.load('glove-wiki-gigaword-50')```
-
 
 ```python
 # RUN BEFORE INTRO LECTURE :)
