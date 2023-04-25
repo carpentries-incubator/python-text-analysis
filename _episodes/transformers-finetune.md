@@ -657,9 +657,13 @@ from transformers import TokenClassificationPipeline
 import torch
 
 EXAMPLE = "where is a four star restaurant in milwaukee with tapas"
+##Colab code
+#tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
+#model = AutoModelForTokenClassification.from_pretrained("/content/drive/MyDrive/text-analysis/code/ft-model")
 
-tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-model = AutoModelForTokenClassification.from_pretrained("/content/drive/MyDrive/text-analysis/code/ft-model")
+##Loading pretrained model from HF- Local code
+tokenizer = AutoTokenizer.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")
+model = AutoModelForTokenClassification.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")
 nlp = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="first")
 ner_results = nlp(EXAMPLE)
 print(ner_results)
