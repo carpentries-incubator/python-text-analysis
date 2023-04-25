@@ -71,7 +71,7 @@ The mathematical technique we are using is called "SVD" because we are "decompos
 
 The three resulting matrices are called U, Σ, and Vt.
 
-![Image of SVD. Visualisation of the priciple of SVD by CMG Lee.](images/05-svd.png)
+![Image of SVD. Visualisation of the priciple of SVD by CMG Lee.](../images/05-svd.png)
 
 The U matrix is a matrix where there are documents as rows, and different topics as columns. The scores in each cell show how much each document is "about" each topic.
 
@@ -83,7 +83,7 @@ A good deal of variation can often be explained by a relatively small number of 
 
 Once this truncation happens, we can multiply together our three matrices and end up with a smaller matrix with topics instead of words as dimensions.
 
-![Image of singular value decomposition with columns and rows truncated. ](images/05-truncatedsvd.png)
+![Image of singular value decomposition with columns and rows truncated. ](../images/05-truncatedsvd.png)
 
 ### Information Loss
 
@@ -159,7 +159,7 @@ plt.show()  # show first chart
 ~~~
 {: .output}
 
-![png](LSA_files/LSA_18_1.png)
+![Image of drop-off of variance explained](05-svd-dropoff.png)
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic.
 
@@ -169,7 +169,10 @@ Alternatively, we could set some target sum for how much of our data we want our
 
 Looking at our results so far, a good number in the middle of the "elbow" appears to be around 5-7 topics. So, let's fit a model using only 6 topics and then take a look at what each topic looks like.
 
-(Why is the first topic, "Topic 0," so low? It has to do with how our SVD was setup. Truncated SVD does not mean center the data beforehand, which takes advantage of sparse matrix algorithms by leaving most of the data at zero. Otherwise, our matrix will me mostly filled with the negative of the mean for each column or row, which takes much more memory to store. The math is outside the scope for this lesson, but it's expected in this scenario that topic 0 will be less informative than the ones that come after it, so we'll skip it.)
+> ## Why is the first topic, "Topic 0," so low?
+>
+> It has to do with how our SVD was setup. Truncated SVD does not mean center the data beforehand, which takes advantage of sparse matrix algorithms by leaving most of the data at zero. Otherwise, our matrix will me mostly filled with the negative of the mean for each column or row, which takes much more memory to store. The math is outside the scope for this lesson, but it's expected in this scenario that topic 0 will be less informative than the ones that come after it, so we'll skip it.
+{: .callout}
 
 ```python
 numDimensions = 7

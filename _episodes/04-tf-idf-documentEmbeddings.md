@@ -102,11 +102,11 @@ print(tfidf.shape)
 
 Here, `tfidf.shape` shows us the number of rows (books) and columns (words) are in our model.
 
-> #### Check Your Understanding: `max_df` and `min_df`
+> ## Check Your Understanding: `max_df` and `min_df`
 >
 > Try different values for `max_df` and `min_df`. How does increasing/decreasing each value affect the number of columns (words) that get included in the model?
 >
-> > #### Solution
+> > ## Solution
 > >
 > > Increasing `max_df` results in more words being included in the more, since a higher `max_df` corresponds to accepting more common words in the model. A higher `max_df` accepts more words likely to be stopwords.
 > > 
@@ -115,7 +115,7 @@ Here, `tfidf.shape` shows us the number of rows (books) and columns (words) are 
 {: .challenge}
 
 
-#### Inspecting Results
+### Inspecting Results
 
 We have a huge number of dimensions in the columns of our matrix (just shy of 10,000), where each one of which represents a word. We also have a number of documents (about forty), each represented as a row.
 
