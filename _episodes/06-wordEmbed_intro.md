@@ -1,7 +1,7 @@
 ---
 title: "Intro to Word Embeddings"
-teaching: 20
-exercises: 20
+teaching: 40
+exercises: 5
 questions:
 - "How can we extract vector representations of individual words rather than documents?"
 - "What sort of research questions can be answered with word embedding models?"
@@ -182,15 +182,34 @@ wv.similarity('whale','potato')
 Our similarity scale seems to be on the right track. We can also use the similarity function to quickly extract the top N most similar words to *whale*.
 
 ```python
-print(wv.most_similar(positive=['whale'], topn=10))
+wv.most_similar(positive=['whale'], topn=10)
 ```
 
 ~~~
-[('whales', 0.8474178910255432), ('humpback_whale', 0.7968777418136597), ('dolphin', 0.7711714506149292), ('humpback', 0.7535837292671204), ('minke_whale', 0.7365031838417053), ('humpback_whales', 0.7337379455566406), ('dolphins', 0.7213870882987976), ('humpbacks', 0.7138717174530029), ('shark', 0.7011443376541138), ('orca', 0.7007412314414978)]
+[('whales', 0.8474178910255432),
+ ('humpback_whale', 0.7968777418136597),
+ ('dolphin', 0.7711714506149292),
+ ('humpback', 0.7535837292671204),
+ ('minke_whale', 0.7365031838417053),
+ ('humpback_whales', 0.7337379455566406),
+ ('dolphins', 0.7213870882987976),
+ ('humpbacks', 0.7138717174530029),
+ ('shark', 0.7011443376541138),
+ ('orca', 0.7007412314414978)]
 ~~~
 {: .output}
 
 Based on our ability to recover similar words, it appears the Word2Vec embedding method produces fairly good (i.e., semantically meaningful) word representations. 
+
+> ## Exploring Words With Multiple Meanings
+>
+> 1. Use Gensim's ```most_similar``` function to find the top 10 most similar words
+>
+> > ## Solution
+> >
+> >
+> {:.solution}
+{:.challenge}
 
 ### Adding and Subtracting Vectors: King - Man + Woman = Queen
 We can also add and subtract word vectors to reveal latent meaning in words. As a canonical example, let's see what happens if we take the word vector representing *King*, subtract the *Man* vector from it, and then add the *Woman* vector to the result. We should get a new vector that closely matches the word vector for *Queen*. We can test this idea out in Gensim with:
