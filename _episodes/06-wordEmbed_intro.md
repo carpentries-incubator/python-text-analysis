@@ -58,8 +58,7 @@ print(type(wv))
     <class 'gensim.models.keyedvectors.KeyedVectors'>
 
 
-In this model, each word has a 300-dimensional representation:
-
+In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as being 300 features of a word that encode the word's meaning and relationship to other words.
 
 ```python
 print(wv['whale'].shape) 
