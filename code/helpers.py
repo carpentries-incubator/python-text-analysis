@@ -74,6 +74,10 @@ def lemmatize_files(tokenizer, corpus_file_list):
         )
     return lemma_filename_list
 
+def matrixToSortedDataFrame(mat, index, sortby):
+    df = pandas.DataFrame(mat, index=index, columns=[sortby]) 
+    df = df.sort_values(by=[sortby], ascending=False) 
+    return df
 
 def preprocess_text(text: str, remove_stopwords: bool, verbose: bool) -> list:
     """Function that cleans the input text by going to:
