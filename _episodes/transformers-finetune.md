@@ -1,7 +1,7 @@
 ---
 title: "Finetuning LLMs"
-teaching: 20
-exercises: 20
+teaching: 60
+exercises: 60
 questions:
 - "How can I fine-tune preexisting LLMs for my own research?"
 - "How do I pick the right data format?"
@@ -18,8 +18,6 @@ keypoints:
 - "Label Studio and other tagging software allows you to easily tag your own data."
 - "Looking at common metrics used and other models performance in your subject area will give you an idea of how your model did."
 ---
-
-That's it! Let's review briefly what we have done. We've discussed how to select a task. We used a HuggingFace example to help decide on a data format, and looked over it to get an idea of what the model expects. We went over Label Studio, one way to label your own data. We retokenized our example data and fine-tuned a model. Then we went over the results of our model.
 
 # Finetuning BERT
 
