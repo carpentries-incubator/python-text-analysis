@@ -49,7 +49,7 @@ As the famous linguist JR Firth once said, “You shall know a word by the compa
 ### Word embeddings with Word2Vec
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. We'll unpack the full algorithm behind Word2Vec in the next episode. First, let's see what we can do with meaningful word vectors (i.e. embeddings).
 
-Gensim refers to the pre-trained model object as keyed vectors:
+Gensim refers to the pre-trained model object as keyed vectors.
 
 ```python
 print(type(wv))
@@ -60,7 +60,7 @@ print(type(wv))
 ~~~
 {: .output}
 
-In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as being 300 features of a word that encode the word's meaning and relationship to other words.
+In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as being 300 different features that encode a word's meaning. Unlike LSA, which produces somewhat interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful.
 
 ```python
 print(wv['whale'].shape) 
