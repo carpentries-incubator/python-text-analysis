@@ -7,7 +7,7 @@ questions:
 - "What sort of research questions can be answered with word embedding models?"
 objectives:
 - "Understand the difference between document embeddings and word embeddings "
-- "Introduce the Gensim python library and its word embedding fucntionality"
+- "Introduce the Gensim python library and its word embedding functionality"
 - "Explore vector math with word embeddings using pretrained models"
 - "Visualize word embeddings with the help of principal component analysis (PCA)"
 - "Discuss word embedding use-cases"
