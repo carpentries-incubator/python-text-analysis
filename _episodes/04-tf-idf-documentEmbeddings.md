@@ -132,6 +132,8 @@ from helpers import matrixToSortedDataFrame
 sorted_tfidf = matrixToSortedDataFrame(tfidf.idf_, tfidf.get_feature_names_out(), "idf_weights")
 ```
 
+> ## Your Mileage May Vary
+> 
 > The result below will differ based on how you configured your tokenizer and vectorizer earlier.
 {: .callout}
 

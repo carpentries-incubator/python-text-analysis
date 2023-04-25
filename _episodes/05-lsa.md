@@ -451,7 +451,7 @@ colormap = {
 lsa_plot(data, svdmodel, groupby="Author", colors=colormap)
 ```
 
-![png](LSA_files/LSA_25_0.png)
+![Plot results of our LSA model](../images/05-lsa-plot.png)
 
 It seems that some of the books by the same author are clumping up together in our plot.
 
@@ -534,7 +534,7 @@ Now that we have names for our first two topics, let's redo the plot with better
 lsa_plot(data, svdmodel, groupby="Author", colors=colormap, xlabel="Victorian vs. Elizabethan", ylabel="English vs. French")
 ```
 
-![png](LSA_files/LSA_33_0.png)
+![Plot results of our LSA model, revised with new axis labels](../images/05-lsa-plot-revised.png)
 
 > ## Check Your Understanding: Intrepreting LSA Results
 >
