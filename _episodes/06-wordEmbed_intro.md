@@ -51,10 +51,9 @@ Word2vec is a famous *word embedding* method that was created and published in 2
 
 Gensim refers to the pre-trained model object as keyed vectors:
 
-~~~
+```python
 print(type(wv))
-~~~
-{: .python}
+```
 
 ~~~
     <class 'gensim.models.keyedvectors.KeyedVectors'>
@@ -66,9 +65,10 @@ In this model, each word has a 300-dimensional representation. You can think of 
 ```python
 print(wv['whale'].shape) 
 ```
-
+~~~
     (300,)
-
+~~~
+{: .output}
 
 Once the word embedding model is loaded, we can use it to extract vector representations of words. Let's take a look at the vector representaton of *whale*.
 
@@ -76,7 +76,7 @@ Once the word embedding model is loaded, we can use it to extract vector represe
 ```python
 wv['whale'] 
 ```
-
+~~~
     array([ 0.08154297,  0.41992188, -0.44921875, -0.01794434, -0.24414062,
            -0.21386719, -0.16796875, -0.01831055,  0.32421875, -0.09228516,
            -0.11523438, -0.5390625 , -0.00637817, -0.41601562, -0.02758789,
@@ -138,8 +138,8 @@ wv['whale']
             0.30078125, -0.15625   , -0.05224609, -0.19042969,  0.10595703,
             0.078125  ,  0.29882812,  0.34179688,  0.04248047,  0.03442383],
           dtype=float32)
-
-
+~~~
+{: .output}
 
 Once we have our words represented as vectors, we can start using some math to gain additional insights. For instance, we can compute the cosine similarity between two different word vectors using Gensim's similarity function. 
 
@@ -148,70 +148,61 @@ Once we have our words represented as vectors, we can start using some math to g
 * 0 indicating that the two vectors are perpendicular or 90 degrees to one another
 * -1 indicating that the two vectors are 180 degrees apart.
 
-Cords that occur in similar contexts should have similar vectors/embeddings. How similar are the word vectors representing *whale* and *dolphin*?
-
+Words that occur in similar contexts should have similar vectors/embeddings. How similar are the word vectors representing *whale* and *dolphin*?
 
 ```python
 wv.similarity('whale','dolphin')
 ```
-
-
-
-
+~~~
     0.77117145
-
-
+~~~
+{: .output}
 
 How about *whale* and *fish*?
-
 
 ```python
 wv.similarity('whale','fish')
 ```
-
-
-
-
+~~~
     0.55177623
-
-
+~~~
+{: .output}
 
 How about *whale* and... *potato*?
-
 
 ```python
 wv.similarity('whale','potato')
 ```
 
-
-
-
+~~~
     0.15530972
-
-
+~~~
+{: .output}
 
 Our similarity scale seems to be on the right track. We can also use the similarity function to quickly extract the top N most similar words to *whale*.
-
 
 ```python
 print(wv.most_similar(positive=['whale'], topn=10))
 ```
 
+~~~
     [('whales', 0.8474178910255432), ('humpback_whale', 0.7968777418136597), ('dolphin', 0.7711714506149292), ('humpback', 0.7535837292671204), ('minke_whale', 0.7365031838417053), ('humpback_whales', 0.7337379455566406), ('dolphins', 0.7213870882987976), ('humpbacks', 0.7138717174530029), ('shark', 0.7011443376541138), ('orca', 0.7007412314414978)]
-
+~~~
+{: .output}
 
 Based on our ability to recover similar words, it appears the Word2Vec embedding method produces fairly good (i.e., semantically meaningful) word representations. 
 
 ### Adding and Subtracting Vectors: King - Man + Woman = Queen
 We can also add and subtract word vectors to reveal latent meaning in words. As a canonical example, let's see what happens if we take the word vector representing *King*, subtract the *Man* vector from it, and then add the *Woman* vector to the result. We should get a new vector that closely matches the word vector for *Queen*. We can test this idea out in Gensim with:
 
-
 ```python
 print(wv.most_similar(positive=['woman','king'], negative=['man'], topn=3))
 ```
 
+~~~
     [('queen', 0.7118193507194519), ('monarch', 0.6189674139022827), ('princess', 0.5902431011199951)]
-
+~~~
+{: .output}
 
 Behind the scenes of the most_similar function, gensim first unit normalizes the *length* of all vectors included in the positive and negative function arguments. This is done before adding/subtracting, which prevents longer vectors from unjustly skewing the sum. Note that length here refers to the linear algebraic definition of summing the squared values of each element in a vector followed by taking the square root of that sum:
 
@@ -223,13 +214,11 @@ where
 - $$v_i$$ represents the $$i$$th component of vector $$\mathbf{v}$$
 - $$n$$ represents the number of components (or dimensions) in vector $$\mathbf{v}$$
 
-
 ### Visualizing word vectors with PCA
 
 Similar to how we visualized our texts in the previous lesson to show how they relate to one another, we can visualize how a sample of words relate by plotting their respecitve word vectors. 
 
 Let's start by extracting some word vectors from the pre-trained Word2Vec model.
-
 
 ```python
 import numpy as np
@@ -237,13 +226,10 @@ words = ['man','woman','boy','girl','king','queen','prince','princess']
 sample_vectors = np.array([wv[word] for word in words])
 sample_vectors.shape # 8 words, 300 dimensions 
 ```
-
-
-
-
+~~~
     (8, 300)
-
-
+~~~
+{: .output}
 
 Recall that each word vector has 300 dimensions that encode a word's meaning. Considering humans can only visualize up to 3 dimensions, this dataset presents a plotting challenge. We could certainly try plotting just the first 2 dimensions or perhaps the dimensions with the largest amount of variability, but this would overlook a lot of the information stored in the other dimensions/variables. Instead, we can use a *dimensionality-reduction* technique known as Principal Component Analysis (PCA) to allow us to capture most of the information in the data with just 2 dimensions.
 
@@ -262,7 +248,6 @@ In the code below, we will assess how much variance is stored in each dimension 
 
 Notice how the first two dimensions capture around 70% of the variability in the dataset.
 
-
 ```python
 pca = PCA() # init PCA object
 pca.fit(sample_vectors) # the fit function determines the new dimensions or axes to represent the data -- the result is sent back to the pca object
@@ -280,12 +265,10 @@ plt.savefig("wordEmbeddings_word2vecPCAvarExplained.jpg")
 
 We can now use these new dimensions to transform the original data.
 
-
 ```python
 # transform the data
 result = pca.transform(sample_vectors)
 ```
-
  Once transformed, we can plot the first two principal components representing each word in our list: ```['man', 'woman', 'boy', 'girl', 'king', 'queen', 'prince', 'princess']```
 
 
@@ -315,4 +298,3 @@ From the above examples, we clearly see that Word2Vec is able to map words onto 
 
 ### Summary & Next episode
 In the next episode, we'll explore the technology behind Word2Vec — artificial neural networks.
-.
