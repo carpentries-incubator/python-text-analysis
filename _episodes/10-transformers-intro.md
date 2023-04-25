@@ -29,9 +29,14 @@ We will go through the architecture of a highly influential LLM called BERT. BER
 
 This is a complex architecture, but it can be broken down into many of the things we've learned in this course. The model is displayed with the input on the bottom and the output at the top, as is common with neural networks. Let's take a look at one component at a time.
 
+### Training methods
+Much like Word2Vec, BERT uses the distributional hypothesis as the underpinning for its training method. That tells us that the meaning of the word can be derived from the context it is frequently used in.
+
+BERT is trained by randomly __masking__ words from texts, and the model is asked to predict what they are. This is also called a __cloze test__. The correctness of the guess is then fed back into the neural network to improve future guesses. BERT also tries to guess what the next sentence for a document will be and incorporates those into its segment embeddings.
+
 ### Tokenizer
 
-First, the input string is broken up by a tokenizer. The tokens are created using a tokenizer which breaks words into smaller lexical units called morphemes rather than words. There are two special types of tokens in this tokenizer. The [CLS] token indicates the start of the document. The [SEP] token indicates the end of a document, or a "segment". Let's look at the tokenizer in action.
+First, the input string is broken up by a tokenizer. For BERT, the algorithm used to tokenize is called WordPiece. The tokenizer breaks words into smaller lexical units called morphemes rather than words. There are three special types of tokens in this tokenizer. The [CLS] token indicates the start of the document. The [SEP] token indicates the end of a document, or a "segment". Finally, to train the model, randomly selected words are replaced by a [MASK] token, and the model is asked to predict them. Let's look at the tokenizer in action.
 
 ```python
 !pip install parse bertviz transformers
@@ -58,7 +63,7 @@ print(tokenizer.convert_ids_to_tokens(encoding))
 
 ![embeddings2.jpg](../images/10-embeddings.jpg)
 
-Next the model calculates an embedding for each token. Three values are used to calculate our final embedding for each token. The first part is the token embedding, similar to the ones we have discussed with Word2Vec and Glove, only this embedding is trained by the BERT model. For BERT, this algorithm is called WordPiece. The second part is a combination of all the tokens in a given segment, also called a segment embedding. The third part is a positional embedding, which accounts for the locations of words in the document. All three parts are combined as the embedding that is fed into the model. This is how we get our initial input into the model.
+Next the model calculates an embedding for each token. Three values are used to calculate our final embedding for each token. The first part is the token embedding, similar to the ones we have discussed with Word2Vec and Glove, only this embedding is trained by the BERT model.  The second part is a combination of all the tokens in a given segment, also called a segment embedding. The third part is a positional embedding, which accounts for the locations of words in the document. All three parts are combined as the embedding that is fed into the model. This is how we get our initial input into the model.
 
 ### Transformers
 
@@ -104,7 +109,7 @@ tfviz.hview()
 ```
 ![bertviz](../images/10-bertviz.png)
 
-This visualization needs to run in a Jupyter notebook to render properly. It shows how attention works in the BERT model. The different colors represent different attention heads. The left side represents the input embedding and the depth of color shows how much each input weighs in the output of that layer.
+This visualization needs to run in Colab or a Jupyter notebook to render properly. It shows how attention works in the BERT model. The different colors represent different attention heads. The left side represents the input embedding and the depth of color shows how much each input weighs in the output of that layer.
 
 Select "Sentence A to Sentence A" on the attention dropdown and mouse over the word "it." In layers 0-7 we can see how different attention heads start to incorporate the embedding of "because" and "too tired" into our embedding for "it." Once we get to layers 8-10, we can see how "chicken" starts to attend to the word "it", indicating that the model has started to incorporate the qualities of being "too tired" that are already part of "it" into the representation for "chicken". Mousing over the word "it" we can also see that it starts to incorporate the embedding built into the word "chicken."
 
@@ -124,7 +129,7 @@ The last step in BERT is the classification layer. During fine-tuning, we add on
 
 Above is a set of images from the creators of BERT showing how it could be easily adapted to different tasks. One of the reasons BERT became so ubiquitous is that it was very effective at __transfer learning__. Transfer learning means that the underlying model can be repurposed for different tasks.
 
-The underlying large language model for BERT was trained for thousands of compute hours on hundreds of millions of words, but the weights calculated can be reused on a variety of tasks with minimal adaptation. The model does get fine-tuned for each task, but this is much easier than the initial training.
+The underlying large language model for BERT was trained on billions of words for hundreds of compute hours on specially designed chips. It is impractical to retrain it from scratch for every possible use. However, the weights calculated can be reused on a variety of tasks with minimal adaptation. The model does get fine-tuned for each task, but this is much easier than the initial training.
 
 When we adapt BERT for a given NER task, we just need to provide a much smaller set of labelled data to retrain the last step of converting our output into a set of probabilities. These models have had great success at a variety of tasks like parts of speech tagging, translation, document summary, and NER labelling.
 
