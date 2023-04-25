@@ -56,7 +56,7 @@ print(type(wv))
 ```
 
 ~~~
-    <class 'gensim.models.keyedvectors.KeyedVectors'>
+<class 'gensim.models.keyedvectors.KeyedVectors'>
 ~~~
 {: .output}
 
@@ -66,7 +66,7 @@ In this model, each word has a 300-dimensional representation. You can think of 
 print(wv['whale'].shape) 
 ```
 ~~~
-    (300,)
+(300,)
 ~~~
 {: .output}
 
@@ -154,7 +154,7 @@ Words that occur in similar contexts should have similar vectors/embeddings. How
 wv.similarity('whale','dolphin')
 ```
 ~~~
-    0.77117145
+0.77117145
 ~~~
 {: .output}
 
@@ -164,7 +164,7 @@ How about *whale* and *fish*?
 wv.similarity('whale','fish')
 ```
 ~~~
-    0.55177623
+0.55177623
 ~~~
 {: .output}
 
@@ -175,7 +175,7 @@ wv.similarity('whale','potato')
 ```
 
 ~~~
-    0.15530972
+0.15530972
 ~~~
 {: .output}
 
@@ -186,7 +186,7 @@ print(wv.most_similar(positive=['whale'], topn=10))
 ```
 
 ~~~
-    [('whales', 0.8474178910255432), ('humpback_whale', 0.7968777418136597), ('dolphin', 0.7711714506149292), ('humpback', 0.7535837292671204), ('minke_whale', 0.7365031838417053), ('humpback_whales', 0.7337379455566406), ('dolphins', 0.7213870882987976), ('humpbacks', 0.7138717174530029), ('shark', 0.7011443376541138), ('orca', 0.7007412314414978)]
+[('whales', 0.8474178910255432), ('humpback_whale', 0.7968777418136597), ('dolphin', 0.7711714506149292), ('humpback', 0.7535837292671204), ('minke_whale', 0.7365031838417053), ('humpback_whales', 0.7337379455566406), ('dolphins', 0.7213870882987976), ('humpbacks', 0.7138717174530029), ('shark', 0.7011443376541138), ('orca', 0.7007412314414978)]
 ~~~
 {: .output}
 
@@ -200,7 +200,7 @@ print(wv.most_similar(positive=['woman','king'], negative=['man'], topn=3))
 ```
 
 ~~~
-    [('queen', 0.7118193507194519), ('monarch', 0.6189674139022827), ('princess', 0.5902431011199951)]
+[('queen', 0.7118193507194519), ('monarch', 0.6189674139022827), ('princess', 0.5902431011199951)]
 ~~~
 {: .output}
 
@@ -227,7 +227,7 @@ sample_vectors = np.array([wv[word] for word in words])
 sample_vectors.shape # 8 words, 300 dimensions 
 ```
 ~~~
-    (8, 300)
+(8, 300)
 ~~~
 {: .output}
 
@@ -297,4 +297,4 @@ From the above examples, we clearly see that Word2Vec is able to map words onto 
 3. Categorical search
 
 ### Summary & Next episode
-In the next episode, we'll explore the technology behind Word2Vec — artificial neural networks.
+In the next episode, we'll explore the technology behind Word2Vec — artificial neural networks (ANNs).
