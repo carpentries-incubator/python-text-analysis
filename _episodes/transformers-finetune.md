@@ -1,3 +1,26 @@
+---
+title: "Finetuning LLMs"
+teaching: 20
+exercises: 20
+questions:
+- "How can I fine-tune preexisting LLMs for my own research?"
+- "How do I pick the right data format?"
+- "How do I create my own labels?"
+- "How do I put my data into a model for finetuning?"
+- "How do I evaluate success at my task?"
+objectives:
+- "Examine CONLL2003 data."
+- "Learn about Label Studio."
+- "Learn about finetuning a BERT model."
+keypoints:
+- "HuggingFace has many examples of LLMs you can fine-tune."
+- "Examine preexisting examples to get an idea of what your model expects."
+- "Label Studio and other tagging software allows you to easily tag your own data."
+- "Looking at common metrics used and other models performance in your subject area will give you an idea of how your model did."
+---
+
+That's it! Let's review briefly what we have done. We've discussed how to select a task. We used a HuggingFace example to help decide on a data format, and looked over it to get an idea of what the model expects. We went over Label Studio, one way to label your own data. We retokenized our example data and fine-tuned a model. Then we went over the results of our model.
+
 # Finetuning BERT
 
 ## Setup
@@ -648,3 +671,8 @@ print(ner_results)
 ```txt
 [{'entity_group': 'Rating', 'score': 0.9655443, 'word': 'four star', 'start': 11, 'end': 20}, {'entity_group': 'Location', 'score': 0.9490055, 'word': 'milwaukee', 'start': 35, 'end': 44}, {'entity_group': 'Dish', 'score': 0.8788909, 'word': 'tapas', 'start': 50, 'end': 55}]
 ```
+##  Outro
+
+That's it! Let's review briefly what we have done. We've discussed how to select a task. We used a HuggingFace example to help decide on a data format, and looked over it to get an idea of what the model expects. We went over Label Studio, one way to label your own data. We retokenized our example data and fine-tuned a model. Then we went over the results of our model.
+
+LLM's are the state-of-the-art for many types of task, and now you have an idea of how to use and even fine tune them in your own research. Our next lesson will discuss the ethics and implications of text analysis.
