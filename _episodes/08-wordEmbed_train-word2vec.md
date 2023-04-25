@@ -1,12 +1,14 @@
 ---
+teaching: 45
 exercises: 20
 keypoints:
-- TODO
+- "As an alternative to using a pre-trained model, training a Word2Vec model on a specific dataset allows you use Word2Vec for NER-related tasks."
 objectives:
-- TODO
+- "Understand the benefits of training a Word2Vec model on your own data rather than using a pre-trained model"
 questions:
-- TODO
-teaching: 20
+- "How can we train a Word2Vec model?"
+- "When is it beneficial to train a Word2Vec model on a specific dataset?"
+
 title: Training Word2Vec
 ---
 

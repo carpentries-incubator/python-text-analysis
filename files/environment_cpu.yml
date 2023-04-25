@@ -26,3 +26,5 @@ dependencies:
     - parse
     - scikit-learn
     - scipy
+    - bertviz
+    - IPython
