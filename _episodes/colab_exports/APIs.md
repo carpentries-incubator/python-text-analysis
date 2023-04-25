@@ -1,11 +1,16 @@
 ---
 exercises: 20
 keypoints:
-- TODO
+- You will need to evaluate the suitability of data for inclusion in your corpus and will need to take into consideration issues such as legal/ethical restrictions and data quality among others. 
+- Making an API request is a common way to access data. 
+- You can build a query using a source's URL and combine it with get() in Python to make a request for data. 
+- 
 objectives:
-- TODO
+- Become familiar with legal and ethical considerations for data collection.
+- Practice making an API request to a cultural heritage institution and interpreting responses. 
 questions:
-- TODO
+- How do I know what data I can use for my corpus? 
+- How can I use an API to acquire data?
 teaching: 20
 title: APIs
 ---
