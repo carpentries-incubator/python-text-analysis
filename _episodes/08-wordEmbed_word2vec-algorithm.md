@@ -29,9 +29,9 @@ How is it that Word2Vec is able to represent words in such a semantically meanin
 We could spend an entire workshop on neural networks (see [here](https://carpentries-incubator.github.io/machine-learning-novice-sklearn/06-neural-networks/index.html) and [here](https://carpentries-incubator.github.io/deep-learning-intro/) for a couple of related lessons). Here, we will distill some of the most important concepts needed to understand them in the context of text-analysis.
 
 ### Supervised learning
-Most machine learning systems "learn" by taking tabular input data with N observations (rows), M features (cols), and an associated output (e.g., a class label or predicted value for some target variable), and using it to form a model. The maths behind the machine learning doesn’t care what the data is as long as it can represented numerically or categorised. 
+Most machine learning systems "learn" by taking tabular input data with N observations (rows), M features (cols), and an associated output (e.g., a class label or predicted value for some target variable), and using it to form a model. The maths behind the machine learning doesn’t care what the data is as long as it can represented numerically or categorised. When the model learns this function based on observed data, we call this "training" the model.
 
-#### Example Table
+#### Training Dataset Example
 As a example, maybe we have recorded tail lengths, weights, and snout lengths from a disorganized vet clinic database that is missing some of the animals' labels (e.g., cat vs dog). For simplicity, let's say that this vet clinic only treats cats and dogs. With the help of neural networks, we could use a labelled dataset to learn a function mapping from tail length, weight, and snout length to the animal's species label (i.e., a cat or a dog). 
 
 | Tail length (in) | Weight (lbs) | Snout length (in) | Label |
@@ -54,7 +54,7 @@ The diagram above shows a perceptron —  the computational unit that makes up a
 * Has adjustable weights which scale the impact of individual inputs 
 * Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
 
-With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). It does this by optimizing its weights to correctly classify some observed labelled data. More explicitly, its training method can be outlined as follows:
+With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). It does this by optimizing its weights to correctly classify some observed labelled data — drawing a linear boundary between the two classes. More explicitly, its training method can be outlined as follows:
 
 ### Training algorithm
 1. **Initialize weights**: The perceptron model starts with randomly initialized weights. These weights are the parameters/coefficients that the model will learn during training to make accurate predictions.
