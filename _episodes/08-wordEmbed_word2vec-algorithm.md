@@ -17,7 +17,14 @@ keypoints:
 
 
 ## Mapping inputs to outputs using neural networks
-How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an artificial neural network. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including image classification, language translation, speech-to-text, weather forecasting, and much more. We could spend an entire workshop on neural networks (see [here](https://carpentries-incubator.github.io/machine-learning-novice-sklearn/06-neural-networks/index.html) and [here](https://carpentries-incubator.github.io/deep-learning-intro/) for a couple of related lessons). Here, we will distill some of the most important concepts needed to understand them in the context of text-analysis.
+How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an artificial neural network. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including:
+* Image classification
+* Language translation
+* Speech-to-text
+* Weather forecasting
+* ... and much more
+
+We could spend an entire workshop on neural networks (see [here](https://carpentries-incubator.github.io/machine-learning-novice-sklearn/06-neural-networks/index.html) and [here](https://carpentries-incubator.github.io/deep-learning-intro/) for a couple of related lessons). Here, we will distill some of the most important concepts needed to understand them in the context of text-analysis.
 
 ### Supervised learning
 Most machine learning systems "learn" by taking tabular input data with N observations (rows), M features (cols), and an associated output (e.g., a class label or predicted value for some target variable), and using it to form a model. The maths behind the machine learning doesn’t care what the data is as long as it can represented numerically or categorised. Some examples might include:
@@ -29,7 +36,7 @@ Most machine learning systems "learn" by taking tabular input data with N observ
 * classifying what if an image contains a person or not
 
 #### Example Table
-As a example, maybe we have recorded tail lengths, weights, and snout lengths from a disorganized vet clinic database that is missing some of the animals' labels. For simplicity, let's say that this vet clinic only treats cats and dogs. With the help of neural networks, we could use a labelled dataset to learn a function mapping from tail length, weight, and snout length to the animal's species label (i.e., a cat or a dog). 
+As a example, maybe we have recorded tail lengths, weights, and snout lengths from a disorganized vet clinic database that is missing some of the animals' labels (e.g., cat vs dog), but still has a record of each animal's tail length, weight, and snout length. For simplicity, let's say that this vet clinic only treats cats and dogs. With the help of neural networks, we could use a labelled dataset to learn a function mapping from tail length, weight, and snout length to the animal's species label (i.e., a cat or a dog). 
 
 | Tail length (in) | Weight (lbs) | Snout length (in) | Label |
 | ---------------- | ------------ | ----------------- | ----- |
@@ -42,16 +49,14 @@ As a example, maybe we have recorded tail lengths, weights, and snout lengths fr
 
 In the above table used to train a neural network model, the model learns how best to map the observed features (tail length, weight, and snout length) to their assigned classes. After the model is trained, it can be used to infer the labels of unlabelled samples (so long as they hae tail length, weight, and snouth length recorded).
 
-
 ## The Perceptron 
-![Single artificial neuron](../images/wordEmbed_perceptron.png)
+![Single artificial neuron](../images/wordEmbed_perceptron.svg)
 
 The diagram above shows a perceptron —  the computational unit that makes up artificial neural networks. Perceptrons are inspired by real biological neurons. From the diagram, we can see that the perceptron...
 
 * receives multiple inputs and returns a single output
 * has adjustable weights which scale the impact of individual inputs 
 * has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
-* has a "bias" weight which acts to adjust the activation threshold of the model
 
 With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). It does this by optimizing its weights to correctly classify some observed labelled data. More explicitly, its training method can be outlined as follows:
 
@@ -79,7 +84,7 @@ A single perceptron cannot solve any function that is not linearly separable, me
 ## The multilayer perceptron (MLP)
 To overcome the limitation of the perceptron, we can stack together multiple perceptrons in a multilayer neural network (shown below) called a multilayer perceptron (MLP). An MLP refers to a type of artificial neural network (ANN) that consists of multiple layers of interconnected nodes (neurons) organized in a feedforward manner. It typically has one or more hidden layers between the input and output layers, with each hidden layer applying an activation function to the weighted sum of its inputs. By stacking together layers of perceptrons, the MLP model can learn complex non-linear relationships in the data and make predictions based on those learned patterns.
 
-![Multilayer neural network](../images/wordEmbed_NN.png)
+![Multilayer neural network](../images/wordEmbed_NN.svg)
 
 In the diagram above, the general structure of a multilayer neural network is shown with...
 * **Input Layer**: The input layer is the first layer of the MLP and consists of input nodes that receive the features of the input data. Each node in the input layer represents a feature or attribute of the input data. The input layer is not involved in any computation or activation; it simply passes the input features to the next layer.
@@ -91,18 +96,20 @@ In the diagram above, the general structure of a multilayer neural network is sh
 ### Training algorithm
 Similar to the perceptron, the MLP is trained using a supervised learning algorithm that updates the weights iteratively based on the prediction error of each training sample. 
 
-1. **Initialization**: The network's weights and biases are randomly initialized.
+1. **Initialization**: The network's weights are randomly initialized.
 2. **Forward Propagation**: Input data is fed through the network from input nodes to output nodes, with weights applied at each connection, and the output is computed.
 3. **Error Calculation**: The difference between the predicted output and the actual output (target) is calculated as the error.
 4. **Backpropagation**: The error is propagated backward through the network, and the weights are adjusted to minimize the error.
 5. **Iterative Process**: Steps 2-4 are repeated for multiple iterations or epochs, with input data fed through the network and weights updated until the network's performance converges to a satisfactory level.
 6. **Function Mapping**: Once the network is trained, it can be used to map new input data to corresponding outputs, leveraging the learned weights.
 
-
 ## Deriving New Features from Neural Networks
 After training a neural network, the neural weights encode new features of the data that are conducive to performing well on whatever task the neural network is given. This is due to the feedforward processing built into the network — the outputs of previous layers are sent to subsequent layers, and the so additional transformations get applied to the original inputs as they transcend the network. 
 
-Generally speaking, the deeper the neural network is, the more complicated/abstract these features can become. For example, in deep convolutional neural networks (a special kind of neural network designed for image processing), the features each layer is most responsive to look something like the image shown below:
+Generally speaking, the deeper the neural network is, the more complicated/abstract these features can become. For example, in deep convolutional neural networks (a special kind of neural network designed for image processing), the features in each layer look something like the image shown below when the model is trained on a facial recognition task. 
+
+![Hierarchical Feature Representations - Face Detection](../images/wordEmbed_hierarchical-features.png)
+
 
 ## Training Word2Vec to Learn Word Embeddings
 Recall that the ultimate goal of the Word2Vec method is to output meaningful word embeddings/vectors. How can we train a neural network for such a task? We could try to tediously hand-craft a large list of word vectors that have the properties we seek (e.g., similar words have similar vectors), and then train a neural network to learn this mapping before applying it to new words. However, crafting a list of vectors manually would be an arudous task. Furthermore, it is not immediately clear what kind of vector representation would be best.
@@ -114,7 +121,7 @@ What task can we give a neural network to learn meaningful word embeddings? Our 
 
 #### **Skip-gram**
 
-[Skip-gram](../images/wordEmbed_word2vec-training-methods.png)
+![Skipgram](../images/wordEmbed_word2vec-training-methods.png)
 
 The Skip-gram training method takes as an input a single word in a sentence, and tries to guess the most likely surrounding context words associated with that word. With this task setup, the neural network will learn a function that can map any word to its likely surrounding context words. 
 
@@ -127,7 +134,7 @@ With a model trained on such a task, how can we extract the model's learned feat
 
 These steps can be visualized in the Word2Vec model diagram shown below, with Sigmas representing individual neurons and their ability to integrate input from previous layers.
 
-[Word2Vec Model Architecture (Skip-gram)](../images/wordEmbed_word2vec-SG-model-architecture.png)
+![Word2Vec Model Architecture (Skip-gram)](../images/wordEmbed_word2vec-SG-model-architecture.png)
 
 Source: https://israelg99.github.io/2017-03-23-Word2Vec-Explained/#:~:text=How%20does%20Word2Vec%20produce%20word,to%20reduce%20a%20loss%20function.
 
