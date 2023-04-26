@@ -7,9 +7,10 @@ exercises: 20
 
 There are a number of files we need to conduct the workshop. By cloning the git repository, you will be able to have a copy of all of the necessary files and functions required to run through the exercises.
 
-1. Click the link below to open the [Github](https://github.com/carpentries-incubator/python-text-analysis/blob/gh-pages/text-analysis-setup.zip) page.
-2. Click the "Download" button.
-3. Unzip the directory to your desktop or working directory.
+1. Click the link below to open the [Github](https://github.com/carpentries-incubator/python-text-analysis) page.
+2. Click the green "Code <>" button.
+3. Click "Download as zip."
+4. Unzip the directory to your desktop or working directory.
 
 ## Choose Colab or Local Install
 
@@ -21,8 +22,8 @@ We will be using [Google Colab](https://research.google.com/colaboratory/faq.htm
 
 1. Visit the [Google Colab website](https://colab.research.google.com/) and click "New notebook" from the pop-up that shows up
 2. Visit [Google Drive](https://drive.google.com/drive/my-drive) and find a newly created "Colab Notebooks" folder stored under MyDrive, ```/My Drive/Colab Notebooks```
-3. Create a folder named ```text-analysis``` in the Colab Notebooks folder on Google Drive. The path should look something like this: ```/My Drive/Colab Notebooks/text-analysis/```.
-4. Upload contents of the .zip file you downloaded to Google Drive.
+3. Create a folder named ```text-analysis``` in the Colab Notebooks folder on Google Drive. The path should look like this: ```/My Drive/Colab Notebooks/text-analysis/```.
+4. Upload contents of the "python-text-analysis-gh-pages" file from Git you downloaded to the "text-analysis" file you created in Google Drive.
 5. **Note for instructors**: At the start of each section, create a new Colab file within the text-analysis folder by navigating to ```/My Drive/Colab Notebooks/text-analysis/``` within [Google Drive](https://drive.google.com/drive/my-drive), followed by clicking ```New -> More -> Google Colaboratory```
 
 ## Anaconda Local Setup (Alternative to Colab)
