@@ -219,6 +219,18 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 > {:.solution}
 {:.challenge}
 
+> ## Word2Vec Applications in Digital Humanities
+> Recall from the exercise earlier in this episode that the vectors produced by Word2Vec are a reflection of the data used to train the model. That is, the vectors will reflect how words are typically used in a specific dataset. By training Word2Vec on large corpora of text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
+> 
+> Taking this into consideration, what are some possible ways we could make use of Word2Vec to explore newspaper articles from the years 1900-2000?
+> > ## Solution
+> > 
+> > Investigate how the meaning of certain words can evolve over time by training separate models for different chunks of time (e.g., 1900-1950, 1951-2000, etc.)
+> > 
+> > We'll explore how training a Word2Vec model on specific texts can yield insights into those texts later in this lesson.
+> {:.solution}
+{:.challenge}
+
 ### Adding and Subtracting Vectors: King - Man + Woman = Queen
 We can also add and subtract word vectors to reveal latent meaning in words. As a canonical example, let's see what happens if we take the word vector representing *King*, subtract the *Man* vector from it, and then add the *Woman* vector to the result. We should get a new vector that closely matches the word vector for *Queen*. We can test this idea out in Gensim with:
 
