@@ -225,7 +225,10 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 > Taking this into consideration, what are some possible ways we could make use of Word2Vec to explore newspaper articles from the years 1900-2000?
 > > ## Solution
 > > 
-> > Investigate how the meaning of certain words can evolve over time by training separate models for different chunks of time (e.g., 1900-1950, 1951-2000, etc.)
+> > One possible approach with this data is to investigate how the meaning of certain words can evolve over time by training separate models for different chunks of time (e.g., 1900-1950, 1951-2000, etc.). A few words that have changed their meaning over time include:
+> > * Nice: This word used to mean “silly, foolish, simple.” 
+> > * Silly: In its earliest uses, it referred to things worthy or blessed; from there it came to refer to the weak and vulnerable, and more recently to those who are foolish.
+> > * Awful: Awful things used to be “worthy of awe”.
 > > 
 > > We'll explore how training a Word2Vec model on specific texts can yield insights into those texts later in this lesson.
 > {:.solution}
@@ -319,4 +322,4 @@ Note how the principal component 1 seems to represent the royalty dimension, whi
 ## Recap
 In summary, Word2Vec is a powerful text-embedding method that allows researchers to explore how different words relate to one another based on past observations (i.e., by being trained on a large list of sentences). Unlike LSA, which produces topics as features of the text to investigate, Word2Vec produces "black-box" features which have to be compared relative to one another. By training Word2Vec on large corpora of text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
 
-In the next section, we'll explore the technology behind Word2Vec before training a Word2Vec model on some of the text data used in this workshop.![image](https://user-images.githubusercontent.com/16723054/234607316-0a7b2d45-4af9-43b0-ac4f-892258b88b27.png)
+In the next section, we'll explore the technology behind Word2Vec before training a Word2Vec model on some of the text data used in this workshop.
