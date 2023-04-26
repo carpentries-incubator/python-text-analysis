@@ -140,7 +140,7 @@ In the above digram, we can see...
 The word vectors, themselves, are stored in the weights connecting the input layer to the hidden layer of neurons. Each word will have its own set of learned weights which we call word vectors. You can think of each element of the word vectors as encoding different features which are relevant to the prediction task at hand — predicting context words. 
 
 #### **Continuous Bag-of-Words (CBOW)**
-![Image from Word2Vec research paper, by Mikolov et al](../images/wordEmed_CBOW-SG-diagram.png)
+![Image from Word2Vec research paper, by Mikolov et al](../images/wordEmbed_word2vec-training-methods.png)
 
 Before wrapping up with the mechanisms underlying the Word2Vec model, it is important to mention that the Skip-gram algorithm is not the only way to train word embeddings using Word2Vec. A similar method known as the Continuous Bag-of-Words (CBOW) takes as an input the context words surrounding a target word, and tries to guess the target word based on those words. Thus, it flips the prediction task faced by Skip-gram. The CBOW algorithm does not care how far away different context words are from the target word, which is why it is called a bag-of-words method. With this task setup, the neural network will learn a function that can map the surrounding context words to a target word. Similar to Skip-gram, the CBOW method will generate word vectors stored as weights of the neural network. However, given the slight adjustment in task, the weights extracted from CBOW are the ones that connect the hidden layer of neurons to the output layer. 
 
