@@ -16,7 +16,7 @@ keypoints:
 - "Word embeddings have many use-cases in text-analysis and NLP related tasks"
 ---
 ## Load pre-trained model via Gensim
-First, load the Word2Vec embedding model. The Word2Vec model takes 3- 10 minutes to load. 
+First, load the Word2Vec embedding model. The Word2Vec model takes 3-10 minutes to load. 
 
 We'll be using the Gensim library. The Gensim library comes with several word embedding models including Word2Vec, GloVe, and fastText. We'll start by exploring one of the pre-trained Word2Vec models. We'll discuss the other options later in this lesson.
 
@@ -203,12 +203,17 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 
 > ## Exploring Words With Multiple Meanings
 >
-> Use Gensim's ```most_similar``` function to find the top 10 most similar words to each of the following words (separately): "bark", "pitcher", "park". Note that all of these words have multiple meanings depending on their context. Does Word2Vec capture the meaning of these words well? Why or why not? 
-> > ## Solution
-> > Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. In fact, the Word2Vec model does not explicitly differentiate between multiple meanings of a word during training. Instead, it treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense appears in the training data, the more opportunities the algorithm has to learn its representation.
+> Use Gensim's ```most_similar``` function to find the top 10 most similar words to each of the following words (separately): 
+> "bark", "pitcher", "park". Note that all of these words have multiple meanings depending on their context. 
+> Does Word2Vec capture the meaning of these words well? Why or why not? 
+> >  ## Solution
+> >  Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. 
+> >  In fact, the Word2Vec model does not explicitly differentiate between multiple meanings of a word during training. Instead, it
+> >  treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting 
+> >  embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense 
+> >  appears in the training data, the more opportunities the algorithm has to learn its representation.
 > {:.solution}
-{:.challenge}![image](https://user-images.githubusercontent.com/16723054/234439782-33859b79-b35c-4591-adfb-2c79b967e68e.png)
-
+{:.challenge}
 
 ### Adding and Subtracting Vectors: King - Man + Woman = Queen
 We can also add and subtract word vectors to reveal latent meaning in words. As a canonical example, let's see what happens if we take the word vector representing *King*, subtract the *Man* vector from it, and then add the *Woman* vector to the result. We should get a new vector that closely matches the word vector for *Queen*. We can test this idea out in Gensim with:
