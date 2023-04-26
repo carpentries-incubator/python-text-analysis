@@ -29,7 +29,8 @@ wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis'
 
 # add folder to colab's path so we can import the helper functions
 import sys
-sys.path.insert(0, wksp_dir)
+helper_path = '/content/drive/My Drive/Colab Notebooks/text-analysis/python-text-analysis-gh-pages/code/'
+sys.path.insert(0, helper_path)
 ```
 ~~~
 Mounted at /content/drive
@@ -67,7 +68,7 @@ Create list of files we'll use for our analysis. We'll start by fitting a word2v
 from helpers import create_file_list 
 
 # get list of files to analyze
-data_dir = wksp_dir + '/data/'
+data_dir = wksp_dir + '/python-text-analysis-gh-pages/data/books/'
 corpus_file_list = create_file_list(data_dir, "*.txt")
 
 # parse filelist into a dataframe
@@ -77,7 +78,7 @@ data
 ```
 
 ```python
-single_file = data.loc[data['Title'] == 'moby_dick','Item'].item()
+single_file = data.loc[data['Title'] == 'moby_dick','File'].item()
 single_file
 ```
 
