@@ -144,7 +144,7 @@ The word vectors, themselves, are stored in the weights connecting the input lay
 
 Before wrapping up with the mechanisms underlying the Word2Vec model, it is important to mention that the Skip-gram algorithm is not the only way to train word embeddings using Word2Vec. A similar method known as the Continuous Bag-of-Words (CBOW) takes as an input the context words surrounding a target word, and tries to guess the target word based on those words. Thus, it flips the prediction task faced by Skip-gram. The CBOW algorithm does not care how far away different context words are from the target word, which is why it is called a bag-of-words method. With this task setup, the neural network will learn a function that can map the surrounding context words to a target word. Similar to Skip-gram, the CBOW method will generate word vectors stored as weights of the neural network. However, given the slight adjustment in task, the weights extracted from CBOW are the ones that connect the hidden layer of neurons to the output layer. 
 
-### CBOW vs SG
+### CBOW vs Skip-gram
 Since there are two popular word2vec training methods, how should we decide which one to pick? Like with many things in machine learning, the best course of action is typically to take a data-driven approach to see which one works better for your specific application. However, as general guidelines according to Mikolov et al., 
 1. Skip-Gram works well with smaller datasets and has been found to perform better in terms of its ability to represent rarer words
 2. CBOW trains several times faster than Skip-gram and has slightly better accuracy for more frequent words
