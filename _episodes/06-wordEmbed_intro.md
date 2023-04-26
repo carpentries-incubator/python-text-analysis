@@ -315,3 +315,8 @@ plt.show()
 ![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCAviz.jpg)
 
 Note how the principal component 1 seems to represent the royalty dimension, while the principal component 2 seems to represent male vs female. 
+
+## Recap
+In summary, Word2Vec is a powerful text-embedding method that allows researchers to explore how different words relate to one another based on past observations (i.e., by being trained on a large list of sentences). Unlike LSA, which produces topics as features of the text to investigate, Word2Vec produces "black-box" features which have to be compared relative to one another. By training Word2Vec on large corpora of text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
+
+In the next section, we'll explore the technology behind Word2Vec before training a Word2Vec model on some of the text data used in this workshop.![image](https://user-images.githubusercontent.com/16723054/234607316-0a7b2d45-4af9-43b0-ac4f-892258b88b27.png)
