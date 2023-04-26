@@ -203,13 +203,12 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 
 > ## Exploring Words With Multiple Meanings
 >
-> 1. Use Gensim's ```most_similar``` function to find the top 10 most similar words
->
+> Use Gensim's ```most_similar``` function to find the top 10 most similar words to each of the following words (separately): "bark", "pitcher", "park". Note that all of these words have multiple meanings depending on their context. Does Word2Vec capture the meaning of these words well? Why or why not? 
 > > ## Solution
-> >
-> >
+> > Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. In fact, the Word2Vec model does not explicitly differentiate between multiple meanings of a word during training. Instead, it treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense appears in the training data, the more opportunities the algorithm has to learn its representation.
 > {:.solution}
-{:.challenge}
+{:.challenge}![image](https://user-images.githubusercontent.com/16723054/234439782-33859b79-b35c-4591-adfb-2c79b967e68e.png)
+
 
 ### Adding and Subtracting Vectors: King - Man + Woman = Queen
 We can also add and subtract word vectors to reveal latent meaning in words. As a canonical example, let's see what happens if we take the word vector representing *King*, subtract the *Man* vector from it, and then add the *Woman* vector to the result. We should get a new vector that closely matches the word vector for *Queen*. We can test this idea out in Gensim with:
