@@ -76,7 +76,6 @@ data = parse_into_dataframe(data_dir + "{Author}-{Title}.txt", corpus_file_list)
 data
 ```
 
-~~~
     Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
     Collecting parse
       Downloading parse-1.19.0.tar.gz (30 kB)
