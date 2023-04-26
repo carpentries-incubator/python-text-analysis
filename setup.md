@@ -22,7 +22,7 @@ We will be using [Google Colab](https://research.google.com/colaboratory/faq.htm
 1. Visit the [Google Colab website](https://colab.research.google.com/) and click "New notebook" from the pop-up that shows up
 2. Visit [Google Drive](https://drive.google.com/drive/my-drive) and find a newly created "Colab Notebooks" folder stored under MyDrive, ```/My Drive/Colab Notebooks```
 3. Create a folder named ```text-analysis``` in the Colab Notebooks folder on Google Drive. The path should look something like this: ```/My Drive/Colab Notebooks/text-analysis/```.
-4. Upload contents of the text-analysis-setup.zip file to Google Drive.
+4. Upload contents of the .zip file you downloaded to Google Drive.
 5. **Note for instructors**: At the start of each section, create a new Colab file within the text-analysis folder by navigating to ```/My Drive/Colab Notebooks/text-analysis/``` within [Google Drive](https://drive.google.com/drive/my-drive), followed by clicking ```New -> More -> Google Colaboratory```
 
 ## Anaconda Local Setup (Alternative to Colab)
