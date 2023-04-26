@@ -3,11 +3,17 @@ title: "Ethics and Text Analysis"
 teaching: 20
 exercises: 20
 questions:
-- "todo"
+- "Is text analysis artificial intelligence?"
+- "How can training data influence results?"
+- "What are the risk zones to consider when using text analysis for research?"
+"
 objectives:
-- "todo"
+- "Understand how text analysis fits into the larger picture of artificial intelligence"
+- "Be able to consider the tool against your research objectives"
+- "Consider the drawbacks and inherent biases that may be present in large language models"
 keypoints:
-- "todo"
+- "Text analysis is a tool and can't assign meaning to results"
+- "As researchers we are responsible for understanding and explaining our methods and results"
 ---
 
 
