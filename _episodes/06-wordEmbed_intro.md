@@ -301,7 +301,7 @@ plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.show()
 ```    
-![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCA-rep.jpg)
+![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCAviz.jpg)
 
 Note how the principal component 1 seems to represent the royalty dimension, while the principal component 2 seems to represent male vs female. 
 
