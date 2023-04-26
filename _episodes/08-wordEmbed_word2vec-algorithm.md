@@ -13,11 +13,8 @@ keypoints:
 - "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application."
 ---
 
-# Unpacking the Word2Vec Algorithm
-
-
 ## Mapping inputs to outputs using neural networks
-How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an artificial neural network. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including...
+How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an **artificial neural network**. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including...
 
 * Predicting the weather tomorrow given historical weather patterns
 * Classifying if an email is spam or not
@@ -50,7 +47,7 @@ In the above table used to train a neural network model, the model learns how be
 
 The diagram above shows a perceptron —  the computational unit that makes up artificial neural networks. Perceptrons are inspired by real biological neurons. From the diagram, we can see that the perceptron...
 
-* Receives multiple inputs and returns a single output
+* Receives multiple input features and returns a single output
 * Has adjustable weights which scale the impact of individual inputs 
 * Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
 
@@ -115,8 +112,6 @@ Instead, we can capitalize on the fact that neural networks are well posed to le
 ### Predicting context words
 What task can we give a neural network to learn meaningful word embeddings? Our friend RJ Firth gives us a hint when he says, “You shall know a word by the company it keeps.” Using the *distributional hypothesis* as motivation, which states that words that repeatedly occur in similar contexts probably have similar meanings, we can ask a neural network to predict the *context* words that surround a given word in a sentence. The Skip-gram algorithm shown on the right side of the below diagram does just that.
 
-#### **Skip-gram**
-
 ![Skipgram](../images/wordEmbed_word2vec-training-methods.png)
 
 The Skip-gram training method takes as an input a single word in a sentence, and tries to guess the most likely surrounding context words associated with that word. With this task setup, the neural network will learn a function that can map any word to its likely surrounding context words. 
@@ -132,7 +127,7 @@ These steps can be visualized in the Word2Vec model diagram shown below, with Si
 
 ![Word2Vec Model Architecture (Skip-gram)](../images/wordEmbed_word2vec-SG-model-architecture.png)
 
-Source: https://israelg99.github.io/2017-03-23-Word2Vec-Explained/#:~:text=How%20does%20Word2Vec%20produce%20word,to%20reduce%20a%20loss%20function.
+[Image Source](https://israelg99.github.io/2017-03-23-Word2Vec-Explained/#:~:text=How%20does%20Word2Vec%20produce%20word,to%20reduce%20a%20loss%20function.)
 
 In the above digram, we can see...
 - The input layer has 10,000 elements representing 10,000 words in this model's vocabulary
@@ -142,15 +137,16 @@ In the above digram, we can see...
 The word vectors, themselves, are stored in the weights connecting the input layer to the hidden layer of neurons. Each word will have its own set of learned weights which we call word vectors. You can think of each element of the word vectors as encoding different features which are relevant to the prediction task at hand — predicting context words. 
 
 #### **Continuous Bag-of-Words (CBOW)**
-![Image from Word2Vec research paper, by Mikolov et al](../images/wordEmed_CBOW-SG-diagram.png)
+![Image from Word2Vec research paper, by Mikolov et al](../images/wordEmbed_word2vec-training-methods.png)
 
-Before wrapping up with the mechanisms underlying the Word2Vec model, it is important to mention that the Skip-gram algorithm is not the only way to train word embeddings using Word2Vec. A similar method known as the Continuous Bag-of-Words (CBOW) takes as an input the context words surrounding a target word, and tries to guess the target word based on those words. Thus, it flips the prediction task faced by Skip-gram. The CBOW algorithm does not care how far away different context words are from the target word, which is why it is called a bag-of-words method.
+Before wrapping up with the mechanisms underlying the Word2Vec model, it is important to mention that the Skip-gram algorithm is not the only way to train word embeddings using Word2Vec. A similar method known as the Continuous Bag-of-Words (CBOW) takes as an input the context words surrounding a target word, and tries to guess the target word based on those words. Thus, it flips the prediction task faced by Skip-gram. The CBOW algorithm does not care how far away different context words are from the target word, which is why it is called a bag-of-words method. With this task setup, the neural network will learn a function that can map the surrounding context words to a target word. Similar to Skip-gram, the CBOW method will generate word vectors stored as weights of the neural network. However, given the slight adjustment in task, the weights extracted from CBOW are the ones that connect the hidden layer of neurons to the output layer. 
 
-With this task setup, the neural network will learn a function that can map the surrounding context words to a target word. Similar to Skip-gram, the CBOW method will generate word vectors stored as weights of the neural network. However, given the slight adjustment in task, the weights extracted from CBOW are the ones that connect the hidden layer of neurons to the output layer. 
-
-#### CBOW vs SG
+### CBOW vs Skip-gram
 Since there are two popular word2vec training methods, how should we decide which one to pick? Like with many things in machine learning, the best course of action is typically to take a data-driven approach to see which one works better for your specific application. However, as general guidelines according to Mikolov et al., 
 1. Skip-Gram works well with smaller datasets and has been found to perform better in terms of its ability to represent rarer words
 2. CBOW trains several times faster than Skip-gram and has slightly better accuracy for more frequent words
 
-In the next episode, we'll train a Word2Vec model using both methods and empirically evaluate the performance of each. We'll also see how training Word2Vec models from scratch (rather than using a pretrained model) can be beneficial in some circumstances.
+## Recap
+Artificial neural networks are powerful machine learning models that can learn to map input data containing features to a predicted label or continuous value. In addition, neural networks learn to encode the input data as hierarchical features during training. The Word2Vec model exploits this capability, and trains the model on a word prediction task in order to generate features of words which are conducive to the prediction task at hand.
+
+In the next episode, we'll train a Word2Vec model using both training methods and empirically evaluate the performance of each. We'll also see how training Word2Vec models from scratch (rather than using a pretrained model) can be beneficial in some circumstances.
