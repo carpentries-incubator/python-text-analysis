@@ -6,7 +6,6 @@ questions:
 - "Is text analysis artificial intelligence?"
 - "How can training data influence results?"
 - "What are the risk zones to consider when using text analysis for research?"
-"
 objectives:
 - "Understand how text analysis fits into the larger picture of artificial intelligence"
 - "Be able to consider the tool against your research objectives"
