@@ -31,7 +31,7 @@ We will be using [Google Colab](https://research.google.com/colaboratory/faq.htm
 Software dependencies for data science can be complicated and easily conflict with each other, therefore we will be using a self-contained 'virtual environment' to manage their installation.
 
 1. Install [Anaconda](https://www.anaconda.com/products/distribution). Anaconda is a software manager that will help manage dependencies and properly configure use of your graphics card (if you have one). Follow the installation instructions specified for your operating system.
-2. Find the appropriate environment.yml file from the directory you unzipped the setup file. Go into the "conda-setup" subdirectory.
+2. From the text-analysis folder, navigate to the "files" subdirectory and select the appropriate environment.yml file:
    1. [CPU environment](files/environment_cpu.yml) configures an environment for CPU only. If you are not sure what environment to use, use this one.
    2. [CUDA 11.8 environment](files/environment_cuda118.yml) configures an environment for a CUDA 11.8 enabled graphics card. Other versions of CUDA are not supported.
 3. Launch Anaconda Navigator. Select ```Environments -> Import```. Select the environment file you downloaded for the import. For the name of the environment, type in ```text-analysis```. WARNING: This environment will likely take at least 10 minutes to configure and may take up to an hour. Give the installer time to configure the environment.
