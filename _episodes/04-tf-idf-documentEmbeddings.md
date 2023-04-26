@@ -1,13 +1,17 @@
 ---
 title: "Document Embeddings and TF-IDF"
 teaching: 20
-exercises: 20
+exercises: 10
 questions:
-- "todo"
+- "What is a document embedding?"
+- "What is TF-IDF?"
 objectives:
-- "todo"
+- "Produce TF-IDF matrix on a corpus"
+- "Understand how TF-IDF relates to rare/common words"
 keypoints:
-- "todo"
+- "Some words convey more information about a corpus than others"
+- "One-hot encodings treat all words equally"
+- "TF-IDF encodings weigh overly common words lower"
 ---
 
 The method of using word counts is just one way we might embed a document in vector space.  

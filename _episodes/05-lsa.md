@@ -1,13 +1,17 @@
 ---
 title: "Latent Semantic Analysis"
 teaching: 20
-exercises: 20
+exercises: 10
 questions:
-- "todo"
+- "What is topic modeling?"
+- "What is Latent Semantic Analysis (LSA)?"
 objectives:
-- "todo"
+- "Use LSA to explore topics in a corpus"
+- "Produce and interpret an LSA plot"
 keypoints:
-- "todo"
+- "Topic modeling helps explore and describe the content of a corpus"
+- "LSA defines topics as spectra that the corpus is distributed over"
+- "Each dimension (topic) in LSA corresponds to a contrast between positively and negatively weighted words"
 ---
 
 So far, we've learned the kinds of task NLP can be used for, preprocessed our data, and represented it as a TF-IDF vector space.
