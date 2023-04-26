@@ -209,7 +209,7 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 > 
 > > ## Solution
 > > 
-> > Based on these three lists,
+> > Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. In fact, the Word2Vec does not explicitly differentiate between multiple meanings of a word during training. Instead, it treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense appears in the training data, the more opportunities the algorithm has to learn its representation.
 > {:.solution}
 {:.challenge}
 
