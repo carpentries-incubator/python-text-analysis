@@ -144,9 +144,12 @@ The word vectors, themselves, are stored in the weights connecting the input lay
 
 Before wrapping up with the mechanisms underlying the Word2Vec model, it is important to mention that the Skip-gram algorithm is not the only way to train word embeddings using Word2Vec. A similar method known as the Continuous Bag-of-Words (CBOW) takes as an input the context words surrounding a target word, and tries to guess the target word based on those words. Thus, it flips the prediction task faced by Skip-gram. The CBOW algorithm does not care how far away different context words are from the target word, which is why it is called a bag-of-words method. With this task setup, the neural network will learn a function that can map the surrounding context words to a target word. Similar to Skip-gram, the CBOW method will generate word vectors stored as weights of the neural network. However, given the slight adjustment in task, the weights extracted from CBOW are the ones that connect the hidden layer of neurons to the output layer. 
 
-#### CBOW vs SG
+### CBOW vs SG
 Since there are two popular word2vec training methods, how should we decide which one to pick? Like with many things in machine learning, the best course of action is typically to take a data-driven approach to see which one works better for your specific application. However, as general guidelines according to Mikolov et al., 
 1. Skip-Gram works well with smaller datasets and has been found to perform better in terms of its ability to represent rarer words
 2. CBOW trains several times faster than Skip-gram and has slightly better accuracy for more frequent words
 
-In the next episode, we'll train a Word2Vec model using both methods and empirically evaluate the performance of each. We'll also see how training Word2Vec models from scratch (rather than using a pretrained model) can be beneficial in some circumstances.
+## Recap
+Artificial neural networks are powerful machine learning models that can learn to map input data containing features to a predicted label or continuous value. In addition, neural networks learn to encode the input data as hierarchical features during training. The Word2Vec model exploits this capability, and trains the model on a word prediction task in order to generate features of words which are conducive to the prediction task at hand.
+
+In the next episode, we'll train a Word2Vec model using both training methods and empirically evaluate the performance of each. We'll also see how training Word2Vec models from scratch (rather than using a pretrained model) can be beneficial in some circumstances.
