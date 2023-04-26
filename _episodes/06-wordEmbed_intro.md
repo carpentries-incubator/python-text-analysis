@@ -51,7 +51,7 @@ Word2vec is a famous *word embedding* method that was created and published in 2
 
 We'll unpack the technology behind Word2Vec in the next episode (spoiler alert: it uses artificial neural networks). For now, just know that the Word2Vec model encodes word vectors based on a word's most likely surrounding words in a sentence, and it learns this encoding based on observing a large amount of text data (i.e., it gets "trained" on a dataset).
 
-With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable, ```wv```, earlier. Gensim refers to the pre-trained model object as keyed vectors.
+With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
 
 ```python
 print(type(wv))
@@ -62,18 +62,7 @@ print(type(wv))
 ~~~
 {: .output}
 
-In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as 300 different features that encode a word's meaning. Unlike LSA, which produces (somewhat) interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful.
-
-```python
-print(wv['whale'].shape) 
-```
-~~~
-(300,)
-~~~
-{: .output}
-
-Once the word embedding model is loaded, we can use it to extract vector representations of words. Let's take a look at the vector representaton of *whale*.
-
+Gensim stores "KeyedVectors" representing the model. They're called keyed vectors because you can use words as keys to extract its vectors. Let's take a look at the vector representaton of *whale*.
 
 ```python
 wv['whale'] 
@@ -143,7 +132,17 @@ array([ 0.08154297,  0.41992188, -0.44921875, -0.01794434, -0.24414062,
 ~~~
 {: .output}
 
-Once we have words represented as vectors, we can start using some math to gain additional insights. For instance, we can compute the cosine similarity between two different word vectors using Gensim's similarity function. 
+We can also check the shape of this vector with...
+
+```python
+print(wv['whale'].shape) 
+```
+~~~
+(300,)
+~~~
+{: .output}
+
+In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as 300 different features that encode a word's meaning. Unlike LSA, which produces (somewhat) interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually know what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful. Let's check this with the help of the cosine similarity measure.
 
 **Cosine Similarity (Review)**: Recall from earlier in the workshop that cosine similarity helps evaluate vector similarity in terms of the angle that separates the two vectors, irrespective of vector magnitude. It can take a value ranging from -1 to 1, with...
 * 1 indicating that the two vectors share the same angle
@@ -212,6 +211,8 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 > > ## Solution
 > > 
 > > Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. In fact, the Word2Vec does not explicitly differentiate between multiple meanings of a word during training. Instead, it treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense appears in the training data, the more opportunities the algorithm has to learn its representation.
+> > 
+> > Note that while this can be a limitation of Word2Vec, there are some techniques that can be applied to incorporate word sense disambiguation. One common approach is to train multiple embeddings for a word, where each embedding corresponds to a specific word sense. This can be done by pre-processing the training corpus to annotate word senses, and then training Word2Vec embeddings separately for each sense. This approach allows Word2Vec to capture different word senses as separate vectors, effectively representing the polysemy of the word.
 > {:.solution}
 {:.challenge}
 
