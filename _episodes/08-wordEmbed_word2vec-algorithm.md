@@ -17,26 +17,22 @@ keypoints:
 
 
 ## Mapping inputs to outputs using neural networks
-How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an artificial neural network. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including:
-* Image classification
-* Language translation
-* Speech-to-text
-* Weather forecasting
-* ... and much more
+How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an artificial neural network. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including...
+
+* Predicting the weather tomorrow given historical weather patterns
+* Classifying if an email is spam or not
+* Classifying what if an image contains a person or not
+* Predicting a person’s weight based on their height
+* Predicting commute times given traffic conditions
+* Predicting house prices given stock market prices
 
 We could spend an entire workshop on neural networks (see [here](https://carpentries-incubator.github.io/machine-learning-novice-sklearn/06-neural-networks/index.html) and [here](https://carpentries-incubator.github.io/deep-learning-intro/) for a couple of related lessons). Here, we will distill some of the most important concepts needed to understand them in the context of text-analysis.
 
 ### Supervised learning
-Most machine learning systems "learn" by taking tabular input data with N observations (rows), M features (cols), and an associated output (e.g., a class label or predicted value for some target variable), and using it to form a model. The maths behind the machine learning doesn’t care what the data is as long as it can represented numerically or categorised. Some examples might include:
+Most machine learning systems "learn" by taking tabular input data with N observations (rows), M features (cols), and an associated output (e.g., a class label or predicted value for some target variable), and using it to form a model. The maths behind the machine learning doesn’t care what the data is as long as it can represented numerically or categorised. When the model learns this function based on observed data, we call this "training" the model.
 
-* predicting a person’s weight based on their height
-* predicting commute times given traffic conditions
-* predicting house prices given stock market prices
-* classifying if an email is spam or not
-* classifying what if an image contains a person or not
-
-#### Example Table
-As a example, maybe we have recorded tail lengths, weights, and snout lengths from a disorganized vet clinic database that is missing some of the animals' labels (e.g., cat vs dog), but still has a record of each animal's tail length, weight, and snout length. For simplicity, let's say that this vet clinic only treats cats and dogs. With the help of neural networks, we could use a labelled dataset to learn a function mapping from tail length, weight, and snout length to the animal's species label (i.e., a cat or a dog). 
+#### Training Dataset Example
+As a example, maybe we have recorded tail lengths, weights, and snout lengths from a disorganized vet clinic database that is missing some of the animals' labels (e.g., cat vs dog). For simplicity, let's say that this vet clinic only treats cats and dogs. With the help of neural networks, we could use a labelled dataset to learn a function mapping from tail length, weight, and snout length to the animal's species label (i.e., a cat or a dog). 
 
 | Tail length (in) | Weight (lbs) | Snout length (in) | Label |
 | ---------------- | ------------ | ----------------- | ----- |
@@ -54,11 +50,11 @@ In the above table used to train a neural network model, the model learns how be
 
 The diagram above shows a perceptron —  the computational unit that makes up artificial neural networks. Perceptrons are inspired by real biological neurons. From the diagram, we can see that the perceptron...
 
-* receives multiple inputs and returns a single output
-* has adjustable weights which scale the impact of individual inputs 
-* has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
+* Receives multiple inputs and returns a single output
+* Has adjustable weights which scale the impact of individual inputs 
+* Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
 
-With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). It does this by optimizing its weights to correctly classify some observed labelled data. More explicitly, its training method can be outlined as follows:
+With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). It does this by optimizing its weights to correctly classify some observed labelled data — drawing a linear boundary between the two classes. More explicitly, its training method can be outlined as follows:
 
 ### Training algorithm
 1. **Initialize weights**: The perceptron model starts with randomly initialized weights. These weights are the parameters/coefficients that the model will learn during training to make accurate predictions.
