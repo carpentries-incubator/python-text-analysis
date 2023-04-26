@@ -206,6 +206,7 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 > Use Gensim's ```most_similar``` function to find the top 10 most similar words to each of the following words (separately): 
 > "bark", "pitcher", "park". Note that all of these words have multiple meanings depending on their context. 
 > Does Word2Vec capture the meaning of these words well? Why or why not? 
+> 
 > >  ## Solution
 > >  Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. 
 > >  In fact, the Word2Vec model does not explicitly differentiate between multiple meanings of a word during training. Instead, it
