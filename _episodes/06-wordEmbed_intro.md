@@ -280,7 +280,7 @@ plt.savefig("wordEmbeddings_word2vecPCAvarExplained.jpg")
 
 ```    
 
-![PCA Variance Explained](../images/wordEmbed_PCA-variance.png)
+![PCA Variance Explained](../images/wordEmbed_PCA-variance.jpg)
 
 We can now use these new dimensions to transform the original data.
 
@@ -299,10 +299,9 @@ for i, word in enumerate(words):
 
 plt.xlabel("PC1")
 plt.ylabel("PC2")
-# plt.savefig(wksp_dir + "/wordEmbeddings_word2vecPCAplot.jpg")
 plt.show()
 ```    
-![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCA-rep.png)
+![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCA-rep.jpg)
 
 Note how the principal component 1 seems to represent the royalty dimension, while the principal component 2 seems to represent male vs female. 
 
