@@ -6,7 +6,7 @@ questions:
 - "How can we extract vector representations of individual words rather than documents?"
 - "What sort of research questions can be answered with word embedding models?"
 objectives:
-- "Understand the difference between document embeddings and word embeddings "
+- "Understand the difference between document embeddings and word embeddings"
 - "Introduce the Gensim python library and its word embedding functionality"
 - "Explore vector math with word embeddings using pretrained models"
 - "Visualize word embeddings with the help of principal component analysis (PCA)"
@@ -16,7 +16,7 @@ keypoints:
 - "Word embeddings have many use-cases in text-analysis and NLP related tasks"
 ---
 ## Load pre-trained model via Gensim
-First, load the Word2Vec embedding model. The Word2Vec model takes 3- 10 minutes to load. 
+First, load the Word2Vec embedding model. The Word2Vec model takes 3-10 minutes to load. 
 
 We'll be using the Gensim library. The Gensim library comes with several word embedding models including Word2Vec, GloVe, and fastText. We'll start by exploring one of the pre-trained Word2Vec models. We'll discuss the other options later in this lesson.
 
@@ -46,10 +46,15 @@ Compared to TF-IDF, the text representations (a.k.a. embeddings) produced by LSA
 ## Distributional hypothesis: extracting more meaningful representations of text 
 As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the actual order of words as they appear in sentences and only pays attention to global word co-occurence patterns in large texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
 
-### Word embeddings with Word2Vec
-Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. We'll unpack the full algorithm behind Word2Vec in the next episode. First, let's see what we can do with meaningful word vectors (i.e. embeddings).
+## Word embeddings with Word2Vec
+Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. 
 
-Gensim refers to the pre-trained model object as keyed vectors.
+We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert**: it uses artificial neural networks). For now, it is sufficient to be aware of two key properties of the model.
+
+1. Word2Vec is a machine learning model that constructs word vectors based on a word's most likely surrounding words in a sentence
+2. The vectors produced by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on)
+
+With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
 
 ```python
 print(type(wv))
@@ -60,18 +65,7 @@ print(type(wv))
 ~~~
 {: .output}
 
-In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as being 300 different features that encode a word's meaning. Unlike LSA, which produces somewhat interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful.
-
-```python
-print(wv['whale'].shape) 
-```
-~~~
-(300,)
-~~~
-{: .output}
-
-Once the word embedding model is loaded, we can use it to extract vector representations of words. Let's take a look at the vector representaton of *whale*.
-
+Gensim stores "KeyedVectors" representing the model. They're called keyed vectors because you can use words as keys to extract the corresponding vectors. Let's take a look at the vector representaton of *whale*.
 
 ```python
 wv['whale'] 
@@ -141,7 +135,17 @@ array([ 0.08154297,  0.41992188, -0.44921875, -0.01794434, -0.24414062,
 ~~~
 {: .output}
 
-Once we have words represented as vectors, we can start using some math to gain additional insights. For instance, we can compute the cosine similarity between two different word vectors using Gensim's similarity function. 
+We can also check the shape of this vector with...
+
+```python
+print(wv['whale'].shape) 
+```
+~~~
+(300,)
+~~~
+{: .output}
+
+In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as 300 different features that encode a word's meaning. Unlike LSA, which produces (somewhat) interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually know what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful. Let's check this with the help of the cosine similarity measure.
 
 **Cosine Similarity (Review)**: Recall from earlier in the workshop that cosine similarity helps evaluate vector similarity in terms of the angle that separates the two vectors, irrespective of vector magnitude. It can take a value ranging from -1 to 1, with...
 * 1 indicating that the two vectors share the same angle
@@ -203,11 +207,15 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 
 > ## Exploring Words With Multiple Meanings
 >
-> 1. Use Gensim's ```most_similar``` function to find the top 10 most similar words
->
+> Use Gensim's ```most_similar``` function to find the top 10 most similar words to each of the following words (separately): 
+> "bark", "pitcher", "park". Note that all of these words have multiple meanings depending on their context. 
+> Does Word2Vec capture the meaning of these words well? Why or why not? 
+> 
 > > ## Solution
-> >
-> >
+> > 
+> > Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. In fact, the Word2Vec does not explicitly differentiate between multiple meanings of a word during training. Instead, it treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense appears in the training data, the more opportunities the algorithm has to learn its representation.
+> > 
+> > Note that while this can be a limitation of Word2Vec, there are some techniques that can be applied to incorporate word sense disambiguation. One common approach is to train multiple embeddings for a word, where each embedding corresponds to a specific word sense. This can be done by pre-processing the training corpus to annotate word senses, and then training Word2Vec embeddings separately for each sense. This approach allows Word2Vec to capture different word senses as separate vectors, effectively representing the polysemy of the word.
 > {:.solution}
 {:.challenge}
 
@@ -223,15 +231,7 @@ print(wv.most_similar(positive=['woman','king'], negative=['man'], topn=3))
 ~~~
 {: .output}
 
-Behind the scenes of the most_similar function, gensim first unit normalizes the *length* of all vectors included in the positive and negative function arguments. This is done before adding/subtracting, which prevents longer vectors from unjustly skewing the sum. Note that length here refers to the linear algebraic definition of summing the squared values of each element in a vector followed by taking the square root of that sum:
-
-$ \lVert \mathbf{v} \rVert = \sqrt{\sum_{i=1}^n v_i^2}$
-
-where
-
-- $$\lVert \mathbf{v} \rVert$$ represents the length of vector $$\mathbf{v}$$
-- $$v_i$$ represents the $$i$$th component of vector $$\mathbf{v}$$
-- $$n$$ represents the number of components (or dimensions) in vector $$\mathbf{v}$$
+Behind the scenes of the most_similar function, Gensim first unit normalizes the *length* of all vectors included in the positive and negative function arguments. This is done before adding/subtracting, which prevents longer vectors from unjustly skewing the sum. Note that length here refers to the linear algebraic definition of summing the squared values of each element in a vector followed by taking the square root of that sum.
 
 ### Visualizing word vectors with PCA
 
@@ -253,10 +253,9 @@ sample_vectors.shape # 8 words, 300 dimensions
 Recall that each word vector has 300 dimensions that encode a word's meaning. Considering humans can only visualize up to 3 dimensions, this dataset presents a plotting challenge. We could certainly try plotting just the first 2 dimensions or perhaps the dimensions with the largest amount of variability, but this would overlook a lot of the information stored in the other dimensions/variables. Instead, we can use a *dimensionality-reduction* technique known as Principal Component Analysis (PCA) to allow us to capture most of the information in the data with just 2 dimensions.
 
 #### Principal Component Analysis (PCA)
-Principal Component Analysis (PCA) is a data transformation technique that allows you to linearly combine a set of variables from a matrix ($N$ observations x $M$ variables) into a smaller set of variables called components. Specifically, it remaps the data onto new dimensions that are strictly orthogonal to one another and can be ordered according to the amount of information/variance they carry. The allows you to easily visualize *most* of the variability in the data with just a couple of dimensions.
+Principal Component Analysis (PCA) is a data transformation technique that allows you to linearly combine a set of variables from a matrix (*N* observations and *M* variables) into a smaller set of variables called components. Specifically, it remaps the data onto new dimensions that are strictly orthogonal to one another and can be ordered according to the amount of information or variance they carry. The allows you to easily visualize *most* of the variability in the data with just a couple of dimensions.
 
 We'll use scikit-learn's (a popular machine learning library) PCA functionality to explore the power of PCA, and matplotlib as our plotting library.
-
 
 ```python
 from sklearn.decomposition import PCA
@@ -280,7 +279,7 @@ plt.savefig("wordEmbeddings_word2vecPCAvarExplained.jpg")
 
 ```    
 
-![PCA Variance Explained](../images/wordEmbed_PCA-variance.png)
+![PCA Variance Explained](../images/wordEmbed_PCA-variance.jpg)
 
 We can now use these new dimensions to transform the original data.
 
@@ -299,21 +298,8 @@ for i, word in enumerate(words):
 
 plt.xlabel("PC1")
 plt.ylabel("PC2")
-# plt.savefig(wksp_dir + "/wordEmbeddings_word2vecPCAplot.jpg")
 plt.show()
 ```    
-![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCA-rep.png)
+![Visualizing Word Embeddings with PCA](../images/wordEmbed_PCAviz.jpg)
 
 Note how the principal component 1 seems to represent the royalty dimension, while the principal component 2 seems to represent male vs female. 
-
-## Exercise: Word2Vec Applications
-From the above examples, we clearly see that Word2Vec is able to map words onto vectors which relate to a word's meaning. That is, words that are related to one another can be found next to each other in this embedding space. Given this observation, what are some possible ways we could make use of these vectors to explore a set of documents, e.g., newspaper articles from the years 1900-2000.
-
-1. Clustering or classifying documents based on their word vectors. This requires some kind of vector aggregation to yield a single document vector from the numerous word vectors associated with a document. For short texts, a common approach is to use the average of the vectors. There's no clear consensus on what will work well for longer texts. Though, using a weighted average of the vectors might help.
-
-2. Sentiment analysis
-
-3. Categorical search
-
-### Summary & Next episode
-In the next episode, we'll explore the technology behind Word2Vec — artificial neural networks (ANNs).
