@@ -126,38 +126,75 @@ We have a huge number of dimensions in the columns of our matrix (just shy of 10
 Let's take a look at some of the words in our documents. Each of these represents a dimension in our model.
 
 ```python
-vectorizer.get_feature_names_out()[0:1000]
+vectorizer.get_feature_names_out()[0:5]
 ```
 
-How many values do we have?
+~~~
+array(['15th', '1st', 'aback', 'abandonment', 'abase'], dtype=object)
+~~~
+{: .output}
+
+What is the weight of those words?
 
 ```python
-from helpers import matrix_to_sorted_dataframe
-sorted_tfidf = matrix_to_sorted_dataframe(tfidf.idf_, tfidf.get_feature_names_out(), "idf_weights")
+print(vectorizer.idf_[0:5]) # weights for each token
 ```
+
+~~~
+[2.79175947 2.94591015 2.25276297 2.25276297 2.43508453]
+~~~
+{: .output}
+
+Let's show the weight for all the words:
+
+```python
+from pandas import DataFrame
+tfidf_data = DataFrame(vectorizer.idf_, index=vectorizer.get_feature_names_out(), columns=["Weight"])
+tfidf_data
+```
+
+~~~
+            Weight
+15th        2.791759
+1st         2.945910
+aback	      2.252763
+abandonment	2.252763
+abase	      2.435085
+...	        ...
+zealously	  2.945910
+zenith	    2.791759
+zest	      2.791759
+zigzag	    2.945910
+zone	      2.791759
+~~~
+{: .output}
+
+```python
+tfidf_data.sort_values(by="Weight")
+```
+
+That was ordered alphabetically. Let's try from lowest to heighest weight:
+
+~~~
+              Weight
+unaccountable	1.518794
+nest	        1.518794
+needless	    1.518794
+hundred	      1.518794
+hunger	      1.518794
+...	          ...
+incurably	    2.945910
+indecent	    2.945910
+indeed	      2.945910
+incantation	  2.945910
+gentlest	    2.945910
+~~~
+{: .output}
 
 > ## Your Mileage May Vary
 > 
-> The result below will differ based on how you configured your tokenizer and vectorizer earlier.
+> The results above will differ based on how you configured your tokenizer and vectorizer earlier.
 {: .callout}
-
-~~~
-  idf_weights
-000  1.916291
-omitted  1.916291
-oration  1.916291
-oracle  1.916291
-opulent  1.916291
-...  ...
-pale  1.000000
-painting  1.000000
-swift  1.000000
-painted  1.000000
-boy  1.000000
-
-25811 rows × 1 columns
-~~~
-{: .output}
 
 Values are no longer just whole numbers such as 0, 1 or 2. Instead, they are weighted according to how often they occur. More common words have lower weights, and less common words have higher weights.
 

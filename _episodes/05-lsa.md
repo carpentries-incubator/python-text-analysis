@@ -163,7 +163,7 @@ plt.show()  # show first chart
 ~~~
 {: .output}
 
-![Image of drop-off of variance explained](05-svd-dropoff.png)
+![Image of drop-off of variance explained](../images/05-svd-dropoff.png)
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic.
 
@@ -438,6 +438,8 @@ from helpers import lsa_plot
 lsa_plot(data, svdmodel)
 ```
 
+![Plot results of our LSA model](../images/05-lsa-plot.png)
+
 What do you think these X and Y axes are capturing, conceptually?
 
 To help figure that out, lets color-code by author to see if any patterns are immediately apparent.
@@ -455,7 +457,7 @@ colormap = {
 lsa_plot(data, svdmodel, groupby="Author", colors=colormap)
 ```
 
-![Plot results of our LSA model](../images/05-lsa-plot.png)
+![Plot results of our LSA model, color-coded by author](../images/05-lsa-plot-color.png)
 
 It seems that some of the books by the same author are clumping up together in our plot.
 
@@ -538,7 +540,7 @@ Now that we have names for our first two topics, let's redo the plot with better
 lsa_plot(data, svdmodel, groupby="Author", colors=colormap, xlabel="Victorian vs. Elizabethan", ylabel="English vs. French")
 ```
 
-![Plot results of our LSA model, revised with new axis labels](../images/05-lsa-plot-revised.png)
+![Plot results of our LSA model, revised with new axis labels](../images/05-lsa-plot-labeled.png)
 
 > ## Check Your Understanding: Intrepreting LSA Results
 >
