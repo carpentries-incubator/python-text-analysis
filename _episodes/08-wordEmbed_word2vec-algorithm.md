@@ -13,11 +13,8 @@ keypoints:
 - "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application."
 ---
 
-# Unpacking the Word2Vec Algorithm
-
-
 ## Mapping inputs to outputs using neural networks
-How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an artificial neural network. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including...
+How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an **artificial neural network**. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including...
 
 * Predicting the weather tomorrow given historical weather patterns
 * Classifying if an email is spam or not
