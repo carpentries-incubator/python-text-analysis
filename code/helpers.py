@@ -38,7 +38,7 @@ def parse_authors_titles(data_dir, corpus_file_list):
             print(f"Problem processing {filename}")
     return authors, titles
 
-def parse_into_dataframe(pattern, items, col_name="Item"):
+def parse_into_dataframe(pattern, items, col_name="File"):
     """
     Example:
         data = parse_into_dataframe(corpus_file_list, "python-text-analysis/data/{Author}-{Title}.txt", col_name="File")
@@ -51,7 +51,7 @@ def parse_into_dataframe(pattern, items, col_name="Item"):
             result.named[col_name] = item
             results.append(result.named)
 
-    return pandas.DataFrame.from_dict(results).sort_values('Author')
+    return pandas.DataFrame.from_dict(results)
 
 
 def lemmatize_files(tokenizer, corpus_file_list):
@@ -74,7 +74,7 @@ def lemmatize_files(tokenizer, corpus_file_list):
         )
     return lemma_filename_list
 
-def matrixToSortedDataFrame(mat, index, sortby):
+def matrix_to_sorted_dataframe(mat, index, sortby):
     df = pandas.DataFrame(mat, index=index, columns=[sortby]) 
     df = df.sort_values(by=[sortby], ascending=False) 
     return df
@@ -183,7 +183,7 @@ def lsa_plot(data, model, x="X", y="Y", xlabel="Topic X", ylabel="Topic Y", titl
 
     plt.show()
 
-def showTopics(vectorizer, model, topic_number=1, n=10):
+def show_topics(vectorizer, model, topic_number=1, n=10):
     """
     Example:
         showTopics(vectorizer, model, topic_number=1, n=5)

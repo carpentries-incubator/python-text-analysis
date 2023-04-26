@@ -466,7 +466,7 @@ We don't know *why* they are getting arranged this way, since we don't know what
 Let's write a helper to get the strongest words for each topic. This will show the terms with the *highest* and *lowest* association with a topic. In LSA, each topic is a spectra of subject matter, from the kinds of terms on the low end to the kinds of terms on the high end. So, inspecting the *contrast* between these high and low terms (and checking that against our domain knowledge) can help us interpret what our model is identifying.
 
 ```python
-def showTopics(topic, n):
+def show_topics(topic, n):
     terms = vectorizer.get_feature_names_out()
     weights = svdmodel.components_[topic]
     df = pandas.DataFrame({"Term": terms, "Weight": weights})
@@ -474,16 +474,16 @@ def showTopics(topic, n):
     bottoms = df.sort_values(by=["Weight"], ascending=False)[-n:]
     return pandas.concat([tops, bottoms])
 
-topic_words_x = showTopics(1, 5)
-topic_words_y = showTopics(2, 5)
+topic_words_x = show_topics(1, 5)
+topic_words_y = show_topics(2, 5)
 ```
 
 You can also use a helper we prepared for learners:
 
 ```python
-from helpers import showTopics
-topic_words_x = showTopics(vectorizer, svdmodel, topic_number=1, n=5)
-topic_words_y = showTopics(vectorizer, svdmodel, topic_number=2, n=5)
+from helpers import show_topics
+topic_words_x = show_topics(vectorizer, svdmodel, topic_number=1, n=5)
+topic_words_y = show_topics(vectorizer, svdmodel, topic_number=2, n=5)
 ```
 
 Either way, let's look at the terms for the X topic.

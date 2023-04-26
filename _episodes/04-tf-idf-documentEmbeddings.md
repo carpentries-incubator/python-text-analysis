@@ -126,14 +126,14 @@ We have a huge number of dimensions in the columns of our matrix (just shy of 10
 Let's take a look at some of the words in our documents. Each of these represents a dimension in our model.
 
 ```python
-tfidf.get_feature_names_out()[0:1000]
+vectorizer.get_feature_names_out()[0:1000]
 ```
 
 How many values do we have?
 
 ```python
-from helpers import matrixToSortedDataFrame
-sorted_tfidf = matrixToSortedDataFrame(tfidf.idf_, tfidf.get_feature_names_out(), "idf_weights")
+from helpers import matrix_to_sorted_dataframe
+sorted_tfidf = matrix_to_sorted_dataframe(tfidf.idf_, tfidf.get_feature_names_out(), "idf_weights")
 ```
 
 > ## Your Mileage May Vary
