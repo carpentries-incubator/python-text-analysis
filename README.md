@@ -9,7 +9,7 @@ Current maintainers of this lesson are
 * Chris Endemann
 * [Ann Hanlon](https://github.com/annhanlon)
 * [Karl Holten](https://github.com/Karl-Holten/)
-* Mariah Knowles
+* Mariah A. Knowles
 * Jennifer Patino
 
 ## Authors
