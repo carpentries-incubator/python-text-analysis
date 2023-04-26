@@ -319,11 +319,6 @@ model.wv.most_similar(positive=['whale'], topn=10)
 ### Vocabulary limits
 Note that Word2Vec can only produce vector representations for words encountered in the data used to train the model. 
 
-### fastText solves OOV issue
-If you need to obtain word vectors for out of vocabulary (OOV) words, you can use the fastText word embedding algorithm, instead (also provided from Gensim). 
-The fastText algorithm can obtain vectors even for out-of-vocabulary (OOV) words, by summing up vectors for its component char-ngrams, provided at least one of the char-ngrams was present in the training data.
-
-
 ```python
 model.wv.most_similar(positive=['orca'],topn=30) 
 ```
@@ -354,8 +349,11 @@ model.wv.most_similar(positive=['orca'],topn=30)
 
     KeyError: "Key 'orca' not present in vocabulary"
 
+### fastText solves OOV issue
+If you need to obtain word vectors for out of vocabulary (OOV) words, you can use the fastText word embedding algorithm, instead (also provided from Gensim). 
+The fastText algorithm can obtain vectors even for out-of-vocabulary (OOV) words, by summing up vectors for its component char-ngrams, provided at least one of the char-ngrams was present in the training data.
 
-### Categorical Search
+### Word2Vec for Named Entity Recognition
 What can we do with this most similar functionality? One way we can use it is to construct a list of similar words to represent some sort of category. For example, maybe we want to know what other sea creatures are referenced throughout Moby Dick. We can use gensim's most_smilar function to begin constructing a list of words that, on average, represent a "sea creature" category.  
 
 We'll use the following procedure:
