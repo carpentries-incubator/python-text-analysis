@@ -648,57 +648,65 @@ No additional sea creatures. It appears we have our list of sea creatures recove
 #### Limitations 
 There is at least one sea creature missing from our list — a giant squid. The giant squid is only mentioned a handful of times throughout Moby Dick, and therefore it could be that our word2vec model was not able to train a good representation of the word "squid". Neural networks only work well when you have lots of data
 
-#### Exercise: Exploring the skip-gram algorithm 
-The skip-gram algoritmm sometimes performs better in terms of its ability to capture meaning of rarer words encountered in the training data. Train a new Word2Vec model using the skip-gram algorithm, and see if you can repeat the above categorical search task to find the word, "squid".
 
 
-```python
-# import gensim's Word2Vec module
-from gensim.models import Word2Vec
+> ## Exploring the skip-gram algorithm 
+>
+> The skip-gram algoritmm sometimes performs better in terms of its ability to capture meaning of rarer words encountered in the training data. Train a new Word2Vec model using the skip-gram algorithm, and see if you can repeat the above categorical search task to find the word, "squid".
+> 
+> > ## Solution
+> > 
+> > ```python
+> > # import gensim's Word2Vec module
+> > from gensim.models import Word2Vec
+> > 
+> > # train the word2vec model with our cleaned data
+> > model = Word2Vec(sentences=tokens_cleaned, seed=0, workers=1, sg=1)
+> > model.wv.most_similar(positive=['whale','fish','creature','animal','shark','leviathan'],topn=100) # still no sight of squid 
+> > ```
+> > 
+> > ~~~
+> > [('whalemen', 0.9931729435920715),
+> >  ('specie', 0.9919217824935913),
+> >  ('bulk', 0.9917919635772705),
+> >  ('ground', 0.9913252592086792),
+> >  ('skeleton', 0.9905602931976318),
+> >  ('among', 0.9898401498794556),
+> >  ('small', 0.9887762665748596),
+> >  ('full', 0.9885162115097046),
+> >  ('captured', 0.9883950352668762),
+> >  ('found', 0.9883666634559631),
+> >  ('sometimes', 0.9882548451423645),
+> >  ('snow', 0.9880553483963013),
+> >  ('magnitude', 0.9880378842353821),
+> >  ('various', 0.9878063201904297),
+> >  ('hump', 0.9876748919487),
+> >  ('cuvier', 0.9875931739807129),
+> >  ('fisherman', 0.9874721765518188),
+> >  ('general', 0.9873012900352478),
+> >  ('living', 0.9872495532035828),
+> >  ('wholly', 0.9872384667396545),
+> >  ('bone', 0.987160861492157),
+> >  ('mouth', 0.9867696762084961),
+> >  ('natural', 0.9867129921913147),
+> >  ('monster', 0.9865870475769043),
+> >  ('blubber', 0.9865683317184448),
+> >  ('indeed', 0.9864518046379089),
+> >  ('teeth', 0.9862186908721924),
+> >  ('entire', 0.9861844182014465),
+> >  ('latter', 0.9859246015548706),
+> >  ('book', 0.9858523607254028)]
+> > ~~~
+> > {: .output}
+> > 
+> > 
+> > #### Discuss Exercise Result
+> > When using Word2Vec to reveal items from a category, you risk missing items that are rarely mentioned. This is true even when we use the Skip-gram training method, which has been found to have better performance on rarer words. For this reason, it's sometimes better to save this task for larger text corpuses. In a later lesson, we will explore how large language models (LLMs) can yield better performance on Named Entity Recognition related tasks.
+> > 
+> {:.solution}
+{:.challenge}
 
-# train the word2vec model with our cleaned data
-model = Word2Vec(sentences=tokens_cleaned, seed=0, workers=1, sg=1)
-model.wv.most_similar(positive=['whale','fish','creature','animal','shark','leviathan'],topn=100) # still no sight of squid 
-```
 
-
-~~~
-[('whalemen', 0.9931729435920715),
- ('specie', 0.9919217824935913),
- ('bulk', 0.9917919635772705),
- ('ground', 0.9913252592086792),
- ('skeleton', 0.9905602931976318),
- ('among', 0.9898401498794556),
- ('small', 0.9887762665748596),
- ('full', 0.9885162115097046),
- ('captured', 0.9883950352668762),
- ('found', 0.9883666634559631),
- ('sometimes', 0.9882548451423645),
- ('snow', 0.9880553483963013),
- ('magnitude', 0.9880378842353821),
- ('various', 0.9878063201904297),
- ('hump', 0.9876748919487),
- ('cuvier', 0.9875931739807129),
- ('fisherman', 0.9874721765518188),
- ('general', 0.9873012900352478),
- ('living', 0.9872495532035828),
- ('wholly', 0.9872384667396545),
- ('bone', 0.987160861492157),
- ('mouth', 0.9867696762084961),
- ('natural', 0.9867129921913147),
- ('monster', 0.9865870475769043),
- ('blubber', 0.9865683317184448),
- ('indeed', 0.9864518046379089),
- ('teeth', 0.9862186908721924),
- ('entire', 0.9861844182014465),
- ('latter', 0.9859246015548706),
- ('book', 0.9858523607254028)]
-~~~
-{: .output}
-
-
-#### Discuss Exercise Result
-When using Word2Vec to reveal items from a category, you risk missing items that are rarely mentioned. This is true even when we use the Skip-gram training method, which has been found to have better performance on rarer words. For this reason, it's sometimes better to save this task for larger text corpuses. In a later lesson, we will explore a task called Named Entity Recognition, which will handle this type of task in a more robust and systematic way.
 
 #### Exercise: Categorical Search Applications
 How else might you exploit this kind of analysis? Share your ideas with the group.
