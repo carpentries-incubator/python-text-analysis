@@ -62,7 +62,7 @@ We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert
     * *I saw a group of kids playing **outside** in the park.*
     * *It's not safe to leave your belongings **outside** unattended.*
     * *I love to go for a walk **outside** after dinner to help me digest.*
-    * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
+    * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*\
 
 
 
