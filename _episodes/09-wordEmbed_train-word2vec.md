@@ -343,7 +343,7 @@ string = 'It is not down on any map; true places never are.'
 tokens = preprocess_text(string, 
                          remove_stopwords=True,
                          verbose=True)
-tokens
+print('Result', tokens)
 ```
 
 ~~~
@@ -351,8 +351,7 @@ Tokens ['It', 'is', 'not', 'down', 'on', 'any', 'map', 'true', 'places', 'never'
 Lowercase ['it', 'is', 'not', 'down', 'on', 'any', 'map', 'true', 'places', 'never', 'are']
 Lemmas ['it', 'is', 'not', 'down', 'on', 'any', 'map', 'true', 'place', 'never', 'are']
 StopRemoved ['map', 'true', 'place', 'never']
-
-['map', 'true', 'place', 'never']
+Result ['map', 'true', 'place', 'never']
 ~~~
 {: .output}
 
