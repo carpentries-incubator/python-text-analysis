@@ -41,30 +41,30 @@ So far, we’ve seen how word counts, TF-IDF, and LSA can help us embed a docume
 * **LSA embeddings:** Latent Semantic Analysis (LSA) is used to find the hidden topics represented by a group of documents. It involves running singular-value decomposition (SVD) on a document-term matrix (typically the TF-IDF matrix), producing a vector representation of each document. This vector scores each document's representation in different topic/concept areas which are derived based on word co-occurences. Importantly, LSA is considered a *bag of words* method since the order of words in a document is not considered. 
 
 ### LSA vs TF-IDF
-Compared to TF-IDF, the text representations (a.k.a. embeddings) produced by LSA are arguably more useful since LSA can reveal some of the latent topics referenced throughout a corpus. While LSA gets closer to extracting some of the interesting features of text data, it is limited in the sense that it is a "bag of words" method. That is, it pays no attention to the context in which words appear. Instead, it focuses only on word co-occurrence patterns across documents. While such an approach is effective for revealing topics/concepts, additional features of language may be revealed by zooming in on the context in which words appear throughout a text.
+Compared to TF-IDF, the text representations (a.k.a. embeddings) produced by LSA are arguably more useful since LSA can reveal some of the latent topics referenced throughout a corpus. While LSA gets closer to extracting some of the interesting features of text data, it is limited in the sense that it is a "bag of words" method. That is, it pays no attention to the context in which words appear. Instead, it focuses only on word co-occurrence patterns within and across documents. While such an approach is effective for revealing topics/concepts, additional features of language may be revealed by zooming in on the context in which words appear throughout a text.
 
 ## Distributional hypothesis: extracting more meaningful representations of text 
-As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the context of words as they appear in sentences and only pays attention to global word co-occurence patterns across texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
+As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the context of words as they appear in sentences and only pays attention to global word co-occurence patterns across large chunks of texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
 
 ## Word embeddings with Word2Vec
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. 
 
 We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert**: it uses artificial neural networks). For now, it is sufficient to be aware of two key properties of the model.
 
-1. Word2Vec is a machine learning model that generates high-dimensional representations of words based on a word's most likely surrounding words in a sentence (dist. hypothesis). For instance, notice how in the example sentences given below, the word outside tends to be surrounded by words related to the outdoors.
+1. Word2Vec is a machine learning model that generates high-dimensional representations of words based on observing a word's most likely surrounding words in multiple sentences (dist. hypothesis). For instance, notice how in the example sentences given below, the word outside tends to be surrounded by words associated with the outdoors.
 
-*It's a beautiful day **outside**, perfect for a picnic.*
-*My cat loves to spend time **outside**, chasing birds and bugs.*
-*The noise **outside** woke me up early this morning.*
-*I always feel more relaxed after spending some time **outside** in nature.*
-*I can hear the rain pouring **outside**, it's a good day to stay indoors.*
-*The sun is shining brightly **outside**, it's time to put on some sunscreen.*
-*I saw a group of kids playing **outside** in the park.*
-*It's not safe to leave your belongings **outside** unattended.*
-*I love to go for a walk **outside** after dinner to help me digest.*
-*The temperature **outside** is dropping, I need to grab a jacket before I leave.*
+* *It's a beautiful day **outside**, perfect for a picnic.*
+* *My cat loves to spend time **outside**, chasing birds and bugs.*
+* *The noise **outside** woke me up early this morning.*
+* *I always feel more relaxed after spending some time **outside** in nature.*
+* *I can hear the rain pouring **outside**, it's a good day to stay indoors.*
+* *The sun is shining brightly **outside**, it's time to put on some sunscreen.*
+* *I saw a group of kids playing **outside** in the park.*
+* *It's not safe to leave your belongings **outside** unattended.*
+* *I love to go for a walk **outside** after dinner to help me digest.*
+* *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
 
-2. The vectors produced by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on)
+2. The vectors produced by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on). This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text.
 
 With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
 
