@@ -53,16 +53,16 @@ We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert
 
 1. Word2Vec is a machine learning model that generates high-dimensional representations of words based on observing a word's most likely surrounding words in multiple sentences (dist. hypothesis). For instance, notice how in the example sentences given below, the word outside tends to be surrounded by words associated with the outdoors.
 
-          * *It's a beautiful day **outside**, perfect for a picnic.*
-          * *My cat loves to spend time **outside**, chasing birds and bugs.*
-          * *The noise **outside** woke me up early this morning.*
-          * *I always feel more relaxed after spending some time **outside** in nature.*
-          * *I can hear the rain pouring **outside**, it's a good day to stay indoors.*
-          * *The sun is shining brightly **outside**, it's time to put on some sunscreen.*
-          * *I saw a group of kids playing **outside** in the park.*
-          * *It's not safe to leave your belongings **outside** unattended.*
-          * *I love to go for a walk **outside** after dinner to help me digest.*
-          * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
+    * *It's a beautiful day **outside**, perfect for a picnic.*
+    * *My cat loves to spend time **outside**, chasing birds and bugs.*
+    * *The noise **outside** woke me up early this morning.*
+    * *I always feel more relaxed after spending some time **outside** in nature.*
+    * *I can hear the rain pouring **outside**, it's a good day to stay indoors.*
+    * *The sun is shining brightly **outside**, it's time to put on some sunscreen.*
+    * *I saw a group of kids playing **outside** in the park.*
+    * *It's not safe to leave your belongings **outside** unattended.*
+    * *I love to go for a walk **outside** after dinner to help me digest.*
+    * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
 
 2. The vectors produced by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on). This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text.
 
