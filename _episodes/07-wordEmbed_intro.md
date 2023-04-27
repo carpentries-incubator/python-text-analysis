@@ -41,17 +41,29 @@ So far, we’ve seen how word counts, TF-IDF, and LSA can help us embed a docume
 * **LSA embeddings:** Latent Semantic Analysis (LSA) is used to find the hidden topics represented by a group of documents. It involves running singular-value decomposition (SVD) on a document-term matrix (typically the TF-IDF matrix), producing a vector representation of each document. This vector scores each document's representation in different topic/concept areas which are derived based on word co-occurences. Importantly, LSA is considered a *bag of words* method since the order of words in a document is not considered. 
 
 ### LSA vs TF-IDF
-Compared to TF-IDF, the text representations (a.k.a. embeddings) produced by LSA are arguably more useful since LSA can reveal some of the latent topics referenced throughout a corpus. While LSA gets closer to extracting some of the interesting features of text data, it is limited in the sense that it is a "bag of words" method. That is, it pays no attention to the exact order in which words appear in a sentence (it only pays attention to the co-occurrence patterns in large documents).
+Compared to TF-IDF, the text representations (a.k.a. embeddings) produced by LSA are arguably more useful since LSA can reveal some of the latent topics referenced throughout a corpus. While LSA gets closer to extracting some of the interesting features of text data, it is limited in the sense that it is a "bag of words" method. That is, it pays no attention to the context in which words appear. Instead, it focuses only on word co-occurrence patterns across documents. While such an approach is effective for revealing topics/concepts, additional features of language may be revealed by zooming in on the context in which words appear throughout a text.
 
 ## Distributional hypothesis: extracting more meaningful representations of text 
-As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the actual order of words as they appear in sentences and only pays attention to global word co-occurence patterns in large texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
+As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the context of words as they appear in sentences and only pays attention to global word co-occurence patterns across texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
 
 ## Word embeddings with Word2Vec
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. 
 
 We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert**: it uses artificial neural networks). For now, it is sufficient to be aware of two key properties of the model.
 
-1. Word2Vec is a machine learning model that constructs word vectors based on a word's most likely surrounding words in a sentence
+1. Word2Vec is a machine learning model that generates high-dimensional representations of words based on a word's most likely surrounding words in a sentence (dist. hypothesis). For instance, notice how in the example sentences given below, the word outside tends to be surrounded by words related to the outdoors.
+
+*It's a beautiful day **outside**, perfect for a picnic.*
+*My cat loves to spend time **outside**, chasing birds and bugs.*
+*The noise **outside** woke me up early this morning.*
+*I always feel more relaxed after spending some time **outside** in nature.*
+*I can hear the rain pouring **outside**, it's a good day to stay indoors.*
+*The sun is shining brightly **outside**, it's time to put on some sunscreen.*
+*I saw a group of kids playing **outside** in the park.*
+*It's not safe to leave your belongings **outside** unattended.*
+*I love to go for a walk **outside** after dinner to help me digest.*
+*The temperature **outside** is dropping, I need to grab a jacket before I leave.*
+
 2. The vectors produced by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on)
 
 With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
@@ -65,7 +77,7 @@ print(type(wv))
 ~~~
 {: .output}
 
-Gensim stores "KeyedVectors" representing the model. They're called keyed vectors because you can use words as keys to extract the corresponding vectors. Let's take a look at the vector representaton of *whale*.
+Gensim stores "KeyedVectors" representing the Word2Vec model. They're called keyed vectors because you can use words as keys to extract the corresponding vectors. Let's take a look at the vector representaton of *whale*.
 
 ```python
 wv['whale'] 
@@ -220,7 +232,7 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 {:.challenge}
 
 > ## Word2Vec Applications in Digital Humanities
-> Recall from the exercise earlier in this episode that the vectors produced by Word2Vec are a reflection of the data used to train the model. That is, the vectors will reflect how words are typically used in a specific dataset. By training Word2Vec on large corpora of text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
+> From the above exercise, we see that the vectors produced by Word2Vec will reflect how words are typically used in a specific dataset. By training Word2Vec on large corpora of text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
 > 
 > Taking this into consideration, what are some possible ways we could make use of Word2Vec to explore newspaper articles from the years 1900-2000?
 > > ## Solution
@@ -320,6 +332,6 @@ plt.show()
 Note how the principal component 1 seems to represent the royalty dimension, while the principal component 2 seems to represent male vs female. 
 
 ## Recap
-In summary, Word2Vec is a powerful text-embedding method that allows researchers to explore how different words relate to one another based on past observations (i.e., by being trained on a large list of sentences). Unlike LSA, which produces topics as features of the text to investigate, Word2Vec produces "black-box" features which have to be compared relative to one another. By training Word2Vec on large corpora of text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
+In summary, Word2Vec is a powerful text-embedding method that allows researchers to explore how different words relate to one another based on past observations (i.e., by being trained on a large list of sentences). Unlike LSA, which produces topics as features of the text to investigate, Word2Vec produces "black-box" features which have to be compared relative to one another. By training Word2Vec text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
 
 In the next section, we'll explore the technology behind Word2Vec before training a Word2Vec model on some of the text data used in this workshop.
