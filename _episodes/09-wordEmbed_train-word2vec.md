@@ -721,8 +721,8 @@ There is at least one sea creature missing from our list — a giant squid. The 
 > Recall that the Word2Vec model learns to encode a word's meaning/representation based on that word's most common surrounding context words. By training two separate Word2Vec models on, e.g., books collected from two different authors (one model for each author), we can compare how the different authors tend to use words differently. What are some research questions or words that we could investigate with this kind of approach?
 > 
 > > ## Solution
-> > a
-> > As one possible approach, we could compare how authors tend to represent different genders. It could be that older books tend to produce word vectors for man and women that are further apart from one another than newer books.
+> > 
+> > As one possible approach, we could compare how authors tend to represent different genders. It could be that older (outdated!) books tend to produce word vectors for man and women that are further apart from one another than newer books due to historic gender norms.
 > > 
 > {:.solution}
 {:.challenge}
