@@ -47,9 +47,9 @@ In the above table used to train a neural network model, the model learns how be
 
 The diagram above shows a perceptron —  the computational unit that makes up artificial neural networks. Perceptrons are inspired by real biological neurons. From the diagram, we can see that the perceptron...
 
-* Receives multiple input features and returns a single output
-* Has adjustable weights which scale the impact of individual inputs 
-* Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
+* **Input features**: Receives multiple input features and returns a single output
+* **Weights connecting features**: Has adjustable weights which scale the impact of individual inputs 
+* **Nonlinear activation function**: Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
 
 With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). 
 
