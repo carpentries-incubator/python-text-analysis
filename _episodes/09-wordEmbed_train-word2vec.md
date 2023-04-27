@@ -716,6 +716,16 @@ There is at least one sea creature missing from our list — a giant squid. The 
 > {:.solution}
 {:.challenge}
 
+> ## Comparing Vector Representations Across Authors
+> 
+> Recall that the Word2Vec model learns to encode a word's meaning/representation based on that word's most common surrounding context words. By training two separate Word2Vec models on, e.g., books collected from two different authors (one model for each author), we can compare how the different authors tend to use words differently. What are some research questions or words that we could investigate with this kind of approach?
+> 
+> > ## Solution
+> > a
+> > As one possible approach, we could compare how authors tend to represent different genders. It could be that older books tend to produce word vectors for man and women that are further apart from one another than newer books.
+> > 
+> {:.solution}
+{:.challenge}
 
 ### Other word embedding models
 While Word2Vec is a famous model that is still used throughout many NLP applications today, there are a few other word embedding models that you might also want to consider exploring. GloVe and fastText are among the two most popular choices to date.
