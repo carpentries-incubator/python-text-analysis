@@ -65,6 +65,7 @@ We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert
     * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
 
 
+
 2. The vectors produced by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on). This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text.
 
 With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
