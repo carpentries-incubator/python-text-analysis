@@ -718,16 +718,7 @@ There is at least one sea creature missing from our list — a giant squid. The 
 
 
 ### Other word embedding models
-
 While Word2Vec is a famous model that is still used throughout many NLP applications today, there are a few other word embedding models that you might also want to consider exploring. GloVe and fastText are among the two most popular choices to date.
-
-#### GloVe
-"[GloVe](https://nlp.stanford.edu/projects/glove/)" to generate word embeddings. GloVe, coined from Global Vectors, is a model based on the *distribtuional hypothesis*. The GloVe model is trained on the non-zero entries of a global word-word co-occurrence matrix, which tabulates how frequently words co-occur with one another in a given corpus (the GloVe model in spaCy comes pretrained on the [Gigaword dataset](https://catalog.ldc.upenn.edu/LDC2011T07)). The main intuition underlying the model is the observation that ratios of word-word co-occurrence probabilities have the potential for encoding some form of meaning.
-
-Populating this matrix requires a single pass through the entire corpus to collect the statistics. For large corpora, this pass can be computationally expensive, but it is a one-time up-front cost."
-
-#### fastText
-
 
 ```python
 # Preview other word embedding models available
@@ -739,3 +730,12 @@ print(list(api.info()['models'].keys()))
 ~~~
 {: .output}
 
+#### Similarities
+* All three algorithms generate vector representations of words in a high-dimensional space.
+* They can be used to solve a wide range of natural language processing tasks.
+* They are all open-source and widely used in the research community.
+
+#### Differences
+* Word2Vec focuses on generating embeddings by predicting the context of a word given its surrounding words in a sentence, while GloVe and fastText generate embeddings by predicting the probability of a word co-occurring with another word in a corpus.
+* fastText also includes character n-grams, allowing it to generate embeddings for words not seen during training, making it particularly useful for handling out-of-vocabulary words.
+* In general, fastText is considered to be the fastest to train among the three embedding techniques (GloVe, fastText, and Word2Vec). This is because fastText uses subword information, which reduces the vocabulary size and allows the model to handle out-of-vocabulary words. Additionally, fastText uses a hierarchical softmax for training, which is faster than the traditional softmax used by Word2Vec. Finally, fastText can be trained on multiple threads, further speeding up the training process.
