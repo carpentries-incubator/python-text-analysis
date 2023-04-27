@@ -43,7 +43,7 @@ As a example, maybe we have recorded tail lengths, weights, and snout lengths fr
 In the above table used to train a neural network model, the model learns how best to map the observed features (tail length, weight, and snout length) to their assigned classes. After the model is trained, it can be used to infer the labels of unlabelled samples (so long as they hae tail length, weight, and snouth length recorded).
 
 ## The Perceptron 
-![Single artificial neuron](../images/wordEmbed_perceptron.svg)
+![Single artificial neuron](../images/wordEmbed_NN-perceptron.svg)
 
 The diagram above shows a perceptron —  the computational unit that makes up artificial neural networks. Perceptrons are inspired by real biological neurons. From the diagram, we can see that the perceptron...
 
@@ -51,7 +51,13 @@ The diagram above shows a perceptron —  the computational unit that makes up a
 * Has adjustable weights which scale the impact of individual inputs 
 * Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
 
-With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). It does this by optimizing its weights to correctly classify some observed labelled data — drawing a linear boundary between the two classes. More explicitly, its training method can be outlined as follows:
+With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). 
+
+![Linear Decision Boundary](../images/wordEmbed_NN-cats-dogs-linear-boundary.svg)
+
+[Image Source](https://www.visiondummy.com/2014/04/curse-dimensionality-affect-classification/)
+
+It does this by optimizing its weights to correctly classify some observed labelled data — drawing a linear boundary between the two classes. More explicitly, its training method can be outlined as follows:
 
 ### Training algorithm
 1. **Initialize weights**: The perceptron model starts with randomly initialized weights. These weights are the parameters/coefficients that the model will learn during training to make accurate predictions.
@@ -77,7 +83,7 @@ A single perceptron cannot solve any function that is not linearly separable, me
 ## The multilayer perceptron (MLP)
 To overcome the limitation of the perceptron, we can stack together multiple perceptrons in a multilayer neural network (shown below) called a multilayer perceptron (MLP). An MLP refers to a type of artificial neural network (ANN) that consists of multiple layers of interconnected nodes (neurons) organized in a feedforward manner. It typically has one or more hidden layers between the input and output layers, with each hidden layer applying an activation function to the weighted sum of its inputs. By stacking together layers of perceptrons, the MLP model can learn complex non-linear relationships in the data and make predictions based on those learned patterns.
 
-![Multilayer neural network](../images/wordEmbed_NN.svg)
+![Multilayer neural network](../images/wordEmbed_NN-MLP.svg)
 
 In the diagram above, the general structure of a multilayer neural network is shown with...
 * **Input Layer**: The input layer is the first layer of the MLP and consists of input nodes that receive the features of the input data. Each node in the input layer represents a feature or attribute of the input data. The input layer is not involved in any computation or activation; it simply passes the input features to the next layer.
@@ -101,7 +107,7 @@ After training a neural network, the neural weights encode new features of the d
 
 Generally speaking, the deeper the neural network is, the more complicated/abstract these features can become. For example, in deep convolutional neural networks (a special kind of neural network designed for image processing), the features in each layer look something like the image shown below when the model is trained on a facial recognition task. 
 
-![Hierarchical Feature Representations - Face Detection](../images/wordEmbed_hierarchical-features.png)
+![Hierarchical Feature Representations - Face Detection](../images/wordEmbed_NN-hierarchical-features.png)
 
 ## Training Word2Vec to Learn Word Embeddings
 Recall that the ultimate goal of the Word2Vec method is to output meaningful word embeddings/vectors. How can we train a neural network for such a task? We could try to tediously hand-craft a large list of word vectors that have the properties we seek (e.g., similar words have similar vectors), and then train a neural network to learn this mapping before applying it to new words. However, crafting a list of vectors manually would be an arudous task. Furthermore, it is not immediately clear what kind of vector representation would be best.
@@ -111,7 +117,7 @@ Instead, we can capitalize on the fact that neural networks are well posed to le
 ### Predicting context words
 What task can we give a neural network to learn meaningful word embeddings? Our friend RJ Firth gives us a hint when he says, “You shall know a word by the company it keeps.” Using the *distributional hypothesis* as motivation, which states that words that repeatedly occur in similar contexts probably have similar meanings, we can ask a neural network to predict the *context* words that surround a given word in a sentence. The Skip-gram algorithm shown on the right side of the below diagram does just that.
 
-![Skipgram](../images/wordEmbed_word2vec-training-methods.png)
+![Skipgram](../images/wordEmbed_NN-training-methods.png)
 
 #### Sentence Processing With Skip-Gram 
 The Skip-gram version takes as input each word in a sentence, and tries to guess the most likely surrounding context words associated with that word. It does this for all sentences and words in a corpus in order to learn a function that can map each word to its most likely context words.
@@ -135,7 +141,7 @@ With a model trained to predict context words, how can we extract the model's le
 
 These steps can be visualized in the Word2Vec model diagram shown below, with Sigmas representing individual neurons and their ability to integrate input from previous layers.
 
-![Word2Vec Model Architecture (Skip-gram)](../images/wordEmbed_word2vec-SG-model-architecture.png)
+![Word2Vec Model Architecture (Skip-gram)](../images/wordEmbed_NN-SG-model-architecture.png)
 
 [Image Source](https://israelg99.github.io/2017-03-23-Word2Vec-Explained/#:~:text=How%20does%20Word2Vec%20produce%20word,to%20reduce%20a%20loss%20function.)
 
@@ -147,7 +153,7 @@ In the above digram, we can see...
 The word vectors, themselves, are stored in the weights connecting the input layer to the hidden layer of neurons. Each word will have its own set of learned weights which we call word vectors. You can think of each element of the word vectors as encoding different features which are relevant to the prediction task at hand — predicting context words. 
 
 #### **Continuous Bag-of-Words (CBOW)**
-![Image from Word2Vec research paper, by Mikolov et al](../images/wordEmbed_word2vec-training-methods.png)
+![Image from Word2Vec research paper, by Mikolov et al](../images/wordEmbed_NN-training-methods.png)
 
 Before wrapping up with the mechanisms underlying the Word2Vec model, it is important to mention that the Skip-gram algorithm is not the only way to train word embeddings using Word2Vec. A similar method known as the Continuous Bag-of-Words (CBOW) takes as an input the context words surrounding a target word, and tries to guess the target word based on those words. Thus, it flips the prediction task faced by Skip-gram. The CBOW algorithm does not care how far away different context words are from the target word, which is why it is called a bag-of-words method. With this task setup, the neural network will learn a function that can map the surrounding context words to a target word. Similar to Skip-gram, the CBOW method will generate word vectors stored as weights of the neural network. However, given the slight adjustment in task, the weights extracted from CBOW are the ones that connect the hidden layer of neurons to the output layer. 
 
