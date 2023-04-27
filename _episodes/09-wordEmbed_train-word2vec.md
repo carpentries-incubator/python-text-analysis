@@ -23,58 +23,65 @@ Run this code to enable helper functions.
 from google.colab import drive
 drive.mount('/content/drive')
 
-# show existing colab notebooks and helpers.py file
+# Set workshop directory
 from os import listdir
 wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis'
 
-# add folder to colab's path so we can import the helper functions
+# Add helper functions to colab's path
 import sys
-helper_path = '/content/drive/My Drive/Colab Notebooks/text-analysis/python-text-analysis-gh-pages/code/'
+helper_path = wksp_dir + '/code'
 sys.path.insert(0, helper_path)
+
+# Check that helper directory is correct
+listdir(helper_path)
 ```
 ~~~
 Mounted at /content/drive
-~~~
-{: .output}
-
-
-```python
-# check that wksp_dir is correct
-listdir(wksp_dir)
-```
-
-
-~~~
-['.ipynb_checkpoints',
- '__pycache__',
- 'data',
- 'word2vec_PCA_plot.jpg',
+['analysis.py',
+ 'pyldavis.py',
+ '.gitkeep',
  'helpers.py',
- 'Word_embeddings_intro.ipynb',
- 'word2vec_scratch.ipynb',
- 'Word_embeddings_train.ipynb']
+ 'preprocessing.py',
+ 'attentionviz.py',
+ 'mit_restaurants.py',
+ 'plotfrequency.py',
+ '__pycache__']
 ~~~
 {: .output}
 
 ### Load in the data
-Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list -- Moby Dick.
-
+Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
 
 ```python
 # pip install necessary to access parse module (called from helpers.py)
 !pip install parse
+```
 
-# test that functions can now be imported from helpers.py
+Get list of files available to analyze
+
+```python
 from helpers import create_file_list 
-
-# get list of files to analyze
-data_dir = wksp_dir + '/python-text-analysis-gh-pages/data/books/'
+data_dir = wksp_dir + '/data/books/'
 corpus_file_list = create_file_list(data_dir, "*.txt")
+corpus_file_list
+```
 
-# parse filelist into a dataframe
+Parse filelist into a dataframe. Make sure you don't have any extra forward slashes in the pattern — this will cause an error in the helper function.
+
+```python
+pattern = data_dir + "{Author}-{Title}.txt"
+pattern
+```
+
+~~~
+'/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/{Author}-{Title}.txt'
+~~~
+{: .output}
+
+```python
 from helpers import parse_into_dataframe 
 data = parse_into_dataframe(data_dir + "{Author}-{Title}.txt", corpus_file_list)
-data
+data.head()
 ```
 
 ```python
@@ -351,8 +358,8 @@ model.wv.most_similar(positive=['orca'],topn=30)
     KeyError: "Key 'orca' not present in vocabulary"
 
 ### fastText solves OOV issue
-If you need to obtain word vectors for out of vocabulary (OOV) words, you can use the fastText word embedding algorithm, instead (also provided from Gensim). 
-The fastText algorithm can obtain vectors even for out-of-vocabulary (OOV) words, by summing up vectors for its component char-ngrams, provided at least one of the char-ngrams was present in the training data.
+If you need to obtain word vectors for out of vocabulary (OOV) words, you can use the fastText word embedding model, instead (also provided from Gensim). 
+The fastText model can obtain vectors even for out-of-vocabulary (OOV) words, by summing up vectors for its component char-ngrams, provided at least one of the char-ngrams was present in the training data.
 
 ### Word2Vec for Named Entity Recognition
 What can we do with this most similar functionality? One way we can use it is to construct a list of similar words to represent some sort of category. For example, maybe we want to know what other sea creatures are referenced throughout Moby Dick. We can use gensim's most_smilar function to begin constructing a list of words that, on average, represent a "sea creature" category.  
