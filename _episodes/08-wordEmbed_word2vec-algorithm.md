@@ -18,7 +18,7 @@ How is it that Word2Vec is able to represent words in such a semantically meanin
 
 * Predicting the weather tomorrow given historical weather patterns
 * Classifying if an email is spam or not
-* Classifying what if an image contains a person or not
+* Classifying if an image contains a person or not
 * Predicting a person’s weight based on their height
 * Predicting commute times given traffic conditions
 * Predicting house prices given stock market prices
