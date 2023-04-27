@@ -53,7 +53,7 @@ The diagram above shows a perceptron —  the computational unit that makes up a
 
 With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). 
 
-![Linear Decision Boundary](../images/wordEmbed_NN-cats-dogs-linear-boundary.svg)
+![Linear Decision Boundary](../images/wordEmbed_NN-cats-dogs-linear-boundary.png)
 
 [Image Source](https://www.visiondummy.com/2014/04/curse-dimensionality-affect-classification/)
 
