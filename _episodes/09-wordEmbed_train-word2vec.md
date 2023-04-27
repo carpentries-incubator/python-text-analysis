@@ -649,7 +649,6 @@ No additional sea creatures. It appears we have our list of sea creatures recove
 There is at least one sea creature missing from our list — a giant squid. The giant squid is only mentioned a handful of times throughout Moby Dick, and therefore it could be that our word2vec model was not able to train a good representation of the word "squid". Neural networks only work well when you have lots of data
 
 
-
 > ## Exploring the skip-gram algorithm 
 >
 > The skip-gram algoritmm sometimes performs better in terms of its ability to capture meaning of rarer words encountered in the training data. Train a new Word2Vec model using the skip-gram algorithm, and see if you can repeat the above categorical search task to find the word, "squid".
@@ -700,21 +699,20 @@ There is at least one sea creature missing from our list — a giant squid. The 
 > > {: .output}
 > > 
 > > 
-> > #### Discuss Exercise Result
-> > When using Word2Vec to reveal items from a category, you risk missing items that are rarely mentioned. This is true even when we use the Skip-gram training method, which has been found to have better performance on rarer words. For this reason, it's sometimes better to save this task for larger text corpuses. In a later lesson, we will explore how large language models (LLMs) can yield better performance on Named Entity Recognition related tasks.
+> > **Discuss Exercise Result**: When using Word2Vec to reveal items from a category, you risk missing items that are rarely mentioned. This is true even when we use the Skip-gram training method, which has been found to have better performance on rarer words. For this reason, it's sometimes better to save this task for larger text corpuses. In a later lesson, we will explore how large language models (LLMs) can yield better performance on Named Entity Recognition related tasks.
 > > 
 > {:.solution}
 {:.challenge}
 
+> ## Entity Recognition Applications
+> 
+> How else might you exploit this kind of analysis in your research? Share your ideas with the group.
 
-
-#### Exercise: Categorical Search Applications
-How else might you exploit this kind of analysis? Share your ideas with the group.
-
-* **Example**: Train a model on newspaper articles from the 19th century, and collect a list of foods (the topic chosen) referenced throughout the corpus. Do the same for 20th century newspaper articles and compare.
-
-
-
+> > ## Solution
+> > 
+> > **Example**: Train a model on newspaper articles from the 19th century, and collect a list of foods (the topic chosen) referenced throughout the corpus. Do the same for 20th century newspaper articles and compare to see how popular foods have changed over time.
+> {:.solution}
+{:.challenge}
 
 
 ### Other word embedding models
