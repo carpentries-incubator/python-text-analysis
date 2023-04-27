@@ -103,7 +103,6 @@ Generally speaking, the deeper the neural network is, the more complicated/abstr
 
 ![Hierarchical Feature Representations - Face Detection](../images/wordEmbed_hierarchical-features.png)
 
-
 ## Training Word2Vec to Learn Word Embeddings
 Recall that the ultimate goal of the Word2Vec method is to output meaningful word embeddings/vectors. How can we train a neural network for such a task? We could try to tediously hand-craft a large list of word vectors that have the properties we seek (e.g., similar words have similar vectors), and then train a neural network to learn this mapping before applying it to new words. However, crafting a list of vectors manually would be an arudous task. Furthermore, it is not immediately clear what kind of vector representation would be best.
 
@@ -114,12 +113,23 @@ What task can we give a neural network to learn meaningful word embeddings? Our 
 
 ![Skipgram](../images/wordEmbed_word2vec-training-methods.png)
 
-The Skip-gram training method takes as an input a single word in a sentence, and tries to guess the most likely surrounding context words associated with that word. With this task setup, the neural network will learn a function that can map any word to its likely surrounding context words. 
+#### Sentence Processing With Skip-Gram 
+The Skip-gram version takes as input each word in a sentence, and tries to guess the most likely surrounding context words associated with that word. It does this for all sentences and words in a corpus in order to learn a function that can map each word to its most likely context words.
 
-In the process of training, the model's weights learn to derive new features (weight optimized perceptrons) associated with the input data (single words). These new learned features will be conducive to accurately predicting the context words, and importantly, can also be used as rich feature vectors for words. We will see next how we can extract these features as word vectors.
+*Have a very nice day.*
+
+| Input | Output (context words)| 
+|------|-------|
+| Have | a, very | 
+| a |  Have, very, nice |
+| very | Have, a, nice, day | 
+| nice | a, very, day | 
+| day | very, nice | 
+
+In the process of training, the model's weights learn to derive new features (weight optimized perceptrons) associated with the input data (single words). These new learned features will be conducive to accurately predicting the context words for each word. We will see next how we can extract these features as word vectors.
 
 ### Extracting Word Embeddings From the Model 
-With a model trained on such a task, how can we extract the model's learned features as word embeddings? For this, we need a set of model weights associated with each word fed into the model. We can achieve this property by:
+With a model trained to predict context words, how can we extract the model's learned features as word embeddings? For this, we need a set of model weights associated with each word fed into the model. We can achieve this property by:
 1. Converting each input word into a one-hot encoded vector representation. The vector length will be equal to the size of the vocabularly contained in the training data.
 2. Connecting each element of the one-hot encoded vector to each node/neuron in the subsequent hidden layer of neurons
 
@@ -147,6 +157,6 @@ Since there are two popular word2vec training methods, how should we decide whic
 2. CBOW trains several times faster than Skip-gram and has slightly better accuracy for more frequent words
 
 ## Recap
-Artificial neural networks are powerful machine learning models that can learn to map input data containing features to a predicted label or continuous value. In addition, neural networks learn to encode the input data as hierarchical features during training. The Word2Vec model exploits this capability, and trains the model on a word prediction task in order to generate features of words which are conducive to the prediction task at hand.
+Artificial neural networks are powerful machine learning models that can learn to map input data containing features to a predicted label or continuous value. In addition, neural networks learn to encode the input data as hierarchical features of the text during training. The Word2Vec model exploits this capability, and trains the model on a word prediction task in order to generate features of words which are conducive to the prediction task at hand.
 
 In the next episode, we'll train a Word2Vec model using both training methods and empirically evaluate the performance of each. We'll also see how training Word2Vec models from scratch (rather than using a pretrained model) can be beneficial in some circumstances.
