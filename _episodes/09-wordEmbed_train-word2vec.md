@@ -63,8 +63,17 @@ Get list of files available to analyze
 from helpers import create_file_list 
 data_dir = wksp_dir + '/data/books/'
 corpus_file_list = create_file_list(data_dir, "*.txt")
-corpus_file_list
+corpus_file_list[0:5]
 ```
+
+~~~
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt',
+ '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt',
+ '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt',
+ '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt',
+ '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt']
+~~~
+{: .output}
 
 Parse filelist into a dataframe. Make sure you don't have any extra forward slashes in the pattern — this will cause an error in the helper function.
 
