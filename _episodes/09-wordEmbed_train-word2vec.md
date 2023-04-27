@@ -704,10 +704,12 @@ There is at least one sea creature missing from our list — a giant squid. The 
 > {:.solution}
 {:.challenge}
 
+
+
 > ## Entity Recognition Applications
 > 
 > How else might you exploit this kind of analysis in your research? Share your ideas with the group.
-
+> 
 > > ## Solution
 > > 
 > > **Example**: Train a model on newspaper articles from the 19th century, and collect a list of foods (the topic chosen) referenced throughout the corpus. Do the same for 20th century newspaper articles and compare to see how popular foods have changed over time.
