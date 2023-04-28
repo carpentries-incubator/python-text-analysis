@@ -105,7 +105,7 @@ Similar to the perceptron, the MLP is trained using a supervised learning algori
 ## Deriving New Features from Neural Networks
 After training a neural network, the neural weights encode new features of the data that are conducive to performing well on whatever task the neural network is given. This is due to the feedforward processing built into the network — the outputs of previous layers are sent to subsequent layers, and the so additional transformations get applied to the original inputs as they transcend the network. 
 
-Generally speaking, the deeper the neural network is, the more complicated/abstract these features can become. For example, in deep convolutional neural networks (a special kind of neural network designed for image processing), the features in each layer look something like the image shown below when the model is trained on a facial recognition task. 
+Generally speaking, the deeper the neural network is, the more complicated/abstract these features can become. We call this a **hierarchical feature representation**. For example, in deep convolutional neural networks (a special kind of neural network designed for image processing), the features in each layer look something like the image shown below when the model is trained on a facial recognition task. 
 
 ![Hierarchical Feature Representations - Face Detection](../images/wordEmbed_NN-hierarchical-features.png)
 
