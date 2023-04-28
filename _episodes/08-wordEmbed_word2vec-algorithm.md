@@ -49,15 +49,15 @@ The diagram above shows a perceptron —  the computational unit that makes up a
 
 * **Input features**: Receives multiple input features and returns a single output
 * **Weights connecting features**: Has adjustable weights which scale the impact of individual inputs 
-* **Nonlinear activation function**: Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs 0 or 1)
+* **Nonlinear activation function**: Has a nonlinear activation function which takes as input, the weighted sum of inputs. If the sum is above some threshold, the neuron “fires” a signal (outputs -1 or 1 which represents two different class labels)
 
-With these properties, the perceptron can be "trained" to learn a linear separation between two classes (0 or 1, the output of the model). 
+The goal then is to determine what specific weight values will allow us to separate the two classes based on the input features (e.g., shown below). 
 
 ![Linear Decision Boundary](../images/wordEmbed_NN-cats-dogs-linear-boundary.png)
 
 [Image Source](https://www.visiondummy.com/2014/04/curse-dimensionality-affect-classification/)
 
-It does this by optimizing its weights to correctly classify some observed labelled data — drawing a linear boundary between the two classes. More explicitly, its training method can be outlined as follows:
+In order to determine the optimal weights, we will need to "train" the model on a labelled "training" dataset. As we pass each observation in the training data to the model, the model is able to adjust its weights in a direction that leads better performance. By training the model on many observations, we can derive weights that can accurately classify cats and dogs based on the observed input features. More explicitly, its training method can be outlined as follows:
 
 ### Training algorithm
 1. **Initialize weights**: The perceptron model starts with randomly initialized weights. These weights are the parameters/coefficients that the model will learn during training to make accurate predictions.
