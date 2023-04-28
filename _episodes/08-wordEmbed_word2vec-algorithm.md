@@ -136,7 +136,7 @@ In the process of training, the model's weights learn to derive new features (we
 
 ### Extracting Word Embeddings From the Model 
 With a model trained to predict context words, how can we extract the model's learned features as word embeddings? For this, we need a set of model weights associated with each word fed into the model. We can achieve this property by:
-1. Converting each input word into a one-hot encoded vector representation. The vector length will be equal to the size of the vocabularly contained in the training data.
+1. Converting each input word into a one-hot encoded vector representation. The vector dimensionality will be equal to the size of the vocabularly contained in the training data.
 2. Connecting each element of the one-hot encoded vector to each node/neuron in the subsequent hidden layer of neurons
 
 These steps can be visualized in the Word2Vec model diagram shown below, with Sigmas representing individual neurons and their ability to integrate input from previous layers.
@@ -146,7 +146,7 @@ These steps can be visualized in the Word2Vec model diagram shown below, with Si
 [Image Source](https://israelg99.github.io/2017-03-23-Word2Vec-Explained/#:~:text=How%20does%20Word2Vec%20produce%20word,to%20reduce%20a%20loss%20function.)
 
 In the above digram, we can see...
-- The input layer has 10,000 elements representing 10,000 words in this model's vocabulary
+- The input layer has 10,000 dimensions representing 10,000 words in this model's vocabulary
 - The hidden layer of the model has 300 neurons. Note that this number also corresponds to the dimensionality of the word vectors extracted from the model.
 - The output layer has one neuron for each possible word in the model's vocabulary
 
