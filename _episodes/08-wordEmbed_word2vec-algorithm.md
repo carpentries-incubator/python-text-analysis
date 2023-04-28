@@ -12,6 +12,8 @@ keypoints:
 - "Artificial neural networks (ANNs) are powerful models that can approximate any function given sufficient training data."
 - "The best method to decide between training methods (CBOW and Skip-gram) is to try both methods and see which one works best for your specific application."
 ---
+## Related Carpentries workshops
+We could spend an entire workshop on neural networks (see [here](https://carpentries-incubator.github.io/machine-learning-novice-sklearn/06-neural-networks/index.html) and [here](https://carpentries-incubator.github.io/deep-learning-intro/) for a couple of related lessons). Here, we will distill some of the most important concepts needed to understand them in the context of text-analysis.
 
 ## Mapping inputs to outputs using neural networks
 How is it that Word2Vec is able to represent words in such a semantically meaningful way? The key technology behind Word2Vec is an **artificial neural network**. Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable). Because of this general capability, they can be used for a wide assortment of tasks including...
@@ -22,8 +24,6 @@ How is it that Word2Vec is able to represent words in such a semantically meanin
 * Predicting a person’s weight based on their height
 * Predicting commute times given traffic conditions
 * Predicting house prices given stock market prices
-
-We could spend an entire workshop on neural networks (see [here](https://carpentries-incubator.github.io/machine-learning-novice-sklearn/06-neural-networks/index.html) and [here](https://carpentries-incubator.github.io/deep-learning-intro/) for a couple of related lessons). Here, we will distill some of the most important concepts needed to understand them in the context of text-analysis.
 
 ### Supervised learning
 Most machine learning systems "learn" by taking tabular input data with N observations (rows), M features (cols), and an associated output (e.g., a class label or predicted value for some target variable), and using it to form a model. The maths behind the machine learning doesn’t care what the data is as long as it can represented numerically or categorised. When the model learns this function based on observed data, we call this "training" the model.
