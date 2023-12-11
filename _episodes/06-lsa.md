@@ -37,13 +37,37 @@ In this lesson we'll focus on this second case, where topics are treated as spec
 - Probability models:
   - Latent Dirichlet Allocation (LDA)
 
-Specifically, we will be discussing Latent Semantic Analysis (LSA). We're narrowing our focus to LSA because it introduces us to concepts and workflows that we will use in the future.
+Specifically, we will be discussing Latent Semantic Analysis (LSA). We're narrowing our focus to LSA because it introduces us to concepts and workflows that we will use in the future, in particular that of dimensional reduction.
+
+## What is dimensional reduction?
+
+Think of a map of the Earth. The Earth is a three dimensional sphere, but we often represent it as a two dimensional shape such as a square or sphere. We are performing dimensional reduction in a sense- taking a three dimensional object and trying to represent it in two dimensions.
+
+![Maps with different projections of the Earth](../images/05-projections.jpg)
+
+Why do we do this? It can often be helpful to have a two dimensional representation of the Earth. It may be used to get an approximate idea of the sizes and shapes of various countries next to each other, or to determine at a glance what things are roughly in the same direction. 
+
+There are many ways to do this. There are also various properties we have to chose between when we do this. We cannot perfectly capture area, shape, direction, bearing and distance all in the same model- we must make tradeoffs. Different projections will better preserve different properties we find desirable. But not all the relationships will be preserved- some projections will distort area in certain areas, others will distort directions.
+
+Dimensional reduction for our data is the same. When we perform dimensional reduction we hope to take our highly dimensional language data and get a useful 'map' of our data. We have various tasks we may want our map to help us with. We can determine what words and documents are semantically "close" to each other, or create easy to visualise clusters of points.
+
+There are many ways to do dimensional reduction, in the same way that we have many projections for maps. Like maps, different dimensional reduction techniques have different properties we have to choose between- high performance in tasks, ease of human interpretation, and making the model easily trainable are all desirable but not always compatible. 
+
+When we lose a dimension, we inevitably lose data from our original representation. This problem is multiplied when we are reducing so many dimensions. We try to bear in mind the tradeoffs and find useful models that don't lose important relationships we find important. But "importance" depends on your moral theoretical stances. Because of this, it is important to carefully inspect the results of your model, carefully interpret the "topics" it identifies, and check all that against your qualitative and theoretical understanding of your documents.
+
+This will likely be an iterative process where you refine your model several times. Keep in mind the adage: all models are wrong, some are useful, and a less accurate model may be easier to explain to your stakeholders.
+
+## LSA
 
 The assumption behind LSA is that underlying the thousands of words in our vocabulary are a smaller number of hidden ("latent") topics, and that those topics help explain the distribution of the words we see across our documents. In all our models so far, each dimension has corresponded to a single word. But in LSA, each dimension now corresponds to a hidden topic, and each of those in turn corresponds to the words that are most strongly associated with it.
 
 For example, a hidden topic might be [the lasting influence of the Battle of Hastings on the English language](https://museumhack.com/english-language-changed/), with some documents using more words with Anglo-Saxon roots and other documents using more words with Latin roots. This dimension is "hidden" because authors don't usually stamp a label on their books with a summary of the linguistic histories of their words. Still, we can imagine a spectrum between words that are strongly indicative of authors with more Anglo-Saxon diction vs. words strongly indicative of authors with more Latin diction. Once we have that spectrum, we can place our documents along it, then move on to the next hidden topic, then the next, and so on, until we've discussed the fewest, strongest hidden topics that capture the most "story" about our corpus.
 
-## How LSA Works: SVD of TF-IDF Matrix
+LSA requires two steps- first we must create a TF-IDF matrix, which we have already covered in our previous lesson. 
+
+Next, we will perform dimensional reduction using a technique called SVD.
+
+### Worked Example: LSA
 
 Mathematically, these "latent semantic" dimensions are derived from our TF-IDF matrix, so let's begin there. From the previous lesson:
 
@@ -59,57 +83,9 @@ print(tfidf.shape)
 
 What do these dimensions mean? We have 41 documents, which we can think of as rows. And we have several thousands of tokens, which is like a dictionary of all the types of words we have in our documents, and which we represent as columns.
 
-Now we want to reduce the number of dimensions used to represent our documents.
+Now we want to reduce the number of dimensions used to represent our documents. We will use a technique called SVD to do so.
 
-Sure, we *could* talk through each of the thousands of words in our dictionary and how each document uses them more or less. And we *could* talk through each of our individual 41 documents and what words it tends to use or not. Qualitative researchers are capable of great things.
-
-But those research strategies won't take advantage of our model, they require a HUGE page burden to walk a reader through, and they put all the pressure on you to notice cross-cutting themes on your own.
-
-Instead, we can use a technique from linear algebra, Singlar Value Decomposition (SVD). to reduce those thousands of words or 41 documents to a smaller set of more cross-cutting dimensions. The idea is to choose the fewest dimensions that capture the most variance.
-
-### SVD
-
-We won't deeply dive into all the mathematics of SVD, but we will discuss what happens in abstract.
-
-The mathematical technique we are using is called "SVD" because we are "decomposing" our original TF-IDF matrix and creating a special matrix with "singular values." Any matrix M of arbitrary size can always be split or decomposed into three matrices that multiply together to make M. There are often many non-unique ways to do this decomposition.
-
-The three resulting matrices are called U, Σ, and Vt.
-
-![Image of SVD. Visualisation of the priciple of SVD by CMG Lee.](../images/05-svd.png)
-
-The U matrix is a matrix where there are documents as rows, and different topics as columns. The scores in each cell show how much each document is "about" each topic.
-
-The Vt matrix is a matrix where there are a set of terms as columns, and different topics as rows. Again, the values in each cell correspond to how much a given word indicates a given topic.
-
-The Σ matrix is special, and the one from which SVD gets its name. Nearly every cell in the matrix is zero. Only the diagonal cells are filled in: there are singular values in each row and column. Each singular value represent the amount of variation in our data explained by each topic--how much of the "stuff" of the story that topic covers.
-
-A good deal of variation can often be explained by a relatively small number of topics, and often the variation each topic describes shrinks with each new topic.  Because of this, we can truncate or remove individual rows with the lowest singular values, since they provide the least amount of information.
-
-Once this truncation happens, we can multiply together our three matrices and end up with a smaller matrix with topics instead of words as dimensions.
-
-![Image of singular value decomposition with columns and rows truncated. ](../images/05-truncatedsvd.png)
-
-### Information Loss
-
-This allows us to focus our account of our documents on a narrower set of cross-cutting topics.
-
-This does come at a price though.
-
-When we reduce dimensionality, our model loses information about our dataset. Our hope is that the information that was lost was unimportant. But "importance" depends on your moral theoretical stances. Because of this, it is important to carefully inspect the results of your model, carefully interpret the "topics" it identifies, and check all that against your qualitative and theoretical understanding of your documents.
-
-This will likely be an iterative process where you refine your model several times. Keep in mind the adage: all models are wrong, some are useful, and a less accurate model may be easier to explain to your stakeholders.
-
-### Check Your Understanding: SVD
-
-Question: What's the most possible topics we could get from this model? Think about what the most singular values are that you could possibly fit in the Σ matrix.
-
-Remember, these singular values exist only on the diagonal, so the most topics we could have will be whichever we have fewer of- unique words or documents in our corpus.
-
-Because there are usually more unique words than there are documents, it will almost always be equal to the number of documents we have, in this case 41.
-
-### Worked Example: LSA
-
-To see this, let's begin to reduce the dimensionality of our TF-IDF matrix using SVD, starting with the greatest number of dimensions.
+To see this, let's begin to reduce the dimensionality of our TF-IDF matrix using SVD, starting with the greatest number of dimensions. In this case the minimum number of 'topics' corresponds to the number of documents- 42.
 
 ```python
 from sklearn.decomposition import TruncatedSVD
@@ -136,7 +112,7 @@ print(lsa)
 ~~~
 {: .output}
 
-How should we pick a number of topics to keep? Fortunately, we have the Singular Values to help us understand how much data each topic explains.
+Unlike with a globe, we must make a choice of how many dimensions to cut out. We could have anywhere between 42 topics to 2. How should we pick a number of topics to keep? Fortunately, the dimension reducing technique we used produces something to help us understand how much data each topic explains.
 Let's take a look and see how much data each topic explains. We will visualize it on a graph.
 
 ```python
