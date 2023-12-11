@@ -45,15 +45,13 @@ Think of a map of the Earth. The Earth is a three dimensional sphere, but we oft
 
 ![Maps with different projections of the Earth](../images/05-projections.jpg)
 
-Why do we do this? It can often be helpful to have a two dimensional representation of the Earth. It may be used to get an approximate idea of the sizes and shapes of various countries next to each other, or to determine at a glance what things are roughly in the same direction. 
+Why do we create maps? It can often be helpful to have a two dimensional representation of the Earth. It may be used to get an approximate idea of the sizes and shapes of various countries next to each other, or to determine at a glance what things are roughly in the same direction. 
 
-There are many ways to do this. There are also various properties we have to chose between when we do this. We cannot perfectly capture area, shape, direction, bearing and distance all in the same model- we must make tradeoffs. Different projections will better preserve different properties we find desirable. But not all the relationships will be preserved- some projections will distort area in certain areas, others will distort directions.
+How do we create maps? There's many ways to do it, depending on what properties are important to us. We cannot perfectly capture area, shape, direction, bearing and distance all in the same model- we must make tradeoffs. Different projections will better preserve different properties we find desirable. But not all the relationships will be preserved- some projections will distort area in certain areas, others will distort directions or proximity. Our technique will likely depend on what our application is and what we determine is valuable.
 
-Dimensional reduction for our data is the same. When we perform dimensional reduction we hope to take our highly dimensional language data and get a useful 'map' of our data. We have various tasks we may want our map to help us with. We can determine what words and documents are semantically "close" to each other, or create easy to visualise clusters of points.
+Dimensional reduction for our data is the same principle. Why do we do dimensional reduction? When we perform dimensional reduction we hope to take our highly dimensional language data and get a useful 'map' of our data with fewer dimensions. We have various tasks we may want our map to help us with. We can determine what words and documents are semantically "close" to each other, or create easy to visualise clusters of points.
 
-There are many ways to do dimensional reduction, in the same way that we have many projections for maps. Like maps, different dimensional reduction techniques have different properties we have to choose between- high performance in tasks, ease of human interpretation, and making the model easily trainable are all desirable but not always compatible. 
-
-When we lose a dimension, we inevitably lose data from our original representation. This problem is multiplied when we are reducing so many dimensions. We try to bear in mind the tradeoffs and find useful models that don't lose important relationships we find important. But "importance" depends on your moral theoretical stances. Because of this, it is important to carefully inspect the results of your model, carefully interpret the "topics" it identifies, and check all that against your qualitative and theoretical understanding of your documents.
+How do we do dimensional reduction? There are many ways to do dimensional reduction, in the same way that we have many projections for maps. Like maps, different dimensional reduction techniques have different properties we have to choose between- high performance in tasks, ease of human interpretation, and making the model easily trainable are a few. They are all desirable but not always compatible. When we lose a dimension, we inevitably lose data from our original representation. This problem is multiplied when we are reducing so many dimensions. We try to bear in mind the tradeoffs and find useful models that don't lose important relationships we find important. But "importance" depends on your moral theoretical stances. Because of this, it is important to carefully inspect the results of your model, carefully interpret the "topics" it identifies, and check all that against your qualitative and theoretical understanding of your documents.
 
 This will likely be an iterative process where you refine your model several times. Keep in mind the adage: all models are wrong, some are useful, and a less accurate model may be easier to explain to your stakeholders.
 
@@ -112,7 +110,9 @@ print(lsa)
 ~~~
 {: .output}
 
-Unlike with a globe, we must make a choice of how many dimensions to cut out. We could have anywhere between 42 topics to 2. How should we pick a number of topics to keep? Fortunately, the dimension reducing technique we used produces something to help us understand how much data each topic explains.
+Unlike with a globe, we must make a choice of how many dimensions to cut out. We could have anywhere between 42 topics to 2. 
+
+How should we pick a number of topics to keep? Fortunately, the dimension reducing technique we used produces something to help us understand how much data each topic explains.
 Let's take a look and see how much data each topic explains. We will visualize it on a graph.
 
 ```python
