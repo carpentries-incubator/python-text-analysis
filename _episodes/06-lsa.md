@@ -83,7 +83,7 @@ What do these dimensions mean? We have 41 documents, which we can think of as ro
 
 Now we want to reduce the number of dimensions used to represent our documents. We will use a technique called SVD to do so.
 
-To see this, let's begin to reduce the dimensionality of our TF-IDF matrix using SVD, starting with the greatest number of dimensions. In this case the minimum number of 'topics' corresponds to the number of documents- 42.
+To see this, let's begin to reduce the dimensionality of our TF-IDF matrix using SVD, starting with the greatest number of dimensions. In this case the maxiumum number of 'topics' corresponds to the number of documents- 42.
 
 ```python
 from sklearn.decomposition import TruncatedSVD
