@@ -41,7 +41,7 @@ Specifically, we will be discussing Latent Semantic Analysis (LSA). We're narrow
 
 ## What is dimensional reduction?
 
-Think of a map of the Earth. The Earth is a three dimensional sphere, but we often represent it as a two dimensional shape such as a square or sphere. We are performing dimensional reduction- taking a three dimensional object and trying to represent it in two dimensions.
+Think of a map of the Earth. The Earth is a three dimensional sphere, but we often represent it as a two dimensional shape such as a square or circle. We are performing dimensional reduction- taking a three dimensional object and trying to represent it in two dimensions.
 
 ![Maps with different projections of the Earth](../images/05-projections.jpg)
 
