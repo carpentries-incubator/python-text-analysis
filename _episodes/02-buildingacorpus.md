@@ -12,13 +12,13 @@ questions:
 - How do I know what data I can use for my corpus? 
 - How can I use an API to acquire data?
 teaching: 20
-title: APIs
+title: Building a Corpus
 
 ---
 
-# Corpus Development- Text Data Collection and APIs
+# Building a Corpus
 
-## Sources of text data
+## Text data sources
 
 The best sources of text datasets will ultimately depend on the goals of your project. Some common sources of text data for text analysis include digitized archival materials, newspapers, books, social media, and research articles. For the most part, the datasets and sources you may come across will not have been arranged with a particular project in mind. The burden is therefore on you, as the researcher, to evaluate whether materials are suitable for your corpus. It can be useful to create a list of criteria for how you will decide what to include in your corpus. You may get the best results by piecing together your corpus from materials from various sources that meet your requirements. This will help you to create an intellectually rigorous corpus that meets your project's needs and makes a unique contribution to your area of study. 
 
