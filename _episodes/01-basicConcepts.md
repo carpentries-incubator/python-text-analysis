@@ -104,7 +104,7 @@ We're going to explore some of these tasks in this lesson. We will start by usin
 
 Launch a web browser and navigate to <https://huggingface.co/tasks>. Here we can see examples of many of the tasks achievable using NLP.
 
-What do these different tasks mean? Let's take a look at an example. Conversational tasks are also known as chatbots. A user engages in conversation with a bot. Let's click on this task now: <https://huggingface.co/tasks/conversational>
+What do these different tasks mean? Let's take a look at an example. A user engages in conversation with a bot. The bot generates a response based on the user's prompt. This is called text generation. Let's click on this task now: <https://huggingface.co/tasks/text-generation>
 
 HuggingFace usefully provides an online demo as well as a description of the task. On the right, we can see there is a demo of a particular model that does this task. Give conversing with the chatbot a try.
 
