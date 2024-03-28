@@ -108,7 +108,7 @@ With some experience with a task, let's get a broader overview of the types of t
     - <https://huggingface.co/tasks/token-classification>
     - <https://huggingface.co/tasks/translation>
 4. Interactive and generative tasks such as conversation and question answering
-    - <https://huggingface.co/tasks/conversational>
+    - <https://huggingface.co/tasks/text-generation>
     - <https://huggingface.co/tasks/question-answering>
 
 Briefly present a summary of some of the tasks you explored. What types of applications could you see this type of task used in? How might this be relevant to a research question you have? Summarize these tasks and present your findings to the group.
