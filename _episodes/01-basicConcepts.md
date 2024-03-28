@@ -81,26 +81,27 @@ AI is not infallible or without bias. NLP is simply another tool you can use to 
 
 ## The Interpretive Loop
 
-![The Interpretive Loop](../images/01-task-tool.png)
+![The Interpretive Loop](../images/01-Interpretive_Loop.JPG)
 
 Despite the range of tasks we'll talk about, many NLP tasks, tools, and models have the same or related underlying data, techniques, and thought process.
 
-Throughout this course, we will talk about an "interpretive loop" between your humanities research tasks and your NLP research tools. Along this loop are a number of common tasks we'll see again and again:
+This lesson is intended to teach you how to think about using NLP tools to answer research questions. This interpretive loop depicts one way of thinking about using NLP models.  Along this loop are a number of common tasks we'll see again and again:
 
-1. Designing a task, model and dataset to answer a question or solve some need in a way we think will be ethical and interesting.
-2. Preprocessing the data so it can be processed by our model.
-3. Representing our processed data as mathematical constructs that bridge (a) our human intuition on how we might solve a task and (b) the algorithms we're using to help with that task.
-4. Running our model, allowing us to compute some output.
-4. Outputting the result of our algorithms in a human readable format.
-5. Interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on.
+1. Developing a pipeline of various NLP tasks that could be used to answer a question or solve some need in a way we think will be ethical and interesting.
+2. Collecting the documents or corpus of data we need to perform our task or train our model. 
+3. Converting our documents into tokens, or chunks that can be processed by our model.
+4. Turning our tokens into mathematical objects, in a process called embedding.
+5. Using our embeddings in a model to perform an NLP task. Running our model, allowing us to compute some output.
+6. Outputting the results of our work. Typically, metrics are also used to holistically evaluate performance.
+7. Thinking about and interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on. What do our metrics tell us about how to refine our approach?
 
 Once done, you may have ideas about how to refine your initial approach, which allows you to iterate on projects if needed.
 
 ## NLP Tasks
 
-Before we can get to any of that, we need to better understand what tasks NLP can do. Some of the many functions of NLP include topic modelling and categorization, named entity recognition, search, summarization and more.
+We'll start by trying to understand what tasks NLP can do. Some of the many functions of NLP include topic modelling and categorization, named entity recognition, search, summarization and more.
 
-We're going to explore some of these tasks in this lesson. We will start by using looking at some of the tasks achievable using the popular "HuggingFace" library.
+We're going to explore some of these tasks in this lesson using the popular "HuggingFace" library.
 
 Launch a web browser and navigate to <https://huggingface.co/tasks>. Here we can see examples of many of the tasks achievable using NLP.
 
