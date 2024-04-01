@@ -172,7 +172,10 @@ For example, Darcie Wilder's [*literally show me a healthy person*](https://www.
 
 Across the texts in our corpus, our authors write with different styles, preferring different dictions, punctuation, and so on.
 
-To prepare our data to be more uniformly understood by our early models, we need to (a) break it into smaller units, (b) replace words with their roots, and (c) remove unwanted common or unhelpful words and punctuation.
+To prepare our data to be more uniformly understood by our NLP models, we need to (a) break it into smaller units, (b) replace words with their roots, and (c) remove unwanted common or unhelpful words and punctuation. These steps encompass the preprocessing stage of the interpretive loop.
+
+![The Interpretive Loop](../images/01-Interpretive_Loop.JPG)
+
 
 ### Tokenization
 
