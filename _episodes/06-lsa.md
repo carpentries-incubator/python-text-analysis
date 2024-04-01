@@ -34,7 +34,6 @@ In this lesson we'll focus on this second case, where topics are treated as spec
 - Vector-space models:
   - Principle Component Analysis (PCA)
   - Epistemic Network Analysis (ENA)
-  - Linear Discriminant Analysis (LDA)
   - Latent Semantic Analysis (LSA)
 - Probability models:
   - Latent Dirichlet Allocation (LDA)
