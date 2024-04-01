@@ -16,8 +16,9 @@ keypoints:
 - "Documents are modeled as vectors so cosine similarity can be used as a similarity metric."
 ---
 # Vector Space
+Now that we've preprocessed our data, let's move to the next step of the interpretative loop: *generating a text embedding*.
 
-Now that we've preprocessed our data, let's move to the next step of the interpretative loop: representation.
+![The Interpretive Loop](../images/01-Interpretive_Loop.JPG)
 
 Many NLP models make use of a concept called Vector Space. The concept works like this:
 
