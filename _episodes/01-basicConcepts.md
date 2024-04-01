@@ -36,19 +36,17 @@ AI is not infallible or without bias. NLP is simply another tool you can use to 
 
 ![The Interpretive Loop](../images/01-Interpretive_Loop.JPG)
 
-Despite the range of tasks we'll talk about, many NLP tasks, tools, and models have the same or related underlying data, techniques, and thought process.
+Despite the array of tasks encompassed within text analysis, many share common underlying processes and methodologies. Throughout our exploration, we'll navigate an 'interpretive loop' that connects our research inquiries with the tools and techniques of natural language processing (NLP). This loop comprises several recurring stages:
 
-This lesson is intended to teach you how to think about using NLP tools to answer research questions. This interpretive loop depicts one way of thinking about using NLP models.  Along this loop are a number of common tasks we'll see again and again:
+1. **Formulating a research question or NLP task**: Each journey begins with defining a task or problem within the domain of the digital humanities. This might involve authorship attribution, topic modeling, named entity recognition (NER), sentiment analysis, text prediction, or search, among others. 
+2. **Data collection and corpus building**: With a clear objective in mind, the next step involves gathering relevant data and constructing a corpus (a set of documents). This corpus serves as the foundation for our analysis and model training. It may include texts, documents, articles, social media posts, or any other textual data pertinent to the research task.
+3. **Data preprocessing**: Before our data can be fed into NLP models, it undergoes preprocessing steps to clean, tokenize, and format the text. This ensures compatibility with our chosen model and facilitates efficient computation.
+4. **Generating embeddings**: Our processed data is then transformed into mathematical representations known as embeddings. These embeddings capture semantic and contextual information in the corpus, bridging the gap between human intuition and machine algorithms. 
+5. **Embedding-related tasks**: Leveraging embeddings, we perform various tasks such as measuring similarity between documents, summarizing texts, or extracting key insights.
+6. **Results**: Results are generated from specific embedding-related tasks, such as measuring document similarity, document summarization, or topic modeling to uncover latent themes within a corpus.
+7. **Interpreting results**: Finally, we interpret the outputs in the context of our research objectives, stakeholder interests, and broader scholarly discourse. This critical analysis allows us to draw conclusions, identify patterns, and refine our approach as needed.
 
-1. Developing a pipeline of various NLP tasks that could be used to answer a question or solve some need in a way we think will be ethical and interesting.
-2. Collecting the documents or corpus of data we need to perform our task or train our model. 
-3. Converting our documents into tokens, or chunks that can be processed by our model.
-4. Turning our tokens into mathematical objects, in a process called embedding.
-5. Using our embeddings in a model to perform an NLP task. Running our model, allowing us to compute some output.
-6. Outputting the results of our work. Typically, metrics are also used to holistically evaluate performance.
-7. Thinking about and interpreting the results as it relates to our research tasks, our interests, our stakeholders, and so on. What do our metrics tell us about how to refine our approach?
-
-Once done, you may have ideas about how to refine your initial approach, which allows you to iterate on projects if needed.
+Additionally, we consider how the results may inspire future directions of inquiry, such as conducting repeat analyses with different data cleaning methods, exploring related research questions, or refining the original research question based on the insights gained. This iterative process enables us to continually deepen our understanding and contribute to ongoing scholarly conversations.
 
 ## NLP Tasks
 
