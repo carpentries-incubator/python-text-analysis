@@ -62,13 +62,13 @@ Term frequency is a measure how frequently a term occurs in a document. The simp
 Inverse document frequency measures a term's importance. Document frequency is the number of documents a term occurs in, so inverse document frequency gives higher scores to words that occur in fewer documents.
 This is represented by the equation:
 
-IDF(x) = ln[(N+1) / DF(x)] + 1
+IDF(x) = ln[(N+1) / (DF(x)+1)]
 
 where...
 * N represents the total number of documents in the corpus
 * DF(x) represents document frequency for a particular term/word, x. This is the number of documents a term occurs in.
 
-The key thing to understand is that more common words that occur in many documents produce smaller IDF values since the denominator grows with DF(x).
+The key thing to understand is that words that occur in many documents produce smaller IDF values since the denominator grows with DF(x).
 
 We can also embed documents in vector space using TF-IDF scores rather than simple word counts. This also weakens the impact of stop-words, since due to their common nature, they have very low scores.
 
