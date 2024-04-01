@@ -42,7 +42,7 @@ Despite the array of tasks encompassed within text analysis, many share common u
 2. **Data collection and corpus building**: With a clear objective in mind, the next step involves gathering relevant data and constructing a corpus (a set of documents). This corpus serves as the foundation for our analysis and model training. It may include texts, documents, articles, social media posts, or any other textual data pertinent to the research task.
 3. **Data preprocessing**: Before our data can be fed into NLP models, it undergoes preprocessing steps to clean, tokenize, and format the text. This ensures compatibility with our chosen model and facilitates efficient computation.
 4. **Generating embeddings**: Our processed data is then transformed into mathematical representations known as embeddings. These embeddings capture semantic and contextual information in the corpus, bridging the gap between human intuition and machine algorithms. 
-5. **Embedding-Related Tasks: Leveraging embeddings, we perform various tasks such as measuring similarity between documents, summarizing texts, or extracting key insights.
+5. **Embedding-related tasks**: Leveraging embeddings, we perform various tasks such as measuring similarity between documents, summarizing texts, or extracting key insights.
 6. **Results**: Results are generated from specific embedding-related tasks, such as measuring document similarity, document summarization, or topic modeling to uncover latent themes within a corpus.
 7. **Interpreting results**: Finally, we interpret the outputs in the context of our research objectives, stakeholder interests, and broader scholarly discourse. This critical analysis allows us to draw conclusions, identify patterns, and refine our approach as needed.
 
