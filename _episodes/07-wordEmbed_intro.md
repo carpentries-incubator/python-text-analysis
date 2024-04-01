@@ -49,22 +49,13 @@ As the famous linguist JR Firth once said, “You shall know a word by the compa
 ## Word embeddings with Word2Vec
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. To get a high-level overview of the embedding methods covered thus far, study the table below:
 
-+------------------------+-------------------------+------------------------------------------+-----------------------------------------+-----------------------------------------+-------------------------+
-|        Technique       |       Embedding         |         Input Matrix Dimensions        |        Output Vector Dimensions       |       Meaning Stored       |  Order Dependency       |
-|                        |        Structure        |                                        |                                       |                             |                         |
-+------------------------+-------------------------+------------------------------------------+-----------------------------------------+-----------------------------------------+-------------------------+
-|      Word2Vec          |   Dense vectors         |  [Vocabulary Size, Embedding Dimension]  |   [1, Embedding Dimension] (per word)  |  Semantic meaning of words              |  Yes (uses word order) |
-|                        |   (word embeddings)     |                                        |                                       |                                         |                         |
-+------------------------+-------------------------+------------------------------------------+-----------------------------------------+-----------------------------------------+-------------------------+
-|    Latent Semantic     |   Dense vectors         |  [Vocabulary Size, Number of Documents]  |  [1, Number of Topics] (per document)  |  Semantic topics present in documents  |  No (bag of words)     |
-|       Analysis         |   (topic vectors)       |                                        |                                       |                                         |                         |
-|        (LSA)           |                         |                                        |                                       |                                         |                         |
-+------------------------+-------------------------+------------------------------------------+-----------------------------------------+-----------------------------------------+-------------------------+
-|      TF-IDF            |   Sparse vectors        |  [Vocabulary Size, Number of Documents]  |  [1, Vocabulary Size] (per document)  |  Importance of terms in documents       |  No (bag of words)     |
-|    (Term Frequency-    |   (word importance      |                                        |                                       |                                         |                         |
-|     Inverse Document   |   in each document)     |                                        |                                       |                                         |                         |
-|         Frequency)     |                         |                                        |                                       |                                         |                         |
-+------------------------+-------------------------+------------------------------------------+-----------------------------------------+-----------------------------------------+-------------------------+
+| Technique               | Embedding       | Input Matrix Dimensions                 | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
+|-------------------------|-----------------|------------------------------------------|--------------------------------------|--------------------------------------|---------------------------|
+| Word2Vec                | Dense vectors   | [Vocabulary Size, Embedding Dimension]  | [1, Embedding Dimension] (per word)  | Semantic meaning of words            | Yes (uses word order)     |
+|                         | (word embeddings) |                                        |                                      |                                      |                           |
+| Latent Semantic Analysis (LSA) | Dense vectors | [Vocabulary Size, Number of Documents] | [1, Number of Topics] (per document) | Semantic topics present in documents | No (bag of words)        |
+| TF-IDF (Term Frequency-Inverse Document Frequency) | Sparse vectors | [Vocabulary Size, Number of Documents] | [1, Vocabulary Size] (per document) | Importance of terms in documents     | No (bag of words)        |
+
 
 
 We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert**: it uses artificial neural networks). For now, it is sufficient to be aware of few key properties of the model.
