@@ -16,7 +16,9 @@ keypoints:
 
 So far, we've learned the kinds of task NLP can be used for, preprocessed our data, and represented it as a TF-IDF vector space.
 
-Now, we begin to close the loop with Topic Modeling.
+Now, we begin to close the loop with Topic Modeling — one of many embedding-related tasks possible with NLP.
+
+![The Interpretive Loop](../images/01-Interpretive_Loop.JPG)
 
 Topic Modeling is a frequent goal of text analysis. Topics are the things that a document is about, by some sense of "about." We could think of topics as:
 
