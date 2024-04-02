@@ -51,7 +51,7 @@ Word2vec is a famous *word embedding* method that was created and published in 2
 
 | Technique               | Input                                      | Embedding Structure           | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
 |-------------------------|--------------------------------------------|--------------------------|--------------------------------------|--------------------------------------|---------------------------|
-| Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] (per document) | Word presence in documents          | No (bag of words)        |
+| Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No (bag of words)        |
 | TF-IDF (Term Frequency-Inverse Document Frequency) | Bag-of-Words Representation     | Sparse vectors           | [1, Vocabulary Size] (per document) | Importance of terms in documents     | No (bag of words)        |
 | Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] (per document) | Semantic topics present in documents | No (bag of words)        |
 | Word2Vec                | Raw text corpus                            | Dense vectors            | [1, Embedding Dimension] (per word)  | Semantic meaning of words            | Yes (uses word order)     |
@@ -71,7 +71,9 @@ We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert
     * *I love to go for a walk **outside** after dinner to help me digest.*
     * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*  
 <br>
+<br>
 2. The vectors learned by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on). This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text. For example, notice how in the example sentences given above, the word "outside" tends to be surrounded by words associated with the outdoors.
+<br>
 <br>
 3. The vectors learned from the data represent abstract features learned from the surrounding context of words in the training data, capturing semantic relationships based on word co-occurrences. However, these features are essentially black boxes, lacking direct interpretability.
 
