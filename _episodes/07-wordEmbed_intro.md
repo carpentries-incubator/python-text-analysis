@@ -60,7 +60,7 @@ For instance, maybe our bag of words contains the following: "cook", "I", "famil
 To clarify whether our text is about a nice wholesome family or a cannibal on the loose, we need to include context in our embeddings. As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the context of words as they appear in sentences and only pays attention to global word co-occurence patterns across large chunks of texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
 
 ## Word embeddings with Word2Vec
-Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. Adding this method to our overview table, we get:
+Word2vec is a famous *word embedding* method that was created and published in the ancient year of 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. Adding this method to our overview table, we get:
 
 | Technique               | Input                                      | Embedding Structure           | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
 |:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
@@ -70,13 +70,20 @@ Word2vec is a famous *word embedding* method that was created and published in 2
 | Word2Vec                | Raw text corpus                            | Dense vectors            | [1, Embedding Dimension] <br>(per word)  | Semantic meaning of words            | Yes <br>(word order)     |
 
 ### Extracting word features using neural networks
-The following supplental episode unpacks the technology behind Word2Vec — neural networks. In the interest of time, we will only cover the key concepts and intuition. Please consider studying the next episode if you are interested in learning more about the fascinating world of neural networks and how they actually work.
+The next *supplental* episode unpacks the technology behind Word2Vec — neural networks. In the interest of time, we will only cover the key concepts and intuition. Please consider studying the next episode if you are interested in learning more about the fascinating world of neural networks and how they actually work. For now, it is sufficient to be aware of few key insights.
 
+1. **Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable)**. Because of this general capability, they can be used for a wide assortment of tasks including…
 
+* Predicting the weather tomorrow given historical weather patterns
+* Classifying if an email is spam or not
+* Classifying if an image contains a person or not
+* Predicting a person’s weight based on their height, age, location, etc.
+* Predicting commute times given traffic conditions
+* Predicting house prices given stock market prices
 
-, it is sufficient to be aware of few key properties of the model.
+2. **Neural networks *learn* new meaningful features from the input data.** Specifically, the learned features will be features that are useful for whatever task the model is assigned. With this consideration, we can devise a language related task that allows a neural network model to learn interesting features of words which can then be extracted from the model as a word embedding representation (i.e., a vector).
 
-1. Word2Vec is a machine learning model that generates high-dimensional (many features) vector representations of *individual words* based on observing a word's most likely surrounding words in multiple sentences (dist. hypothesis). For instance, suppose we want to learn a vector representation of the word "outside". For this, we would train the Word2Vec model on many sentences containing the word, "outside".
+3. **Word2Vec is an neural network model that *learns* high-dimensional (many features) vector representations of *individual words* based on observing a word's most likely surrounding words in multiple sentences (dist. hypothesis)**. For instance, suppose we want to learn a vector representation of the word "outside". For this, we would train the Word2Vec model on many sentences containing the word, "outside".
 
     * *It's a beautiful day **outside**, perfect for a picnic.*
     * *My cat loves to spend time **outside**, chasing birds and bugs.*
@@ -87,16 +94,25 @@ The following supplental episode unpacks the technology behind Word2Vec — neur
     * *I saw a group of kids playing **outside** in the park.*
     * *It's not safe to leave your belongings **outside** unattended.*
     * *I love to go for a walk **outside** after dinner to help me digest.*
-    * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*  
+    * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
+
+What task can we give a neural network to learn meaningful word embeddings? Our friend RJ Firth gives us a hint when he says, “You shall know a word by the company it keeps.” Using the *distributional hypothesis* as motivation, which states that words that repeatedly occur in similar contexts probably have similar meanings, we can ask a neural network to predict the *context* words that surround a given word in a sentence or, similarly, ask it to predict the *center* word based on *context* words. Both variants are shown below — Skip Gram and Continous Bag of Words (CBOW).
+
+![Skipgram](../images/wordEmbed_NN-training-methods.png)
+
+In the process of training, the model's weights learn to derive new features (weight optimized perceptrons) associated with the input data (single words). These new learned features will be conducive to accurately predicting the context words for each word. We will see next how we can extract these features as word vectors.
+
+**Skip-gram versus Continuous Bag of Words**: The primary difference between these two approaches lies in how CBOW and Skip-gram handle the context words for each target word. In CBOW, the context words are averaged together to predict the target word, while in Skip-gram, each context word is considered separately to predict the target word. While both CBOW and Skip-gram consider each word-context pair during training, Skip-gram often performs better with rare words because it treats each occurrence of a word separately, generating more training examples for rare words compared to CBOW. This can lead to better representations of rare words in Skip-gram embeddings.
 
 <br>
-2. The vectors learned by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on). This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text. For example, notice how in the example sentences given above, the word "outside" tends to be surrounded by words associated with the outdoors.
+
+4. **The vectors learned by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on)**. This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text. For example, notice how in the example sentences given above, the word "outside" tends to be surrounded by words associated with the outdoors.
 <br>
 <br>
-3. The vectors learned from the data represent abstract features learned from the surrounding context of words in the training data, capturing semantic relationships based on word co-occurrences. However, these features are essentially black boxes, lacking direct interpretability.
+5. **The learned features or vecotrs are essentially black boxes, lacking direct interpretability**. The learned vectors create useful and meaningful representations of words, capturing semantic relationships based on word co-occurrences. However, these vecotrs represent abstract features learned from the surrounding context of words in the training data, and are not directly interpretable.
 
 
-
+## Exploring Word2Vec in Python
 With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
 
 ```python
