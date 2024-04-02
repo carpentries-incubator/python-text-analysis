@@ -53,9 +53,8 @@ Word2vec is a famous *word embedding* method that was created and published in 2
 |-------------------------|--------------------------------------------|--------------------------|--------------------------------------|--------------------------------------|---------------------------|
 | Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] (per document) | Word presence in documents          | No (bag of words)        |
 | TF-IDF (Term Frequency-Inverse Document Frequency) | Bag-of-Words Representation     | Sparse vectors           | [1, Vocabulary Size] (per document) | Importance of terms in documents     | No (bag of words)        |
-| Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors (topic embeddings)            | [1, Number of Topics] (per document) | Semantic topics present in documents | No (bag of words)        |
+| Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] (per document) | Semantic topics present in documents | No (bag of words)        |
 | Word2Vec                | Raw text corpus                            | Dense vectors            | [1, Embedding Dimension] (per word)  | Semantic meaning of words            | Yes (uses word order)     |
-|                         |                                            | (word embeddings)        |                                      |                                      |                           |
 
 We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert**: it uses artificial neural networks). For now, it is sufficient to be aware of few key properties of the model.
 
