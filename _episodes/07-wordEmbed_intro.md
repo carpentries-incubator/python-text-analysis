@@ -37,17 +37,17 @@ wv = api.load('word2vec-google-news-300') # takes 3-10 minutes to load
 So far, we’ve seen how word counts (bag of words), TF-IDF, and LSA can help us embed a document or set of documents into useful vector spaces that allow us to gain insights from text data. Let's review the embeddings covered thus far...
 * **Bag of Words (BoW) embeddings**: Bag of Words is a simple yet powerful method that represents text data as a sparse vector where each dimension corresponds to a unique word in the vocabulary, and the value in each dimension indicates the frequency of that word in the document. This approach disregards word order and context, treating each document as an unordered collection of words or tokens.
   
-* **TF-IDF embeddings:** Determines the mathematical significance of words across multiple documents. It's embedding is based on token/word frequency within each document and relative to how many documents a token appears in. 
+* **TF-IDF embeddings:** Term Frequency Inverse Document Frequency (TF-IDF) determines the mathematical significance of words across multiple documents. It's embedding is based on token/word frequency within each document and relative to how many documents a token appears in. 
 
 * **LSA embeddings:** Latent Semantic Analysis (LSA) is used to find the hidden topics represented by a group of documents. It involves running singular-value decomposition (SVD) on a document-term matrix (typically the TF-IDF matrix), producing a vector representation of each document. This vector scores each document's representation in different topic/concept areas which are derived based on word co-occurences (e.g., 45% topic A, 35% topic B, and 20% topic C). Importantly, LSA is considered a *bag of words* method since the order of words in a document is not considered.
 
 To get a high-level overview of the embedding methods covered thus far, study the table below:
 
 | Technique               | Input                                      | Embedding Structure           | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
-|-------------------------|--------------------------------------------|--------------------------|--------------------------------------|--------------------------------------|---------------------------|
-| Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No (bag of words)        |
-| TF-IDF (Term Frequency-Inverse Document Frequency) | Bag-of-Words Representation     | Sparse vectors           | [1, Vocabulary Size] (per document) | Importance of terms in documents     | No (bag of words)        |
-| Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] (per document) | Semantic topics present in documents | No (bag of words)        |
+|:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
+| Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No <br>(bag of words)        |
+| TF-IDF  | Bag-of-Words     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
+| Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
 
 In all of these emebdding methods, notice how the order of words in sentences does not matter. We are simply tossing all words in a corpus into a bag ("bag of words") and attempting to glean insights from this bag of words. While such an approach can be effective for revealing broad topics/concepts from text, additional features of language may be revealed by zooming in on the context in which words appear throughout a text. 
 
@@ -58,9 +58,9 @@ As the famous linguist JR Firth once said, “You shall know a word by the compa
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. Adding this method to our overview table, we get:
 
 | Technique               | Input                                      | Embedding Structure           | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
-|-------------------------|--------------------------------------------|--------------------------|--------------------------------------|--------------------------------------|---------------------------|
+|:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
 | Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No <br>(bag of words)        |
-| TF-IDF (Term Frequency-Inverse Document Frequency) | Bag-of-Words Representation     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
+| TF-IDF  | Bag-of-Words     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
 | Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
 | Word2Vec                | Raw text corpus                            | Dense vectors            | [1, Embedding Dimension] <br>(per word)  | Semantic meaning of words            | Yes <br>(uses word order)     |
 
