@@ -78,7 +78,7 @@ We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert
     * *It's not safe to leave your belongings **outside** unattended.*
     * *I love to go for a walk **outside** after dinner to help me digest.*
     * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*  
-<br>
+
 <br>
 2. The vectors learned by the model are a reflection of the model's past experience (i.e., the specific data the model was "trained" on). This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text. For example, notice how in the example sentences given above, the word "outside" tends to be surrounded by words associated with the outdoors.
 <br>
