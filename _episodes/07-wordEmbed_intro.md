@@ -47,12 +47,17 @@ To get a high-level overview of the embedding methods covered thus far, study th
 |:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
 | Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No <br>(bag of words)        |
 | TF-IDF  | Bag-of-Words     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
-| Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
+| Latent Semantic Analysis (LSA) | TF-IDF or similar | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
 
+## Bag of Words limitations
 In all of these emebdding methods, notice how the order of words in sentences does not matter. We are simply tossing all words in a corpus into a bag ("bag of words") and attempting to glean insights from this bag of words. While such an approach can be effective for revealing broad topics/concepts from text, additional features of language may be revealed by zooming in on the context in which words appear throughout a text. 
 
+For instance, maybe our bag of words contains the following: "cook", "I", "family", "my", "to", "dinner", "love", and "for". Depending on how these words are arranged, the meaning conveyed will change drastically! 
+* *I love to cook dinner for my family.*
+* *I love to cook family for my dinner.*
+
 ## Distributional hypothesis: extracting more meaningful representations of text 
-As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the context of words as they appear in sentences and only pays attention to global word co-occurence patterns across large chunks of texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
+To clarify whether our text is about a nice wholesome family or a cannibal on the loose, we need to include context in our embeddings. As the famous linguist JR Firth once said, “You shall know a word by the company it keeps.” Firth is referring to the *distributional hypothesis*, which states that words that repeatedly occur in similar contexts probably have similar meanings. While the LSA methodology is inspired by the distributional hypothesis, LSA ignores the context of words as they appear in sentences and only pays attention to global word co-occurence patterns across large chunks of texts. If we want to truly know a word based on the company it keeps, we'll need to take into account how some words are more likely to appear before/after other words in a sentence. We'll explore how one of the most famous embedding models, Word2Vec, does this in this episode.
 
 ## Word embeddings with Word2Vec
 Word2vec is a famous *word embedding* method that was created and published in 2013 by a team of researchers led by Tomas Mikolov at Google over two papers, [[1](https://arxiv.org/abs/1301.3781), [2](https://arxiv.org/abs/1310.4546)]. Unlike with TF-IDF and LSA, which are typically used to produce document and corpus embeddings, Word2Vec focuses on producing a single embedding for every word encountered in a corpus. These embeddings, which are represented as high-dimesional vectors, tend to look very similar for words that are used in similar contexts. Adding this method to our overview table, we get:
@@ -61,10 +66,15 @@ Word2vec is a famous *word embedding* method that was created and published in 2
 |:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
 | Bag of Words            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No <br>(bag of words)        |
 | TF-IDF  | Bag-of-Words     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
-| Latent Semantic Analysis (LSA) | Term-Document Matrix (TF-IDF or similar) | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
+| Latent Semantic Analysis (LSA) | TF-IDF or similar | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
 | Word2Vec                | Raw text corpus                            | Dense vectors            | [1, Embedding Dimension] <br>(per word)  | Semantic meaning of words            | Yes <br>(uses word order)     |
 
-We'll unpack the technology behind Word2Vec in the next episode (**spoiler alert**: it uses artificial neural networks). For now, it is sufficient to be aware of few key properties of the model.
+### Extracting word features using neural networks
+The following supplental episode unpacks the technology behind Word2Vec — neural networks. In the interest of time, we will only cover the key concepts and intuition. Please consider studying the next episode if you are interested in learning more about the fascinating world of neural networks and how they actually work.
+
+
+
+, it is sufficient to be aware of few key properties of the model.
 
 1. Word2Vec is a machine learning model that generates high-dimensional (many features) vector representations of *individual words* based on observing a word's most likely surrounding words in multiple sentences (dist. hypothesis). For instance, suppose we want to learn a vector representation of the word "outside". For this, we would train the Word2Vec model on many sentences containing the word, "outside".
 
