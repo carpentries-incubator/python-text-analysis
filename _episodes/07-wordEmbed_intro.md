@@ -35,7 +35,7 @@ wv = api.load('word2vec-google-news-300') # takes 3-10 minutes to load
 ## Document/Corpus Embeddings Recap
 
 So far, we’ve seen how word counts (bag of words), TF-IDF, and LSA can help us embed a document or set of documents into useful vector spaces that allow us to gain insights from text data. Let's review the embeddings covered thus far...
-* **Bag of Words (BoW) embeddings**: Bag of Words is a simple yet powerful method that represents text data as a sparse vector where each dimension corresponds to a unique word in the vocabulary, and the value in each dimension indicates the frequency of that word in the document. This approach disregards word order and context, treating each document as an unordered collection of words or tokens.
+* **Word count embeddings**: Word count embeddings are a simple yet powerful method that represent text data as a sparse vector where each dimension corresponds to a unique word in the vocabulary, and the value in each dimension indicates the frequency of that word in the document. This approach disregards word order and context, treating each document as an unordered collection of words or tokens.
   
 * **TF-IDF embeddings:** Term Frequency Inverse Document Frequency (TF-IDF) determines the mathematical significance of words across multiple documents. It's embedding is based on token/word frequency within each document and relative to how many documents a token appears in. 
 
