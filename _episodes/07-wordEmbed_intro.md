@@ -90,16 +90,16 @@ What task can we give a neural network to learn meaningful word embeddings? Our 
 #### Learning a vector representation of the word, "outside"
 Word2Vec is an neural network model that *learns* high-dimensional (many features) vector representations of *individual words* based on observing a word's most likely surrounding words in multiple sentences (dist. hypothesis). For instance, suppose we want to learn a vector representation of the word "outside". For this, we would train the Word2Vec model on many sentences containing the word, "outside".
 
-    * *It's a beautiful day **outside**, perfect for a picnic.*
-    * *My cat loves to spend time **outside**, chasing birds and bugs.*
-    * *The noise **outside** woke me up early this morning.*
-    * *I always feel more relaxed after spending some time **outside** in nature.*
-    * *I can hear the rain pouring **outside**, it's a good day to stay indoors.*
-    * *The sun is shining brightly **outside**, it's time to put on some sunscreen.*
-    * *I saw a group of kids playing **outside** in the park.*
-    * *It's not safe to leave your belongings **outside** unattended.*
-    * *I love to go for a walk **outside** after dinner to help me digest.*
-    * *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
+* *It's a beautiful day **outside**, perfect for a picnic.*
+* *My cat loves to spend time **outside**, chasing birds and bugs.*
+* *The noise **outside** woke me up early this morning.*
+* *I always feel more relaxed after spending some time **outside** in nature.*
+* *I can hear the rain pouring **outside**, it's a good day to stay indoors.*
+* *The sun is shining brightly **outside**, it's time to put on some sunscreen.*
+* *I saw a group of kids playing **outside** in the park.*
+* *It's not safe to leave your belongings **outside** unattended.*
+* *I love to go for a walk **outside** after dinner to help me digest.*
+* *The temperature **outside** is dropping, I need to grab a jacket before I leave.*
 
 In the process of training, the model's weights learn to derive new features (weight optimized perceptrons) associated with the input data (single words). These new learned features will be conducive to accurately predicting the context words for each word. In addition, the features can be used as a information-rich vector representation of the word, "outside". 
 
