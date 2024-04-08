@@ -128,10 +128,10 @@ The learned vectors create useful and meaningful representations of words, captu
 
 ## Preliminary Considerations
 In determining whether or not Word2Vec is a suitable embedding method for your research, it's important to consider the following:
-* Relevance: Does examining the relationships and meanings among words serve as a guideline for your research? Are you able to pinpoint specific terms or clusters of terms that encapsulate the broader conceptual realms you are investigating?"
-* Data Quality: Ensure that your text corpus is of high quality. Garbage or noisy data can adversely affect Word2Vec embeddings.
-* Corpus Size: Word2Vec performs better with larger corpora. Having substantial text data improves the quality of learned word vectors.
-* Domain-Specific Data Availability: Choose a dataset relevant to your DH research. If you’re analyzing historical texts, use historical documents. For sentiment analysis, domain-specific data matters.
+* **Analysis Relevance**: Does examining the relationships and meanings among words serve as a guideline for your research? Are you able to pinpoint specific terms or clusters of terms that encapsulate the broader conceptual realms you are investigating?"
+* **Data Quality**: Ensure that your text corpus is of high quality. Garbage or noisy data can adversely affect Word2Vec embeddings.
+* **Corpus Size**: Word2Vec performs better with larger corpora. Having substantial text data improves the quality of learned word vectors.
+* **Domain-Specific Data Availability**: Choose a dataset relevant to your DH research. If you’re analyzing historical texts, use historical documents. For sentiment analysis, domain-specific data matters.
 
 ## Exploring Word2Vec in Python
 With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
