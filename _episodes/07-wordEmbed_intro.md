@@ -111,7 +111,7 @@ Past experience = the specific data the model was "trained" on. This means that 
 ### 4. The learned features or vectors are *black boxes*, lacking direct interpretability. 
 The learned vectors create useful and meaningful representations of words, capturing semantic relationships based on word co-occurrences. However, these vectors represent abstract features learned from the surrounding context of words in the training data, and are not directly interpretable. Still, once we have language mapped to a numerical space, we can compare things on a relative scale and ask a variety of reserach questions.
 
-> ## Word2Vec Applicatoins
+> ## Word2Vec Applications
 >
 > Take a few minutes to think about different types of questions or problems that could be addressed using Word2Vec and word embeddings. Share your thoughts and suggestions with the class.
 >
@@ -237,6 +237,12 @@ Based on our ability to recover similar words, it appears the Word2Vec embedding
 > Does Word2Vec capture the meaning of these words well? Why or why not? 
 > 
 > > ## Solution
+> > 
+> > ~~~python
+> > wv.most_similar(positive=['bark'], topn=20) # all seem similar to tree bark
+> > wv.most_similar(positive=['park'], topn=20) # all seem similar to outdoor parks
+> > wv.most_similar(positive=['pitcher'], topn=20) # all seem similar to outdoor parks
+> > ~~~
 > > 
 > > Based on these three lists, it looks like Word2Vec is biased towards representing the predominant meaning or sense of a word. In fact, the Word2Vec does not explicitly differentiate between multiple meanings of a word during training. Instead, it treats each occurrence of a word in the training corpus as a distinct symbol, regardless of its meaning. As a result, resulting embeddings may be biased towards the most frequent meaning or sense of a word. This is because the more frequent a word sense appears in the training data, the more opportunities the algorithm has to learn that particular meaning.
 > > 
