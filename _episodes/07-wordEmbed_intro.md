@@ -83,7 +83,7 @@ Because of this general capability, they can be used for a wide assortment of ta
 ### 2. Neural networks *learn* new meaningful features from the input data.
 Specifically, the learned features will be features that are useful for whatever task the model is assigned. With this consideration, we can devise a language related task that allows a neural network model to learn interesting features of words which can then be extracted from the model as a word embedding representation (i.e., a vector).
 
-What task can we give a neural network to learn meaningful word embeddings? Our friend RJ Firth gives us a hint when he says, “You shall know a word by the company it keeps.” Using the *distributional hypothesis* as motivation, which states that words that repeatedly occur in similar contexts probably have similar meanings, we can ask a neural network to predict the *context* words that surround a given word in a sentence or, similarly, ask it to predict the *center* word based on *context* words. Both variants are shown below — Skip Gram and Continous Bag of Words (CBOW).
+**What task can we give a neural network to learn meaningful word embeddings?** Our friend RJ Firth gives us a hint when he says, “You shall know a word by the company it keeps.” Using the *distributional hypothesis* as motivation, which states that words that repeatedly occur in similar contexts probably have similar meanings, we can ask a neural network to predict the *context* words that surround a given word in a sentence or, similarly, ask it to predict the *center* word based on *context* words. Both variants are shown below — Skip Gram and Continous Bag of Words (CBOW).
 
 ![Skipgram](../images/wordEmbed_NN-training-methods.png)
 
@@ -109,7 +109,19 @@ In the process of training, the model's weights learn to derive new features (we
 Past experience = the specific data the model was "trained" on. This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text. For example, notice how in the example sentences given above, the word "outside" tends to be surrounded by words associated with the outdoors.
 
 ### 4. The learned features or vecotrs are essentially black boxes, lacking direct interpretability. 
-The learned vectors create useful and meaningful representations of words, capturing semantic relationships based on word co-occurrences. However, these vectors represent abstract features learned from the surrounding context of words in the training data, and are not directly interpretable. Still, once we have language mapped to a quantitative space, we can compare things on a relative scale (e.g., what is the cosine similarity between the vectors representing "dog" and "wolf"? What about "dog" and "cat"?).
+The learned vectors create useful and meaningful representations of words, capturing semantic relationships based on word co-occurrences. However, these vectors represent abstract features learned from the surrounding context of words in the training data, and are not directly interpretable. Still, once we have language mapped to a numerical space, we can compare things on a relative scale and ask questions like:
+* **Semantic Change Over Time**: How have the meanings of words evolved over different historical periods? By training Word2Vec models on texts from different time periods, researchers can analyze how word embeddings change over time, revealing shifts in semantic usage.
+* Authorship Attribution: Can Word2Vec be used to identify the authors of anonymous texts or disputed authorship works? By comparing the word embeddings of known authors' works with unknown texts, researchers can potentially attribute authorship based on stylistic similarities. For example works, see [Agrawal et al., 2023](https://arxiv.org/pdf/2209.11717.pdf) and [Liu, 2017](https://arxiv.org/pdf/1704.00177v1.pdf).
+* **Authorship Attribution**: Word2Vec has been applied to authorship attribution tasks (e.g., [Tripto and Ali, 2023](https://arxiv.org/abs/2310.16972)
+* **Comparative Analysis of Multilingual Texts**: Word2Vec enables cross-lingual comparisons. Researchers have explored multilingual embeddings to study semantic differences between languages (e.g., [Heijden et al., 2019](https://arxiv.org/pdf/1912.10169.pdf)).
+* **Studying Cultural Concepts and Biases**: Word2Vec helps uncover cultural biases in language. Researchers have examined biases related to race, religion, and colonialism (e.g., [Petreski and Hashim, 2022](https://link.springer.com/article/10.1007/s00146-022-01443-w))
+
+## Preliminary Considerations
+In determining whether or not Word2Vec is a suitable embedding method for your research, it's important to consider the following:
+* Relevance: Does examining the relationships and meanings among words serve as a guideline for your research? Are you able to pinpoint specific terms or clusters of terms that encapsulate the broader conceptual realms you are investigating?"
+* Data Quality: Ensure that your text corpus is of high quality. Garbage or noisy data can adversely affect Word2Vec embeddings.
+* Corpus Size: Word2Vec performs better with larger corpora. Having substantial text data improves the quality of learned word vectors.
+* Domain-Specific Data Availability: Choose a dataset relevant to your DH research. If you’re analyzing historical texts, use historical documents. For sentiment analysis, domain-specific data matters.
 
 ## Exploring Word2Vec in Python
 With that said, let's see what we can do with meaningful word vectors. The pre-trained model we loaded earlier was trained on a Google News dataset (about 100 billion words). We loaded this model as the variable ```wv``` earlier. Let's check the type of this object.
