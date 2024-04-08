@@ -46,7 +46,7 @@ To get a high-level overview of the embedding methods covered thus far, study th
 | Technique               | Input                                      | Embedding Structure           | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
 |:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
 | Word Counts            | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No <br>(bag of words)        |
-| TF-IDF  | Bag-of-Words     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
+| TF-IDF  | Word Counts     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
 | Latent Semantic Analysis (LSA) | TF-IDF or similar | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
 
 ## Bag of Words limitations
@@ -65,7 +65,7 @@ Word2vec is a famous *word embedding* method that was created and published in t
 | Technique               | Input                                      | Embedding Structure           | Output Vector Dimensions              | Meaning Stored                       | Order Dependency           |
 |:------------------------------:|:--------------------------------------------:|:----------------------:|:------------------------------------------:|:---------------------------------------:|:-----------------------:|
 | Word Counts             | Raw text corpus                            | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Word presence in documents          | No <br>(bag of words)        |
-| TF-IDF  | Bag-of-Words     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
+| TF-IDF  | Word Counts     | Sparse vectors           | [1, Vocabulary Size] <br>(per document) | Importance of terms in documents     | No <br>(bag of words)        |
 | Latent Semantic Analysis (LSA) | TF-IDF or similar | Dense vectors            | [1, Number of Topics] <br>(per document) | Semantic topics present in documents | No <br>(bag of words)        |
 | Word2Vec                | Raw text corpus                            | Dense vectors            | [1, Embedding Dimension] <br>(per word)  | Semantic meaning of words            | Yes <br>(word order)     |
 
@@ -74,12 +74,12 @@ The next *supplental* episode unpacks the technology behind Word2Vec — neural 
 
 1. **Neural networks are highly prevalent in many fields now due to their exceptional ability to learn functions that can map a set of input features to some output (e.g., a label or predicted value for some target variable)**. Because of this general capability, they can be used for a wide assortment of tasks including…
 
-* Predicting the weather tomorrow given historical weather patterns
-* Classifying if an email is spam or not
-* Classifying if an image contains a person or not
-* Predicting a person’s weight based on their height, age, location, etc.
-* Predicting commute times given traffic conditions
-* Predicting house prices given stock market prices
+    * Predicting the weather tomorrow given historical weather patterns
+    * Classifying if an email is spam or not
+    * Classifying if an image contains a person or not
+    * Predicting a person’s weight based on their height, age, location, etc.
+    * Predicting commute times given traffic conditions
+    * Predicting house prices given stock market prices
 
 2. **Neural networks *learn* new meaningful features from the input data.** Specifically, the learned features will be features that are useful for whatever task the model is assigned. With this consideration, we can devise a language related task that allows a neural network model to learn interesting features of words which can then be extracted from the model as a word embedding representation (i.e., a vector).
 
