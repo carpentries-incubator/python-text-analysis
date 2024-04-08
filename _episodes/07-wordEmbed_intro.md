@@ -316,16 +316,20 @@ Notice how the first two dimensions capture around 70% of the variability in the
 pca = PCA() # init PCA object
 pca.fit(sample_vectors) # the fit function determines the new dimensions or axes to represent the data -- the result is sent back to the pca object
 
-# plot variance explained by each new dimension (principal component)
+# Calculate cumulative variance explained
+cumulative_variance_explained = np.cumsum(pca.explained_variance_ratio_)*100
+
+# Plot cumulative variance explained
 plt.figure()
-plt.plot(pca.explained_variance_ratio_*100,'-o')
-plt.xlabel("Principal Components")
-plt.ylabel("% Variance Explained")
-plt.savefig("wordEmbeddings_word2vecPCAvarExplained.jpg")
+plt.plot(range(1, len(cumulative_variance_explained) + 1), cumulative_variance_explained, '-o')
+plt.xlabel("Number of Principal Components")
+plt.ylabel("Cumulative Variance Explained (%)")
+plt.title("Cumulative Variance Explained by Principal Components")
+plt.show()
 
 ```    
 
-![PCA Variance Explained](../images/wordEmbed_PCA-variance.jpg)
+![PCA Variance Explained](../images/wordEmbeddings_word2vecPCA_cumulative_variance_explained.jpg)
 
 We can now use these new dimensions to transform the original data.
 
