@@ -477,30 +477,6 @@ Note that Word2Vec can only produce vector representations for words encountered
 model.wv.most_similar(positive=['orca'],topn=30) 
 ```
 
-    ---------------------------------------------------------------------------
-
-    KeyError                                  Traceback (most recent call last)
-
-    <ipython-input-25-9dc7ea336470> in <cell line: 1>()
-    ----> 1 model.wv.most_similar(positive=['orca'],topn=30)
-    
-
-    /usr/local/lib/python3.9/dist-packages/gensim/models/keyedvectors.py in most_similar(self, positive, negative, topn, clip_start, clip_end, restrict_vocab, indexer)
-        839 
-        840         # compute the weighted average of all keys
-    --> 841         mean = self.get_mean_vector(keys, weight, pre_normalize=True, post_normalize=True, ignore_missing=False)
-        842         all_keys = [
-        843             self.get_index(key) for key in keys if isinstance(key, _KEY_TYPES) and self.has_index_for(key)
-
-
-    /usr/local/lib/python3.9/dist-packages/gensim/models/keyedvectors.py in get_mean_vector(self, keys, weights, pre_normalize, post_normalize, ignore_missing)
-        516                 total_weight += abs(weights[idx])
-        517             elif not ignore_missing:
-    --> 518                 raise KeyError(f"Key '{key}' not present in vocabulary")
-        519 
-        520         if total_weight > 0:
-
-
     KeyError: "Key 'orca' not present in vocabulary"
 
 ### fastText solves OOV issue
