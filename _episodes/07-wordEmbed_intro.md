@@ -109,12 +109,22 @@ In the process of training, the model's weights learn to derive new features (we
 Past experience = the specific data the model was "trained" on. This means that the vectors extracted from the model will reflect, on average, how words are used in a specific text. For example, notice how in the example sentences given above, the word "outside" tends to be surrounded by words associated with the outdoors.
 
 ### 4. The learned features or vectors are *black boxes*, lacking direct interpretability. 
-The learned vectors create useful and meaningful representations of words, capturing semantic relationships based on word co-occurrences. However, these vectors represent abstract features learned from the surrounding context of words in the training data, and are not directly interpretable. Still, once we have language mapped to a numerical space, we can compare things on a relative scale and ask questions like:
-* **Semantic Change Over Time**: How have the meanings of words evolved over different historical periods? By training Word2Vec models on texts from different time periods, researchers can analyze how word embeddings change over time, revealing shifts in semantic usage.
-* Authorship Attribution: Can Word2Vec be used to identify the authors of anonymous texts or disputed authorship works? By comparing the word embeddings of known authors' works with unknown texts, researchers can potentially attribute authorship based on stylistic similarities. For example works, see [Agrawal et al., 2023](https://arxiv.org/pdf/2209.11717.pdf) and [Liu, 2017](https://arxiv.org/pdf/1704.00177v1.pdf).
-* **Authorship Attribution**: Word2Vec has been applied to authorship attribution tasks (e.g., [Tripto and Ali, 2023](https://arxiv.org/abs/2310.16972)
-* **Comparative Analysis of Multilingual Texts**: Word2Vec enables cross-lingual comparisons. Researchers have explored multilingual embeddings to study semantic differences between languages (e.g., [Heijden et al., 2019](https://arxiv.org/pdf/1912.10169.pdf)).
-* **Studying Cultural Concepts and Biases**: Word2Vec helps uncover cultural biases in language. Researchers have examined biases related to race, religion, and colonialism (e.g., [Petreski and Hashim, 2022](https://link.springer.com/article/10.1007/s00146-022-01443-w))
+The learned vectors create useful and meaningful representations of words, capturing semantic relationships based on word co-occurrences. However, these vectors represent abstract features learned from the surrounding context of words in the training data, and are not directly interpretable. Still, once we have language mapped to a numerical space, we can compare things on a relative scale and ask a variety of reserach questions.
+
+> ## Word2Vec Applicatoins
+>
+> Take a few minutes to think about different types of questions or problems that could be addressed using Word2Vec and word embeddings. Share your thoughts and suggestions with the class.
+>
+> > ## Solution
+> >
+> > * **Semantic Change Over Time**: How have the meanings of words evolved over different historical periods? By training Word2Vec models on texts from different time periods, researchers can analyze how word embeddings change over time, revealing shifts in semantic usage.
+> > * Authorship Attribution: Can Word2Vec be used to identify the authors of anonymous texts or disputed authorship works? By comparing the word embeddings of known authors' works with unknown texts, researchers can potentially attribute authorship based on stylistic similarities. For example works, see [Agrawal et al., 2023](https://arxiv.org/pdf/2209.11717.pdf) and [Liu, 2017](https://arxiv.org/pdf/1704.00177v1.pdf).
+> > * **Authorship Attribution**: Word2Vec has been applied to authorship attribution tasks (e.g., [Tripto and Ali, 2023](https://arxiv.org/abs/2310.16972)
+> > * **Comparative Analysis of Multilingual Texts**: Word2Vec enables cross-lingual comparisons. Researchers have explored multilingual embeddings to study semantic differences between languages (e.g., [Heijden et al., 2019](https://arxiv.org/pdf/1912.10169.pdf)).
+> > * **Studying Cultural Concepts and Biases**: Word2Vec helps uncover cultural biases in language. Researchers have examined biases related to race, religion, and colonialism (e.g., [Petreski and Hashim, 2022](https://link.springer.com/article/10.1007/s00146-022-01443-w))
+> > 
+> {: .solution}
+{: .challenge}
 
 ## Preliminary Considerations
 In determining whether or not Word2Vec is a suitable embedding method for your research, it's important to consider the following:
