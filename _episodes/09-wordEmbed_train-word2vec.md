@@ -49,13 +49,13 @@ Mounted at /content/drive
 ~~~
 {: .output}
 
-### Load in the data
-Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
-
 ```python
 # pip install necessary to access parse module (called from helpers.py)
 !pip install parse
 ```
+
+### Load in the data
+Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
 
 Get list of files available to analyze
 
@@ -428,7 +428,7 @@ tokens_cleaned.shape
 {: .output}
 
 ### Train Word2Vec model using tokenized text
-We can now use this data to train a word2vec model. We'll start by importing the Word2Vec module from gensim. We'll then hand the Word2Vec function our list of tokenized sentences and set sg=0 to use the continuous bag of words (CBOW) training method. 
+We can now use this data to train a word2vec model. We'll start by importing the Word2Vec module from gensim. We'll then hand the Word2Vec function our list of tokenized sentences and set sg=0 ("skip-gram") to use the continuous bag of words (CBOW) training method. 
 
 **Set seed and workers for a fully deterministic run**: Next we'll set some parameters for reproducibility. We'll set the seed so that our vectors get randomly initialized the same way each time this code is run. For a fully deterministically-reproducible run, we'll also limit the model to a single worker thread (workers=1), to eliminate ordering jitter from OS thread scheduling — noted in [gensim's documentation](https://radimrehurek.com/gensim/models/word2vec.html)
 
