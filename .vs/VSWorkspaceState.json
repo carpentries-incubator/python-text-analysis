@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\images",
     "\\_episodes"
   ],
-  "SelectedNode": "\\_episodes\\01-basicConcepts.md",
+  "SelectedNode": "\\_episodes\\03-preprocessing.md",
   "PreviewInSolutionExplorer": false
 }

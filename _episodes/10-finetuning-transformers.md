@@ -107,13 +107,21 @@ for result in ner_results:
     {'entity_group': 'LOC', 'score': 0.99975127, 'word': 'Syria', 'start': 25, 'end': 30}
 
 
-We could use this existing model for whatever research tasks we want. These models are highly performant at a variety of tasks. There are many prebuilt LLM models available on HuggingFace, which can effectively perform many useful tasks. But let's suppose we want to do a novel task. Let's discuss how we might do this using an example.
+LLMs are highly performant at not just one, but a variety of tasks. And there are many versions of LLMs, designed to perform well on a variety of tasks available on HuggingFace.
 
-## Why Fine Tune?
+We could use this existing model for research purposes as is. We might use an existing NER model to find examples of the most common locations in a set of fiction. You could categorize product reviews as positive or negative automatically using sentiment analysis. You could automatically translate documents from one language to another.
 
-There are many many prebuilt models for BERT. Why would you want to go through the trouble of training or fine tuning your own?
+There are many possible tasks that LLMs can handle!
 
-Well, perhaps you are looking to do something for which there is no prebuilt model.
+### Why Fine Tune?
+
+Given that there are many many prebuilt models for BERT, why would you want to go through the trouble of fine tuning your own?
+
+LLM's are very robust. They aren't just capable of doing tasks other people have already trained them for. LLMs can also do specific and novel tasks you might want to accomplish as part of research!
+
+Imagine using a LLM to classify a group of documents using training data you create. Or imagine an LLM pulling out specific types of words based on examples you provide. LLM's can be trained to do these specific tasks fairly well, without needing terabytes of data to do so.
+
+Let's take a look on how we fine tune an LLM on a novel task by walking through an example.
 
 ## The Interpretive Loop
 
@@ -127,6 +135,7 @@ We need the following:
 1. A task, so we can find a model and LLM pipeline to finetune.
 2. A dataset for our task, properly formatted in a way BERT can interpret.
 3. A tokenizer and helpers to preprocess our data in a way BERT expects.
+3. A model that has been pretrained on millions of documents for us. We will only fine-tune this model, not recreate it from scratch.
 4. A trainer to fine-tune our model to perform our task.
 5. A set of metrics so that we can evaluate how well our model performs.
 
@@ -150,8 +159,9 @@ Looking at the notebook, we can get an idea of how it functions and adapt it for
 1. The existing model it uses is a compressed version of BERT, "distilbert." While not as accurate as the full BERT model, it is smaller and easier to fine tune. We'll use this model as well.
 2. The existing dataset for our task is something called "conll2003". We will want to look at this and replace it with our own data, taking care to copy the formatting of existing data.
 3. The existing tokenizer requires a special helper method called an aligner. We will copy this directly.
-4. The trainer parameters will largely work, but we will need to tweak our output labels for our new data.
-5. The existing metrics will be fine, but we have to feed them into our trainer.
+4. The existing model that we will tweak to accomplish our task.
+5. A trainer, which will largely use existing parameters. We will need to tweak our output labels for our new data.
+6. The existing metrics will be fine, but we have to feed them into our trainer.
 
 
 ## Creating training data
