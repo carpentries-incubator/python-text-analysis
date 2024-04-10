@@ -49,13 +49,13 @@ Mounted at /content/drive
 ~~~
 {: .output}
 
-### Load in the data
-Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
-
 ```python
 # pip install necessary to access parse module (called from helpers.py)
 !pip install parse
 ```
+
+### Load in the data
+Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
 
 Get list of files available to analyze
 
@@ -428,7 +428,7 @@ tokens_cleaned.shape
 {: .output}
 
 ### Train Word2Vec model using tokenized text
-We can now use this data to train a word2vec model. We'll start by importing the Word2Vec module from gensim. We'll then hand the Word2Vec function our list of tokenized sentences and set sg=0 to use the continuous bag of words (CBOW) training method. 
+We can now use this data to train a word2vec model. We'll start by importing the Word2Vec module from gensim. We'll then hand the Word2Vec function our list of tokenized sentences and set sg=0 ("skip-gram") to use the continuous bag of words (CBOW) training method. 
 
 **Set seed and workers for a fully deterministic run**: Next we'll set some parameters for reproducibility. We'll set the seed so that our vectors get randomly initialized the same way each time this code is run. For a fully deterministically-reproducible run, we'll also limit the model to a single worker thread (workers=1), to eliminate ordering jitter from OS thread scheduling — noted in [gensim's documentation](https://radimrehurek.com/gensim/models/word2vec.html)
 
@@ -476,30 +476,6 @@ Note that Word2Vec can only produce vector representations for words encountered
 ```python
 model.wv.most_similar(positive=['orca'],topn=30) 
 ```
-
-    ---------------------------------------------------------------------------
-
-    KeyError                                  Traceback (most recent call last)
-
-    <ipython-input-25-9dc7ea336470> in <cell line: 1>()
-    ----> 1 model.wv.most_similar(positive=['orca'],topn=30)
-    
-
-    /usr/local/lib/python3.9/dist-packages/gensim/models/keyedvectors.py in most_similar(self, positive, negative, topn, clip_start, clip_end, restrict_vocab, indexer)
-        839 
-        840         # compute the weighted average of all keys
-    --> 841         mean = self.get_mean_vector(keys, weight, pre_normalize=True, post_normalize=True, ignore_missing=False)
-        842         all_keys = [
-        843             self.get_index(key) for key in keys if isinstance(key, _KEY_TYPES) and self.has_index_for(key)
-
-
-    /usr/local/lib/python3.9/dist-packages/gensim/models/keyedvectors.py in get_mean_vector(self, keys, weights, pre_normalize, post_normalize, ignore_missing)
-        516                 total_weight += abs(weights[idx])
-        517             elif not ignore_missing:
-    --> 518                 raise KeyError(f"Key '{key}' not present in vocabulary")
-        519 
-        520         if total_weight > 0:
-
 
     KeyError: "Key 'orca' not present in vocabulary"
 
