@@ -57,16 +57,16 @@ One method for constructing more advanced word embeddings is a model called TF-I
 
 TF-IDF stands for term frequency-inverse document frequency. The model consists of two parts: term frequency and inverse document frequency. We multiply the two terms to get the TF-IDF value.
 
-Term frequency is a measure how frequently a term occurs in a document. The simplest way to calculate term frequency is by simply adding up the number of times a term occurs in a document, and dividing by the total word count in the corpus.
+**Term frequency(t,d)** is a measure how frequently a term, *t*, occurs in a document, *d*. The simplest way to calculate term frequency is by simply adding up the number of times a term occurs in a document, and dividing by the total word count in the document.
 
-Inverse document frequency measures a term's importance. Document frequency is the number of documents a term occurs in, so inverse document frequency gives higher scores to words that occur in fewer documents.
+**Inverse document frequency** measures a term's importance. Document frequency is the number of documents, *N*, a term occurs in, so inverse document frequency gives higher scores to words that occur in fewer documents.
 This is represented by the equation:
 
-IDF(x) = ln[(N+1) / (DF(x)+1)]
+IDF(x) = ln[(N+1) / (DF(T)+1)]
 
 where...
 * N represents the total number of documents in the corpus
-* DF(x) represents document frequency for a particular term/word, x. This is the number of documents a term occurs in.
+* DF(t) represents document frequency for a particular term/word, t. This is the number of documents a term occurs in.
 
 The key thing to understand is that words that occur in many documents produce smaller IDF values since the denominator grows with DF(x).
 
