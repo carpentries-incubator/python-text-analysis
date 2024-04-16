@@ -67,7 +67,7 @@ LSA requires two steps- first we must create a TF-IDF matrix, which we have alre
 Next, we will perform dimensional reduction using a technique called SVD.
 
 ### Worked Example: LSA
-In case you are starting from a fresh notebook, you will need to (1), mount Google drive (2) add the helper code to your path, and (3) load the data.csv file.
+In case you are starting from a fresh notebook, you will need to (1), mount Google drive (2) add the helper code to your path, (3) load the data.csv file, and (4) pip install parse which is used in the helper function code.
 
 ```python
 # Run this cell to mount your Google Drive.
@@ -87,6 +87,10 @@ sys.path.insert(0, wksp_dir)
 from pandas import read_csv
 data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
 
+```
+
+```python
+!pip install pathlib parse # parse is used by helper functions
 ```
 
 Mathematically, these "latent semantic" dimensions are derived from our TF-IDF matrix, so let's begin there. From the previous lesson:
