@@ -142,15 +142,19 @@ Let's take a look and see how much data each topic explains. We will visualize i
 
 ```python
 import matplotlib.pyplot as plt
+import numpy as np
 
 #this shows us the amount of dropoff in explanation we have in our sigma matrix. 
 print(svdmodel.explained_variance_ratio_)
 
-plt.plot(range(maxDimensions), svdmodel.explained_variance_ratio_ * 100)
-plt.xlabel("Topic Number")
-plt.ylabel("% explained")
-plt.title("SVD dropoff")
-plt.show()  # show first chart
+# Calculate cumulative sum of explained variance ratio
+cumulative_variance_ratio = np.cumsum(svdmodel.explained_variance_ratio_)
+
+plt.plot(range(1, maxDimensions + 1), cumulative_variance_ratio * 100)
+plt.xlabel("Number of Topics")
+plt.ylabel("Cumulative % of Information Retained")
+plt.ylim(0, 100)  # Adjust y-axis limit to 0-100
+plt.grid(True)    # Add grid lines
 ```
 
 ~~~
@@ -164,7 +168,7 @@ plt.show()  # show first chart
 ~~~
 {: .output}
 
-![Image of drop-off of variance explained](../images/05-svd-dropoff.png)
+![Image of drop-off of variance explained](../images/cumulative_information_retained_plot.png)
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic.
 
