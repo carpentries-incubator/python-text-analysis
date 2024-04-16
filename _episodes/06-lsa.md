@@ -232,7 +232,6 @@ Finally, let's save our progress so far.
 
 ```python
 data.to_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv", index=False)
-data.to_xlsx("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.xlsx", index=False)
 ```
 
 ## Inspecting LSA Results
