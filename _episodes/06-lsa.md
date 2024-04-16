@@ -207,15 +207,15 @@ Since we don't know what these topics correspond to yet, for now I'll call the f
 
 ```python
 data[["X", "Y", "Z", "W", "P", "Q"]] = lsa[:, [1, 2, 3, 4, 5, 6]]
-print(data)
+data.head()
 ```
 
-Let's also mean-center the data, so that the "average" of all our documents lies at the origin when we plot things in a moment. Otherwise, the origin would be (0,0), which is uninformative for our purposes here.
+Let's also mean-center the data, so that the "average" value per topic (across all our documents) lies at the origin when we plot things in a moment. By mean-centering, you are ensuring that the "average" value for each topic becomes the reference point (0,0) in the plot, which can provide more informative insights into the relative distribution and relationships between topics.
 
 ```python
 from numpy import mean
 data[["X", "Y", "Z", "W", "P", "Q"]] -= data[["X", "Y", "Z", "W", "P", "Q"]].mean()
-print(data)
+data.head()
 ```
 
 ~~~
