@@ -279,6 +279,8 @@ We don't know *why* they are getting arranged this way, since we don't know what
 Let's write a helper to get the strongest words for each topic. This will show the terms with the *highest* and *lowest* association with a topic. In LSA, each topic is a spectra of subject matter, from the kinds of terms on the low end to the kinds of terms on the high end. So, inspecting the *contrast* between these high and low terms (and checking that against our domain knowledge) can help us interpret what our model is identifying.
 
 ```python
+import pandas as pd
+
 def show_topics(topic, n):
     # Get the feature names (terms) from the vectorizer
     terms = vectorizer.get_feature_names_out()
@@ -287,7 +289,7 @@ def show_topics(topic, n):
     weights = svdmodel.components_[topic]
     
     # Create a DataFrame with terms and their corresponding weights
-    df = pandas.DataFrame({"Term": terms, "Weight": weights})
+    df = pd.DataFrame({"Term": terms, "Weight": weights})
     
     # Sort the DataFrame by weights in descending order to get top n terms
     tops = df.sort_values(by=["Weight"], ascending=False)[0:n]
@@ -296,7 +298,7 @@ def show_topics(topic, n):
     bottoms = df.sort_values(by=["Weight"], ascending=False)[-n:]
     
     # Concatenate top and bottom terms into a single DataFrame and return
-    return pandas.concat([tops, bottoms])
+    return pd.concat([tops, bottoms])
 
 # Get the top 5 and bottom 5 terms for each specified topic
 topic_words_x = show_topics(1, 5)  # Topic 1
@@ -361,7 +363,7 @@ print(topic_words_y)
 Now that we have names for our first two topics, let's redo the plot with better axis labels.
 
 ```python
-lsa_plot(data, svdmodel, groupby="Author", colors=colormap, xlabel="Victorian vs. Elizabethan", ylabel="English vs. French")
+lsa_plot(data, svdmodel, groupby="author", colors=colormap, xlabel="Victorian vs. Elizabethan", ylabel="English vs. French")
 ```
 
 ![Plot results of our LSA model, revised with new axis labels](../images/05-lsa-plot-labeled.png)
