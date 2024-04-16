@@ -280,7 +280,6 @@ Let's write a helper to get the strongest words for each topic. This will show t
 
 ```python
 def show_topics(topic, n):
-def show_topics(topic, n):
     # Get the feature names (terms) from the vectorizer
     terms = vectorizer.get_feature_names_out()
     
