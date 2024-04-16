@@ -112,9 +112,13 @@ To see this, let's begin to reduce the dimensionality of our TF-IDF matrix using
 
 ```python
 from sklearn.decomposition import TruncatedSVD
+
 maxDimensions = min(tfidf.shape)-1
-svdmodel = TruncatedSVD(n_components=maxDimensions, algorithm="arpack")
+
+svdmodel = TruncatedSVD(n_components=maxDimensions, algorithm="arpack") # The "arpack" algorithm is typically more efficient for large sparse matrices compared to the default "randomized" algorithm. This is particularly important when dealing with high-dimensional data, such as TF-IDF matrices, where the number of features (terms) may be large. SVD is typically computed as an approximation when working with large matrices.
+
 lsa = svdmodel.fit_transform(tfidf)
+
 print(lsa)
 ```
 
