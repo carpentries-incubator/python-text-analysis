@@ -65,7 +65,6 @@ Create list of files we'll use for our analysis. We'll start by fitting a word2v
 ```python
 single_file = data.loc[data['Title'] == 'moby_dick','File'].item()
 single_file
-
 ```
 ~~~
 '/content/drive/My Drive/Colab Notebooks/text-analysis/data/melville-moby_dick.txt'
