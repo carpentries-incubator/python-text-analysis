@@ -67,10 +67,32 @@ LSA requires two steps- first we must create a TF-IDF matrix, which we have alre
 Next, we will perform dimensional reduction using a technique called SVD.
 
 ### Worked Example: LSA
+In case you are starting from a fresh notebook, you will need to (1), mount Google drive (2) add the helper code to your path, and (3) load the data.csv file.
+```
+# Run this cell to mount your Google Drive.
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Show existing colab notebooks and helpers.py file
+from os import listdir
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/code'
+listdir(wksp_dir)
+
+# Add folder to colab's path so we can import the helper functions
+import sys
+sys.path.insert(0, wksp_dir)
+
+# Read the data back in.
+from pandas import read_csv
+data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+
+```
 
 Mathematically, these "latent semantic" dimensions are derived from our TF-IDF matrix, so let's begin there. From the previous lesson:
 
 ```python
+from sklearn.feature_extraction.text import TfidfVectorizer
+vectorizer = TfidfVectorizer(input='filename', max_df=.6, min_df=.1) # Here, max_df=.6 removes terms that appear in more than 60% of our documents (overly common words like the, a, an) and min_df=.1 removes terms that appear in less than 10% of our documents (overly rare words like specific character names, typos, or punctuation the tokenizer doesn’t understand)
 tfidf = vectorizer.fit_transform(list(data["Lemma_File"]))
 print(tfidf.shape)
 ```
