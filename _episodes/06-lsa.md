@@ -265,7 +265,7 @@ colormap = {
     "shakespeare": "magenta"
 }
 
-lsa_plot(data, svdmodel, groupby="Author", colors=colormap)
+lsa_plot(data, svdmodel, groupby="author", colors=colormap)
 ```
 
 ![Plot results of our LSA model, color-coded by author](../images/05-lsa-plot-color.png)
