@@ -280,15 +280,29 @@ Let's write a helper to get the strongest words for each topic. This will show t
 
 ```python
 def show_topics(topic, n):
+def show_topics(topic, n):
+    # Get the feature names (terms) from the vectorizer
     terms = vectorizer.get_feature_names_out()
+    
+    # Get the weights of the terms for the specified topic from the SVD model
     weights = svdmodel.components_[topic]
+    
+    # Create a DataFrame with terms and their corresponding weights
     df = pandas.DataFrame({"Term": terms, "Weight": weights})
+    
+    # Sort the DataFrame by weights in descending order to get top n terms
     tops = df.sort_values(by=["Weight"], ascending=False)[0:n]
+    
+    # Sort the DataFrame by weights in ascending order to get bottom n terms
     bottoms = df.sort_values(by=["Weight"], ascending=False)[-n:]
+    
+    # Concatenate top and bottom terms into a single DataFrame and return
     return pandas.concat([tops, bottoms])
 
-topic_words_x = show_topics(1, 5)
-topic_words_y = show_topics(2, 5)
+# Get the top 5 and bottom 5 terms for each specified topic
+topic_words_x = show_topics(1, 5)  # Topic 1
+topic_words_y = show_topics(2, 5)  # Topic 2
+
 ```
 
 You can also use a helper we prepared for learners:
