@@ -15,7 +15,7 @@ title: Training Word2Vec
 
 ## Colab Setup
 
-Run this code to enable helper functions.
+Run this code to enable helper functions and read data back in.
 
 
 ```python
@@ -23,18 +23,20 @@ Run this code to enable helper functions.
 from google.colab import drive
 drive.mount('/content/drive')
 
-# Set workshop directory
+# Show existing colab notebooks and helpers.py file
 from os import listdir
-wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis'
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/code'
+print(listdir(wksp_dir))
 
-# Add helper functions to colab's path
+# Add folder to colab's path so we can import the helper functions
 import sys
-helper_path = wksp_dir + '/code'
-sys.path.insert(0, helper_path)
+sys.path.insert(0, wksp_dir)
 
-# Check that helper directory is correct
-listdir(helper_path)
+# Read the data back in.
+from pandas import read_csv
+data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
 ```
+
 ~~~
 Mounted at /content/drive
 ['analysis.py',
