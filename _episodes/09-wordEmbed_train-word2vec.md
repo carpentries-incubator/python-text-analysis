@@ -31,10 +31,6 @@ print(listdir(wksp_dir))
 # Add folder to colab's path so we can import the helper functions
 import sys
 sys.path.insert(0, wksp_dir)
-
-# Read the data back in.
-from pandas import read_csv
-data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
 ```
 
 ~~~
@@ -57,193 +53,26 @@ Mounted at /content/drive
 ```
 
 ### Load in the data
+
+```python
+# Read the data back in.
+from pandas import read_csv
+data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+```
+
 Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
-
-Get list of files available to analyze
-
-```python
-from helpers import create_file_list 
-data_dir = wksp_dir + '/data/books/'
-corpus_file_list = create_file_list(data_dir, "*.txt")
-corpus_file_list[0:5]
-```
-
-~~~
-['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt',
- '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt',
- '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt',
- '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt',
- '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt']
-~~~
-{: .output}
-
-Parse filelist into a dataframe. Make sure you don't have any extra forward slashes in the pattern — this will cause an error in the helper function.
-
-```python
-pattern = data_dir + "{Author}-{Title}.txt"
-pattern
-```
-
-~~~
-'/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/{Author}-{Title}.txt'
-~~~
-{: .output}
-
-```python
-from helpers import parse_into_dataframe 
-data = parse_into_dataframe(data_dir + "{Author}-{Title}.txt", corpus_file_list)
-data.head()
-```
-
-
-
-  <div id="df-5f4a4787-9f3f-41ee-80d1-477fc6170a9c">
-    <div class="colab-df-container">
-      <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Author</th>
-      <th>Title</th>
-      <th>File</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>dickens</td>
-      <td>bleakhouse</td>
-      <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>dumas</td>
-      <td>blacktulip</td>
-      <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>austen</td>
-      <td>northanger</td>
-      <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>dickens</td>
-      <td>christmascarol</td>
-      <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>austen</td>
-      <td>persuasion</td>
-      <td>/content/drive/My Drive/Colab Notebooks/text-a...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-5f4a4787-9f3f-41ee-80d1-477fc6170a9c')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
-  </svg>
-      </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-      <script>
-        const buttonEl =
-          document.querySelector('#df-5f4a4787-9f3f-41ee-80d1-477fc6170a9c button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-5f4a4787-9f3f-41ee-80d1-477fc6170a9c');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-
 
 ```python
 single_file = data.loc[data['Title'] == 'moby_dick','File'].item()
 single_file
-```
 
+```
 ~~~
 '/content/drive/My Drive/Colab Notebooks/text-analysis/data/melville-moby_dick.txt'
 ~~~
 {: .output}
 
-Let's preview the file contents to make sure our code so far is working correctly.
+Let's preview the file contents to make sure our code and directory setup is working correctly.
 
 ```python
 # open and read file
