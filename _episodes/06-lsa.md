@@ -77,7 +77,7 @@ drive.mount('/content/drive')
 # Show existing colab notebooks and helpers.py file
 from os import listdir
 wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/code'
-listdir(wksp_dir)
+print(listdir(wksp_dir))
 
 # Add folder to colab's path so we can import the helper functions
 import sys
@@ -86,6 +86,7 @@ sys.path.insert(0, wksp_dir)
 # Read the data back in.
 from pandas import read_csv
 data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+data.head()
 
 ```
 
