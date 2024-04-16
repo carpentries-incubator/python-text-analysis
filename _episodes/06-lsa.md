@@ -213,140 +213,18 @@ data.head()
 Let's also mean-center the data, so that the "average" value per topic (across all our documents) lies at the origin when we plot things in a moment. By mean-centering, you are ensuring that the "average" value for each topic becomes the reference point (0,0) in the plot, which can provide more informative insights into the relative distribution and relationships between topics.
 
 ```python
-from numpy import mean
-data[["X", "Y", "Z", "W", "P", "Q"]] -= data[["X", "Y", "Z", "W", "P", "Q"]].mean()
-data.head()
+data[["X", "Y", "Z", "W", "P", "Q"]] = lsa[:, [1, 2, 3, 4, 5, 6]]-lsa[:, [1, 2, 3, 4, 5, 6]].mean(0)
+data[["X", "Y", "Z", "W", "P", "Q"]].mean()
 ```
 
 ~~~
-          Author              Title  \
-0       dickens        olivertwist   
-1      melville               omoo   
-2        austen         northanger   
-3    chesterton              brown   
-4    chesterton        knewtoomuch   
-5       dickens    ourmutualfriend   
-6        austen               emma   
-7       dickens     christmascarol   
-8      melville        piazzatales   
-9      melville             conman   
-10  shakespeare            muchado   
-11        dumas      tenyearslater   
-12  shakespeare               lear   
-13        dumas    threemusketeers   
-14        dumas        montecristo   
-15  shakespeare              romeo   
-16      dickens  greatexpectations   
-17       austen         persuasion   
-18     melville             pierre   
-19        dumas   twentyyearsafter   
-20  shakespeare             caesar   
-21   chesterton               ball   
-22       austen              pride   
-23      dickens         bleakhouse   
-24     melville          moby_dick   
-25  shakespeare       twelfthnight   
-26     melville              typee   
-27   chesterton           thursday   
-28       austen              sense   
-29  shakespeare          midsummer   
-30      dickens     pickwickpapers   
-31        dumas         blacktulip   
-32  shakespeare            othello   
-33        dumas      maninironmask   
-34      dickens    taleoftwocities   
-35      dickens   davidcopperfield   
-36       austen          ladysusan   
-37   chesterton           napoleon   
-38     melville           bartleby   
-39   chesterton         whitehorse   
-40      dickens          hardtimes   
-
-                                                  Item         X         Y  \
-0   python-text-analysis/data/dickens-olivertwist.... -0.261657 -0.141328   
-1   python-text-analysis/data/melville-omoo.txt.le... -0.126564  0.141689   
-2   python-text-analysis/data/austen-northanger.tx... -0.190409 -0.274343   
-3   python-text-analysis/data/chesterton-brown.txt... -0.134116  0.159160   
-4   python-text-analysis/data/chesterton-knewtoomu... -0.152394  0.196312   
-5   python-text-analysis/data/dickens-ourmutualfri... -0.294504 -0.093461   
-6    python-text-analysis/data/austen-emma.txt.lemmas -0.296076 -0.460560   
-7   python-text-analysis/data/dickens-christmascar... -0.113437 -0.044181   
-8   python-text-analysis/data/melville-piazzatales... -0.089402  0.120273   
-9   python-text-analysis/data/melville-conman.txt.... -0.075196  0.072590   
-10  python-text-analysis/data/shakespeare-muchado....  0.627768 -0.103653   
-11  python-text-analysis/data/dumas-tenyearslater.... -0.100100  0.539284   
-12  python-text-analysis/data/shakespeare-lear.txt...  0.727088 -0.068711   
-13  python-text-analysis/data/dumas-threemusketeer... -0.069949  0.542575   
-14  python-text-analysis/data/dumas-montecristo.tx... -0.151580  0.387500   
-15  python-text-analysis/data/shakespeare-romeo.tx...  0.736124 -0.094139   
-16  python-text-analysis/data/dickens-greatexpecta... -0.278731 -0.085005   
-17  python-text-analysis/data/austen-persuasion.tx... -0.268409 -0.377253   
-18  python-text-analysis/data/melville-pierre.txt....  0.239109 -0.006490   
-19  python-text-analysis/data/dumas-twentyyearsaft... -0.050829  0.604854   
-20  python-text-analysis/data/shakespeare-caesar.t...  0.686348 -0.073158   
-21  python-text-analysis/data/chesterton-ball.txt.... -0.159020  0.163514   
-22  python-text-analysis/data/austen-pride.txt.lemmas -0.286169 -0.479401   
-23  python-text-analysis/data/dickens-bleakhouse.t... -0.252717 -0.138667   
-24  python-text-analysis/data/melville-moby_dick.t...  0.021916  0.052027   
-25  python-text-analysis/data/shakespeare-twelfthn...  0.674709 -0.097754   
-26  python-text-analysis/data/melville-typee.txt.l... -0.099883  0.087663   
-27  python-text-analysis/data/chesterton-thursday.... -0.139853  0.125213   
-28  python-text-analysis/data/austen-sense.txt.lemmas -0.275186 -0.437264   
-29  python-text-analysis/data/shakespeare-midsumme...  0.655836 -0.056070   
-30  python-text-analysis/data/dickens-pickwickpape... -0.267310 -0.143600   
-31  python-text-analysis/data/dumas-blacktulip.txt...  0.031298  0.013635   
-32  python-text-analysis/data/shakespeare-othello....  0.668192 -0.061681   
-33  python-text-analysis/data/dumas-maninironmask.... -0.082691  0.513542   
-34  python-text-analysis/data/dickens-taleoftwocit... -0.206833  0.176140   
-35  python-text-analysis/data/dickens-davidcopperf... -0.244019 -0.298099   
-36  python-text-analysis/data/austen-ladysusan.txt... -0.189505 -0.401151   
-37  python-text-analysis/data/chesterton-napoleon.... -0.128700  0.115722   
-38  python-text-analysis/data/melville-bartleby.tx... -0.049262  0.012596   
-39  python-text-analysis/data/chesterton-whitehors...  0.068136  0.104421   
-40  python-text-analysis/data/dickens-hardtimes.tx... -0.102021 -0.192743   
-
-            Z         W         P         Q  
-0  -0.152952  0.466738  0.032626 -0.164769  
-1  -0.205628 -0.306997  0.547896 -0.282132  
-2   0.214874 -0.156814 -0.039271  0.007463  
-3  -0.331021 -0.219545 -0.220116 -0.054240  
-4  -0.308552 -0.210525 -0.310814  0.025220  
-5  -0.203471  0.395555  0.036936 -0.028225  
-6   0.325624 -0.187031 -0.057312  0.013975  
-7  -0.133825  0.157595  0.016639  0.123924  
-8  -0.199568 -0.177685  0.425317  0.347390  
-9  -0.128043 -0.060443  0.124801  0.436607  
-10  0.015490  0.019470 -0.026153  0.001281  
-11  0.452941  0.062621 -0.031198  0.008760  
-12  0.032747  0.035687 -0.021192 -0.020976  
-13  0.453183  0.088892 -0.075616 -0.060784  
-14  0.203878  0.010488  0.003543  0.064830  
-15  0.008528  0.036364 -0.023309 -0.005139  
-16 -0.197163  0.393089  0.054931  0.034316  
-17  0.261359 -0.183583 -0.000913 -0.034560  
-18 -0.071624 -0.049393  0.045199  0.196795  
-19  0.477056  0.101589 -0.064213 -0.078628  
-20  0.006221  0.024514 -0.029819 -0.023293  
-21 -0.394977 -0.226490 -0.368533 -0.059509  
-22  0.372770 -0.240897 -0.082395  0.032859  
-23 -0.086834  0.249641 -0.004198  0.036246  
-24 -0.150524 -0.139678  0.375736 -0.101435  
-25  0.034841  0.025093 -0.038122 -0.028622  
-26 -0.181550 -0.304281  0.467250 -0.381538  
-27 -0.378756 -0.204913 -0.468720 -0.020255  
-28  0.313940 -0.145599 -0.043565 -0.092208  
-29  0.002653  0.018266 -0.008846 -0.011781  
-30 -0.149832  0.444377  0.025271 -0.099550  
-31 -0.008621  0.019624 -0.013075  0.018449  
-32  0.035791  0.028953 -0.017633 -0.029310  
-33  0.376603  0.045819 -0.002258 -0.046661  
-34 -0.014371  0.223053  0.005351  0.106275  
-35  0.051808  0.161132 -0.026630  0.003828  
-36  0.339473 -0.239638 -0.082835  0.044181  
-37 -0.318549 -0.185373 -0.333509 -0.048737  
-38 -0.097958 -0.003455  0.186425  0.592339  
-39 -0.188483 -0.154867  0.035618 -0.189420  
-40 -0.077479  0.388649  0.006703 -0.232966  
+X   -7.446618e-18
+Y   -2.707861e-18
+Z   -1.353931e-18
+W   -1.184689e-17
+P    3.046344e-18
+Q    2.200137e-18
+dtype: float64
 ~~~
 {: .output}
 
