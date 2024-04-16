@@ -68,7 +68,8 @@ Next, we will perform dimensional reduction using a technique called SVD.
 
 ### Worked Example: LSA
 In case you are starting from a fresh notebook, you will need to (1), mount Google drive (2) add the helper code to your path, and (3) load the data.csv file.
-```
+
+```python
 # Run this cell to mount your Google Drive.
 from google.colab import drive
 drive.mount('/content/drive')
