@@ -168,7 +168,7 @@ plt.grid(True)    # Add grid lines
 ~~~
 {: .output}
 
-![Image of drop-off of variance explained](../images/cumulative_information_retained_plot.png)
+![Image of drop-off of variance explained](../images/LSA_cumulative_information_retained_plot.png)
 
 Often a heuristic used by researchers to determine a topic count is to look at the dropoff in percentage of data explained by each topic.
 
