@@ -71,21 +71,15 @@ NLP tasks often need to be broken down into simpler subtasks to be executed in a
 Launch either colab or our Anaconda environment, depending on your setup. Try following the example below.
 
 ```python
-from transformers import pipeline, Conversation
-converse = pipeline("conversational", model="microsoft/DialoGPT-medium")
+from transformers import pipeline
 
-conversation_1 = Conversation("Going to the movies tonight - any suggestions?")
-conversation_2 = Conversation("What's the last book you have read?")
-converse([conversation_1, conversation_2])
+text2text_generator = pipeline("text2text-generation")
+print(text2text_generator("question: What is 42 ? context: 42 is the answer to life, the universe and everything"))
+
 ```
 
 ```txt
-[Conversation id: 91dc8c91-cec7-4826-8a26-2d6c06298696
-  user >> Going to the movies tonight - any suggestions?
-  bot >> The Big Lebowski ,
-  Conversation id: f7b2a7b4-a941-4f0f-88a3-3153626278e8
-  user >> What's the last book you have read?
-  bot >> The Last Question ]
+[{'generated_text': 'the answer to life, the universe and everything'}]
 ```
 Feel free to prompt the chatbot with a few prompts of your own.
 
