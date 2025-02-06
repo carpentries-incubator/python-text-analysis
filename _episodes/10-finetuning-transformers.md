@@ -53,9 +53,7 @@ To enable GPU, click "Edit > Notebook settings" and select GPU. If enabled, this
 These installation commands will take time to run. Begin them now.
 
 ```python
-! pip install -U accelerate
-! pip install -U transformers
-! pip install seqeval
+!pip install transformers datasets evaluate seqeval
 ```
 
 
@@ -174,7 +172,7 @@ Now, let's take a look at the example data from the dataset used in the example.
 ```python
 from datasets import load_dataset, load_metric
 
-ds = load_dataset("conll2003")
+ds = load_dataset("conll2003", trust_remote_code=True)
 print(ds)
 ```
 
@@ -339,7 +337,7 @@ Finally, lets make our own tweaks to the HuggingFace colab notebook. We'll start
 
 ```python
 import datasets
-from datasets import load_dataset, load_metric, Features
+from datasets import load_dataset, Features
 ```
 
 The HuggingFace example uses [CONLL 2003 dataset](https://www.aclweb.org/anthology/W03-0419.pdf).
@@ -364,7 +362,7 @@ Now that we have a modified huggingface script, let's load our data.
 
 
 ```python
-ds = load_dataset("/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py")
+ds = load_dataset("/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py", trust_remote_code=True)
 ```
 
     /usr/local/lib/python3.10/dist-packages/datasets/load.py:926: FutureWarning: The repository for mit_restaurants contains custom code which must be executed to correctly load the dataset. You can inspect the repository content at /content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py
@@ -601,13 +599,16 @@ model_name = model_checkpoint.split("/")[-1]
 args = TrainingArguments(
     #f"{model_name}-finetuned-{task}",
     f"{model_name}-carpentries-restaurant-ner",
-    evaluation_strategy = "epoch",
     learning_rate=2e-5,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
     num_train_epochs=3,
     weight_decay=0.01,
-    #push_to_hub=True, #You can have your model automatically pushed to HF if you uncomment this and log in.
+    report_to="none",
+    eval_strategy="epoch",
+    save_strategy="epoch",
+    load_best_model_at_end=True,
+    push_to_hub=False, #You can have your model automatically pushed to HF if you uncomment this and log in.
 )
 ```
 
@@ -628,32 +629,10 @@ The last thing we want to define is the metric by which we evaluate how our mode
 
 
 ```python
-metric = load_metric("seqeval")
-labels = [label_list[i] for i in example[f"{task}_tags"]]
-metric.compute(predictions=[labels], references=[labels])
+import evaluate
+
+seqeval = evaluate.load("seqeval")
 ```
-
-    <ipython-input-25-d0b6118e6d86>:1: FutureWarning: load_metric is deprecated and will be removed in the next major version of datasets. Use 'evaluate.load' instead, from the new library 🤗 Evaluate: https://huggingface.co/docs/evaluate
-      metric = load_metric("seqeval")
-    /usr/local/lib/python3.10/dist-packages/datasets/load.py:756: FutureWarning: The repository for seqeval contains custom code which must be executed to correctly load the metric. You can inspect the repository content at https://raw.githubusercontent.com/huggingface/datasets/2.18.0/metrics/seqeval/seqeval.py
-    You can avoid this message in future by passing the argument `trust_remote_code=True`.
-    Passing `trust_remote_code=True` will be mandatory to load this metric from the next major release of `datasets`.
-      warnings.warn(
-
-
-
-    Downloading builder script:   0%|          | 0.00/2.47k [00:00<?, ?B/s]
-
-
-
-
-
-    {'Hours': {'precision': 1.0, 'recall': 1.0, 'f1': 1.0, 'number': 1},
-     'Restaurant_Name': {'precision': 1.0, 'recall': 1.0, 'f1': 1.0, 'number': 1},
-     'overall_precision': 1.0,
-     'overall_recall': 1.0,
-     'overall_f1': 1.0,
-     'overall_accuracy': 1.0}
 
 
 
@@ -808,72 +787,42 @@ Now let's see how our model did. We'll run a more detailed evaluation step from 
 
 
 ```python
-trainer.evaluate()
+from evaluate import evaluator
 
-predictions, labels, _ = trainer.predict(tokenized_datasets["validation"])
-predictions = np.argmax(predictions, axis=2)
+task_evaluator = evaluator("ner")
+data= load_dataset("/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py", split="test", trust_remote_code=True)
 
-# Remove ignored index (special tokens)
-true_predictions = [
-    [label_list[p] for (p, l) in zip(prediction, label) if l != -100]
-    for prediction, label in zip(predictions, labels)
-]
-true_labels = [
-    [label_list[l] for (p, l) in zip(prediction, label) if l != -100]
-    for prediction, label in zip(predictions, labels)
-]
+eval_results = task_evaluator.compute(
+    model_or_pipeline="/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model",
+    data=data,
+)
+```
 
-results = metric.compute(predictions=true_predictions, references=true_labels)
-results
+```python
+for r in eval_results:
+  print(r, eval_results[r])
+```
+
+```
+Amenity {'precision': 0.6354515050167224, 'recall': 0.7011070110701108, 'f1': 0.6666666666666667, 'number': 271}
+Cuisine {'precision': 0.8378378378378378, 'recall': 0.8641114982578397, 'f1': 0.8507718696397942, 'number': 287}
+Dish {'precision': 0.6935483870967742, 'recall': 0.6991869918699187, 'f1': 0.6963562753036437, 'number': 123}
+Hours {'precision': 0.5675675675675675, 'recall': 0.7078651685393258, 'f1': 0.6299999999999999, 'number': 89}
+Location {'precision': 0.8277777777777777, 'recall': 0.8713450292397661, 'f1': 0.849002849002849, 'number': 342}
+Price {'precision': 0.7875, 'recall': 0.863013698630137, 'f1': 0.8235294117647058, 'number': 73}
+Rating {'precision': 0.7311827956989247, 'recall': 0.8395061728395061, 'f1': 0.7816091954022988, 'number': 81}
+Restaurant_Name {'precision': 0.8323699421965318, 'recall': 0.8323699421965318, 'f1': 0.8323699421965318, 'number': 173}
+overall_precision 0.7552083333333334
+overall_recall 0.8061153578874218
+overall_f1 0.7798319327731092
+overall_accuracy 0.9171441163508154
+total_time_in_seconds 4.749443094000526
+samples_per_second 148.64900705765186
+latency_in_seconds 0.006727256507082897
 ```
 
 
-
-
-
-
-
-
-    {'Amenity': {'precision': 0.6298701298701299,
-      'recall': 0.6689655172413793,
-      'f1': 0.6488294314381271,
-      'number': 290},
-     'Cuisine': {'precision': 0.8291814946619217,
-      'recall': 0.8175438596491228,
-      'f1': 0.8233215547703181,
-      'number': 285},
-     'Dish': {'precision': 0.8,
-      'recall': 0.8715953307392996,
-      'f1': 0.8342644320297952,
-      'number': 257},
-     'Hours': {'precision': 0.7132352941176471,
-      'recall': 0.776,
-      'f1': 0.7432950191570882,
-      'number': 125},
-     'Location': {'precision': 0.8140900195694716,
-      'recall': 0.8253968253968254,
-      'f1': 0.8197044334975369,
-      'number': 504},
-     'Price': {'precision': 0.7723577235772358,
-      'recall': 0.8482142857142857,
-      'f1': 0.8085106382978723,
-      'number': 112},
-     'Rating': {'precision': 0.6896551724137931,
-      'recall': 0.8130081300813008,
-      'f1': 0.746268656716418,
-      'number': 123},
-     'Restaurant_Name': {'precision': 0.8666666666666667,
-      'recall': 0.8802083333333334,
-      'f1': 0.8733850129198966,
-      'number': 384},
-     'overall_precision': 0.7805887764489421,
-     'overall_recall': 0.8158653846153846,
-     'overall_f1': 0.7978373295721672,
-     'overall_accuracy': 0.9095345345345346}
-
-
-
-Whether a F1 score of .795 is 'good enough' depends on the performance of other models, how difficult the task is, and so on. It may be good enough for our needs, or we may want to collect more data, train on a bigger model, or adjust our parameters. For the purposes of the workshop, we will say that this is fine.
+Whether a F1 score of .779 is 'good enough' depends on the performance of other models, how difficult the task is, and so on. It may be good enough for our needs, or we may want to collect more data, train on a bigger model, or adjust our parameters. For the purposes of the workshop, we will say that this is fine.
 
 ## Using our Model
 
