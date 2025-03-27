@@ -109,7 +109,6 @@ With some experience with a task, let's get a broader overview of the types of t
 
 Briefly present a summary of some of the tasks you explored. What types of applications could you see this type of task used in? How might this be relevant to a research question you have? Summarize these tasks and present your findings to the group.
 
-{: .discussion}
 
 ### What tasks can NLP do?
 
