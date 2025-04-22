@@ -13,7 +13,7 @@ objectives:
 - "Discuss word embedding use-cases"
 keypoints:
 - "Word emebddings can help us derive additional meaning stored in text at the level of individual words"
-- "Word embeddings have many use-cases in text-analysis and NLP related tasks"
+- "Word embeddings have many use-cases in text-analysis and NLP related tasks" 
 ---
 ## Load pre-trained model via Gensim
 First, load the Word2Vec embedding model. The Word2Vec model takes 3-10 minutes to load. 
