@@ -5,11 +5,11 @@ on:
     branches: [main]
     paths:
       - 'episodes/*.md'
-      - 'notebooks/convert_md_to_notebook.py'
+      - 'notebooks/convert-md-to-ipynb.py'
   pull_request:
     paths:
       - 'episodes/*.md'
-      - 'notebooks/convert_md_to_notebook.py'
+      - 'notebooks/convert-md-to-ipynb.py'
   workflow_dispatch:  # adds the manual trigger
 
 
@@ -33,7 +33,7 @@ jobs:
           mkdir -p notebooks
           for file in episodes/*.md; do
             filename=$(basename "$file")
-            python notebooks/convert_md_to_notebook.py episodes notebooks "https://raw.githubusercontent.com/${{ github.repository }}/main/images" "$filename"
+            python notebooks/convert-md-to-ipynb.py episodes notebooks "https://raw.githubusercontent.com/${{ github.repository }}/main/images" "$filename"
           done
 
       - name: Commit and push notebooks
