@@ -10,6 +10,8 @@ on:
     paths:
       - 'episodes/*.md'
       - 'notebooks/convert_md_to_notebook.py'
+  workflow_dispatch:  # adds the manual trigger
+
 
 jobs:
   convert:
