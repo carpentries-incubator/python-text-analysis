@@ -140,35 +140,17 @@ With that said, let's see what we can do with meaningful word vectors. The pre-t
 print(type(wv))
 ```
 
-~~~
-<class 'gensim.models.keyedvectors.KeyedVectors'>
-~~~
-{: .output}
-
 Gensim stores "KeyedVectors" representing the Word2Vec model. They're called keyed vectors because you can use words as keys to extract the corresponding vectors. Let's take a look at the vector representaton of *whale*.
 
 ```python
 wv['whale'] 
 ```
-~~~
-array([ 0.08154297,  0.41992188, -0.44921875, -0.01794434, -0.24414062,
-       -0.21386719, -0.16796875, -0.01831055,  0.32421875, -0.09228516,
-       -0.11523438, -0.5390625 , -0.00637817, -0.41601562, -0.02758789,
-        ...,
-        0.078125  ,  0.29882812,  0.34179688,  0.04248047,  0.03442383],
-      dtype=float32)
-~~~
-{: .output}
 
 We can also check the shape of this vector with...
 
 ```python
 print(wv['whale'].shape) 
 ```
-~~~
-(300,)
-~~~
-{: .output}
 
 In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as 300 different features that encode a word's meaning. Unlike LSA, which produces (somewhat) interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually know what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful. Let's check this with the help of the cosine similarity measure.
 
@@ -182,20 +164,12 @@ Words that occur in similar contexts should have similar vectors/embeddings. How
 ```python
 wv.similarity('whale','dolphin')
 ```
-~~~
-0.77117145
-~~~
-{: .output}
 
 How about *whale* and *fish*?
 
 ```python
 wv.similarity('whale','fish')
 ```
-~~~
-0.55177623
-~~~
-{: .output}
 
 How about *whale* and... *potato*?
 
@@ -203,30 +177,11 @@ How about *whale* and... *potato*?
 wv.similarity('whale','potato')
 ```
 
-~~~
-0.15530972
-~~~
-{: .output}
-
 Our similarity scale seems to be on the right track. We can also use the similarity function to quickly extract the top N most similar words to *whale*.
 
 ```python
 wv.most_similar(positive=['whale'], topn=10)
 ```
-
-~~~
-[('whales', 0.8474178910255432),
- ('humpback_whale', 0.7968777418136597),
- ('dolphin', 0.7711714506149292),
- ('humpback', 0.7535837292671204),
- ('minke_whale', 0.7365031838417053),
- ('humpback_whales', 0.7337379455566406),
- ('dolphins', 0.7213870882987976),
- ('humpbacks', 0.7138717174530029),
- ('shark', 0.7011443376541138),
- ('orca', 0.7007412314414978)]
-~~~
-{: .output}
 
 Based on our ability to recover similar words, it appears the Word2Vec embedding method produces fairly good (i.e., semantically meaningful) word representations. 
 
@@ -272,11 +227,6 @@ We can also add and subtract word vectors to reveal latent meaning in words. As 
 print(wv.most_similar(positive=['woman','king'], negative=['man'], topn=3))
 ```
 
-~~~
-[('queen', 0.7118193507194519), ('monarch', 0.6189674139022827), ('princess', 0.5902431011199951)]
-~~~
-{: .output}
-
 Behind the scenes of the most_similar function, Gensim first unit normalizes the *length* of all vectors included in the positive and negative function arguments. This is done before adding/subtracting, which prevents longer vectors from unjustly skewing the sum. Note that length here refers to the linear algebraic definition of summing the squared values of each element in a vector followed by taking the square root of that sum.
 
 ### Visualizing word vectors with PCA
@@ -291,10 +241,6 @@ words = ['man','woman','boy','girl','king','queen','prince','princess']
 sample_vectors = np.array([wv[word] for word in words])
 sample_vectors.shape # 8 words, 300 dimensions 
 ```
-~~~
-(8, 300)
-~~~
-{: .output}
 
 Recall that each word vector has 300 dimensions that encode a word's meaning. Considering humans can only visualize up to 3 dimensions, this dataset presents a plotting challenge. We could certainly try plotting just the first 2 dimensions or perhaps the dimensions with the largest amount of variability, but this would overlook a lot of the information stored in the other dimensions/variables. Instead, we can use a *dimensionality-reduction* technique known as Principal Component Analysis (PCA) to allow us to capture most of the information in the data with just 2 dimensions.
 
