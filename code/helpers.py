@@ -1,8 +1,10 @@
 import pathlib
+from pathlib import Path
 import parse
 import pandas
 import logging
 import matplotlib.pyplot as plt
+
 from collections import defaultdict
 
 import nltk # preprocess_text function
@@ -53,26 +55,37 @@ def parse_into_dataframe(pattern, items, col_name="File"):
 
     return pandas.DataFrame.from_dict(results)
 
-
 def lemmatize_files(tokenizer, corpus_file_list):
     """
-    Example:
-        data["Lemma_File"] = lemmatize_files(tokenizer, corpus_file_list)
+    Lemmatizes the given list of corpus files and stores output in `data/book_lemmas/`.
+
+    Returns a list of lemma file paths (as strings).
     """
     logging.warning("This function is computationally intensive. It may take several minutes to finish running.")
-    N = len(corpus_file_list)
     lemma_filename_list = []
+
     for i, filename in enumerate(corpus_file_list):
-        progress_log = f"{i+1} out of {N}: Lemmatizing {filename}"
+        progress_log = f"{i+1} out of {len(corpus_file_list)}: Lemmatizing {filename}"
         print(progress_log)
         logging.info(progress_log)
-        lemma_filename = filename + ".lemmas"
-        lemma_filename_list.append(lemma_filename)
-        open(lemma_filename, "w", encoding="utf-8").writelines(
-            token.lemma_.lower() + "\n"
-            for token in tokenizer(open(filename, "r", encoding="utf-8").read())
-        )
+
+        # Parse and build the lemma file path
+        p = Path(filename)
+        output_dir = p.parents[1] / "book_lemmas"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        lemma_path = output_dir / (p.name + ".lemmas")
+
+        # Read, lemmatize, and write to the lemma file
+        with open(filename, "r", encoding="utf-8") as f_in:
+            text = f_in.read()
+        tokens = tokenizer(text)
+        with open(lemma_path, "w", encoding="utf-8") as f_out:
+            f_out.writelines(token.lemma_.lower() + "\n" for token in tokens)
+
+        lemma_filename_list.append(str(lemma_path))
+
     return lemma_filename_list
+
 
 def matrix_to_sorted_dataframe(mat, index, sortby):
     df = pandas.DataFrame(mat, index=index, columns=[sortby]) 
