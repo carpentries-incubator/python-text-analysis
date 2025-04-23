@@ -257,25 +257,13 @@ topic_words_y = show_topics(vectorizer, svdmodel, 2, 5)  # Topic 2
 
 ```
 
-You can also use a helper we prepared for learners:
-
-```python
-from helpers import show_topics
-topic_words_x = show_topics(vectorizer, svdmodel, topic_number=1, n=5)
-topic_words_y = show_topics(vectorizer, svdmodel, topic_number=2, n=5)
-```
-
-Either way, let's look at the terms for the X topic.
-
 What does this topic seem to represent to you? What's the contrast between the top and bottom terms?
 
 ```python
 print(topic_words_x)
 ```
 
-And the Y topic.
-
-What does this topic seem to represent to you? What's the contrast between the top and bottom terms?
+And the Y topic. What's the contrast between the top and bottom terms?
 
 ```python
 print(topic_words_y)
