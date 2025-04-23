@@ -78,11 +78,29 @@ Now that we've seen how TF-IDF works, let's put it into practice.
 
 Earlier, we preprocessed our data to lemmatize each file in our corpus, then saved our results for later.
 
-Let's load our data back in to continue where we left off:
+Let's load our data back in to continue where we left off. First, we'll mount our google drive to get access to our data folder again.
+
+```python
+# Run this cell to mount your Google Drive.
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Show existing colab notebooks and helpers.py file
+from os import listdir
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/code'
+listdir(wksp_dir)
+
+# Add folder to colab's path so we can import the helper functions
+import sys
+sys.path.insert(0, wksp_dir)
+```
+
+Then, read the data.csv file we outputted in the last episode.
 
 ```python
 from pandas import read_csv
 data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+data.head()
 ```
 
 #### TD-IDF Vectorizer
