@@ -409,18 +409,18 @@ distress
 vex
 ```
 
-To help make this quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
+To help make this *relatively* quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
 
 ```python
 from helpers import lemmatize_files
 lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
 ```
 
-This process may take several minutes to run. Doing this preprocessing now however will save us much, much time later.
+This process may take several minutes to run. If you don't want to wait, you can stop the cell running and use our pre-baked solution (lemma files) found in data/book_lemmas. The next section will walk you through both options.
 
-## Saving Our Progress
+## Creating dataframe to work with files and lemmas easily
 
-Let's save our progress by storing a spreadsheet (```*.csv``` or ```*.xlsx``` file) that lists all our authors, books, and associated filenames, both the original and lemmatized copies.
+Let's save a dataframe / spreadsheet that lists all our authors, books, and associated filenames, both the original and lemmatized copies.
 
 We'll use another helper we prepared to make this easy:
 
@@ -428,7 +428,30 @@ We'll use another helper we prepared to make this easy:
 from helpers import parse_into_dataframe
 pattern = "/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/{author}-{title}.txt"
 data = parse_into_dataframe(pattern, corpus_file_list)
+data.head()
+```
+
+Next, we can add the lemma files to the dataframe. If you ran the lemmatize_files() function above successfully, you can use:
+```python
 data["Lemma_File"] = lemma_file_list
+data.head()
+```
+
+Otherwise, we can add the "pre-baked" lemmas to our dataframe using
+
+```python
+def get_lemma_path(file_path):
+    # Convert to Path object for easier manipulation
+    p = Path(file_path)
+    # Extract the filename like 'austen-sense.txt'
+    file_name = p.name
+    # Create new path with 'book_lemmas' instead of 'books' and add .lemmas
+    lemma_name = file_name + ".lemmas"
+    return str(p.parent.parent / "book_lemmas" / lemma_name)
+
+# Add new column
+data["Lemma_File"] = data["File"].apply(get_lemma_path)
+data.head()
 ```
 
 Finally, we'll save this table to a file:
