@@ -384,7 +384,7 @@ with very little to distress or vex her."
 
 into this:
 
-handsome
+"handsome
 clever
 rich
 comfortable
@@ -403,7 +403,7 @@ world
 very
 little
 distress
-vex
+vex"
 
 To help make this *relatively* quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
 
