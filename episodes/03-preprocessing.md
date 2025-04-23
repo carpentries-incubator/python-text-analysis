@@ -409,7 +409,9 @@ To help make this *relatively* quick for all the text in all our books, we'll us
 
 ```python
 from helpers import lemmatize_files
-lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
+
+# SKIP THIS - it takes too long to run during a live class. Lemma files are preprocessed for you and saved to data/book_lemmas
+#lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
 ```
 
 This process may take several minutes to run. If you don't want to wait, you can stop the cell running and use our pre-baked solution (lemma files) found in data/book_lemmas. The next section will walk you through both options.
