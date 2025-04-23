@@ -15,13 +15,23 @@ keypoints:
 - "Word emebddings can help us derive additional meaning stored in text at the level of individual words"
 - "Word embeddings have many use-cases in text-analysis and NLP related tasks" 
 ---
-## Load pre-trained model via Gensim
+## COMPLETE BEFORE WORD2VEC PRESENTATION: Load pre-trained model via Gensim
 First, load the Word2Vec embedding model. The Word2Vec model takes 3-10 minutes to load. 
 
 We'll be using the Gensim library. The Gensim library comes with several word embedding models including Word2Vec, GloVe, and fastText. We'll start by exploring one of the pre-trained Word2Vec models. We'll discuss the other options later in this lesson.
 
 If you can't get the below word2vec model to load quickly enough, you can use the GloVe model, instead. The GloVe model produces word embeddings that are often very similar to Word2Vec. GloVe can be loaded with:```wv = api.load('glove-wiki-gigaword-50')```
 
+### Install Gensim
+
+Gensim is an older library that is a little finnicky. We need to make sure we have the right version of numpy to go along with it. This next cell will install gensim and a compatible version of numpy.
+```python
+!pip uninstall -y numpy gensim
+!rm -rf /usr/local/lib/python3.11/dist-packages/numpy*
+!pip install --no-cache-dir numpy==1.26.4 gensim==4.3.3
+```
+
+### Load Google News model (Word2Vec)
 ```python
 # RUN BEFORE INTRO LECTURE :)
 
