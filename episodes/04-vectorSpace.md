@@ -63,13 +63,6 @@ corpus = np.array([[1,10],[8,8],[2,2],[2,2]])
 print(corpus)
 ```
 
-```txt
-[[ 1 10]
-  [ 8  8]
-  [ 2  2]
-  [ 2  2]]
-```
-
 ### Graphing our model
 
 We don't just have to think of our words as columns. We can also think of them as dimensions, and the values as coordinates for each document.
@@ -79,11 +72,6 @@ We don't just have to think of our words as columns. We can also think of them a
 # We can simply turn our table on its edge so rows become columns and vice versa.
 corpusT = np.transpose(corpus)
 print(corpusT)
-```
-
-```txt
-[[ 1  8  2  2]
-  [10  8  2  2]]
 ```
 
 ```python
@@ -119,19 +107,8 @@ D = [corpus[3]]
 print(D)
 ```
 
-```txt
-[array([2, 2])]
-```
-
 ```python
 dist(corpus, D)
-```
-
-```txt
-array([[8.06225775],
-       [8.48528137],
-       [0.        ],
-       [0.        ]])
 ```
 
 Distance may seem like a decent metric at first. Certainly, it makes sense that document D has zero distance from itself. C and D are also similar, which makes sense given our bag of words assumption. But take a closer look at documents B and D. Document B is just document D copy and pasted 4 times! How can it be less similar to document D than document B?
@@ -148,10 +125,6 @@ origin = np.zeros([1,4])
 print(origin)
 ```
 
-```txt
-[[0. 0. 0. 0.]]
-```
-
 ```python
 # draw our vectors
 plt.quiver(origin, origin, X, Y, color=mycolors, angles='xy', scale_units='xy', scale=1)
@@ -159,8 +132,6 @@ plt.xlim(0, 12)
 plt.ylim(0, 12)
 plt.show()
 ```
-
-![Plot vectors](files/images/02-plot-vectors.png)
 
 Document A and document D are headed in exactly the same direction, which matches our intution that both documents are in some way similar to each other, even though they differ in length.
 
@@ -175,13 +146,6 @@ Now that we know what cosine similarity is, how does this metric compare our doc
 ```python
 from sklearn.metrics.pairwise import cosine_similarity as cs
 cs(corpus, D)
-```
-
-```txt
-array([[0.7739573],
-       [1.       ],
-       [1.       ],
-       [1.       ]])
 ```
 
 Both A and D are considered similar by this metric. Cosine similarity is used by many models as a measure of similarity between documents and words.
@@ -212,13 +176,6 @@ corpus = np.hstack((corpus, np.zeros((4,2))))
 print(corpus)
 ```
 
-```txt
-[[ 1. 10.  0.  0.]
-  [ 8.  8.  0.  0.]
-  [ 2.  2.  0.  0.]
-  [ 2.  2.  0.  0.]]
-```
-
 ```python
 E = np.array([[0,2,1,1]])
 F = np.array([[2,2,1,1]])
@@ -228,13 +185,6 @@ corpus = np.vstack((corpus, E))
 print(corpus)
 ```
 
-```txt
-[[ 1. 10.  0.  0.]
-  [ 8.  8.  0.  0.]
-  [ 2.  2.  0.  0.]
-  [ 2.  2.  0.  0.]
-  [ 0.  2.  1.  1.]]
-```
 
 What do you think the most similar document is to document F?
 
@@ -242,13 +192,6 @@ What do you think the most similar document is to document F?
 cs(corpus, F)
 ```
 
-```txt
-array([[0.69224845],
-        [0.89442719],
-        [0.89442719],
-        [0.89442719],
-        [0.77459667]])
-```
 
 This new document seems most similar to the documents B,C and D.
 
