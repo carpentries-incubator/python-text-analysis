@@ -4,6 +4,7 @@ import parse
 import pandas
 import logging
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from collections import defaultdict
 
@@ -196,14 +197,23 @@ def lsa_plot(data, model, x="X", y="Y", xlabel="Topic X", ylabel="Topic Y", titl
 
     plt.show()
 
-def show_topics(vectorizer, model, topic_number=1, n=10):
-    """
-    Example:
-        showTopics(vectorizer, model, topic_number=1, n=5)
-    """
+def show_topics(vectorizer, svdmodel, topic_number=1, n=10):
+    # Get the feature names (terms) from the TF-IDF vectorizer
     terms = vectorizer.get_feature_names_out()
-    weights = model.components_[topic_number]
-    df = pandas.DataFrame({"Term": terms, "Weight": weights})
-    tops = df.sort_values(by=["Weight"], ascending=False)[0:n]
-    bottoms = df.sort_values(by=["Weight"], ascending=False)[-n:]
-    print(pandas.concat([tops, bottoms]))
+    
+    # Get the weights of the terms for the specified topic from the SVD model
+    weights = svdmodel.components_[topic_number]
+    
+    # Create a DataFrame with terms and their corresponding weights
+    df = pd.DataFrame({"Term": terms, "Weight": weights})
+    
+    # Sort the DataFrame by weights in descending order to get top n terms (largest positive weights)
+    highs = df.sort_values(by=["Weight"], ascending=False)[0:n]
+    
+    # Sort the DataFrame by weights in ascending order to get bottom n terms (largest negative weights)
+    lows = df.sort_values(by=["Weight"], ascending=False)[-n:]
+    
+    # Concatenate top and bottom terms into a single DataFrame and return
+    return pd.concat([highs, lows])
+
+    
