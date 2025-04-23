@@ -78,13 +78,14 @@ from transformers.utils import logging
 logging.set_verbosity_error()
 
 text2text_generator = pipeline("text2text-generation")
+
+```
+
+```python
 print(text2text_generator("question: What is 42 ? context: 42 is the answer to life, the universe and everything"))
 
 ```
 
-```txt
-[{'generated_text': 'the answer to life, the universe and everything'}]
-```
 Feel free to prompt the chatbot with a few prompts of your own.
 
 
