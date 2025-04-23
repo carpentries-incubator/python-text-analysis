@@ -121,11 +121,6 @@ tfidf = vectorizer.fit_transform(list(data["Lemma_File"]))
 print(tfidf.shape)
 ```
 
-~~~
-(41, 9879)
-~~~
-{: .output}
-
 Here, `tfidf.shape` shows us the number of rows (books) and columns (words) are in our model.
 
 > ## Check Your Understanding: `max_df` and `min_df`
@@ -151,21 +146,12 @@ Let's take a look at some of the words in our documents. Each of these represent
 vectorizer.get_feature_names_out()[0:5]
 ```
 
-~~~
-array(['15th', '1st', 'aback', 'abandonment', 'abase'], dtype=object)
-~~~
-{: .output}
 
 What is the weight of those words?
 
 ```python
 print(vectorizer.idf_[0:5]) # weights for each token
 ```
-
-~~~
-[2.79175947 2.94591015 2.25276297 2.25276297 2.43508453]
-~~~
-{: .output}
 
 Let's show the weight for all the words:
 
@@ -175,43 +161,12 @@ tfidf_data = DataFrame(vectorizer.idf_, index=vectorizer.get_feature_names_out()
 tfidf_data
 ```
 
-~~~
-            Weight
-15th        2.791759
-1st         2.945910
-aback	      2.252763
-abandonment	2.252763
-abase	      2.435085
-...	        ...
-zealously	  2.945910
-zenith	    2.791759
-zest	      2.791759
-zigzag	    2.945910
-zone	      2.791759
-~~~
-{: .output}
+That was ordered alphabetically. Let's try from lowest to heighest weight:
 
 ```python
 tfidf_data.sort_values(by="Weight")
 ```
 
-That was ordered alphabetically. Let's try from lowest to heighest weight:
-
-~~~
-              Weight
-unaccountable	1.518794
-nest	        1.518794
-needless	    1.518794
-hundred	      1.518794
-hunger	      1.518794
-...	          ...
-incurably	    2.945910
-indecent	    2.945910
-indeed	      2.945910
-incantation	  2.945910
-gentlest	    2.945910
-~~~
-{: .output}
 
 > ## Your Mileage May Vary
 > 
