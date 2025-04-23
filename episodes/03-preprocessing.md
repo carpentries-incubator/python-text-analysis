@@ -377,16 +377,13 @@ Now that we've built a tokenizer we're happy with, lets use it to create lemmati
 
 That is, we want to turn this:
 
-```txt
-Emma Woodhouse, handsome, clever, and rich, with a comfortable home
+"Emma Woodhouse, handsome, clever, and rich, with a comfortable home
 and happy disposition, seemed to unite some of the best blessings
 of existence; and had lived nearly twenty-one years in the world
-with very little to distress or vex her.
-```
+with very little to distress or vex her."
 
 into this:
 
-```txt
 handsome
 clever
 rich
@@ -407,7 +404,6 @@ very
 little
 distress
 vex
-```
 
 To help make this *relatively* quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
 
