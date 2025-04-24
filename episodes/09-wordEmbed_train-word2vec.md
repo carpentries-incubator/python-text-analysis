@@ -329,6 +329,7 @@ While Word2Vec is a famous model that is still used throughout many NLP applicat
 
 ```python
 # Preview other word embedding models available
+import gensim.downloader as api
 print(list(api.info()['models'].keys()))
 ```
 
