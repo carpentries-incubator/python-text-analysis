@@ -3,13 +3,28 @@ import re
 import nbformat as nbf
 import argparse
 
+def remove_challenge_solutions(md_content):
+    """
+    Removes blocks starting with '> ## Solution' until the end of the block or another challenge block.
+    """
+    lines = md_content.splitlines()
+    result = []
+    skip = False
+    for line in lines:
+        if re.match(r'>\s*##+\s*Solution', line):
+            skip = True
+            continue
+        if skip and line.strip().startswith('{:.challenge}') or line.strip() == '':
+            skip = False
+            continue
+        if not skip:
+            result.append(line)
+    return '\n'.join(result)
 
 def md_to_notebook(md_file, notebook_file, base_image_url):
-    # Read the Markdown file
     with open(md_file, 'r') as file:
         md_lines = file.readlines()
 
-    # Preview the first 100 lines of the Markdown file
     print("Preview of the first 100 lines of the Markdown file:")
     for i, line in enumerate(md_lines[:100]):
         print(f"{i+1}: {line}", end='')
@@ -17,20 +32,22 @@ def md_to_notebook(md_file, notebook_file, base_image_url):
 
     md_content = ''.join(md_lines)
 
-    # Initialize a new notebook
     nb = nbf.v4.new_notebook()
     cells = []
 
-    # Extract the title from the YAML front matter
+    # Title from YAML
     title_match = re.search(r'^---\s*title:\s*"(.*?)".*?---', md_content, flags=re.DOTALL | re.MULTILINE)
     if title_match:
         title = title_match.group(1)
         cells.append(nbf.v4.new_markdown_cell(f"# {title}"))
 
-    # Remove the YAML front matter
+    # Remove YAML front matter
     md_content = re.sub(r'^---.*?---', '', md_content, flags=re.DOTALL | re.MULTILINE)
 
-    # Replace local image paths with URLs
+    # Remove > ## Solution blocks
+    md_content = remove_challenge_solutions(md_content)
+
+    # Replace image paths
     def replace_image_path(match):
         alt_text = match.group(1)
         image_path = match.group(2)
@@ -39,9 +56,8 @@ def md_to_notebook(md_file, notebook_file, base_image_url):
 
     md_content = re.sub(r'!\[(.*?)\]\((.*?)\)', replace_image_path, md_content)
 
-    # Split the content into lines
+    # Split into lines
     lines = md_content.split('\n')
-
     code_buffer = []
     is_in_code_block = False
     text_buffer = []
@@ -67,38 +83,25 @@ def md_to_notebook(md_file, notebook_file, base_image_url):
         else:
             text_buffer.append(line)
 
-    # Process any remaining buffers
     process_buffer(text_buffer, "markdown")
-
-    # Remove empty cells
     cells = [cell for cell in cells if cell['source'].strip()]
-
-    # Add cells to the notebook
     nb['cells'] = cells
 
-    # Write the notebook to a file
     with open(notebook_file, 'w') as file:
         nbf.write(nb, file)
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert Markdown file to Jupyter Notebook")
-    parser.add_argument("input_dir", help="Directory containing the input Markdown file")
-    parser.add_argument("output_dir", help="Directory to save the output Jupyter Notebook")
-    parser.add_argument("base_image_url", help="Base URL for images")
-    parser.add_argument("filename", help="Filename of the input Markdown file (with extension)")
+    parser.add_argument("input_dir")
+    parser.add_argument("output_dir")
+    parser.add_argument("base_image_url")
+    parser.add_argument("filename")
 
     args = parser.parse_args()
 
-    # Ensure directories have trailing slashes and exist
     input_path = os.path.join(args.input_dir, args.filename)
     os.makedirs(args.output_dir, exist_ok=True)
     output_path = os.path.join(args.output_dir, os.path.splitext(args.filename)[0] + ".ipynb")
 
     print(f"Converting {input_path} to {output_path}...")
-
     md_to_notebook(input_path, output_path, args.base_image_url)
-
-#e.g., ...
-# python convert_md_to_notebook.py ./episodes ./notebooks https://github.com/user/repo/raw/main/images example.md
-
