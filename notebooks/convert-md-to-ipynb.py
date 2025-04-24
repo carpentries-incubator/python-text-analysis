@@ -5,21 +5,21 @@ import argparse
 
 def remove_challenge_solutions(md_content):
     """
-    Removes blocks starting with '> ## Solution' until the end of the block or another challenge block.
+    Removes entire challenge blocks that include a 'Solution' section 
+    followed by '{:.challenge}'. Handles nested quote syntax.
     """
-    lines = md_content.splitlines()
-    result = []
-    skip = False
-    for line in lines:
-        if re.match(r'>\s*##+\s*Solution', line):
-            skip = True
-            continue
-        if skip and line.strip().startswith('{:.challenge}') or line.strip() == '':
-            skip = False
-            continue
-        if not skip:
-            result.append(line)
-    return '\n'.join(result)
+    pattern = r"""
+        ^                       # Start of line
+        (?:\s*>+\s*)*           # Any number of nested blockquote markers
+        \#+\s*Solution.*?       # Match '## Solution' heading with optional text
+        (?:\n                   # Match newline followed by...
+            (?!\s*{:\s*\.challenge\s*})  # ...but not the final '{:.challenge}' line
+            .*?                 # ...any characters
+        )*?                     # ...repeat lazily
+        ^\s*{:\s*\.challenge\s*}\s*$  # Final marker line
+    """
+    return re.sub(pattern, '', md_content, flags=re.MULTILINE | re.DOTALL | re.VERBOSE)
+
 
 def md_to_notebook(md_file, notebook_file, base_image_url):
     with open(md_file, 'r') as file:
