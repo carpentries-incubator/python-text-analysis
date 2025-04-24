@@ -32,6 +32,8 @@ Gensim is an older library that is a little finnicky. We need to make sure we ha
 ```
 
 ### Load Google News model (Word2Vec)
+**Note**: You may need to restart the kernel after installing gensim (above cell) for the import statement (below cell) to work.
+
 ```python
 # RUN BEFORE INTRO LECTURE :)
 
