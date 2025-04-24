@@ -167,7 +167,7 @@ Now, let's take a look at the example data from the dataset used in the example.
 
 
 ```python
-from datasets import load_dataset, load_metric
+from datasets import load_dataset
 
 ds = load_dataset("conll2003", trust_remote_code=True)
 print(ds)
