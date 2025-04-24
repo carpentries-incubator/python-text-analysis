@@ -13,7 +13,7 @@ title: Training Word2Vec
 ---
 
 
-## Colab Setup
+## Colab setup
 
 Run this code to enable helper functions and read data back in.
 
@@ -38,18 +38,36 @@ sys.path.insert(0, wksp_dir)
 !pip install parse
 ```
 
+## Install and import Gensim
+Install gensim again. 
+
+```python
+!pip uninstall -y numpy gensim
+!rm -rf /usr/local/lib/python3.11/dist-packages/numpy*
+!pip install --no-cache-dir numpy==1.26.4 gensim==4.3.3
+
+```
+
+Test to make sure we can import Word2Vec from gensim. You may need to restart the kernel after running the above cell before gensim will successfully import.
+```python
+# import gensim's Word2Vec module
+from gensim.models import Word2Vec
+
+```
+
 ### Load in the data
 
 ```python
 # Read the data back in.
 from pandas import read_csv
 data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+data.head()
 ```
 
 Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
 
 ```python
-single_file = data.loc[data['Title'] == 'moby_dick','File'].item()
+single_file = data.loc[data['title'] == 'moby_dick','File'].item()
 single_file
 ```
 
@@ -87,6 +105,7 @@ For our purposes, we're willing to overlook a few sentence tokenization errors. 
 ```python
 import nltk
 nltk.download('punkt') # dependency of sent_tokenize function
+nltk.download('punkt_tab')  # needed for punkt in certain environments
 sentences = nltk.sent_tokenize(file_contents)
 ```
 
