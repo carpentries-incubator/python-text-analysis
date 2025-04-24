@@ -101,9 +101,6 @@ for result in ner_results:
   print(result)
 ```
 
-    {'entity_group': 'PER', 'score': 0.9993166, 'word': 'Nader Jokhadar', 'start': 0, 'end': 14}
-    {'entity_group': 'LOC', 'score': 0.99975127, 'word': 'Syria', 'start': 25, 'end': 30}
-
 
 LLMs are highly performant at not just one, but a variety of tasks. And there are many versions of LLMs, designed to perform well on a variety of tasks available on HuggingFace.
 
@@ -176,22 +173,6 @@ ds = load_dataset("conll2003", trust_remote_code=True)
 print(ds)
 ```
 
-    DatasetDict({
-        train: Dataset({
-            features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-            num_rows: 14041
-        })
-        validation: Dataset({
-            features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-            num_rows: 3250
-        })
-        test: Dataset({
-            features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-            num_rows: 3453
-        })
-    })
-
-
 We can see that the CONLL dataset is split into three sets- training data, validation data, and test data. Training data should make up about 80% of your corpus and is fed into the model to fine tune it. Validation data should be about 10%, and is used to check how the training progress is going as the model is trained. The test data is about 10% withheld until the model is fully trained and ready for testing, so you can see how it handles new documents that the model has never seen before.
 
 Let's take a closer look at a record in the train set so we can get an idea of what our data should look like. The NER tags are the ones we are interested in, so lets print them out and take a look. We'll also select the dataset and then an index for the document to look at an example.
@@ -210,21 +191,6 @@ print()
 for token, ner_tag in zip(traindoc['tokens'], traindoc['ner_tags']):
   print(token+" "+conll_tags[ner_tag])
 ```
-
-    ['EU', 'rejects', 'German', 'call', 'to', 'boycott', 'British', 'lamb', '.']
-    [3, 0, 7, 0, 0, 0, 7, 0, 0]
-    ['O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC', 'B-MISC', 'I-MISC']
-    
-    EU B-ORG
-    rejects O
-    German B-MISC
-    call O
-    to O
-    boycott O
-    British B-MISC
-    lamb O
-    . O
-
 
 Each document has it's own ID number. We can see that the tokens are a list of words in the document. For each word in the tokens, there are a series of numbers. Those numbers correspond to the labels in the database. Based on this, we can see that the EU is recognized as an ORG and the terms "German" and "British" are labelled as MISC.
 
@@ -250,13 +216,6 @@ lamb NN I-NP O
 . . O O
 """
 ```
-
-
-
-
-    '\n-DOCSTART- -X- -X- O\n\nEU NNP B-NP B-ORG\nrejects VBZ B-VP O\nGerman JJ B-NP B-MISC\ncall NN I-NP O\nto TO B-VP O\nboycott VB I-VP O\nBritish JJ B-NP B-MISC\nlamb NN I-NP O\n. . O O\n'
-
-
 
 This is a simple format, similar to a CSV. Each document is seperated by a blank line. The token we look at is first, then space seperated tags for POS, chunk_tags and NER tags. Many of the token classifications use BIO tagging, which specifies that "B" is the beginning of a tag, "I" is inside a tag, and "O" means that the token outside of our tagging schema.
 
@@ -290,12 +249,6 @@ Select "Named Entity Recognition" as the task to see what the interface would lo
 </View>
 """
 ```
-
-
-
-
-    '\n<View>\n  <Labels name="label" toName="text">\n    <Label value="Amenity" background="red"/>\n    <Label value="Cuisine" background="darkorange"/>\n    <Label value="Dish" background="orange"/>\n    <Label value="Hours" background="green"/>\n    <Label value="Location" background="darkblue"/>\n    <Label value="Price" background="blue"/>\n    <Label value="Rating" background="purple"/>\n    <Label value="Restaurant_Name" background="#842"/>\n  </Labels>\n\n  <Text name="text" value="$text"/>\n</View>\n'
-
 
 
 In Label Studio, labels can be applied by hitting a number on your keyboard and highlighting the relevant part of the document. Try doing so on our example text and looking at the output.
@@ -365,12 +318,6 @@ Now that we have a modified huggingface script, let's load our data.
 ds = load_dataset("/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py", trust_remote_code=True)
 ```
 
-    /usr/local/lib/python3.10/dist-packages/datasets/load.py:926: FutureWarning: The repository for mit_restaurants contains custom code which must be executed to correctly load the dataset. You can inspect the repository content at /content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py
-    You can avoid this message in future by passing the argument `trust_remote_code=True`.
-    Passing `trust_remote_code=True` will be mandatory to load this dataset from the next major release of `datasets`.
-      warnings.warn(
-
-
 How does our dataset compare to the CONLL dataset? Let's look at a record and compare.
 
 
@@ -379,52 +326,10 @@ ds
 ```
 
 
-
-
-    DatasetDict({
-        train: Dataset({
-            features: ['id', 'tokens', 'ner_tags'],
-            num_rows: 7660
-        })
-        validation: Dataset({
-            features: ['id', 'tokens', 'ner_tags'],
-            num_rows: 815
-        })
-        test: Dataset({
-            features: ['id', 'tokens', 'ner_tags'],
-            num_rows: 706
-        })
-    })
-
-
-
-
 ```python
 label_list = ds["train"].features[f"ner_tags"].feature.names
 label_list
 ```
-
-
-
-
-    ['O',
-     'B-Amenity',
-     'I-Amenity',
-     'B-Cuisine',
-     'I-Cuisine',
-     'B-Dish',
-     'I-Dish',
-     'B-Hours',
-     'I-Hours',
-     'B-Location',
-     'I-Location',
-     'B-Price',
-     'I-Price',
-     'B-Rating',
-     'I-Rating',
-     'B-Restaurant_Name',
-     'I-Restaurant_Name']
-
 
 
 Our data looks pretty similar to the CONLL data now. This is good since we can now reuse many of the methods listed by HuggingFace in their Colab notebook.
@@ -458,8 +363,6 @@ tokenized_input = tokenizer(example["tokens"], is_split_into_words=True)
 tokens = tokenizer.convert_ids_to_tokens(tokenized_input["input_ids"])
 print(tokens)
 ```
-
-    ['[CLS]', 'a', 'great', 'lunch', 'spot', 'but', 'open', 'till', '2', 'a', 'm', 'pass', '##im', '##s', 'kitchen', '[SEP]']
 
 
 Since our words are broken into just words, and the BERT tokenizer sometimes breaks words into subwords, we need to retokenize our words. We also need to make sure that when we do this, the labels we created don't get misaligned. More details on these methods are available through HuggingFace, but we will simply use their code to do this.
@@ -506,25 +409,6 @@ def tokenize_and_align_labels(examples):
 tokenized_datasets = ds.map(tokenize_and_align_labels, batched=True)
 print(tokenized_datasets)
 ```
-
-
-    Map:   0%|          | 0/815 [00:00<?, ? examples/s]
-
-
-    DatasetDict({
-        train: Dataset({
-            features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-            num_rows: 7660
-        })
-        validation: Dataset({
-            features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-            num_rows: 815
-        })
-        test: Dataset({
-            features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-            num_rows: 706
-        })
-    })
 
 
 The preprocessed features we've just added will be the ones used to actually train the model.
@@ -686,11 +570,6 @@ trainer = Trainer(
 )
 ```
 
-    /usr/local/lib/python3.10/dist-packages/accelerate/accelerator.py:432: FutureWarning: Passing the following arguments to `Accelerator` is deprecated and will be removed in version 1.0 of Accelerate: dict_keys(['dispatch_batches', 'split_batches', 'even_batches', 'use_seedable_sampler']). Please pass an `accelerate.DataLoaderConfiguration` instead: 
-    dataloader_config = DataLoaderConfiguration(dispatch_batches=None, split_batches=False, even_batches=True, use_seedable_sampler=True)
-      warnings.warn(
-
-
 We can now finetune our model by just calling the `train` method. Note that this step will take about 5 minutes if you are running it on a GPU, and 4+ hours if you are not.
 
 
@@ -698,67 +577,6 @@ We can now finetune our model by just calling the `train` method. Note that this
 print("Training starts NOW")
 trainer.train()
 ```
-
-    Training starts NOW
-
-
-
-
-    <div>
-
-      <progress value='1437' max='1437' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      [1437/1437 01:46, Epoch 3/3]
-    </div>
-    <table border="1" class="dataframe">
-  <thead>
- <tr style="text-align: left;">
-      <th>Epoch</th>
-      <th>Training Loss</th>
-      <th>Validation Loss</th>
-      <th>Precision</th>
-      <th>Recall</th>
-      <th>F1</th>
-      <th>Accuracy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>No log</td>
-      <td>0.349238</td>
-      <td>0.721681</td>
-      <td>0.784135</td>
-      <td>0.751613</td>
-      <td>0.894520</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>0.617300</td>
-      <td>0.305807</td>
-      <td>0.777106</td>
-      <td>0.802885</td>
-      <td>0.789785</td>
-      <td>0.906532</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>0.290900</td>
-      <td>0.300976</td>
-      <td>0.780589</td>
-      <td>0.815865</td>
-      <td>0.797837</td>
-      <td>0.909535</td>
-    </tr>
-  </tbody>
-</table><p>
-
-
-
-
-
-    TrainOutput(global_step=1437, training_loss=0.39008279799087725, metrics={'train_runtime': 109.3751, 'train_samples_per_second': 210.103, 'train_steps_per_second': 13.138, 'total_flos': 117213322331568.0, 'train_loss': 0.39008279799087725, 'epoch': 3.0})
-
-
 
 We've done it! We've fine-tuned the model for our task. Now that it's trained, we want to save our work so that we can reuse the model whenever we wish. A saved version of this model has also been published through huggingface, so if you are using a CPU, skip the remaining evaluation steps and launch a new terminal so you can participate in the
 
@@ -803,24 +621,6 @@ for r in eval_results:
   print(r, eval_results[r])
 ```
 
-```
-Amenity {'precision': 0.6354515050167224, 'recall': 0.7011070110701108, 'f1': 0.6666666666666667, 'number': 271}
-Cuisine {'precision': 0.8378378378378378, 'recall': 0.8641114982578397, 'f1': 0.8507718696397942, 'number': 287}
-Dish {'precision': 0.6935483870967742, 'recall': 0.6991869918699187, 'f1': 0.6963562753036437, 'number': 123}
-Hours {'precision': 0.5675675675675675, 'recall': 0.7078651685393258, 'f1': 0.6299999999999999, 'number': 89}
-Location {'precision': 0.8277777777777777, 'recall': 0.8713450292397661, 'f1': 0.849002849002849, 'number': 342}
-Price {'precision': 0.7875, 'recall': 0.863013698630137, 'f1': 0.8235294117647058, 'number': 73}
-Rating {'precision': 0.7311827956989247, 'recall': 0.8395061728395061, 'f1': 0.7816091954022988, 'number': 81}
-Restaurant_Name {'precision': 0.8323699421965318, 'recall': 0.8323699421965318, 'f1': 0.8323699421965318, 'number': 173}
-overall_precision 0.7552083333333334
-overall_recall 0.8061153578874218
-overall_f1 0.7798319327731092
-overall_accuracy 0.9171441163508154
-total_time_in_seconds 4.749443094000526
-samples_per_second 148.64900705765186
-latency_in_seconds 0.006727256507082897
-```
-
 
 Whether a F1 score of .779 is 'good enough' depends on the performance of other models, how difficult the task is, and so on. It may be good enough for our needs, or we may want to collect more data, train on a bigger model, or adjust our parameters. For the purposes of the workshop, we will say that this is fine.
 
@@ -853,11 +653,6 @@ ner_results = nlp(EXAMPLE)
 for entity in ner_results:
   print(entity)
 ```
-
-    {'entity_group': 'Rating', 'score': 0.96475923, 'word': 'four star', 'start': 11, 'end': 20}
-    {'entity_group': 'Location', 'score': 0.9412049, 'word': 'milwaukee', 'start': 35, 'end': 44}
-    {'entity_group': 'Dish', 'score': 0.87943256, 'word': 'tapas', 'start': 50, 'end': 55}
-
 
 ##  Outro
 
