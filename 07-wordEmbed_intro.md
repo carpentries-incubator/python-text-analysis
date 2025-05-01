@@ -26,8 +26,15 @@ exercises: 5
 First, load the Word2Vec embedding model. The Word2Vec model takes 3-10 minutes to load.
 
 We'll be using the Gensim library. The Gensim library comes with several word embedding models including Word2Vec, GloVe, and fastText. We'll start by exploring one of the pre-trained Word2Vec models. We'll discuss the other options later in this lesson.
+Gensim is an older library that is a little finnicky. We need to make sure we have the right version of numpy to go along with it. This next cell will install gensim and a compatible version of numpy.
+```python
+!pip uninstall -y numpy gensim
+!rm -rf /usr/local/lib/python3.11/dist-packages/numpy*
+!pip install --no-cache-dir numpy==1.26.4 gensim==4.3.3
+```
 
-If you can't get the below word2vec model to load quickly enough, you can use the GloVe model, instead. The GloVe model produces word embeddings that are often very similar to Word2Vec. GloVe can be loaded with:`wv = api.load('glove-wiki-gigaword-50')`
+### Load Google News model (Word2Vec)
+**Note**: You may need to restart the kernel after installing gensim (above cell) for the import statement (below cell) to work.
 
 ```python
 # RUN BEFORE INTRO LECTURE :)
@@ -166,32 +173,16 @@ With that said, let's see what we can do with meaningful word vectors. The pre-t
 print(type(wv))
 ```
 
-<class 'gensim.models.keyedvectors.KeyedVectors'>
-```
-
 Gensim stores "KeyedVectors" representing the Word2Vec model. They're called keyed vectors because you can use words as keys to extract the corresponding vectors. Let's take a look at the vector representaton of *whale*.
 
 ```python
 wv['whale'] 
 ```
 
-```output
-array([ 0.08154297,  0.41992188, -0.44921875, -0.01794434, -0.24414062,
-       -0.21386719, -0.16796875, -0.01831055,  0.32421875, -0.09228516,
-       -0.11523438, -0.5390625 , -0.00637817, -0.41601562, -0.02758789,
-        ...,
-        0.078125  ,  0.29882812,  0.34179688,  0.04248047,  0.03442383],
-      dtype=float32)
-```
-
 We can also check the shape of this vector with...
 
 ```python
 print(wv['whale'].shape) 
-```
-
-```output
-(300,)
 ```
 
 In this model, each word has a 300-dimensional representation. You can think of these 300 dimensions as 300 different features that encode a word's meaning. Unlike LSA, which produces (somewhat) interpretable features (i.e., topics) relevant to a text, the features produced by Word2Vec will be treated as a black box. That is, we won't actually know what each dimension of the vector represents. However, if the vectors have certain desirable properties (e.g., similar words produce similar vectors), they can still be very useful. Let's check this with the help of the cosine similarity measure.
@@ -208,28 +199,16 @@ Words that occur in similar contexts should have similar vectors/embeddings. How
 wv.similarity('whale','dolphin')
 ```
 
-```output
-0.77117145
-```
-
 How about *whale* and *fish*?
 
 ```python
 wv.similarity('whale','fish')
 ```
 
-```output
-0.55177623
-```
-
 How about *whale* and... *potato*?
 
 ```python
 wv.similarity('whale','potato')
-```
-
-```output
-0.15530972
 ```
 
 Our similarity scale seems to be on the right track. We can also use the similarity function to quickly extract the top N most similar words to *whale*.
@@ -308,15 +287,10 @@ We'll explore how training a Word2Vec model on specific texts can yield insights
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Adding and Subtracting Vectors: King - Man + Woman = Queen
-
 We can also add and subtract word vectors to reveal latent meaning in words. As a canonical example, let's see what happens if we take the word vector representing *King*, subtract the *Man* vector from it, and then add the *Woman* vector to the result. We should get a new vector that closely matches the word vector for *Queen*. We can test this idea out in Gensim with:
 
 ```python
 print(wv.most_similar(positive=['woman','king'], negative=['man'], topn=3))
-```
-
-```output
-[('queen', 0.7118193507194519), ('monarch', 0.6189674139022827), ('princess', 0.5902431011199951)]
 ```
 
 Behind the scenes of the most\_similar function, Gensim first unit normalizes the *length* of all vectors included in the positive and negative function arguments. This is done before adding/subtracting, which prevents longer vectors from unjustly skewing the sum. Note that length here refers to the linear algebraic definition of summing the squared values of each element in a vector followed by taking the square root of that sum.
@@ -334,14 +308,9 @@ sample_vectors = np.array([wv[word] for word in words])
 sample_vectors.shape # 8 words, 300 dimensions 
 ```
 
-```output
-(8, 300)
-```
-
 Recall that each word vector has 300 dimensions that encode a word's meaning. Considering humans can only visualize up to 3 dimensions, this dataset presents a plotting challenge. We could certainly try plotting just the first 2 dimensions or perhaps the dimensions with the largest amount of variability, but this would overlook a lot of the information stored in the other dimensions/variables. Instead, we can use a *dimensionality-reduction* technique known as Principal Component Analysis (PCA) to allow us to capture most of the information in the data with just 2 dimensions.
 
 #### Principal Component Analysis (PCA)
-
 Principal Component Analysis (PCA) is a data transformation technique that allows you to linearly combine a set of variables from a matrix (*N* observations and *M* variables) into a smaller set of variables called components. Specifically, it remaps the data onto new dimensions that are strictly orthogonal to one another and can be ordered according to the amount of information or variance they carry. The allows you to easily visualize *most* of the variability in the data with just a couple of dimensions.
 
 We'll use scikit-learn's (a popular machine learning library) PCA functionality to explore the power of PCA, and matplotlib as our plotting library.
@@ -399,7 +368,6 @@ plt.show()
 Note how the principal component 1 seems to represent the royalty dimension, while the principal component 2 seems to represent male vs female.
 
 ## Recap
-
 In summary, Word2Vec is a powerful text-embedding method that allows researchers to explore how different words relate to one another based on past observations (i.e., by being trained on a large list of sentences). Unlike LSA, which produces topics as features of the text to investigate, Word2Vec produces "black-box" features which have to be compared relative to one another. By training Word2Vec text from historical documents, literary works, or cultural artifacts, researchers can uncover semantic relationships between words and analyze word usage patterns over time, across genres, or within specific cultural contexts.
 
 In the next section, we'll explore the technology behind Word2Vec before training a Word2Vec model on some of the text data used in this workshop.
