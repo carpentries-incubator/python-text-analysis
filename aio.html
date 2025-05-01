@@ -1833,14 +1833,6 @@ as well. Let’s visualize this using Python.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>corpus <span class="op">=</span> np.array([[<span class="dv">1</span>,<span class="dv">10</span>],[<span class="dv">8</span>,<span class="dv">8</span>],[<span class="dv">2</span>,<span class="dv">2</span>],[<span class="dv">2</span>,<span class="dv">2</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="bu">print</span>(corpus)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>[[ 1 10]</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  [ 8  8]</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  [ 2  2]</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  [ 2  2]]</span></code></pre>
-</div>
 </div>
 <div class="section level3">
 <h3 id="graphing-our-model">Graphing our model<a class="anchor" aria-label="anchor" href="#graphing-our-model"></a>
@@ -1848,33 +1840,27 @@ as well. Let’s visualize this using Python.</p>
 <p>We don’t just have to think of our words as columns. We can also
 think of them as dimensions, and the values as coordinates for each
 document.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># matplotlib expects a list of values by column, not by row.</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># We can simply turn our table on its edge so rows become columns and vice versa.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>corpusT <span class="op">=</span> np.transpose(corpus)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="bu">print</span>(corpusT)</span></code></pre>
+</div>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># matplotlib expects a list of values by column, not by row.</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># We can simply turn our table on its edge so rows become columns and vice versa.</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>corpusT <span class="op">=</span> np.transpose(corpus)</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="bu">print</span>(corpusT)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>[[ 1  8  2  2]</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  [10  8  2  2]]</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>X <span class="op">=</span> corpusT[<span class="dv">0</span>]</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>Y <span class="op">=</span> corpusT[<span class="dv">1</span>]</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># define some colors for each point. Since points A and B are the same, we'll have them as the same color.</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>mycolors <span class="op">=</span> [<span class="st">'r'</span>,<span class="st">'g'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>]</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># display our visualization</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>plt.scatter(X,Y, c<span class="op">=</span>mycolors)</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>X <span class="op">=</span> corpusT[<span class="dv">0</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>Y <span class="op">=</span> corpusT[<span class="dv">1</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># define some colors for each point. Since points A and B are the same, we'll have them as the same color.</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>mycolors <span class="op">=</span> [<span class="st">'r'</span>,<span class="st">'g'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># display our visualization</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>plt.scatter(X,Y, c<span class="op">=</span>mycolors)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="fig/02-plot-points.png" alt="png" class="figure mx-auto d-block"></figure>
 </div>
@@ -1901,32 +1887,32 @@ distance. This distance formula works in two dimensions, but can also be
 generalized over as many dimensions as we want. Let’s use distance to
 compare A to B, C and D. We’ll say the closer two points are, the
 smaller their distance, so the more similar they are.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> euclidean_distances <span class="im">as</span> dist</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#What is closest to document D?</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>D <span class="op">=</span> [corpus[<span class="dv">3</span>]]</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="bu">print</span>(D)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>[array([2, 2])]</span></code></pre>
+</div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> euclidean_distances <span class="im">as</span> dist</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#What is closest to document D?</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>D <span class="op">=</span> [corpus[<span class="dv">3</span>]]</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="bu">print</span>(D)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>dist(corpus, D)</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>[array([2, 2])]</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>dist(corpus, D)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>array([[8.06225775],</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>       [8.48528137],</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>       [0.        ],</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>       [0.        ]])</span></code></pre>
+<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>array([[8.06225775],</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>       [8.48528137],</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>       [0.        ],</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>       [0.        ]])</span></code></pre>
 </div>
 <p>Distance may seem like a decent metric at first. Certainly, it makes
 sense that document D has zero distance from itself. C and D are also
@@ -1946,28 +1932,23 @@ pointing from one point to another.</p>
 regular numbers can. Our model will consider documents as vectors
 instead of points, going from the origin at <span class="math inline">\((0,0)\)</span> to each document. Let’s visualize
 this.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># we need the point of origin in order to draw a vector. Numpy has a function to create an array full of zeroes.</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>origin <span class="op">=</span> np.zeros([<span class="dv">1</span>,<span class="dv">4</span>])</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="bu">print</span>(origin)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># we need the point of origin in order to draw a vector. Numpy has a function to create an array full of zeroes.</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>origin <span class="op">=</span> np.zeros([<span class="dv">1</span>,<span class="dv">4</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="bu">print</span>(origin)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb12">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>[[0. 0. 0. 0.]]</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># draw our vectors</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>plt.quiver(origin, origin, X, Y, color<span class="op">=</span>mycolors, angles<span class="op">=</span><span class="st">'xy'</span>, scale_units<span class="op">=</span><span class="st">'xy'</span>, scale<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># draw our vectors</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>plt.quiver(origin, origin, X, Y, color<span class="op">=</span>mycolors, angles<span class="op">=</span><span class="st">'xy'</span>, scale_units<span class="op">=</span><span class="st">'xy'</span>, scale<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>plt.show()</span></code></pre>
 </div>
-<figure><img src="fig/02-plot-vectors.png" alt="png" class="figure mx-auto d-block"></figure><p>Document A and document D are headed in exactly the same direction,
+<p>Document A and document D are headed in exactly the same direction,
 which matches our intution that both documents are in some way similar
 to each other, even though they differ in length.</p>
 </div>
@@ -1988,19 +1969,11 @@ direction have a high cosine similarity, even if one of them is much
 further away in that direction.</p>
 <p>Now that we know what cosine similarity is, how does this metric
 compare our documents?</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity <span class="im">as</span> cs</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>cs(corpus, D)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb15">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>array([[0.7739573],</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>       [1.       ],</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>       [1.       ],</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>       [1.       ]])</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity <span class="im">as</span> cs</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>cs(corpus, D)</span></code></pre>
 </div>
 <p>Both A and D are considered similar by this metric. Cosine similarity
 is used by many models as a measure of similarity between documents and
@@ -2080,54 +2053,28 @@ vector space looks. These relationships and formulae work over an
 arbitrary number of dimensions. Our methods for how to measure
 similarity will carry over, even if drawing a graph is no longer
 possible.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># add two new dimensions to our corpus</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>corpus <span class="op">=</span> np.hstack((corpus, np.zeros((<span class="dv">4</span>,<span class="dv">2</span>))))</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="bu">print</span>(corpus)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># add two new dimensions to our corpus</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>corpus <span class="op">=</span> np.hstack((corpus, np.zeros((<span class="dv">4</span>,<span class="dv">2</span>))))</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="bu">print</span>(corpus)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb17">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>[[ 1. 10.  0.  0.]</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  [ 8.  8.  0.  0.]</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  [ 2.  2.  0.  0.]</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  [ 2.  2.  0.  0.]]</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>E <span class="op">=</span> np.array([[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>]])</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>F <span class="op">=</span> np.array([[<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>]])</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#add document E to our corpus</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>corpus <span class="op">=</span> np.vstack((corpus, E))</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="bu">print</span>(corpus)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb19">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>[[ 1. 10.  0.  0.]</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  [ 8.  8.  0.  0.]</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  [ 2.  2.  0.  0.]</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  [ 2.  2.  0.  0.]</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  [ 0.  2.  1.  1.]]</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>E <span class="op">=</span> np.array([[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>]])</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>F <span class="op">=</span> np.array([[<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>]])</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#add document E to our corpus</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>corpus <span class="op">=</span> np.vstack((corpus, E))</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="bu">print</span>(corpus)</span></code></pre>
 </div>
 <p>What do you think the most similar document is to document F?</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>cs(corpus, F)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb21">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>array([[0.69224845],</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>        [0.89442719],</span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>        [0.89442719],</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>        [0.89442719],</span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>        [0.77459667]])</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>cs(corpus, F)</span></code></pre>
 </div>
 <p>This new document seems most similar to the documents B,C and D.</p>
 <p>This principle of using vector space will hold up over an arbitrary
@@ -2427,7 +2374,7 @@ How does increasing/decreasing each value affect the number of columns
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Increasing <code>max_df</code> results in more words being included
 in the more, since a higher <code>max_df</code> corresponds to accepting
@@ -3492,7 +3439,7 @@ Share your thoughts and suggestions with the class.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ul>
 <li>
@@ -3700,7 +3647,7 @@ words well? Why or why not?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3754,7 +3701,7 @@ make use of Word2Vec to explore newspaper articles from the years
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>One possible approach with this data is to investigate how the
 meaning of certain words can evolve over time by training separate
