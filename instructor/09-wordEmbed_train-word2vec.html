@@ -289,6 +289,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#colab-setup">Colab Setup</a></li>
+<li><a href="#install-and-import-gensim">Install and import Gensim</a></li>
 <li><a href="#preprocessing-steps">Preprocessing steps</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -428,48 +429,48 @@ data rather than using a pre-trained model</li>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, wksp_dir)</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>Mounted at /content/drive
-['analysis.py',
- 'pyldavis.py',
- '.gitkeep',
- 'helpers.py',
- 'preprocessing.py',
- 'attentionviz.py',
- 'mit_restaurants.py',
- 'plotfrequency.py',
- '__pycache__']</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># pip install necessary to access parse module (called from helpers.py)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="op">!</span>pip install parse</span></code></pre>
 </div>
+</section><section><h2 class="section-heading" id="install-and-import-gensim">Install and import Gensim<a class="anchor" aria-label="anchor" href="#install-and-import-gensim"></a></h2>
+<hr class="half-width"><p>Install gensim again.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># pip install necessary to access parse module (called from helpers.py)</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="op">!</span>pip install parse</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="op">!</span>pip uninstall <span class="op">-</span>y numpy gensim</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="op">!</span>rm <span class="op">-</span>rf <span class="op">/</span>usr<span class="op">/</span>local<span class="op">/</span>lib<span class="op">/</span>python3<span class="fl">.11</span><span class="op">/</span>dist<span class="op">-</span>packages<span class="op">/</span>numpy<span class="op">*</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>cache<span class="op">-</span><span class="bu">dir</span> numpy<span class="op">==</span><span class="fl">1.26.4</span> gensim<span class="op">==</span><span class="fl">4.3.3</span></span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="load-in-the-data">Load in the data<a class="anchor" aria-label="anchor" href="#load-in-the-data"></a></h3>
+<p>Test to make sure we can import Word2Vec from gensim. You may need to
+restart the kernel after running the above cell before gensim will
+successfully import.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Read the data back in.</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> read_csv</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>data <span class="op">=</span> read_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># import gensim's Word2Vec module</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="im">from</span> gensim.models <span class="im">import</span> Word2Vec</span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="load-in-the-data">Load in the data<a class="anchor" aria-label="anchor" href="#load-in-the-data"></a></h3>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Read the data back in.</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> read_csv</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>data <span class="op">=</span> read_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>data.head()</span></code></pre>
 </div>
 <p>Create list of files we’ll use for our analysis. We’ll start by
 fitting a word2vec model to just one of the books in our list — Moby
 Dick.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>single_file <span class="op">=</span> data.loc[data[<span class="st">'Title'</span>] <span class="op">==</span> <span class="st">'moby_dick'</span>,<span class="st">'File'</span>].item()</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>single_file</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code><span><span class="st">'/content/drive/My Drive/Colab Notebooks/text-analysis/data/melville-moby_dick.txt'</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>single_file <span class="op">=</span> data.loc[data[<span class="st">'title'</span>] <span class="op">==</span> <span class="st">'moby_dick'</span>,<span class="st">'File'</span>].item()</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>single_file</span></code></pre>
 </div>
 <p>Let’s preview the file contents to make sure our code and directory
 setup is working correctly.</p>
@@ -485,33 +486,10 @@ setup is working correctly.</p>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>preview_len <span class="op">=</span> <span class="dv">500</span></span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="bu">print</span>(file_contents[<span class="dv">0</span>:preview_len])</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[Moby Dick by Herman Melville 1851]
-
-
-ETYMOLOGY.
-
-(Supplied by a Late Consumptive Usher to a Grammar School)
-
-The pale Usher--threadbare in coat, heart, body, and brain; I see him
-now.  He was ever dusting his old lexicons and grammars, with a queer
-handkerchief, mockingly embellished with all the gay flags of all the
-known nations of the world.  He loved to dust his old grammars; it
-somehow mildly reminded him of his mortality.
-
-"While you take in hand to school others, and to teach them by wha</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>file_contents[<span class="dv">0</span>:preview_len] <span class="co"># Note that \n are still present in actual string (print() processes these as new lines)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code><span><span class="st">'[Moby Dick by Herman Melville 1851]\n\n\nETYMOLOGY.\n\n(Supplied by a Late Consumptive Usher to a Grammar School)\n\nThe pale Usher--threadbare in coat, heart, body, and brain; I see him\nnow.  He was ever dusting his old lexicons and grammars, with a queer\nhandkerchief, mockingly embellished with all the gay flags of all the\nknown nations of the world.  He loved to dust his old grammars; it\nsomehow mildly reminded him of his mortality.\n\n"While you take in hand to school others, and to teach them by wha'</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>file_contents[<span class="dv">0</span>:preview_len] <span class="co"># Note that \n are still present in actual string (print() processes these as new lines)</span></span></code></pre>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="preprocessing-steps">Preprocessing steps<a class="anchor" aria-label="anchor" href="#preprocessing-steps"></a></h2>
@@ -539,32 +517,18 @@ manipulation to overcome rare errors.</p>
 <p>For our purposes, we’re willing to overlook a few sentence
 tokenization errors. If this work were being published, it would be
 worthwhile to double-check the work of punkt.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">import</span> nltk</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>) <span class="co"># dependency of sent_tokenize function</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>sentences <span class="op">=</span> nltk.sent_tokenize(file_contents)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>) <span class="co"># dependency of sent_tokenize function</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>nltk.download(<span class="st">'punkt_tab'</span>)  <span class="co"># needed for punkt in certain environments</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>sentences <span class="op">=</span> nltk.sent_tokenize(file_contents)</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[nltk_data] Downloading package punkt to /root/nltk_data...
-[nltk_data]   Package punkt is already up-to-date!</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>sentences[<span class="dv">300</span>:<span class="dv">305</span>]</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>['How then is this?',
- 'Are the green fields gone?',
- 'What do they\nhere?',
- 'But look!',
- 'here come more crowds, pacing straight for the water, and\nseemingly bound for a dive.']</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>sentences[<span class="dv">300</span>:<span class="dv">305</span>]</span></code></pre>
 </div>
 </div>
 </div>
@@ -580,96 +544,58 @@ very quickly</li>
 Recall that stop words are usually thought of as the most common words
 in a language. By removing them, we can let the Word2Vec model focus on
 sequences of meaningful words, only.</li>
-</ul><div class="codewrapper sourceCode" id="cb15">
+</ul><div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> preprocess_text</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> preprocess_text</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># test function</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>string <span class="op">=</span> <span class="st">'It is not down on any map; true places never are.'</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>tokens <span class="op">=</span> preprocess_text(string, </span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                         remove_stopwords<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>                         verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Result'</span>, tokens)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># convert list of sentences to pandas series so we can use the apply functionality</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>sentences_series <span class="op">=</span> pd.Series(sentences)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>tokens_cleaned <span class="op">=</span> sentences_series.<span class="bu">apply</span>(preprocess_text, </span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>                                        remove_stopwords<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>                                        verbose<span class="op">=</span><span class="va">False</span>)</span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># view sentences before clearning</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>sentences[<span class="dv">300</span>:<span class="dv">305</span>]</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># test function</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>string <span class="op">=</span> <span class="st">'It is not down on any map; true places never are.'</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>tokens <span class="op">=</span> preprocess_text(string, </span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>                         remove_stopwords<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>                         verbose<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Result'</span>, tokens)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># view sentences after cleaning</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>tokens_cleaned[<span class="dv">300</span>:<span class="dv">305</span>]</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper sourceCode" id="cb17">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code><span><span class="va">Tokens</span> <span class="op">[</span><span class="st">'It'</span>, <span class="st">'is'</span>, <span class="st">'not'</span>, <span class="st">'down'</span>, <span class="st">'on'</span>, <span class="st">'any'</span>, <span class="st">'map'</span>, <span class="st">'true'</span>, <span class="st">'places'</span>, <span class="st">'never'</span>, <span class="st">'are'</span><span class="op">]</span></span>
-<span><span class="va">Lowercase</span> <span class="op">[</span><span class="st">'it'</span>, <span class="st">'is'</span>, <span class="st">'not'</span>, <span class="st">'down'</span>, <span class="st">'on'</span>, <span class="st">'any'</span>, <span class="st">'map'</span>, <span class="st">'true'</span>, <span class="st">'places'</span>, <span class="st">'never'</span>, <span class="st">'are'</span><span class="op">]</span></span>
-<span><span class="va">Lemmas</span> <span class="op">[</span><span class="st">'it'</span>, <span class="st">'is'</span>, <span class="st">'not'</span>, <span class="st">'down'</span>, <span class="st">'on'</span>, <span class="st">'any'</span>, <span class="st">'map'</span>, <span class="st">'true'</span>, <span class="st">'place'</span>, <span class="st">'never'</span>, <span class="st">'are'</span><span class="op">]</span></span>
-<span><span class="va">StopRemoved</span> <span class="op">[</span><span class="st">'map'</span>, <span class="st">'true'</span>, <span class="st">'place'</span>, <span class="st">'never'</span><span class="op">]</span></span>
-<span><span class="va">Result</span> <span class="op">[</span><span class="st">'map'</span>, <span class="st">'true'</span>, <span class="st">'place'</span>, <span class="st">'never'</span><span class="op">]</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>tokens_cleaned.shape <span class="co"># 9852 sentences</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># convert list of sentences to pandas series so we can use the apply functionality</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>sentences_series <span class="op">=</span> pd.Series(sentences)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb19">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>tokens_cleaned <span class="op">=</span> sentences_series.<span class="bu">apply</span>(preprocess_text, </span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>                                        remove_stopwords<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>                                        verbose<span class="op">=</span><span class="va">False</span>)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb20">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># view sentences before clearning</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>sentences[<span class="dv">300</span>:<span class="dv">305</span>]</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>['How then is this?',
- 'Are the green fields gone?',
- 'What do they\nhere?',
- 'But look!',
- 'here come more crowds, pacing straight for the water, and\nseemingly bound for a dive.']</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb22">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># view sentences after cleaning</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>tokens_cleaned[<span class="dv">300</span>:<span class="dv">305</span>]</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>    300                                                   []
-    301                                 [green, field, gone]
-    302                                                   []
-    303                                               [look]
-    304    [come, crowd, pacing, straight, water, seeming...
-    dtype: object</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb24">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>tokens_cleaned.shape <span class="co"># 9852 sentences</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>(9852,)</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb26">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># remove empty sentences and 1-word sentences (all stop words)</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>tokens_cleaned <span class="op">=</span> tokens_cleaned[tokens_cleaned.<span class="bu">apply</span>(<span class="bu">len</span>) <span class="op">&gt;</span> <span class="dv">1</span>]</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>tokens_cleaned.shape</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>(9007,)</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># remove empty sentences and 1-word sentences (all stop words)</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>tokens_cleaned <span class="op">=</span> tokens_cleaned[tokens_cleaned.<span class="bu">apply</span>(<span class="bu">len</span>) <span class="op">&gt;</span> <span class="dv">1</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>tokens_cleaned.shape</span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -685,14 +611,14 @@ code is run. For a fully deterministically-reproducible run, we’ll also
 limit the model to a single worker thread (workers=1), to eliminate
 ordering jitter from OS thread scheduling — noted in <a href="https://radimrehurek.com/gensim/models/word2vec.html" class="external-link">gensim’s
 documentation</a></p>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># import gensim's Word2Vec module</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="im">from</span> gensim.models <span class="im">import</span> Word2Vec</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co"># train the word2vec model with our cleaned data</span></span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>model <span class="op">=</span> Word2Vec(sentences<span class="op">=</span>tokens_cleaned, seed<span class="op">=</span><span class="dv">0</span>, workers<span class="op">=</span><span class="dv">1</span>, sg<span class="op">=</span><span class="dv">0</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># import gensim's Word2Vec module</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="im">from</span> gensim.models <span class="im">import</span> Word2Vec</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co"># train the word2vec model with our cleaned data</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>model <span class="op">=</span> Word2Vec(sentences<span class="op">=</span>tokens_cleaned, seed<span class="op">=</span><span class="dv">0</span>, workers<span class="op">=</span><span class="dv">1</span>, sg<span class="op">=</span><span class="dv">0</span>)</span></code></pre>
 </div>
 <p>Gensim’s implementation is based on the original <a href="%22https://arxiv.org/pdf/1301.3781.pdf%22" class="external-link">Tomas Mikolov’s
 original model of word2vec</a>, which downsamples all frequent words
@@ -710,37 +636,22 @@ can use these vectors to gain insights from our text data.</p>
 <p>Just like with the pretrained word2vec models, we can use the
 most_similar function to find words that meaningfully relate to a
 queried word.</p>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># default</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>], topn<span class="op">=</span><span class="dv">10</span>)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[('great', 0.9986481070518494),
- ('white', 0.9984517097473145),
- ('fishery', 0.9984385371208191),
- ('sperm', 0.9984176158905029),
- ('among', 0.9983417987823486),
- ('right', 0.9983320832252502),
- ('three', 0.9983301758766174),
- ('day', 0.9983181357383728),
- ('length', 0.9983041882514954),
- ('seen', 0.998255729675293)]</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># default</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>], topn<span class="op">=</span><span class="dv">10</span>)</span></code></pre>
 </div>
 </div>
 <div class="section level3">
 <h3 id="vocabulary-limits">Vocabulary limits<a class="anchor" aria-label="anchor" href="#vocabulary-limits"></a></h3>
 <p>Note that Word2Vec can only produce vector representations for words
 encountered in the data used to train the model.</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'orca'</span>],topn<span class="op">=</span><span class="dv">30</span>) </span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'orca'</span>],topn<span class="op">=</span><span class="dv">30</span>) <span class="co"># KeyError: "Key 'orca' not present in vocabulary"</span></span></code></pre>
 </div>
-<pre><code><span><span class="va">KeyError</span><span class="op">:</span> <span class="st">"Key 'orca' not present in vocabulary"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="fasttext-solves-oov-issue">fastText solves OOV issue<a class="anchor" aria-label="anchor" href="#fasttext-solves-oov-issue"></a></h3>
@@ -759,138 +670,33 @@ category. For example, maybe we want to know what other sea creatures
 are referenced throughout Moby Dick. We can use gensim’s most_smilar
 function to begin constructing a list of words that, on average,
 represent a “sea creature” category.</p>
-<p>We’ll use the following procedure:</p>
-<ol style="list-style-type: decimal"><li>Initialize a small list of words that represent the category, sea
-creatures.</li>
-<li>Calculate the average vector representation of this list of
-words</li>
-<li>Use this average vector to find the top N most similar vectors
-(words)</li>
-<li>Review similar words and update the sea creatures list</li>
-<li>Repeat steps 1-4 until no additional sea creatures can be found</li>
-</ol><div class="codewrapper sourceCode" id="cb33">
+<p>We’ll use the following procedure: 1. Initialize a small list of
+words that represent the category, sea creatures. 2. Calculate the
+average vector representation of this list of words 3. Use this average
+vector to find the top N most similar vectors (words) 4. Review similar
+words and update the sea creatures list 5. Repeat steps 1-4 until no
+additional sea creatures can be found</p>
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># start with a small list of words that represent sea creatures </span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>sea_creatures <span class="op">=</span> [<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>]</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co"># The below code will calculate an average vector of the words in our list, </span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co"># and find the vectors/words that are most similar to this average vector</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>sea_creatures, topn<span class="op">=</span><span class="dv">30</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># start with a small list of words that represent sea creatures </span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>sea_creatures <span class="op">=</span> [<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co"># The below code will calculate an average vector of the words in our list, </span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co"># and find the vectors/words that are most similar to this average vector</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>sea_creatures, topn<span class="op">=</span><span class="dv">30</span>)</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[('great', 0.9997826814651489),
- ('part', 0.9997532963752747),
- ('though', 0.9997507333755493),
- ('full', 0.999735951423645),
- ('small', 0.9997267127037048),
- ('among', 0.9997209906578064),
- ('case', 0.9997204542160034),
- ('like', 0.9997190833091736),
- ('many', 0.9997131824493408),
- ('fishery', 0.9997081756591797),
- ('present', 0.9997068643569946),
- ('body', 0.9997056722640991),
- ('almost', 0.9997050166130066),
- ('found', 0.9997038245201111),
- ('whole', 0.9997023940086365),
- ('water', 0.9996949434280396),
- ('even', 0.9996913075447083),
- ('time', 0.9996898174285889),
- ('two', 0.9996897578239441),
- ('air', 0.9996871948242188),
- ('length', 0.9996850490570068),
- ('vast', 0.9996834397315979),
- ('line', 0.9996828436851501),
- ('made', 0.9996813535690308),
- ('upon', 0.9996812343597412),
- ('large', 0.9996775984764099),
- ('known', 0.9996767640113831),
- ('harpooneer', 0.9996761679649353),
- ('sea', 0.9996750354766846),
- ('shark', 0.9996744990348816)]</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># we can add shark to our list</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>,<span class="st">'shark'</span>],topn<span class="op">=</span><span class="dv">30</span>) </span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># we can add shark to our list</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>,<span class="st">'shark'</span>],topn<span class="op">=</span><span class="dv">30</span>) </span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[('great', 0.9997999668121338),
- ('though', 0.9997922778129578),
- ('part', 0.999788761138916),
- ('full', 0.999781608581543),
- ('small', 0.9997766017913818),
- ('like', 0.9997683763504028),
- ('among', 0.9997652769088745),
- ('many', 0.9997631311416626),
- ('case', 0.9997614622116089),
- ('even', 0.9997515678405762),
- ('body', 0.9997514486312866),
- ('almost', 0.9997509717941284),
- ('present', 0.9997479319572449),
- ('found', 0.999747633934021),
- ('water', 0.9997465014457703),
- ('made', 0.9997431635856628),
- ('air', 0.9997406601905823),
- ('whole', 0.9997400641441345),
- ('fishery', 0.9997299909591675),
- ('harpooneer', 0.9997295141220093),
- ('time', 0.9997290372848511),
- ('two', 0.9997289776802063),
- ('sea', 0.9997265934944153),
- ('strange', 0.9997244477272034),
- ('large', 0.999722421169281),
- ('place', 0.9997209906578064),
- ('dead', 0.9997198581695557),
- ('leviathan', 0.9997192025184631),
- ('sometimes', 0.9997178316116333),
- ('high', 0.9997177720069885)]</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># add leviathan (sea serpent) to our list</span></span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>,<span class="st">'shark'</span>,<span class="st">'leviathan'</span>],topn<span class="op">=</span><span class="dv">30</span>) </span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[('though', 0.9998274445533752),
- ('part', 0.9998168349266052),
- ('full', 0.9998133182525635),
- ('small', 0.9998107552528381),
- ('great', 0.9998067021369934),
- ('like', 0.9998064041137695),
- ('even', 0.9997999668121338),
- ('many', 0.9997966885566711),
- ('body', 0.9997950196266174),
- ('among', 0.999794602394104),
- ('found', 0.9997929334640503),
- ('case', 0.9997885823249817),
- ('almost', 0.9997871518135071),
- ('made', 0.9997868537902832),
- ('air', 0.999786376953125),
- ('water', 0.9997802972793579),
- ('whole', 0.9997780919075012),
- ('present', 0.9997757077217102),
- ('harpooneer', 0.999768853187561),
- ('place', 0.9997684955596924),
- ('much', 0.9997658729553223),
- ('time', 0.999765157699585),
- ('sea', 0.999765157699585),
- ('dead', 0.999764621257782),
- ('strange', 0.9997624158859253),
- ('high', 0.9997615218162537),
- ('two', 0.999760091304779),
- ('sometimes', 0.9997592568397522),
- ('half', 0.9997562170028687),
- ('vast', 0.9997541904449463)]</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># add leviathan (sea serpent) to our list</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>,<span class="st">'shark'</span>,<span class="st">'leviathan'</span>],topn<span class="op">=</span><span class="dv">30</span>) </span></code></pre>
 </div>
 <p>No additional sea creatures. It appears we have our list of sea
 creatures recovered using Word2Vec</p>
@@ -921,17 +727,17 @@ if you can repeat the above categorical search task to find the word,
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="co"># import gensim's Word2Vec module</span></span>
-<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a><span class="im">from</span> gensim.models <span class="im">import</span> Word2Vec</span>
-<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a><span class="co"># train the word2vec model with our cleaned data</span></span>
-<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>model <span class="op">=</span> Word2Vec(sentences<span class="op">=</span>tokens_cleaned, seed<span class="op">=</span><span class="dv">0</span>, workers<span class="op">=</span><span class="dv">1</span>, sg<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>,<span class="st">'shark'</span>,<span class="st">'leviathan'</span>],topn<span class="op">=</span><span class="dv">100</span>) <span class="co"># still no sight of squid </span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># import gensim's Word2Vec module</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="im">from</span> gensim.models <span class="im">import</span> Word2Vec</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># train the word2vec model with our cleaned data</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>model <span class="op">=</span> Word2Vec(sentences<span class="op">=</span>tokens_cleaned, seed<span class="op">=</span><span class="dv">0</span>, workers<span class="op">=</span><span class="dv">1</span>, sg<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>model.wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>,<span class="st">'fish'</span>,<span class="st">'creature'</span>,<span class="st">'animal'</span>,<span class="st">'shark'</span>,<span class="st">'leviathan'</span>],topn<span class="op">=</span><span class="dv">100</span>) <span class="co"># still no sight of squid </span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -996,7 +802,7 @@ Share your ideas with the group.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p><strong>Example</strong>: Train a model on newspaper articles from
 the 19th century, and collect a list of foods (the topic chosen)
@@ -1029,7 +835,7 @@ kind of approach?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>As one possible approach, we could compare how authors tend to
 represent different genders. It could be that older (outdated!) books
@@ -1047,16 +853,12 @@ from one another than newer books due to historic gender norms.</p>
 NLP applications today, there are a few other word embedding models that
 you might also want to consider exploring. GloVe and fastText are among
 the two most popular choices to date.</p>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># Preview other word embedding models available</span></span>
-<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(api.info()[<span class="st">'models'</span>].keys()))</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>['fasttext-wiki-news-subwords-300', 'conceptnet-numberbatch-17-06-300', 'word2vec-ruscorpora-300', 'word2vec-google-news-300', 'glove-wiki-gigaword-50', 'glove-wiki-gigaword-100', 'glove-wiki-gigaword-200', 'glove-wiki-gigaword-300', 'glove-twitter-25', 'glove-twitter-50', 'glove-twitter-100', 'glove-twitter-200', '__testing_word2vec-matrix-synopsis']</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Preview other word embedding models available</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(api.info()[<span class="st">'models'</span>].keys()))</span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="similarities">Similarities<a class="anchor" aria-label="anchor" href="#similarities"></a></h4>
