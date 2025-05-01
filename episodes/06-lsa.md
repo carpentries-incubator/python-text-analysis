@@ -71,7 +71,6 @@ LSA requires two steps- first we must create a TF-IDF matrix, which we have alre
 Next, we will perform dimensional reduction using a technique called SVD.
 
 ### Worked Example: LSA
-
 In case you are starting from a fresh notebook, you will need to (1), mount Google drive (2) add the helper code to your path, (3) load the data.csv file, and (4) pip install parse which is used in the helper function code.
 
 ```python
@@ -108,8 +107,6 @@ tfidf = vectorizer.fit_transform(list(data["Lemma_File"]))
 print(tfidf.shape)
 ```
 
-```output
-(41, 9879)
 ```
 
 What do these dimensions mean? We have 41 documents, which we can think of as rows. And we have several thousands of tokens, which is like a dictionary of all the types of words we have in our documents, and which we represent as columns.
@@ -204,12 +201,6 @@ numDimensions = 7
 svdmodel = TruncatedSVD(n_components=numDimensions, algorithm="arpack")
 lsa = svdmodel.fit_transform(tfidf)
 print(lsa)
-```
-
-```output
-[[ 3.91364432e-01 -3.38256707e-01 -1.10255485e-01 -1.57263147e-01
-  4.46988327e-01  4.19701195e-02 -1.60554169e-01]
-  ...
 ```
 
 And put all our results together in one DataFrame so we can save it to a spreadsheet to save all the work we've done so far. This will also make plotting easier in a moment.
