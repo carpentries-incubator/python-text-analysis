@@ -63,7 +63,7 @@ TF-IDF stands for term frequency-inverse document frequency and can be calculate
 
 **Term frequency(*t*,*d*)** is a measure for how frequently a term, *t*, occurs in a document, *d*. The simplest way to calculate term frequency is by simply adding up the number of times a term occurs in a document, and dividing by the total word count in the document.
 
-**Inverse document frequency** measures a term's importance. Document frequency is the number of documents, *N*, a term occurs in, so inverse document frequency gives higher scores to words that occur in fewer documents.
+**Inverse document frequency** measures a term's importance. Document frequency is the number of documents a term occurs in, so inverse document frequency gives higher scores to words that occur in fewer documents.
 This is represented by the equation:
 
 IDF(*t*) = ln[(*N*\+1) / (DF(*t*)+1)]
@@ -83,7 +83,8 @@ Now that we've seen how TF-IDF works, let's put it into practice.
 
 Earlier, we preprocessed our data to lemmatize each file in our corpus, then saved our results for later.
 
-Let's load our data back in to continue where we left off:
+Let's load our data back in to continue where we left off. First, we'll mount our google drive to get access to our data folder again.
+
 
 ```python
 from pandas import read_csv
