@@ -516,8 +516,6 @@ pretrained model and the tokenizer that BERT uses.</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> ner_results:</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="bu">print</span>(result)</span></code></pre>
 </div>
-<pre><code>{'entity_group': 'PER', 'score': 0.9993166, 'word': 'Nader Jokhadar', 'start': 0, 'end': 14}
-{'entity_group': 'LOC', 'score': 0.99975127, 'word': 'Syria', 'start': 25, 'end': 30}</code></pre>
 <p>LLMs are highly performant at not just one, but a variety of tasks.
 And there are many versions of LLMs, designed to perform well on a
 variety of tasks available on HuggingFace.</p>
@@ -548,18 +546,15 @@ more:</p>
 <figure><img src="../fig/01-Interpretive_Loop.JPG" alt="BERT fine-tune" class="figure mx-auto d-block"></figure><p>If no existing model does a given task, we can fine-tune a LLM to do
 it. How do we start? We’re going to create versions of all the items
 listed in our diagram.</p>
-<p>We need the following:</p>
-<ol style="list-style-type: decimal"><li>A task, so we can find a model and LLM pipeline to finetune.</li>
-<li>A dataset for our task, properly formatted in a way BERT can
-interpret.</li>
-<li>A tokenizer and helpers to preprocess our data in a way BERT
-expects.</li>
-<li>A model that has been pretrained on millions of documents for us. We
-will only fine-tune this model, not recreate it from scratch.</li>
-<li>A trainer to fine-tune our model to perform our task.</li>
-<li>A set of metrics so that we can evaluate how well our model
-performs.</li>
-</ol><p>The final product of all this work will be a fine-tuned model that
+<p>We need the following: 1. A task, so we can find a model and LLM
+pipeline to finetune. 2. A dataset for our task, properly formatted in a
+way BERT can interpret. 3. A tokenizer and helpers to preprocess our
+data in a way BERT expects. 4. A model that has been pretrained on
+millions of documents for us. We will only fine-tune this model, not
+recreate it from scratch. 5. A trainer to fine-tune our model to perform
+our task. 6. A set of metrics so that we can evaluate how well our model
+performs.</p>
+<p>The final product of all this work will be a fine-tuned model that
 classifies all the elements of reviews that we want. Let’s get
 started!</p>
 </section><section><h2 class="section-heading" id="nlp-task">NLP task<a class="anchor" aria-label="anchor" href="#nlp-task"></a></h2>
@@ -604,28 +599,14 @@ the code already in place. We’ll start by installing our
 dependencies.</p>
 <p>Now, let’s take a look at the example data from the dataset used in
 the example. The dataset used is called the CoNLL2003 dataset.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset, load_metric</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>ds <span class="op">=</span> load_dataset(<span class="st">"conll2003"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="bu">print</span>(ds)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>ds <span class="op">=</span> load_dataset(<span class="st">"conll2003"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="bu">print</span>(ds)</span></code></pre>
 </div>
-<pre><code>DatasetDict({
-    train: Dataset({
-        features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-        num_rows: 14041
-    })
-    validation: Dataset({
-        features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-        num_rows: 3250
-    })
-    test: Dataset({
-        features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-        num_rows: 3453
-    })
-})</code></pre>
 <p>We can see that the CONLL dataset is split into three sets- training
 data, validation data, and test data. Training data should make up about
 80% of your corpus and is fed into the model to fine tune it. Validation
@@ -638,33 +619,20 @@ an idea of what our data should look like. The NER tags are the ones we
 are interested in, so lets print them out and take a look. We’ll also
 select the dataset and then an index for the document to look at an
 example.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>traindoc <span class="op">=</span> ds[<span class="st">"train"</span>][<span class="dv">0</span>]</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>conll_tags <span class="op">=</span> ds[<span class="st">"train"</span>].features[<span class="ss">f"ner_tags"</span>].feature.names</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="bu">print</span>(traindoc[<span class="st">'tokens'</span>])</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="bu">print</span>(traindoc[<span class="st">'ner_tags'</span>])</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="bu">print</span>(conll_tags)</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="cf">for</span> token, ner_tag <span class="kw">in</span> <span class="bu">zip</span>(traindoc[<span class="st">'tokens'</span>], traindoc[<span class="st">'ner_tags'</span>]):</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="bu">print</span>(token<span class="op">+</span><span class="st">" "</span><span class="op">+</span>conll_tags[ner_tag])</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>traindoc <span class="op">=</span> ds[<span class="st">"train"</span>][<span class="dv">0</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>conll_tags <span class="op">=</span> ds[<span class="st">"train"</span>].features[<span class="ss">f"ner_tags"</span>].feature.names</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="bu">print</span>(traindoc[<span class="st">'tokens'</span>])</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="bu">print</span>(traindoc[<span class="st">'ner_tags'</span>])</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="bu">print</span>(conll_tags)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="cf">for</span> token, ner_tag <span class="kw">in</span> <span class="bu">zip</span>(traindoc[<span class="st">'tokens'</span>], traindoc[<span class="st">'ner_tags'</span>]):</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="bu">print</span>(token<span class="op">+</span><span class="st">" "</span><span class="op">+</span>conll_tags[ner_tag])</span></code></pre>
 </div>
-<pre><code>['EU', 'rejects', 'German', 'call', 'to', 'boycott', 'British', 'lamb', '.']
-[3, 0, 7, 0, 0, 0, 7, 0, 0]
-['O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC', 'B-MISC', 'I-MISC']
-
-EU B-ORG
-rejects O
-German B-MISC
-call O
-to O
-boycott O
-British B-MISC
-lamb O
-. O</code></pre>
 <p>Each document has it’s own ID number. We can see that the tokens are
 a list of words in the document. For each word in the tokens, there are
 a series of numbers. Those numbers correspond to the labels in the
@@ -679,22 +647,22 @@ dataset. In this case it is “conll2003.py”.</p>
 text files are extracted. We can manually download this ourselves if we
 would really like to take a closer look. For the sake of convienence,
 the example we looked just looked at is reproduced below:</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co">"""</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">-DOCSTART- -X- -X- O</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">EU NNP B-NP B-ORG</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">rejects VBZ B-VP O</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">German JJ B-NP B-MISC</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">call NN I-NP O</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">to TO B-VP O</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">boycott VB I-VP O</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">British JJ B-NP B-MISC</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">lamb NN I-NP O</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">. . O O</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">"""</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">-DOCSTART- -X- -X- O</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">EU NNP B-NP B-ORG</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">rejects VBZ B-VP O</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">German JJ B-NP B-MISC</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">call NN I-NP O</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">to TO B-VP O</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">boycott VB I-VP O</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">British JJ B-NP B-MISC</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">lamb NN I-NP O</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">. . O O</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">"""</span></span></code></pre>
 </div>
 <pre><code><span><span class="st">'\n-DOCSTART- -X- -X- O\n\nEU NNP B-NP B-ORG\nrejects VBZ B-VP O\nGerman JJ B-NP B-MISC\ncall NN I-NP O\nto TO B-VP O\nboycott VB I-VP O\nBritish JJ B-NP B-MISC\nlamb NN I-NP O\n. . O O\n'</span></span></code></pre>
 <p>This is a simple format, similar to a CSV. Each document is seperated
@@ -726,27 +694,26 @@ install locally.</p>
 interface would look like if we were doing our own tagging. We can
 define our own labels by copying in the following code (minus the
 quotations):</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co">"""</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">&lt;View&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">  &lt;Labels name="label" toName="text"&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">    &lt;Label value="Amenity" background="red"/&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">    &lt;Label value="Cuisine" background="darkorange"/&gt;</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">    &lt;Label value="Dish" background="orange"/&gt;</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">    &lt;Label value="Hours" background="green"/&gt;</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">    &lt;Label value="Location" background="darkblue"/&gt;</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">    &lt;Label value="Price" background="blue"/&gt;</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">    &lt;Label value="Rating" background="purple"/&gt;</span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">    &lt;Label value="Restaurant_Name" background="#842"/&gt;</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">  &lt;/Labels&gt;</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">  &lt;Text name="text" value="$text"/&gt;</span></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">&lt;/View&gt;</span></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">"""</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">&lt;View&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">  &lt;Labels name="label" toName="text"&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">    &lt;Label value="Amenity" background="red"/&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">    &lt;Label value="Cuisine" background="darkorange"/&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">    &lt;Label value="Dish" background="orange"/&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">    &lt;Label value="Hours" background="green"/&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">    &lt;Label value="Location" background="darkblue"/&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">    &lt;Label value="Price" background="blue"/&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">    &lt;Label value="Rating" background="purple"/&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">    &lt;Label value="Restaurant_Name" background="#842"/&gt;</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">  &lt;/Labels&gt;</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">  &lt;Text name="text" value="$text"/&gt;</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">&lt;/View&gt;</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">"""</span></span></code></pre>
 </div>
-<pre><code><span><span class="st">'\n&lt;View&gt;\n  &lt;Labels name="label" toName="text"&gt;\n    &lt;Label value="Amenity" background="red"/&gt;\n    &lt;Label value="Cuisine" background="darkorange"/&gt;\n    &lt;Label value="Dish" background="orange"/&gt;\n    &lt;Label value="Hours" background="green"/&gt;\n    &lt;Label value="Location" background="darkblue"/&gt;\n    &lt;Label value="Price" background="blue"/&gt;\n    &lt;Label value="Rating" background="purple"/&gt;\n    &lt;Label value="Restaurant_Name" background="#842"/&gt;\n  &lt;/Labels&gt;\n\n  &lt;Text name="text" value="$text"/&gt;\n&lt;/View&gt;\n'</span></span></code></pre>
 <p>In Label Studio, labels can be applied by hitting a number on your
 keyboard and highlighting the relevant part of the document. Try doing
 so on our example text and looking at the output.</p>
@@ -775,26 +742,26 @@ HuggingFace, substituting in our data for the CoNLL data.</p>
 </section><section><h2 class="section-heading" id="loading-our-custom-dataset">Loading our custom dataset<a class="anchor" aria-label="anchor" href="#loading-our-custom-dataset"></a></h2>
 <hr class="half-width"><p>Let’s import our carpentries files and helper methods first, as they
 contain our data and a loading script.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Run this cell to mount your Google Drive.</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Run this cell to mount your Google Drive.</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># pip install necessary to access parse module (called from helpers.py)</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="op">!</span>pip install parse</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># pip install necessary to access parse module (called from helpers.py)</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="op">!</span>pip install parse</span></code></pre>
 </div>
 <p>Finally, lets make our own tweaks to the HuggingFace colab notebook.
 We’ll start by importing some key metrics.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="im">import</span> datasets</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset, Features</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="im">import</span> datasets</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset, Features</span></code></pre>
 </div>
 <p>The HuggingFace example uses <a href="https://www.aclweb.org/anthology/W03-0419.pdf" class="external-link">CONLL 2003
 dataset</a>.</p>
@@ -825,156 +792,103 @@ scratch.</p>
 </section><section><h2 class="section-heading" id="huggingface-code">HuggingFace Code<a class="anchor" aria-label="anchor" href="#huggingface-code"></a></h2>
 <hr class="half-width"><p>Now that we have a modified huggingface script, let’s load our
 data.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>ds <span class="op">=</span> load_dataset(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>ds <span class="op">=</span> load_dataset(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
-<pre><code>/usr/local/lib/python3.10/dist-packages/datasets/load.py:926: FutureWarning: The repository for mit_restaurants contains custom code which must be executed to correctly load the dataset. You can inspect the repository content at /content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py
-You can avoid this message in future by passing the argument `trust_remote_code=True`.
-Passing `trust_remote_code=True` will be mandatory to load this dataset from the next major release of `datasets`.
-  warnings.warn(</code></pre>
 <p>How does our dataset compare to the CONLL dataset? Let’s look at a
 record and compare.</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>ds</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>ds</span></code></pre>
 </div>
-<pre><code>DatasetDict({
-    train: Dataset({
-        features: ['id', 'tokens', 'ner_tags'],
-        num_rows: 7660
-    })
-    validation: Dataset({
-        features: ['id', 'tokens', 'ner_tags'],
-        num_rows: 815
-    })
-    test: Dataset({
-        features: ['id', 'tokens', 'ner_tags'],
-        num_rows: 706
-    })
-})</code></pre>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>label_list <span class="op">=</span> ds[<span class="st">"train"</span>].features[<span class="ss">f"ner_tags"</span>].feature.names</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>label_list</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>label_list <span class="op">=</span> ds[<span class="st">"train"</span>].features[<span class="ss">f"ner_tags"</span>].feature.names</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>label_list</span></code></pre>
 </div>
-<pre><code>['O',
- 'B-Amenity',
- 'I-Amenity',
- 'B-Cuisine',
- 'I-Cuisine',
- 'B-Dish',
- 'I-Dish',
- 'B-Hours',
- 'I-Hours',
- 'B-Location',
- 'I-Location',
- 'B-Price',
- 'I-Price',
- 'B-Rating',
- 'I-Rating',
- 'B-Restaurant_Name',
- 'I-Restaurant_Name']</code></pre>
 <p>Our data looks pretty similar to the CONLL data now. This is good
 since we can now reuse many of the methods listed by HuggingFace in
 their Colab notebook.</p>
 </section><section><h2 class="section-heading" id="preprocessing-the-data">Preprocessing the data<a class="anchor" aria-label="anchor" href="#preprocessing-the-data"></a></h2>
 <hr class="half-width"><p>We start by defining some variables that HuggingFace uses later
 on.</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>task <span class="op">=</span> <span class="st">"ner"</span> <span class="co"># Should be one of "ner", "pos" or "chunk"</span></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>model_checkpoint <span class="op">=</span> <span class="st">"distilbert-base-uncased"</span></span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>device <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>task <span class="op">=</span> <span class="st">"ner"</span> <span class="co"># Should be one of "ner", "pos" or "chunk"</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>model_checkpoint <span class="op">=</span> <span class="st">"distilbert-base-uncased"</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>device <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span></code></pre>
 </div>
 <p>Next, we create our special BERT tokenizer.</p>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_checkpoint)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_checkpoint)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>example <span class="op">=</span> ds[<span class="st">"train"</span>][<span class="dv">4</span>]</span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>tokenized_input <span class="op">=</span> tokenizer(example[<span class="st">"tokens"</span>], is_split_into_words<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>tokens <span class="op">=</span> tokenizer.convert_ids_to_tokens(tokenized_input[<span class="st">"input_ids"</span>])</span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="bu">print</span>(tokens)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>example <span class="op">=</span> ds[<span class="st">"train"</span>][<span class="dv">4</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>tokenized_input <span class="op">=</span> tokenizer(example[<span class="st">"tokens"</span>], is_split_into_words<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>tokens <span class="op">=</span> tokenizer.convert_ids_to_tokens(tokenized_input[<span class="st">"input_ids"</span>])</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="bu">print</span>(tokens)</span></code></pre>
 </div>
-<pre><code>['[CLS]', 'a', 'great', 'lunch', 'spot', 'but', 'open', 'till', '2', 'a', 'm', 'pass', '##im', '##s', 'kitchen', '[SEP]']</code></pre>
 <p>Since our words are broken into just words, and the BERT tokenizer
 sometimes breaks words into subwords, we need to retokenize our words.
 We also need to make sure that when we do this, the labels we created
 don’t get misaligned. More details on these methods are available
 through HuggingFace, but we will simply use their code to do this.</p>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>word_ids <span class="op">=</span> tokenized_input.word_ids()</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>aligned_labels <span class="op">=</span> [<span class="op">-</span><span class="dv">100</span> <span class="cf">if</span> i <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> example[<span class="ss">f"</span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">_tags"</span>][i] <span class="cf">for</span> i <span class="kw">in</span> word_ids]</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>label_all_tokens <span class="op">=</span> <span class="va">True</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>word_ids <span class="op">=</span> tokenized_input.word_ids()</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>aligned_labels <span class="op">=</span> [<span class="op">-</span><span class="dv">100</span> <span class="cf">if</span> i <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> example[<span class="ss">f"</span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">_tags"</span>][i] <span class="cf">for</span> i <span class="kw">in</span> word_ids]</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>label_all_tokens <span class="op">=</span> <span class="va">True</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="kw">def</span> tokenize_and_align_labels(examples):</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>    tokenized_inputs <span class="op">=</span> tokenizer(examples[<span class="st">"tokens"</span>], truncation<span class="op">=</span><span class="va">True</span>, is_split_into_words<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>    labels <span class="op">=</span> []</span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>    <span class="cf">for</span> i, label <span class="kw">in</span> <span class="bu">enumerate</span>(examples[<span class="ss">f"</span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">_tags"</span>]):</span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>        word_ids <span class="op">=</span> tokenized_inputs.word_ids(batch_index<span class="op">=</span>i)</span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>        previous_word_idx <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>        label_ids <span class="op">=</span> []</span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>        <span class="cf">for</span> word_idx <span class="kw">in</span> word_ids:</span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>            <span class="co"># Special tokens have a word id that is None. We set the label to -100 so they are automatically</span></span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>            <span class="co"># ignored in the loss function.</span></span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>            <span class="cf">if</span> word_idx <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>                label_ids.append(<span class="op">-</span><span class="dv">100</span>)</span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>            <span class="co"># We set the label for the first token of each word.</span></span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>            <span class="cf">elif</span> word_idx <span class="op">!=</span> previous_word_idx:</span>
-<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a>                label_ids.append(label[word_idx])</span>
-<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>            <span class="co"># For the other tokens in a word, we set the label to either the current label or -100, depending on</span></span>
-<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a>            <span class="co"># the label_all_tokens flag.</span></span>
-<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>                label_ids.append(label[word_idx] <span class="cf">if</span> label_all_tokens <span class="cf">else</span> <span class="op">-</span><span class="dv">100</span>)</span>
-<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>            previous_word_idx <span class="op">=</span> word_idx</span>
-<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a></span>
-<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>        labels.append(label_ids)</span>
-<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a></span>
-<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>    tokenized_inputs[<span class="st">"labels"</span>] <span class="op">=</span> labels</span>
-<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a>    <span class="cf">return</span> tokenized_inputs</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="kw">def</span> tokenize_and_align_labels(examples):</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>    tokenized_inputs <span class="op">=</span> tokenizer(examples[<span class="st">"tokens"</span>], truncation<span class="op">=</span><span class="va">True</span>, is_split_into_words<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    labels <span class="op">=</span> []</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    <span class="cf">for</span> i, label <span class="kw">in</span> <span class="bu">enumerate</span>(examples[<span class="ss">f"</span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">_tags"</span>]):</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>        word_ids <span class="op">=</span> tokenized_inputs.word_ids(batch_index<span class="op">=</span>i)</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>        previous_word_idx <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>        label_ids <span class="op">=</span> []</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>        <span class="cf">for</span> word_idx <span class="kw">in</span> word_ids:</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>            <span class="co"># Special tokens have a word id that is None. We set the label to -100 so they are automatically</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>            <span class="co"># ignored in the loss function.</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>            <span class="cf">if</span> word_idx <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>                label_ids.append(<span class="op">-</span><span class="dv">100</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>            <span class="co"># We set the label for the first token of each word.</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>            <span class="cf">elif</span> word_idx <span class="op">!=</span> previous_word_idx:</span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>                label_ids.append(label[word_idx])</span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>            <span class="co"># For the other tokens in a word, we set the label to either the current label or -100, depending on</span></span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>            <span class="co"># the label_all_tokens flag.</span></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>                label_ids.append(label[word_idx] <span class="cf">if</span> label_all_tokens <span class="cf">else</span> <span class="op">-</span><span class="dv">100</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>            previous_word_idx <span class="op">=</span> word_idx</span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>        labels.append(label_ids)</span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a></span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a>    tokenized_inputs[<span class="st">"labels"</span>] <span class="op">=</span> labels</span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a>    <span class="cf">return</span> tokenized_inputs</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>tokenized_datasets <span class="op">=</span> ds.<span class="bu">map</span>(tokenize_and_align_labels, batched<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="bu">print</span>(tokenized_datasets)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>tokenized_datasets <span class="op">=</span> ds.<span class="bu">map</span>(tokenize_and_align_labels, batched<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="bu">print</span>(tokenized_datasets)</span></code></pre>
 </div>
-<pre><code>Map:   0%|          | 0/815 [00:00&lt;?, ? examples/s]
-
-
-DatasetDict({
-    train: Dataset({
-        features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-        num_rows: 7660
-    })
-    validation: Dataset({
-        features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-        num_rows: 815
-    })
-    test: Dataset({
-        features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-        num_rows: 706
-    })
-})</code></pre>
 <p>The preprocessed features we’ve just added will be the ones used to
 actually train the model.</p>
 </section><section><h2 class="section-heading" id="fine-tuning-the-model">Fine-tuning the model<a class="anchor" aria-label="anchor" href="#fine-tuning-the-model"></a></h2>
@@ -983,55 +897,55 @@ Since our task is token classification, we use the
 <code>AutoModelForTokenClassification</code> class. Before we do though,
 we want to specify the mapping for ids and labels to our model so it
 does not simply return CLASS_1, CLASS_2 and so on.</p>
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>id2label <span class="op">=</span> {</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">"O"</span>,</span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">"B-Amenity"</span>,</span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">"I-Amenity"</span>,</span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>    <span class="dv">3</span>: <span class="st">"B-Cuisine"</span>,</span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>    <span class="dv">4</span>: <span class="st">"I-Cuisine"</span>,</span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>    <span class="dv">5</span>: <span class="st">"B-Dish"</span>,</span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>    <span class="dv">6</span>: <span class="st">"I-Dish"</span>,</span>
-<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>    <span class="dv">7</span>: <span class="st">"B-Hours"</span>,</span>
-<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>    <span class="dv">8</span>: <span class="st">"I-Hours"</span>,</span>
-<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a>    <span class="dv">9</span>: <span class="st">"B-Location"</span>,</span>
-<span id="cb32-12"><a href="#cb32-12" tabindex="-1"></a>    <span class="dv">10</span>: <span class="st">"I-Location"</span>,</span>
-<span id="cb32-13"><a href="#cb32-13" tabindex="-1"></a>    <span class="dv">11</span>: <span class="st">"B-Price"</span>,</span>
-<span id="cb32-14"><a href="#cb32-14" tabindex="-1"></a>    <span class="dv">12</span>: <span class="st">"I-Price"</span>,</span>
-<span id="cb32-15"><a href="#cb32-15" tabindex="-1"></a>    <span class="dv">13</span>: <span class="st">"B-Rating"</span>,</span>
-<span id="cb32-16"><a href="#cb32-16" tabindex="-1"></a>    <span class="dv">14</span>: <span class="st">"I-Rating"</span>,</span>
-<span id="cb32-17"><a href="#cb32-17" tabindex="-1"></a>    <span class="dv">15</span>: <span class="st">"B-Restaurant_Name"</span>,</span>
-<span id="cb32-18"><a href="#cb32-18" tabindex="-1"></a>    <span class="dv">16</span>: <span class="st">"I-Restaurant_Name"</span>,</span>
-<span id="cb32-19"><a href="#cb32-19" tabindex="-1"></a>}</span>
-<span id="cb32-20"><a href="#cb32-20" tabindex="-1"></a></span>
-<span id="cb32-21"><a href="#cb32-21" tabindex="-1"></a>label2id <span class="op">=</span> {</span>
-<span id="cb32-22"><a href="#cb32-22" tabindex="-1"></a>    <span class="st">"O"</span>: <span class="dv">0</span>,</span>
-<span id="cb32-23"><a href="#cb32-23" tabindex="-1"></a>    <span class="st">"B-Amenity"</span>: <span class="dv">1</span>,</span>
-<span id="cb32-24"><a href="#cb32-24" tabindex="-1"></a>    <span class="st">"I-Amenity"</span>: <span class="dv">2</span>,</span>
-<span id="cb32-25"><a href="#cb32-25" tabindex="-1"></a>    <span class="st">"B-Cuisine"</span>: <span class="dv">3</span>,</span>
-<span id="cb32-26"><a href="#cb32-26" tabindex="-1"></a>    <span class="st">"I-Cuisine"</span>: <span class="dv">4</span>,</span>
-<span id="cb32-27"><a href="#cb32-27" tabindex="-1"></a>    <span class="st">"B-Dish"</span>: <span class="dv">5</span>,</span>
-<span id="cb32-28"><a href="#cb32-28" tabindex="-1"></a>    <span class="st">"I-Dish"</span>: <span class="dv">6</span>,</span>
-<span id="cb32-29"><a href="#cb32-29" tabindex="-1"></a>    <span class="st">"B-Hours"</span>: <span class="dv">7</span>,</span>
-<span id="cb32-30"><a href="#cb32-30" tabindex="-1"></a>    <span class="st">"I-Hours"</span>: <span class="dv">8</span>,</span>
-<span id="cb32-31"><a href="#cb32-31" tabindex="-1"></a>    <span class="st">"B-Location"</span>: <span class="dv">9</span>,</span>
-<span id="cb32-32"><a href="#cb32-32" tabindex="-1"></a>    <span class="st">"I-Location"</span>: <span class="dv">10</span>,</span>
-<span id="cb32-33"><a href="#cb32-33" tabindex="-1"></a>    <span class="st">"B-Price"</span>: <span class="dv">11</span>,</span>
-<span id="cb32-34"><a href="#cb32-34" tabindex="-1"></a>    <span class="st">"I-Price"</span>: <span class="dv">12</span>,</span>
-<span id="cb32-35"><a href="#cb32-35" tabindex="-1"></a>    <span class="st">"B-Rating"</span>: <span class="dv">13</span>,</span>
-<span id="cb32-36"><a href="#cb32-36" tabindex="-1"></a>    <span class="st">"I-Rating"</span>: <span class="dv">14</span>,</span>
-<span id="cb32-37"><a href="#cb32-37" tabindex="-1"></a>    <span class="st">"B-Restaurant_Name"</span>: <span class="dv">15</span>,</span>
-<span id="cb32-38"><a href="#cb32-38" tabindex="-1"></a>    <span class="st">"I-Restaurant_Name"</span>: <span class="dv">16</span>,</span>
-<span id="cb32-39"><a href="#cb32-39" tabindex="-1"></a>}</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>id2label <span class="op">=</span> {</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">"O"</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">"B-Amenity"</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">"I-Amenity"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>    <span class="dv">3</span>: <span class="st">"B-Cuisine"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>    <span class="dv">4</span>: <span class="st">"I-Cuisine"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>    <span class="dv">5</span>: <span class="st">"B-Dish"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>    <span class="dv">6</span>: <span class="st">"I-Dish"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>    <span class="dv">7</span>: <span class="st">"B-Hours"</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>    <span class="dv">8</span>: <span class="st">"I-Hours"</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>    <span class="dv">9</span>: <span class="st">"B-Location"</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>    <span class="dv">10</span>: <span class="st">"I-Location"</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>    <span class="dv">11</span>: <span class="st">"B-Price"</span>,</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>    <span class="dv">12</span>: <span class="st">"I-Price"</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>    <span class="dv">13</span>: <span class="st">"B-Rating"</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>    <span class="dv">14</span>: <span class="st">"I-Rating"</span>,</span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>    <span class="dv">15</span>: <span class="st">"B-Restaurant_Name"</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>    <span class="dv">16</span>: <span class="st">"I-Restaurant_Name"</span>,</span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>}</span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>label2id <span class="op">=</span> {</span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>    <span class="st">"O"</span>: <span class="dv">0</span>,</span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a>    <span class="st">"B-Amenity"</span>: <span class="dv">1</span>,</span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>    <span class="st">"I-Amenity"</span>: <span class="dv">2</span>,</span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>    <span class="st">"B-Cuisine"</span>: <span class="dv">3</span>,</span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>    <span class="st">"I-Cuisine"</span>: <span class="dv">4</span>,</span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>    <span class="st">"B-Dish"</span>: <span class="dv">5</span>,</span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a>    <span class="st">"I-Dish"</span>: <span class="dv">6</span>,</span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>    <span class="st">"B-Hours"</span>: <span class="dv">7</span>,</span>
+<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a>    <span class="st">"I-Hours"</span>: <span class="dv">8</span>,</span>
+<span id="cb23-31"><a href="#cb23-31" tabindex="-1"></a>    <span class="st">"B-Location"</span>: <span class="dv">9</span>,</span>
+<span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a>    <span class="st">"I-Location"</span>: <span class="dv">10</span>,</span>
+<span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a>    <span class="st">"B-Price"</span>: <span class="dv">11</span>,</span>
+<span id="cb23-34"><a href="#cb23-34" tabindex="-1"></a>    <span class="st">"I-Price"</span>: <span class="dv">12</span>,</span>
+<span id="cb23-35"><a href="#cb23-35" tabindex="-1"></a>    <span class="st">"B-Rating"</span>: <span class="dv">13</span>,</span>
+<span id="cb23-36"><a href="#cb23-36" tabindex="-1"></a>    <span class="st">"I-Rating"</span>: <span class="dv">14</span>,</span>
+<span id="cb23-37"><a href="#cb23-37" tabindex="-1"></a>    <span class="st">"B-Restaurant_Name"</span>: <span class="dv">15</span>,</span>
+<span id="cb23-38"><a href="#cb23-38" tabindex="-1"></a>    <span class="st">"I-Restaurant_Name"</span>: <span class="dv">16</span>,</span>
+<span id="cb23-39"><a href="#cb23-39" tabindex="-1"></a>}</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForTokenClassification, TrainingArguments, Trainer</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>model <span class="op">=</span> AutoModelForTokenClassification.from_pretrained(model_checkpoint, id2label<span class="op">=</span>id2label, label2id<span class="op">=</span>label2id, num_labels<span class="op">=</span><span class="bu">len</span>(label_list)).to(device)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForTokenClassification, TrainingArguments, Trainer</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>model <span class="op">=</span> AutoModelForTokenClassification.from_pretrained(model_checkpoint, id2label<span class="op">=</span>id2label, label2id<span class="op">=</span>label2id, num_labels<span class="op">=</span><span class="bu">len</span>(label_list)).to(device)</span></code></pre>
 </div>
 <pre><code>Some weights of DistilBertForTokenClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.</code></pre>
@@ -1041,219 +955,116 @@ training our model, so we should be fine.</p>
 <p>Next, we configure our trainer. The are lots of settings here but the
 defaults are fine. More detailed documentation on what each of these
 mean are available through Huggingface: <a href="https://huggingface.co/transformers/main_classes/trainer.html#transformers.TrainingArguments" class="external-link"><code>TrainingArguments</code></a>,</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>model_name <span class="op">=</span> model_checkpoint.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>args <span class="op">=</span> TrainingArguments(</span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>    <span class="co">#f"{model_name}-finetuned-{task}",</span></span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>model_name<span class="sc">}</span><span class="ss">-carpentries-restaurant-ner"</span>,</span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">2e-5</span>,</span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>    per_device_train_batch_size<span class="op">=</span>batch_size,</span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>    per_device_eval_batch_size<span class="op">=</span>batch_size,</span>
-<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>    num_train_epochs<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>    weight_decay<span class="op">=</span><span class="fl">0.01</span>,</span>
-<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>    report_to<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>    eval_strategy<span class="op">=</span><span class="st">"epoch"</span>,</span>
-<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>    save_strategy<span class="op">=</span><span class="st">"epoch"</span>,</span>
-<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>    load_best_model_at_end<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a>    push_to_hub<span class="op">=</span><span class="va">False</span>, <span class="co">#You can have your model automatically pushed to HF if you uncomment this and log in.</span></span>
-<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>model_name <span class="op">=</span> model_checkpoint.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>args <span class="op">=</span> TrainingArguments(</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>    <span class="co">#f"{model_name}-finetuned-{task}",</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>model_name<span class="sc">}</span><span class="ss">-carpentries-restaurant-ner"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">2e-5</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>    per_device_train_batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>    per_device_eval_batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>    num_train_epochs<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>    weight_decay<span class="op">=</span><span class="fl">0.01</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>    report_to<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>    eval_strategy<span class="op">=</span><span class="st">"epoch"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>    save_strategy<span class="op">=</span><span class="st">"epoch"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a>    load_best_model_at_end<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a>    push_to_hub<span class="op">=</span><span class="va">False</span>, <span class="co">#You can have your model automatically pushed to HF if you uncomment this and log in.</span></span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a>)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="collator">Collator<a class="anchor" aria-label="anchor" href="#collator"></a></h2>
 <hr class="half-width"><p>One finicky aspect of the model is that all of the inputs have to be
 the same size. When the sizes do not match, something called a data
 collator is used to batch our processed examples together and pad them
 to the same size.</p>
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> DataCollatorForTokenClassification</span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>data_collator <span class="op">=</span> DataCollatorForTokenClassification(tokenizer)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> DataCollatorForTokenClassification</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>data_collator <span class="op">=</span> DataCollatorForTokenClassification(tokenizer)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="metrics">Metrics<a class="anchor" aria-label="anchor" href="#metrics"></a></h2>
 <hr class="half-width"><p>The last thing we want to define is the metric by which we evaluate
 how our model did. We will use <a href="https://github.com/chakki-works/seqeval" class="external-link"><code>seqeval</code></a>.
 The metric used will vary based on the task- make sure to check the
 huggingface notebooks for the appropriate metric for a given task.</p>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="im">import</span> evaluate</span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>seqeval <span class="op">=</span> evaluate.load(<span class="st">"seqeval"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="im">import</span> evaluate</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>seqeval <span class="op">=</span> evaluate.load(<span class="st">"seqeval"</span>)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="post-processing">Post Processing<a class="anchor" aria-label="anchor" href="#post-processing"></a></h2>
 <hr class="half-width"><p>Per HuggingFace- we need to do a bit of post-processing on our
 predictions. The following function and description is taken directly
-from HuggingFace. The function does the following:</p>
-<ul><li>Selected the predicted index (with the maximum logit) for each
-token</li>
-<li>Converts it to its string label</li>
-<li>Ignore everywhere we set a label of -100</li>
-</ul><div class="codewrapper sourceCode" id="cb38">
+from HuggingFace. The function does the following: - Selected the
+predicted index (with the maximum logit) for each token - Converts it to
+its string label - Ignore everywhere we set a label of -100</p>
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a><span class="kw">def</span> compute_metrics(p):</span>
-<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>    predictions, labels <span class="op">=</span> p</span>
-<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>    predictions <span class="op">=</span> np.argmax(predictions, axis<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a>    <span class="co"># Remove ignored index (special tokens)</span></span>
-<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a>    true_predictions <span class="op">=</span> [</span>
-<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a>        [label_list[p] <span class="cf">for</span> (p, l) <span class="kw">in</span> <span class="bu">zip</span>(prediction, label) <span class="cf">if</span> l <span class="op">!=</span> <span class="op">-</span><span class="dv">100</span>]</span>
-<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a>        <span class="cf">for</span> prediction, label <span class="kw">in</span> <span class="bu">zip</span>(predictions, labels)</span>
-<span id="cb38-11"><a href="#cb38-11" tabindex="-1"></a>    ]</span>
-<span id="cb38-12"><a href="#cb38-12" tabindex="-1"></a>    true_labels <span class="op">=</span> [</span>
-<span id="cb38-13"><a href="#cb38-13" tabindex="-1"></a>        [label_list[l] <span class="cf">for</span> (p, l) <span class="kw">in</span> <span class="bu">zip</span>(prediction, label) <span class="cf">if</span> l <span class="op">!=</span> <span class="op">-</span><span class="dv">100</span>]</span>
-<span id="cb38-14"><a href="#cb38-14" tabindex="-1"></a>        <span class="cf">for</span> prediction, label <span class="kw">in</span> <span class="bu">zip</span>(predictions, labels)</span>
-<span id="cb38-15"><a href="#cb38-15" tabindex="-1"></a>    ]</span>
-<span id="cb38-16"><a href="#cb38-16" tabindex="-1"></a></span>
-<span id="cb38-17"><a href="#cb38-17" tabindex="-1"></a>    results <span class="op">=</span> metric.compute(predictions<span class="op">=</span>true_predictions, references<span class="op">=</span>true_labels)</span>
-<span id="cb38-18"><a href="#cb38-18" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb38-19"><a href="#cb38-19" tabindex="-1"></a>        <span class="st">"precision"</span>: results[<span class="st">"overall_precision"</span>],</span>
-<span id="cb38-20"><a href="#cb38-20" tabindex="-1"></a>        <span class="st">"recall"</span>: results[<span class="st">"overall_recall"</span>],</span>
-<span id="cb38-21"><a href="#cb38-21" tabindex="-1"></a>        <span class="st">"f1"</span>: results[<span class="st">"overall_f1"</span>],</span>
-<span id="cb38-22"><a href="#cb38-22" tabindex="-1"></a>        <span class="st">"accuracy"</span>: results[<span class="st">"overall_accuracy"</span>],</span>
-<span id="cb38-23"><a href="#cb38-23" tabindex="-1"></a>    }</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="kw">def</span> compute_metrics(p):</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>    predictions, labels <span class="op">=</span> p</span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>    predictions <span class="op">=</span> np.argmax(predictions, axis<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>    <span class="co"># Remove ignored index (special tokens)</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>    true_predictions <span class="op">=</span> [</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>        [label_list[p] <span class="cf">for</span> (p, l) <span class="kw">in</span> <span class="bu">zip</span>(prediction, label) <span class="cf">if</span> l <span class="op">!=</span> <span class="op">-</span><span class="dv">100</span>]</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>        <span class="cf">for</span> prediction, label <span class="kw">in</span> <span class="bu">zip</span>(predictions, labels)</span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>    ]</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>    true_labels <span class="op">=</span> [</span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>        [label_list[l] <span class="cf">for</span> (p, l) <span class="kw">in</span> <span class="bu">zip</span>(prediction, label) <span class="cf">if</span> l <span class="op">!=</span> <span class="op">-</span><span class="dv">100</span>]</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>        <span class="cf">for</span> prediction, label <span class="kw">in</span> <span class="bu">zip</span>(predictions, labels)</span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>    ]</span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>    results <span class="op">=</span> metric.compute(predictions<span class="op">=</span>true_predictions, references<span class="op">=</span>true_labels)</span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>        <span class="st">"precision"</span>: results[<span class="st">"overall_precision"</span>],</span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>        <span class="st">"recall"</span>: results[<span class="st">"overall_recall"</span>],</span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>        <span class="st">"f1"</span>: results[<span class="st">"overall_f1"</span>],</span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>        <span class="st">"accuracy"</span>: results[<span class="st">"overall_accuracy"</span>],</span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>    }</span></code></pre>
 </div>
 <p>Finally, after all of the preparation we’ve done, we’re ready to
 create a Trainer to train our model.</p>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
-<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>    model,</span>
-<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a>    args,</span>
-<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>    train_dataset<span class="op">=</span>tokenized_datasets[<span class="st">"train"</span>],</span>
-<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>    eval_dataset<span class="op">=</span>tokenized_datasets[<span class="st">"validation"</span>],</span>
-<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>    data_collator<span class="op">=</span>data_collator,</span>
-<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>    tokenizer<span class="op">=</span>tokenizer,</span>
-<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>    compute_metrics<span class="op">=</span>compute_metrics,</span>
-<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>    model,</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>    args,</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>    train_dataset<span class="op">=</span>tokenized_datasets[<span class="st">"train"</span>],</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>    eval_dataset<span class="op">=</span>tokenized_datasets[<span class="st">"validation"</span>],</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>    data_collator<span class="op">=</span>data_collator,</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>    tokenizer<span class="op">=</span>tokenizer,</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>    compute_metrics<span class="op">=</span>compute_metrics,</span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>)</span></code></pre>
 </div>
-<pre><code>/usr/local/lib/python3.10/dist-packages/accelerate/accelerator.py:432: FutureWarning: Passing the following arguments to `Accelerator` is deprecated and will be removed in version 1.0 of Accelerate: dict_keys(['dispatch_batches', 'split_batches', 'even_batches', 'use_seedable_sampler']). Please pass an `accelerate.DataLoaderConfiguration` instead:
-dataloader_config = DataLoaderConfiguration(dispatch_batches=None, split_batches=False, even_batches=True, use_seedable_sampler=True)
-  warnings.warn(</code></pre>
 <p>We can now finetune our model by just calling the <code>train</code>
 method. Note that this step will take about 5 minutes if you are running
 it on a GPU, and 4+ hours if you are not.</p>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training starts NOW"</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>trainer.train()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training starts NOW"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>trainer.train()</span></code></pre>
 </div>
-<pre><code>Training starts NOW
-
-
-
-
-&lt;div&gt;
-
-  &lt;progress value='1437' max='1437' style='width:300px; height:20px; vertical-align: middle;'&gt;&lt;/progress&gt;
-  [1437/1437 01:46, Epoch 3/3]
-&lt;/div&gt;
-&lt;table border="1" class="dataframe"&gt;</code></pre>
-<thead><tr style="text-align: left;"><th>
-Epoch
-</th>
-<th>
-Training Loss
-</th>
-<th>
-Validation Loss
-</th>
-<th>
-Precision
-</th>
-<th>
-Recall
-</th>
-<th>
-F1
-</th>
-<th>
-Accuracy
-</th>
-</tr></thead><tbody><tr><td>
-1
-</td>
-<td>
-No log
-</td>
-<td>
-0.349238
-</td>
-<td>
-0.721681
-</td>
-<td>
-0.784135
-</td>
-<td>
-0.751613
-</td>
-<td>
-0.894520
-</td>
-</tr><tr><td>
-2
-</td>
-<td>
-0.617300
-</td>
-<td>
-0.305807
-</td>
-<td>
-0.777106
-</td>
-<td>
-0.802885
-</td>
-<td>
-0.789785
-</td>
-<td>
-0.906532
-</td>
-</tr><tr><td>
-3
-</td>
-<td>
-0.290900
-</td>
-<td>
-0.300976
-</td>
-<td>
-0.780589
-</td>
-<td>
-0.815865
-</td>
-<td>
-0.797837
-</td>
-<td>
-0.909535
-</td>
-</tr></tbody><p>
-</p>
-<pre><code>TrainOutput(global_step=1437, training_loss=0.39008279799087725, metrics={'train_runtime': 109.3751, 'train_samples_per_second': 210.103, 'train_steps_per_second': 13.138, 'total_flos': 117213322331568.0, 'train_loss': 0.39008279799087725, 'epoch': 3.0})</code></pre>
 <p>We’ve done it! We’ve fine-tuned the model for our task. Now that it’s
 trained, we want to save our work so that we can reuse the model
 whenever we wish. A saved version of this model has also been published
 through huggingface, so if you are using a CPU, skip the remaining
 evaluation steps and launch a new terminal so you can participate in
 the</p>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>trainer.save_model(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>trainer.save_model(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model"</span>)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="evaluation-metrics-for-ner">Evaluation Metrics for NER<a class="anchor" aria-label="anchor" href="#evaluation-metrics-for-ner"></a></h2>
 <hr class="half-width"><p>We have some NER evaluation metrics, so let’s discuss what they mean.
@@ -1293,40 +1104,25 @@ overclassification.</p>
 step from HuggingFace if desired, to see how well our model performed.
 It is likely a good idea to have these metrics so that you can compare
 your performance to more generic models for the task.</p>
-<div class="codewrapper sourceCode" id="cb45">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="im">from</span> evaluate <span class="im">import</span> evaluator</span>
-<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>task_evaluator <span class="op">=</span> evaluator(<span class="st">"ner"</span>)</span>
-<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a>data<span class="op">=</span> load_dataset(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py"</span>, split<span class="op">=</span><span class="st">"test"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a></span>
-<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a>eval_results <span class="op">=</span> task_evaluator.compute(</span>
-<span id="cb45-7"><a href="#cb45-7" tabindex="-1"></a>    model_or_pipeline<span class="op">=</span><span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model"</span>,</span>
-<span id="cb45-8"><a href="#cb45-8" tabindex="-1"></a>    data<span class="op">=</span>data,</span>
-<span id="cb45-9"><a href="#cb45-9" tabindex="-1"></a>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="im">from</span> evaluate <span class="im">import</span> evaluator</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>task_evaluator <span class="op">=</span> evaluator(<span class="st">"ner"</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>data<span class="op">=</span> load_dataset(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py"</span>, split<span class="op">=</span><span class="st">"test"</span>, trust_remote_code<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>eval_results <span class="op">=</span> task_evaluator.compute(</span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>    model_or_pipeline<span class="op">=</span><span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model"</span>,</span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>    data<span class="op">=</span>data,</span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb46">
+<div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> eval_results:</span>
-<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>  <span class="bu">print</span>(r, eval_results[r])</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> eval_results:</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="bu">print</span>(r, eval_results[r])</span></code></pre>
 </div>
-<pre><code>Amenity {'precision': 0.6354515050167224, 'recall': 0.7011070110701108, 'f1': 0.6666666666666667, 'number': 271}
-Cuisine {'precision': 0.8378378378378378, 'recall': 0.8641114982578397, 'f1': 0.8507718696397942, 'number': 287}
-Dish {'precision': 0.6935483870967742, 'recall': 0.6991869918699187, 'f1': 0.6963562753036437, 'number': 123}
-Hours {'precision': 0.5675675675675675, 'recall': 0.7078651685393258, 'f1': 0.6299999999999999, 'number': 89}
-Location {'precision': 0.8277777777777777, 'recall': 0.8713450292397661, 'f1': 0.849002849002849, 'number': 342}
-Price {'precision': 0.7875, 'recall': 0.863013698630137, 'f1': 0.8235294117647058, 'number': 73}
-Rating {'precision': 0.7311827956989247, 'recall': 0.8395061728395061, 'f1': 0.7816091954022988, 'number': 81}
-Restaurant_Name {'precision': 0.8323699421965318, 'recall': 0.8323699421965318, 'f1': 0.8323699421965318, 'number': 173}
-overall_precision 0.7552083333333334
-overall_recall 0.8061153578874218
-overall_f1 0.7798319327731092
-overall_accuracy 0.9171441163508154
-total_time_in_seconds 4.749443094000526
-samples_per_second 148.64900705765186
-latency_in_seconds 0.006727256507082897</code></pre>
 <p>Whether a F1 score of .779 is ‘good enough’ depends on the
 performance of other models, how difficult the task is, and so on. It
 may be good enough for our needs, or we may want to collect more data,
@@ -1336,35 +1132,32 @@ the workshop, we will say that this is fine.</p>
 <hr class="half-width"><p>Now that we’ve created our model, we can run it just like we did the
 pretrained models. The code below should do just that. Feel free to
 compose your own example and see how well the model performs!</p>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
-<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForTokenClassification</span>
-<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
-<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> TokenClassificationPipeline</span>
-<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a><span class="co">#Colab code</span></span>
-<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">"distilbert-base-uncased"</span>)</span>
-<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>model <span class="op">=</span> AutoModelForTokenClassification.from_pretrained(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model"</span>)</span>
-<span id="cb48-10"><a href="#cb48-10" tabindex="-1"></a>nlp <span class="op">=</span> pipeline(<span class="st">"ner"</span>, model<span class="op">=</span>model, tokenizer<span class="op">=</span>tokenizer, aggregation_strategy<span class="op">=</span><span class="st">"first"</span>)</span>
-<span id="cb48-11"><a href="#cb48-11" tabindex="-1"></a></span>
-<span id="cb48-12"><a href="#cb48-12" tabindex="-1"></a><span class="co">#This code imports this model, which I've uploaded to HuggingFace.</span></span>
-<span id="cb48-13"><a href="#cb48-13" tabindex="-1"></a><span class="co">#tokenizer = AutoTokenizer.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")</span></span>
-<span id="cb48-14"><a href="#cb48-14" tabindex="-1"></a><span class="co">#model = AutoModelForTokenClassification.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForTokenClassification</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> TokenClassificationPipeline</span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a><span class="co">#Colab code</span></span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">"distilbert-base-uncased"</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>model <span class="op">=</span> AutoModelForTokenClassification.from_pretrained(<span class="st">"/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model"</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>nlp <span class="op">=</span> pipeline(<span class="st">"ner"</span>, model<span class="op">=</span>model, tokenizer<span class="op">=</span>tokenizer, aggregation_strategy<span class="op">=</span><span class="st">"first"</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a><span class="co">#This code imports this model, which I've uploaded to HuggingFace.</span></span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a><span class="co">#tokenizer = AutoTokenizer.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")</span></span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a><span class="co">#model = AutoModelForTokenClassification.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb49">
+<div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a>EXAMPLE <span class="op">=</span> <span class="st">"where is a four star restaurant in milwaukee with tapas"</span></span>
-<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>ner_results <span class="op">=</span> nlp(EXAMPLE)</span>
-<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a><span class="cf">for</span> entity <span class="kw">in</span> ner_results:</span>
-<span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a>  <span class="bu">print</span>(entity)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>EXAMPLE <span class="op">=</span> <span class="st">"where is a four star restaurant in milwaukee with tapas"</span></span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>ner_results <span class="op">=</span> nlp(EXAMPLE)</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a><span class="cf">for</span> entity <span class="kw">in</span> ner_results:</span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>  <span class="bu">print</span>(entity)</span></code></pre>
 </div>
-<pre><code>{'entity_group': 'Rating', 'score': 0.96475923, 'word': 'four star', 'start': 11, 'end': 20}
-{'entity_group': 'Location', 'score': 0.9412049, 'word': 'milwaukee', 'start': 35, 'end': 44}
-{'entity_group': 'Dish', 'score': 0.87943256, 'word': 'tapas', 'start': 50, 'end': 55}</code></pre>
 </section><section><h2 class="section-heading" id="outro">Outro<a class="anchor" aria-label="anchor" href="#outro"></a></h2>
 <hr class="half-width"><p>That’s it! Let’s review briefly what we have done. We’ve discussed
 how to select a task. We used a HuggingFace example to help decide on a
