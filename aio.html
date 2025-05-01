@@ -2671,11 +2671,6 @@ our TF-IDF matrix, so let’s begin there. From the previous lesson:</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>tfidf <span class="op">=</span> vectorizer.fit_transform(<span class="bu">list</span>(data[<span class="st">"Lemma_File"</span>]))</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="bu">print</span>(tfidf.shape)</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>(41, 9879)</code></pre>
-</div>
 <p>What do these dimensions mean? We have 41 documents, which we can
 think of as rows. And we have several thousands of tokens, which is like
 a dictionary of all the types of words we have in our documents, and
@@ -2701,35 +2696,18 @@ content and meaning.</p>
 matrix using SVD, starting with the greatest number of dimensions
 (min(#rows, #cols)). In this case the maxiumum number of ‘topics’
 corresponds to the number of documents- 41.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> TruncatedSVD</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>maxDimensions <span class="op">=</span> <span class="bu">min</span>(tfidf.shape)<span class="op">-</span><span class="dv">1</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>svdmodel <span class="op">=</span> TruncatedSVD(n_components<span class="op">=</span>maxDimensions, algorithm<span class="op">=</span><span class="st">"arpack"</span>) <span class="co"># The "arpack" algorithm is typically more efficient for large sparse matrices compared to the default "randomized" algorithm. This is particularly important when dealing with high-dimensional data, such as TF-IDF matrices, where the number of features (terms) may be large. SVD is typically computed as an approximation when working with large matrices.</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>lsa <span class="op">=</span> svdmodel.fit_transform(tfidf)</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="bu">print</span>(lsa)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[[ 3.91364432e-01 -3.38256707e-01 -1.10255485e-01 ... -3.30703329e-04
-    2.26445596e-03 -1.29373990e-02]
-  [ 2.83139301e-01 -2.03163967e-01  1.72761316e-01 ...  1.98594965e-04
-  -4.41931701e-03 -1.84732254e-02]
-  [ 3.32869588e-01 -2.67008449e-01 -2.43271177e-01 ...  4.50149502e-03
-    1.99200352e-03  2.32871393e-03]
-  ...
-  [ 1.91400319e-01 -1.25861226e-01  4.36682522e-02 ... -8.51158743e-04
-    4.48451964e-03  1.67944132e-03]
-  [ 2.33925324e-01 -8.46322843e-03  1.35493523e-01 ...  5.46406784e-03
-  -1.11972177e-03  3.86332162e-03]
-  [ 4.09480701e-01 -1.78620470e-01 -1.61670733e-01 ... -6.72035999e-02
-    9.27745251e-03 -7.60191949e-05]]</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> TruncatedSVD</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>maxDimensions <span class="op">=</span> <span class="bu">min</span>(tfidf.shape)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>svdmodel <span class="op">=</span> TruncatedSVD(n_components<span class="op">=</span>maxDimensions, algorithm<span class="op">=</span><span class="st">"arpack"</span>) <span class="co"># The "arpack" algorithm is typically more efficient for large sparse matrices compared to the default "randomized" algorithm. This is particularly important when dealing with high-dimensional data, such as TF-IDF matrices, where the number of features (terms) may be large. SVD is typically computed as an approximation when working with large matrices.</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>lsa <span class="op">=</span> svdmodel.fit_transform(tfidf)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="bu">print</span>(lsa)</span></code></pre>
 </div>
 <p>Unlike with a globe, we must make a choice of how many dimensions to
 cut out. We could have anywhere between 41 topics to 2.</p>
@@ -2737,34 +2715,23 @@ cut out. We could have anywhere between 41 topics to 2.</p>
 dimension reducing technique we used produces something to help us
 understand how much data each topic explains. Let’s take a look and see
 how much data each topic explains. We will visualize it on a graph.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#this shows us the amount of dropoff in explanation we have in our sigma matrix. </span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="bu">print</span>(svdmodel.explained_variance_ratio_)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># Calculate cumulative sum of explained variance ratio</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>cumulative_variance_ratio <span class="op">=</span> np.cumsum(svdmodel.explained_variance_ratio_)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, maxDimensions <span class="op">+</span> <span class="dv">1</span>), cumulative_variance_ratio <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Topics"</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>plt.ylabel(<span class="st">"Cumulative </span><span class="sc">% o</span><span class="st">f Information Retained"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">100</span>)  <span class="co"># Adjust y-axis limit to 0-100</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>plt.grid(<span class="va">True</span>)    <span class="co"># Add grid lines</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[0.02053967 0.12553786 0.08088013 0.06750632 0.05095583 0.04413301
-  0.03236406 0.02954683 0.02837433 0.02664072 0.02596086 0.02538922
-  0.02499496 0.0240097  0.02356043 0.02203859 0.02162737 0.0210681
-  0.02004    0.01955728 0.01944726 0.01830292 0.01822243 0.01737443
-  0.01664451 0.0160519  0.01494616 0.01461527 0.01455848 0.01374971
-  0.01308112 0.01255502 0.01201655 0.0112603  0.01089138 0.0096127
-  0.00830014 0.00771224 0.00622448 0.00499762]</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#this shows us the amount of dropoff in explanation we have in our sigma matrix. </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="bu">print</span>(svdmodel.explained_variance_ratio_)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># Calculate cumulative sum of explained variance ratio</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>cumulative_variance_ratio <span class="op">=</span> np.cumsum(svdmodel.explained_variance_ratio_)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, maxDimensions <span class="op">+</span> <span class="dv">1</span>), cumulative_variance_ratio <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Topics"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>plt.ylabel(<span class="st">"Cumulative </span><span class="sc">% o</span><span class="st">f Information Retained"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">100</span>)  <span class="co"># Adjust y-axis limit to 0-100</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>plt.grid(<span class="va">True</span>)    <span class="co"># Add grid lines</span></span></code></pre>
 </div>
 <figure><img src="fig/LSA_cumulative_information_retained_plot.png" alt="Image of drop-off of variance explained" class="figure mx-auto d-block"></figure><p>Often a heuristic used by researchers to determine a topic count is
 to look at the dropoff in percentage of data explained by each
@@ -2801,31 +2768,24 @@ it.</p>
 </div>
 </div>
 </div>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>numDimensions <span class="op">=</span> <span class="dv">7</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>svdmodel <span class="op">=</span> TruncatedSVD(n_components<span class="op">=</span>numDimensions, algorithm<span class="op">=</span><span class="st">"arpack"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>lsa <span class="op">=</span> svdmodel.fit_transform(tfidf)</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="bu">print</span>(lsa)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[[ 3.91364432e-01 -3.38256707e-01 -1.10255485e-01 -1.57263147e-01
-  4.46988327e-01  4.19701195e-02 -1.60554169e-01]
-  ...</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>numDimensions <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>svdmodel <span class="op">=</span> TruncatedSVD(n_components<span class="op">=</span>numDimensions, algorithm<span class="op">=</span><span class="st">"arpack"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>lsa <span class="op">=</span> svdmodel.fit_transform(tfidf)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="bu">print</span>(lsa)</span></code></pre>
 </div>
 <p>And put all our results together in one DataFrame so we can save it
 to a spreadsheet to save all the work we’ve done so far. This will also
 make plotting easier in a moment.</p>
 <p>Since we don’t know what these topics correspond to yet, for now I’ll
 call the first topic X, the second Y, the third Z, and so on.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>data[[<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, <span class="st">"W"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>]] <span class="op">=</span> lsa[:, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>data.head()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>data[[<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, <span class="st">"W"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>]] <span class="op">=</span> lsa[:, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>data.head()</span></code></pre>
 </div>
 <p>Let’s also mean-center the data, so that the “average” value per
 topic (across all our documents) lies at the origin when we plot things
@@ -2833,28 +2793,17 @@ in a moment. By mean-centering, you are ensuring that the “average”
 value for each topic becomes the reference point (0,0) in the plot,
 which can provide more informative insights into the relative
 distribution and relationships between topics.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>data[[<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, <span class="st">"W"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>]] <span class="op">=</span> lsa[:, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]<span class="op">-</span>lsa[:, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]].mean(<span class="dv">0</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>data[[<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, <span class="st">"W"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>]].mean()</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>X   -7.446618e-18
-Y   -2.707861e-18
-Z   -1.353931e-18
-W   -1.184689e-17
-P    3.046344e-18
-Q    2.200137e-18
-dtype: float64</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>data[[<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, <span class="st">"W"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>]] <span class="op">=</span> lsa[:, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]<span class="op">-</span>lsa[:, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]].mean(<span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>data[[<span class="st">"X"</span>, <span class="st">"Y"</span>, <span class="st">"Z"</span>, <span class="st">"W"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>]].mean()</span></code></pre>
 </div>
 <p>Finally, let’s save our progress so far.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>data.to_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>data.to_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -2867,28 +2816,28 @@ dtype: float64</code></pre>
 <p>Let’s plot the results, using a helper we prepared for learners.
 We’ll focus on the X and Y topics for now to illustrate the workflow.
 We’ll return to the other topics in our model as a further exercise.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> lsa_plot</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>lsa_plot(data, svdmodel)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> lsa_plot</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>lsa_plot(data, svdmodel)</span></code></pre>
 </div>
 <figure><img src="fig/05-lsa-plot.png" alt="Plot results of our LSA model" class="figure mx-auto d-block"></figure><p>What do you think these X and Y axes are capturing, conceptually?</p>
 <p>To help figure that out, lets color-code by author to see if any
 patterns are immediately apparent.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>colormap <span class="op">=</span> {</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>    <span class="st">"austen"</span>: <span class="st">"red"</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>    <span class="st">"chesterton"</span>: <span class="st">"blue"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>    <span class="st">"dickens"</span>: <span class="st">"green"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    <span class="st">"dumas"</span>: <span class="st">"orange"</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>    <span class="st">"melville"</span>: <span class="st">"cyan"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>    <span class="st">"shakespeare"</span>: <span class="st">"magenta"</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>}</span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>lsa_plot(data, svdmodel, groupby<span class="op">=</span><span class="st">"author"</span>, colors<span class="op">=</span>colormap)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>colormap <span class="op">=</span> {</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="st">"austen"</span>: <span class="st">"red"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="st">"chesterton"</span>: <span class="st">"blue"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="st">"dickens"</span>: <span class="st">"green"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="st">"dumas"</span>: <span class="st">"orange"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    <span class="st">"melville"</span>: <span class="st">"cyan"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>    <span class="st">"shakespeare"</span>: <span class="st">"magenta"</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>}</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>lsa_plot(data, svdmodel, groupby<span class="op">=</span><span class="st">"author"</span>, colors<span class="op">=</span>colormap)</span></code></pre>
 </div>
 <figure><img src="fig/05-lsa-plot-color.png" alt="Plot results of our LSA model, color-coded by author" class="figure mx-auto d-block"></figure><p>It seems that some of the books by the same author are clumping up
 together in our plot.</p>
@@ -2906,94 +2855,63 @@ matter, from the kinds of terms on the low end to the kinds of terms on
 the high end. So, inspecting the <em>contrast</em> between these high
 and low terms (and checking that against our domain knowledge) can help
 us interpret what our model is identifying.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="kw">def</span> show_topics(vectorizer, svdmodel, topic_number, n):</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>    <span class="co"># Get the feature names (terms) from the TF-IDF vectorizer</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>    terms <span class="op">=</span> vectorizer.get_feature_names_out()</span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>    </span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>    <span class="co"># Get the weights of the terms for the specified topic from the SVD model</span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>    weights <span class="op">=</span> svdmodel.components_[topic_number]</span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>    </span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>    <span class="co"># Create a DataFrame with terms and their corresponding weights</span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame({<span class="st">"Term"</span>: terms, <span class="st">"Weight"</span>: weights})</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>    </span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>    <span class="co"># Sort the DataFrame by weights in descending order to get top n terms (largest positive weights)</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>    highs <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">"Weight"</span>], ascending<span class="op">=</span><span class="va">False</span>)[<span class="dv">0</span>:n]</span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>    </span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>    <span class="co"># Sort the DataFrame by weights in ascending order to get bottom n terms (largest negative weights)</span></span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>    lows <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">"Weight"</span>], ascending<span class="op">=</span><span class="va">False</span>)[<span class="op">-</span>n:]</span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>    </span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>    <span class="co"># Concatenate top and bottom terms into a single DataFrame and return</span></span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>    <span class="cf">return</span> pd.concat([highs, lows])</span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a></span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co"># Get the top 5 and bottom 5 terms for each specified topic</span></span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a>topic_words_x <span class="op">=</span> show_topics(vectorizer, svdmodel, <span class="dv">1</span>, <span class="dv">5</span>)  <span class="co"># Topic 1</span></span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>topic_words_y <span class="op">=</span> show_topics(vectorizer, svdmodel, <span class="dv">2</span>, <span class="dv">5</span>)  <span class="co"># Topic 2</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="kw">def</span> show_topics(vectorizer, svdmodel, topic_number, n):</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>    <span class="co"># Get the feature names (terms) from the TF-IDF vectorizer</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>    terms <span class="op">=</span> vectorizer.get_feature_names_out()</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>    </span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    <span class="co"># Get the weights of the terms for the specified topic from the SVD model</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>    weights <span class="op">=</span> svdmodel.components_[topic_number]</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>    </span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>    <span class="co"># Create a DataFrame with terms and their corresponding weights</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame({<span class="st">"Term"</span>: terms, <span class="st">"Weight"</span>: weights})</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    </span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="co"># Sort the DataFrame by weights in descending order to get top n terms (largest positive weights)</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>    highs <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">"Weight"</span>], ascending<span class="op">=</span><span class="va">False</span>)[<span class="dv">0</span>:n]</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    </span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>    <span class="co"># Sort the DataFrame by weights in ascending order to get bottom n terms (largest negative weights)</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>    lows <span class="op">=</span> df.sort_values(by<span class="op">=</span>[<span class="st">"Weight"</span>], ascending<span class="op">=</span><span class="va">False</span>)[<span class="op">-</span>n:]</span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>    </span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>    <span class="co"># Concatenate top and bottom terms into a single DataFrame and return</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>    <span class="cf">return</span> pd.concat([highs, lows])</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co"># Get the top 5 and bottom 5 terms for each specified topic</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a>topic_words_x <span class="op">=</span> show_topics(vectorizer, svdmodel, <span class="dv">1</span>, <span class="dv">5</span>)  <span class="co"># Topic 1</span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a>topic_words_y <span class="op">=</span> show_topics(vectorizer, svdmodel, <span class="dv">2</span>, <span class="dv">5</span>)  <span class="co"># Topic 2</span></span></code></pre>
 </div>
 <p>You can also use a helper we prepared for learners:</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> show_topics</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>topic_words_x <span class="op">=</span> show_topics(vectorizer, svdmodel, topic_number<span class="op">=</span><span class="dv">1</span>, n<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>topic_words_y <span class="op">=</span> show_topics(vectorizer, svdmodel, topic_number<span class="op">=</span><span class="dv">2</span>, n<span class="op">=</span><span class="dv">5</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> show_topics</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>topic_words_x <span class="op">=</span> show_topics(vectorizer, svdmodel, topic_number<span class="op">=</span><span class="dv">1</span>, n<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>topic_words_y <span class="op">=</span> show_topics(vectorizer, svdmodel, topic_number<span class="op">=</span><span class="dv">2</span>, n<span class="op">=</span><span class="dv">5</span>)</span></code></pre>
 </div>
 <p>Either way, let’s look at the terms for the X topic.</p>
 <p>What does this topic seem to represent to you? What’s the contrast
 between the top and bottom terms?</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="bu">print</span>(topic_words_x)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="bu">print</span>(topic_words_x)</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>            Term    Weight
-8718        thou  0.369606
-4026        hath  0.368384
-3104        exit  0.219252
-8673        thee  0.194711
-8783         tis  0.184968
-9435          ve -0.083406
-555   attachment -0.090431
-294           am -0.103122
-5312          ma -0.117927
-581         aunt -0.139385</code></pre>
-</div>
-<p>And the Y topic.</p>
-<p>What does this topic seem to represent to you? What’s the contrast
-between the top and bottom terms?</p>
-<div class="codewrapper sourceCode" id="cb21">
+<p>And the Y topic. What’s the contrast between the top and bottom
+terms?</p>
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="bu">print</span>(topic_words_y)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>            Term    Weight
-1221    cardinal  0.269191
-5318      madame  0.258087
-6946       queen  0.229547
-4189       honor  0.211801
-5746   musketeer  0.203572
-294           am -0.112988
-5312          ma -0.124932
-555   attachment -0.150380
-783    behaviour -0.158139
-581         aunt -0.216180</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="bu">print</span>(topic_words_y)</span></code></pre>
 </div>
 <p>Now that we have names for our first two topics, let’s redo the plot
 with better axis labels.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>lsa_plot(data, svdmodel, groupby<span class="op">=</span><span class="st">"author"</span>, colors<span class="op">=</span>colormap, xlabel<span class="op">=</span><span class="st">"Victorian vs. Elizabethan"</span>, ylabel<span class="op">=</span><span class="st">"English vs. French"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>lsa_plot(data, svdmodel, groupby<span class="op">=</span><span class="st">"author"</span>, colors<span class="op">=</span>colormap, xlabel<span class="op">=</span><span class="st">"Victorian vs. Elizabethan"</span>, ylabel<span class="op">=</span><span class="st">"English vs. French"</span>)</span></code></pre>
 </div>
 <figure><img src="fig/05-lsa-plot-labeled.png" alt="Plot results of our LSA model, revised with new axis labels" class="figure mx-auto d-block"></figure><div id="check-your-understanding-intrepreting-lsa-results" class="callout discussion">
 <div class="callout-square">
@@ -3410,7 +3328,7 @@ Share your thoughts and suggestions with the class.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ul>
 <li>
@@ -3618,7 +3536,7 @@ words well? Why or why not?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3672,7 +3590,7 @@ make use of Word2Vec to explore newspaper articles from the years
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>One possible approach with this data is to investigate how the
 meaning of certain words can evolve over time by training separate
