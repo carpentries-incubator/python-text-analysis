@@ -85,10 +85,27 @@ Earlier, we preprocessed our data to lemmatize each file in our corpus, then sav
 
 Let's load our data back in to continue where we left off. First, we'll mount our google drive to get access to our data folder again.
 
+```python
+# Run this cell to mount your Google Drive.
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Show existing colab notebooks and helpers.py file
+from os import listdir
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/code'
+listdir(wksp_dir)
+
+# Add folder to colab's path so we can import the helper functions
+import sys
+sys.path.insert(0, wksp_dir)
+```
+
+Then, read the data.csv file we outputted in the last episode.
 
 ```python
 from pandas import read_csv
 data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+data.head()
 ```
 
 #### TD-IDF Vectorizer
@@ -107,10 +124,6 @@ Now that we have our vectorizer loaded, let's used it to represent our data.
 ```python
 tfidf = vectorizer.fit_transform(list(data["Lemma_File"]))
 print(tfidf.shape)
-```
-
-```output
-(41, 9879)
 ```
 
 Here, `tfidf.shape` shows us the number of rows (books) and columns (words) are in our model.
@@ -145,18 +158,11 @@ Let's take a look at some of the words in our documents. Each of these represent
 vectorizer.get_feature_names_out()[0:5]
 ```
 
-```output
-array(['15th', '1st', 'aback', 'abandonment', 'abase'], dtype=object)
-```
 
 What is the weight of those words?
 
 ```python
 print(vectorizer.idf_[0:5]) # weights for each token
-```
-
-```output
-[2.79175947 2.94591015 2.25276297 2.25276297 2.43508453]
 ```
 
 Let's show the weight for all the words:
@@ -167,41 +173,12 @@ tfidf_data = DataFrame(vectorizer.idf_, index=vectorizer.get_feature_names_out()
 tfidf_data
 ```
 
-```output
-            Weight
-15th        2.791759
-1st         2.945910
-aback	      2.252763
-abandonment	2.252763
-abase	      2.435085
-...	        ...
-zealously	  2.945910
-zenith	    2.791759
-zest	      2.791759
-zigzag	    2.945910
-zone	      2.791759
-```
+That was ordered alphabetically. Let's try from lowest to heighest weight:
 
 ```python
 tfidf_data.sort_values(by="Weight")
 ```
 
-That was ordered alphabetically. Let's try from lowest to heighest weight:
-
-```output
-              Weight
-unaccountable	1.518794
-nest	        1.518794
-needless	    1.518794
-hundred	      1.518794
-hunger	      1.518794
-...	          ...
-incurably	    2.945910
-indecent	    2.945910
-indeed	      2.945910
-incantation	  2.945910
-gentlest	    2.945910
-```
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
