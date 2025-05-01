@@ -2317,19 +2317,37 @@ we’ll mount our google drive to get access to our data folder again.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> read_csv</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>data <span class="op">=</span> read_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Run this cell to mount your Google Drive.</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Show existing colab notebooks and helpers.py file</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>wksp_dir <span class="op">=</span> <span class="st">'/content/drive/My Drive/Colab Notebooks/text-analysis/code'</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>listdir(wksp_dir)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Add folder to colab's path so we can import the helper functions</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, wksp_dir)</span></code></pre>
+</div>
+<p>Then, read the data.csv file we outputted in the last episode.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> read_csv</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>data <span class="op">=</span> read_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>data.head()</span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="td-idf-vectorizer">TD-IDF Vectorizer<a class="anchor" aria-label="anchor" href="#td-idf-vectorizer"></a>
 </h4>
 <p>Next, let’s load a vectorizer from <code>sklearn</code> that will
 help represent our corpus in TF-IDF vector space for us.</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>vectorizer <span class="op">=</span> TfidfVectorizer(<span class="bu">input</span><span class="op">=</span><span class="st">'filename'</span>, max_df<span class="op">=</span><span class="fl">.6</span>, min_df<span class="op">=</span><span class="fl">.1</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>vectorizer <span class="op">=</span> TfidfVectorizer(<span class="bu">input</span><span class="op">=</span><span class="st">'filename'</span>, max_df<span class="op">=</span><span class="fl">.6</span>, min_df<span class="op">=</span><span class="fl">.1</span>)</span></code></pre>
 </div>
 <p>Here, <code>max_df=.6</code> removes terms that appear in more than
 60% of our documents (overly common words like the, a, an) and
@@ -2341,16 +2359,11 @@ understanding of what they mean for our corpus, but not so frequent that
 they can’t help us tell our documents apart.</p>
 <p>Now that we have our vectorizer loaded, let’s used it to represent
 our data.</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>tfidf <span class="op">=</span> vectorizer.fit_transform(<span class="bu">list</span>(data[<span class="st">"Lemma_File"</span>]))</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="bu">print</span>(tfidf.shape)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>(41, 9879)</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>tfidf <span class="op">=</span> vectorizer.fit_transform(<span class="bu">list</span>(data[<span class="st">"Lemma_File"</span>]))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="bu">print</span>(tfidf.shape)</span></code></pre>
 </div>
 <p>Here, <code>tfidf.shape</code> shows us the number of rows (books)
 and columns (words) are in our model.</p>
@@ -2403,68 +2416,26 @@ these represents a dimension in our model.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>vectorizer.get_feature_names_out()[<span class="dv">0</span>:<span class="dv">5</span>]</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>array(['15th', '1st', 'aback', 'abandonment', 'abase'], dtype=object)</code></pre>
-</div>
 <p>What is the weight of those words?</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="bu">print</span>(vectorizer.idf_[<span class="dv">0</span>:<span class="dv">5</span>]) <span class="co"># weights for each token</span></span></code></pre>
+</div>
+<p>Let’s show the weight for all the words:</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="bu">print</span>(vectorizer.idf_[<span class="dv">0</span>:<span class="dv">5</span>]) <span class="co"># weights for each token</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[2.79175947 2.94591015 2.25276297 2.25276297 2.43508453]</code></pre>
-</div>
-<p>Let’s show the weight for all the words:</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>tfidf_data <span class="op">=</span> DataFrame(vectorizer.idf_, index<span class="op">=</span>vectorizer.get_feature_names_out(), columns<span class="op">=</span>[<span class="st">"Weight"</span>])</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>tfidf_data</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>            Weight
-15th        2.791759
-1st         2.945910
-aback	      2.252763
-abandonment	2.252763
-abase	      2.435085
-...	        ...
-zealously	  2.945910
-zenith	    2.791759
-zest	      2.791759
-zigzag	    2.945910
-zone	      2.791759</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>tfidf_data.sort_values(by<span class="op">=</span><span class="st">"Weight"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>tfidf_data <span class="op">=</span> DataFrame(vectorizer.idf_, index<span class="op">=</span>vectorizer.get_feature_names_out(), columns<span class="op">=</span>[<span class="st">"Weight"</span>])</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>tfidf_data</span></code></pre>
 </div>
 <p>That was ordered alphabetically. Let’s try from lowest to heighest
 weight:</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>              Weight
-unaccountable	1.518794
-nest	        1.518794
-needless	    1.518794
-hundred	      1.518794
-hunger	      1.518794
-...	          ...
-incurably	    2.945910
-indecent	    2.945910
-indeed	      2.945910
-incantation	  2.945910
-gentlest	    2.945910</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>tfidf_data.sort_values(by<span class="op">=</span><span class="st">"Weight"</span>)</span></code></pre>
 </div>
 <div id="your-mileage-may-vary" class="callout">
 <div class="callout-square">
@@ -3439,7 +3410,7 @@ Share your thoughts and suggestions with the class.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ul>
 <li>
@@ -3647,7 +3618,7 @@ words well? Why or why not?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3701,7 +3672,7 @@ make use of Word2Vec to explore newspaper articles from the years
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>One possible approach with this data is to investigate how the
 meaning of certain words can evolve over time by training separate
@@ -4950,7 +4921,7 @@ if you can repeat the above categorical search task to find the word,
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5025,7 +4996,7 @@ Share your ideas with the group.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p><strong>Example</strong>: Train a model on newspaper articles from
 the 19th century, and collect a list of foods (the topic chosen)
@@ -5058,7 +5029,7 @@ kind of approach?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>As one possible approach, we could compare how authors tend to
 represent different genders. It could be that older (outdated!) books
