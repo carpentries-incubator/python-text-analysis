@@ -36,22 +36,26 @@ import sys
 sys.path.insert(0, wksp_dir)
 ```
 
-```output
-Mounted at /content/drive
-['analysis.py',
- 'pyldavis.py',
- '.gitkeep',
- 'helpers.py',
- 'preprocessing.py',
- 'attentionviz.py',
- 'mit_restaurants.py',
- 'plotfrequency.py',
- '__pycache__']
-```
-
 ```python
 # pip install necessary to access parse module (called from helpers.py)
 !pip install parse
+```
+
+## Install and import Gensim
+Install gensim again. 
+
+```python
+!pip uninstall -y numpy gensim
+!rm -rf /usr/local/lib/python3.11/dist-packages/numpy*
+!pip install --no-cache-dir numpy==1.26.4 gensim==4.3.3
+
+```
+
+Test to make sure we can import Word2Vec from gensim. You may need to restart the kernel after running the above cell before gensim will successfully import.
+```python
+# import gensim's Word2Vec module
+from gensim.models import Word2Vec
+
 ```
 
 ### Load in the data
@@ -60,17 +64,14 @@ Mounted at /content/drive
 # Read the data back in.
 from pandas import read_csv
 data = read_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv")
+data.head()
 ```
 
 Create list of files we'll use for our analysis. We'll start by fitting a word2vec model to just one of the books in our list — Moby Dick.
 
 ```python
-single_file = data.loc[data['Title'] == 'moby_dick','File'].item()
+single_file = data.loc[data['title'] == 'moby_dick','File'].item()
 single_file
-```
-
-```output
-'/content/drive/My Drive/Colab Notebooks/text-analysis/data/melville-moby_dick.txt'
 ```
 
 Let's preview the file contents to make sure our code and directory setup is working correctly.
@@ -86,33 +87,11 @@ preview_len = 500
 print(file_contents[0:preview_len])
 ```
 
-```output
-[Moby Dick by Herman Melville 1851]
-
-
-ETYMOLOGY.
-
-(Supplied by a Late Consumptive Usher to a Grammar School)
-
-The pale Usher--threadbare in coat, heart, body, and brain; I see him
-now.  He was ever dusting his old lexicons and grammars, with a queer
-handkerchief, mockingly embellished with all the gay flags of all the
-known nations of the world.  He loved to dust his old grammars; it
-somehow mildly reminded him of his mortality.
-
-"While you take in hand to school others, and to teach them by wha
-```
-
 ```python
 file_contents[0:preview_len] # Note that \n are still present in actual string (print() processes these as new lines)
 ```
 
-```output
-'[Moby Dick by Herman Melville 1851]\n\n\nETYMOLOGY.\n\n(Supplied by a Late Consumptive Usher to a Grammar School)\n\nThe pale Usher--threadbare in coat, heart, body, and brain; I see him\nnow.  He was ever dusting his old lexicons and grammars, with a queer\nhandkerchief, mockingly embellished with all the gay flags of all the\nknown nations of the world.  He loved to dust his old grammars; it\nsomehow mildly reminded him of his mortality.\n\n"While you take in hand to school others, and to teach them by wha'
-```
-
 ## Preprocessing steps
-
 1. Split text into sentences
 2. Tokenize the text
 3. Lemmatize and lowercase all tokens
@@ -123,7 +102,6 @@ file_contents[0:preview_len] # Note that \n are still present in actual string (
 Remember that we are using the sequence of words in a sentence to learn meaningful word embeddings. The last word of one sentence does not always relate to the first word of the next sentence. For this reason, we will split the text into individual sentences before going further.
 
 #### Punkt Sentence Tokenizer
-
 NLTK's sentence tokenizer ('punkt') works well in most cases, but it may not correctly detect sentences when there is a complex paragraph that contains many punctuation marks, exclamation marks, abbreviations, or repetitive symbols. It is not possible to define a standard way to overcome these issues. If you want to ensure every "sentence" you use to train the Word2Vec is truly a sentence, you would need to write some additional (and highly data-dependent) code that uses regex and string manipulation to overcome rare errors.
 
 For our purposes, we're willing to overlook a few sentence tokenization errors. If this work were being published, it would be worthwhile to double-check the work of punkt.
@@ -131,24 +109,12 @@ For our purposes, we're willing to overlook a few sentence tokenization errors. 
 ```python
 import nltk
 nltk.download('punkt') # dependency of sent_tokenize function
+nltk.download('punkt_tab')  # needed for punkt in certain environments
 sentences = nltk.sent_tokenize(file_contents)
-```
-
-```output
-[nltk_data] Downloading package punkt to /root/nltk_data...
-[nltk_data]   Package punkt is already up-to-date!
 ```
 
 ```python
 sentences[300:305]
-```
-
-```output
-['How then is this?',
- 'Are the green fields gone?',
- 'What do they\nhere?',
- 'But look!',
- 'here come more crowds, pacing straight for the water, and\nseemingly bound for a dive.']
 ```
 
 ### 2-4: Tokenize, lemmatize, and remove stop words
@@ -173,13 +139,6 @@ tokens = preprocess_text(string,
 print('Result', tokens)
 ```
 
-```output
-Tokens ['It', 'is', 'not', 'down', 'on', 'any', 'map', 'true', 'places', 'never', 'are']
-Lowercase ['it', 'is', 'not', 'down', 'on', 'any', 'map', 'true', 'places', 'never', 'are']
-Lemmas ['it', 'is', 'not', 'down', 'on', 'any', 'map', 'true', 'place', 'never', 'are']
-StopRemoved ['map', 'true', 'place', 'never']
-Result ['map', 'true', 'place', 'never']
-```
 
 ```python
 # convert list of sentences to pandas series so we can use the apply functionality
@@ -187,45 +146,27 @@ import pandas as pd
 sentences_series = pd.Series(sentences)
 ```
 
+
 ```python
 tokens_cleaned = sentences_series.apply(preprocess_text, 
                                         remove_stopwords=True, 
                                         verbose=False)
 ```
 
+
 ```python
 # view sentences before clearning
 sentences[300:305]
 ```
 
-```output
-['How then is this?',
- 'Are the green fields gone?',
- 'What do they\nhere?',
- 'But look!',
- 'here come more crowds, pacing straight for the water, and\nseemingly bound for a dive.']
-```
 
 ```python
 # view sentences after cleaning
 tokens_cleaned[300:305]
 ```
 
-```output
-    300                                                   []
-    301                                 [green, field, gone]
-    302                                                   []
-    303                                               [look]
-    304    [come, crowd, pacing, straight, water, seeming...
-    dtype: object
-```
-
 ```python
 tokens_cleaned.shape # 9852 sentences
-```
-
-```output
-(9852,)
 ```
 
 ```python
@@ -234,15 +175,12 @@ tokens_cleaned = tokens_cleaned[tokens_cleaned.apply(len) > 1]
 tokens_cleaned.shape
 ```
 
-```output
-(9007,)
-```
-
 ### Train Word2Vec model using tokenized text
 
 We can now use this data to train a word2vec model. We'll start by importing the Word2Vec module from gensim. We'll then hand the Word2Vec function our list of tokenized sentences and set sg=0 ("skip-gram") to use the continuous bag of words (CBOW) training method.
 
 **Set seed and workers for a fully deterministic run**: Next we'll set some parameters for reproducibility. We'll set the seed so that our vectors get randomly initialized the same way each time this code is run. For a fully deterministically-reproducible run, we'll also limit the model to a single worker thread (workers=1), to eliminate ordering jitter from OS thread scheduling — noted in [gensim's documentation](https://radimrehurek.com/gensim/models/word2vec.html)
+
 
 ```python
 # import gensim's Word2Vec module
@@ -255,8 +193,8 @@ model = Word2Vec(sentences=tokens_cleaned, seed=0, workers=1, sg=0)
 Gensim's implementation is based on the original [Tomas Mikolov's original model of word2vec]("https://arxiv.org/pdf/1301.3781.pdf"), which downsamples all frequent words automatically based on frequency. The downsampling saves time when training the model.
 
 ### Next steps: word embedding use-cases
-
 We now have a vector representation for all the (lemmatized and non-stop words) words referenced throughout Moby Dick. Let's see how we can use these vectors to gain insights from our text data.
+
 
 ### Most similar words
 
@@ -267,30 +205,13 @@ Just like with the pretrained word2vec models, we can use the most\_similar func
 model.wv.most_similar(positive=['whale'], topn=10)
 ```
 
-```output
-[('great', 0.9986481070518494),
- ('white', 0.9984517097473145),
- ('fishery', 0.9984385371208191),
- ('sperm', 0.9984176158905029),
- ('among', 0.9983417987823486),
- ('right', 0.9983320832252502),
- ('three', 0.9983301758766174),
- ('day', 0.9983181357383728),
- ('length', 0.9983041882514954),
- ('seen', 0.998255729675293)]
-```
-
 ### Vocabulary limits
 
 Note that Word2Vec can only produce vector representations for words encountered in the data used to train the model.
 
 ```python
-model.wv.most_similar(positive=['orca'],topn=30) 
-```
-
-```
-KeyError: "Key 'orca' not present in vocabulary"
-```
+model.wv.most_similar(positive=['orca'],topn=30) # KeyError: "Key 'orca' not present in vocabulary"
+``` 
 
 ### fastText solves OOV issue
 
@@ -302,12 +223,12 @@ The fastText model can obtain vectors even for out-of-vocabulary (OOV) words, by
 What can we do with this most similar functionality? One way we can use it is to construct a list of similar words to represent some sort of category. For example, maybe we want to know what other sea creatures are referenced throughout Moby Dick. We can use gensim's most\_smilar function to begin constructing a list of words that, on average, represent a "sea creature" category.
 
 We'll use the following procedure:
-
 1. Initialize a small list of words that represent the category, sea creatures.
 2. Calculate the average vector representation of this list of words
 3. Use this average vector to find the top N most similar vectors (words)
 4. Review similar words and update the sea creatures list
 5. Repeat steps 1-4 until no additional sea creatures can be found
+
 
 ```python
 # start with a small list of words that represent sea creatures 
@@ -318,113 +239,16 @@ sea_creatures = ['whale','fish','creature','animal']
 model.wv.most_similar(positive=sea_creatures, topn=30)
 ```
 
-```output
-[('great', 0.9997826814651489),
- ('part', 0.9997532963752747),
- ('though', 0.9997507333755493),
- ('full', 0.999735951423645),
- ('small', 0.9997267127037048),
- ('among', 0.9997209906578064),
- ('case', 0.9997204542160034),
- ('like', 0.9997190833091736),
- ('many', 0.9997131824493408),
- ('fishery', 0.9997081756591797),
- ('present', 0.9997068643569946),
- ('body', 0.9997056722640991),
- ('almost', 0.9997050166130066),
- ('found', 0.9997038245201111),
- ('whole', 0.9997023940086365),
- ('water', 0.9996949434280396),
- ('even', 0.9996913075447083),
- ('time', 0.9996898174285889),
- ('two', 0.9996897578239441),
- ('air', 0.9996871948242188),
- ('length', 0.9996850490570068),
- ('vast', 0.9996834397315979),
- ('line', 0.9996828436851501),
- ('made', 0.9996813535690308),
- ('upon', 0.9996812343597412),
- ('large', 0.9996775984764099),
- ('known', 0.9996767640113831),
- ('harpooneer', 0.9996761679649353),
- ('sea', 0.9996750354766846),
- ('shark', 0.9996744990348816)]
-```
 
 ```python
 # we can add shark to our list
 model.wv.most_similar(positive=['whale','fish','creature','animal','shark'],topn=30) 
 ```
 
-```output
-[('great', 0.9997999668121338),
- ('though', 0.9997922778129578),
- ('part', 0.999788761138916),
- ('full', 0.999781608581543),
- ('small', 0.9997766017913818),
- ('like', 0.9997683763504028),
- ('among', 0.9997652769088745),
- ('many', 0.9997631311416626),
- ('case', 0.9997614622116089),
- ('even', 0.9997515678405762),
- ('body', 0.9997514486312866),
- ('almost', 0.9997509717941284),
- ('present', 0.9997479319572449),
- ('found', 0.999747633934021),
- ('water', 0.9997465014457703),
- ('made', 0.9997431635856628),
- ('air', 0.9997406601905823),
- ('whole', 0.9997400641441345),
- ('fishery', 0.9997299909591675),
- ('harpooneer', 0.9997295141220093),
- ('time', 0.9997290372848511),
- ('two', 0.9997289776802063),
- ('sea', 0.9997265934944153),
- ('strange', 0.9997244477272034),
- ('large', 0.999722421169281),
- ('place', 0.9997209906578064),
- ('dead', 0.9997198581695557),
- ('leviathan', 0.9997192025184631),
- ('sometimes', 0.9997178316116333),
- ('high', 0.9997177720069885)]
-```
 
 ```python
 # add leviathan (sea serpent) to our list
 model.wv.most_similar(positive=['whale','fish','creature','animal','shark','leviathan'],topn=30) 
-```
-
-```output
-[('though', 0.9998274445533752),
- ('part', 0.9998168349266052),
- ('full', 0.9998133182525635),
- ('small', 0.9998107552528381),
- ('great', 0.9998067021369934),
- ('like', 0.9998064041137695),
- ('even', 0.9997999668121338),
- ('many', 0.9997966885566711),
- ('body', 0.9997950196266174),
- ('among', 0.999794602394104),
- ('found', 0.9997929334640503),
- ('case', 0.9997885823249817),
- ('almost', 0.9997871518135071),
- ('made', 0.9997868537902832),
- ('air', 0.999786376953125),
- ('water', 0.9997802972793579),
- ('whole', 0.9997780919075012),
- ('present', 0.9997757077217102),
- ('harpooneer', 0.999768853187561),
- ('place', 0.9997684955596924),
- ('much', 0.9997658729553223),
- ('time', 0.999765157699585),
- ('sea', 0.999765157699585),
- ('dead', 0.999764621257782),
- ('strange', 0.9997624158859253),
- ('high', 0.9997615218162537),
- ('two', 0.999760091304779),
- ('sometimes', 0.9997592568397522),
- ('half', 0.9997562170028687),
- ('vast', 0.9997541904449463)]
 ```
 
 No additional sea creatures. It appears we have our list of sea creatures recovered using Word2Vec
@@ -526,16 +350,12 @@ As one possible approach, we could compare how authors tend to represent differe
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Other word embedding models
-
 While Word2Vec is a famous model that is still used throughout many NLP applications today, there are a few other word embedding models that you might also want to consider exploring. GloVe and fastText are among the two most popular choices to date.
 
 ```python
 # Preview other word embedding models available
+import gensim.downloader as api
 print(list(api.info()['models'].keys()))
-```
-
-```output
-['fasttext-wiki-news-subwords-300', 'conceptnet-numberbatch-17-06-300', 'word2vec-ruscorpora-300', 'word2vec-google-news-300', 'glove-wiki-gigaword-50', 'glove-wiki-gigaword-100', 'glove-wiki-gigaword-200', 'glove-wiki-gigaword-300', 'glove-twitter-25', 'glove-twitter-50', 'glove-twitter-100', 'glove-twitter-200', '__testing_word2vec-matrix-synopsis']
 ```
 
 #### Similarities
