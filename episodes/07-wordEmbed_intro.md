@@ -166,7 +166,6 @@ With that said, let's see what we can do with meaningful word vectors. The pre-t
 print(type(wv))
 ```
 
-```output
 <class 'gensim.models.keyedvectors.KeyedVectors'>
 ```
 
