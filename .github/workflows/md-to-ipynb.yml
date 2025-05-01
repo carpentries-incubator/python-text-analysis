@@ -1,0 +1,47 @@
+name: Convert Markdown to Notebooks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'episodes/*.md'
+      - 'notebooks/convert-md-to-ipynb.py'
+  pull_request:
+    paths:
+      - 'episodes/*.md'
+      - 'notebooks/convert-md-to-ipynb.py'
+  workflow_dispatch:  # adds the manual trigger
+
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install nbformat
+
+      - name: Convert markdown files to notebooks
+        run: |
+          mkdir -p notebooks
+          for file in episodes/*.md; do
+            filename=$(basename "$file")
+            python notebooks/convert-md-to-ipynb.py episodes notebooks "https://raw.githubusercontent.com/${{ github.repository }}/main/images" "$filename"
+          done
+
+      - name: Commit and push notebooks
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add notebooks/*.ipynb
+          git diff --cached --quiet || git commit -m "Auto-convert .md episodes to .ipynb notebooks"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
