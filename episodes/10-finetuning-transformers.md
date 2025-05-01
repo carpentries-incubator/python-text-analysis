@@ -82,6 +82,7 @@ Much like many of our models, DistilBERT is available through HuggingFace.
 
 Let's start by importing the library, and importing both the pretrained model and the tokenizer that BERT uses.
 
+
 ```python
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from transformers import pipeline
@@ -94,6 +95,7 @@ nlp = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy='si
 
 Next, we'll use the tokenizer to preprocess our example sentence.
 
+
 ```python
 example = "Nader Jokhadar had given Syria the lead with a well-struck header in the seventh minute."
 ner_results = nlp(example)
@@ -101,10 +103,6 @@ for result in ner_results:
   print(result)
 ```
 
-```
-{'entity_group': 'PER', 'score': 0.9993166, 'word': 'Nader Jokhadar', 'start': 0, 'end': 14}
-{'entity_group': 'LOC', 'score': 0.99975127, 'word': 'Syria', 'start': 25, 'end': 30}
-```
 
 LLMs are highly performant at not just one, but a variety of tasks. And there are many versions of LLMs, designed to perform well on a variety of tasks available on HuggingFace.
 
@@ -131,7 +129,6 @@ To fine-tune, we will walk through all of the steps of our interpretive loop dia
 If no existing model does a given task, we can fine-tune a LLM to do it. How do we start? We're going to create versions of all the items listed in our diagram.
 
 We need the following:
-
 1. A task, so we can find a model and LLM pipeline to finetune.
 2. A dataset for our task, properly formatted in a way BERT can interpret.
 3. A tokenizer and helpers to preprocess our data in a way BERT expects.
@@ -142,7 +139,6 @@ We need the following:
 The final product of all this work will be a fine-tuned model that classifies all the elements of reviews that we want. Let's get started!
 
 ## NLP task
-
 The first thing we can do is identify our task. Suppose our research question is to look carefully at different elements of restaurant reviews. We want to classify different elements of restaurant reviews, such as amenities, locations, ratings, cuisine types and so on using an LLM.
 
 Our task here is Token Classification, or more specifically, Named Entity Recognition. Classifying tokens will enable us to pull out categories that are of interest to us.
@@ -164,39 +160,26 @@ Looking at the notebook, we can get an idea of how it functions and adapt it for
 5. A trainer, which will largely use existing parameters. We will need to tweak our output labels for our new data.
 6. The existing metrics will be fine, but we have to feed them into our trainer.
 
+
 ## Creating training data
 
 It's a good idea to pattern your data output based on what the model is expecting. You will need to make adjustments, but if you have selected a model that is appropriate to the task you can reuse most of the code already in place. We'll start by installing our dependencies.
 
 Now, let's take a look at the example data from the dataset used in the example. The dataset used is called the CoNLL2003 dataset.
 
+
 ```python
-from datasets import load_dataset, load_metric
+from datasets import load_dataset
 
 ds = load_dataset("conll2003", trust_remote_code=True)
 print(ds)
 ```
 
-```
-DatasetDict({
-    train: Dataset({
-        features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-        num_rows: 14041
-    })
-    validation: Dataset({
-        features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-        num_rows: 3250
-    })
-    test: Dataset({
-        features: ['id', 'tokens', 'pos_tags', 'chunk_tags', 'ner_tags'],
-        num_rows: 3453
-    })
-})
-```
-
 We can see that the CONLL dataset is split into three sets- training data, validation data, and test data. Training data should make up about 80% of your corpus and is fed into the model to fine tune it. Validation data should be about 10%, and is used to check how the training progress is going as the model is trained. The test data is about 10% withheld until the model is fully trained and ready for testing, so you can see how it handles new documents that the model has never seen before.
 
 Let's take a closer look at a record in the train set so we can get an idea of what our data should look like. The NER tags are the ones we are interested in, so lets print them out and take a look. We'll also select the dataset and then an index for the document to look at an example.
+
+
 
 ```python
 traindoc = ds["train"][0]
@@ -211,22 +194,6 @@ for token, ner_tag in zip(traindoc['tokens'], traindoc['ner_tags']):
   print(token+" "+conll_tags[ner_tag])
 ```
 
-```
-['EU', 'rejects', 'German', 'call', 'to', 'boycott', 'British', 'lamb', '.']
-[3, 0, 7, 0, 0, 0, 7, 0, 0]
-['O', 'B-PER', 'I-PER', 'B-ORG', 'I-ORG', 'B-LOC', 'I-LOC', 'B-MISC', 'I-MISC']
-
-EU B-ORG
-rejects O
-German B-MISC
-call O
-to O
-boycott O
-British B-MISC
-lamb O
-. O
-```
-
 Each document has it's own ID number. We can see that the tokens are a list of words in the document. For each word in the tokens, there are a series of numbers. Those numbers correspond to the labels in the database. Based on this, we can see that the EU is recognized as an ORG and the terms "German" and "British" are labelled as MISC.
 
 These datasets are loaded using specially written loading scripts. We can look at this script by searching for the 'conll2003' in huggingface and selecting "Files". The loading script is always named after the dataset. In this case it is "conll2003.py".
@@ -234,6 +201,7 @@ These datasets are loaded using specially written loading scripts. We can look a
 <https://huggingface.co/datasets/conll2003/blob/main/conll2003.py>
 
 Opening this file up, we can see that a zip file is downloaded and text files are extracted. We can manually download this ourselves if we would really like to take a closer look. For the sake of convienence, the example we looked just looked at is reproduced below:
+
 
 ```python
 """
@@ -268,6 +236,7 @@ Fortunately, software exists to help streamline the tagging process. One open so
 
 Select "Named Entity Recognition" as the task to see what the interface would look like if we were doing our own tagging. We can define our own labels by copying in the following code (minus the quotations):
 
+
 ```python
 """
 <View>
@@ -287,9 +256,6 @@ Select "Named Entity Recognition" as the task to see what the interface would lo
 """
 ```
 
-```
-'\n<View>\n  <Labels name="label" toName="text">\n    <Label value="Amenity" background="red"/>\n    <Label value="Cuisine" background="darkorange"/>\n    <Label value="Dish" background="orange"/>\n    <Label value="Hours" background="green"/>\n    <Label value="Location" background="darkblue"/>\n    <Label value="Price" background="blue"/>\n    <Label value="Rating" background="purple"/>\n    <Label value="Restaurant_Name" background="#842"/>\n  </Labels>\n\n  <Text name="text" value="$text"/>\n</View>\n'
-```
 
 In Label Studio, labels can be applied by hitting a number on your keyboard and highlighting the relevant part of the document. Try doing so on our example text and looking at the output.
 
@@ -311,6 +277,7 @@ At this point, we've got all the labelled data we want. We now need to load our 
 
 Let's import our carpentries files and helper methods first, as they contain our data and a loading script.
 
+
 ```python
 # Run this cell to mount your Google Drive.
 from google.colab import drive
@@ -323,6 +290,7 @@ drive.mount('/content/drive')
 ```
 
 Finally, lets make our own tweaks to the HuggingFace colab notebook. We'll start by importing some key metrics.
+
 
 ```python
 import datasets
@@ -349,70 +317,31 @@ Those modifications have been made in our mit\_restaurants.py file. Let's briefl
 
 Now that we have a modified huggingface script, let's load our data.
 
+
 ```python
 ds = load_dataset("/content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py", trust_remote_code=True)
 ```
 
-```
-/usr/local/lib/python3.10/dist-packages/datasets/load.py:926: FutureWarning: The repository for mit_restaurants contains custom code which must be executed to correctly load the dataset. You can inspect the repository content at /content/drive/MyDrive/Colab Notebooks/text-analysis/code/mit_restaurants.py
-You can avoid this message in future by passing the argument `trust_remote_code=True`.
-Passing `trust_remote_code=True` will be mandatory to load this dataset from the next major release of `datasets`.
-  warnings.warn(
-```
-
 How does our dataset compare to the CONLL dataset? Let's look at a record and compare.
+
 
 ```python
 ds
 ```
 
-```
-DatasetDict({
-    train: Dataset({
-        features: ['id', 'tokens', 'ner_tags'],
-        num_rows: 7660
-    })
-    validation: Dataset({
-        features: ['id', 'tokens', 'ner_tags'],
-        num_rows: 815
-    })
-    test: Dataset({
-        features: ['id', 'tokens', 'ner_tags'],
-        num_rows: 706
-    })
-})
-```
 
 ```python
 label_list = ds["train"].features[f"ner_tags"].feature.names
 label_list
 ```
 
-```
-['O',
- 'B-Amenity',
- 'I-Amenity',
- 'B-Cuisine',
- 'I-Cuisine',
- 'B-Dish',
- 'I-Dish',
- 'B-Hours',
- 'I-Hours',
- 'B-Location',
- 'I-Location',
- 'B-Price',
- 'I-Price',
- 'B-Rating',
- 'I-Rating',
- 'B-Restaurant_Name',
- 'I-Restaurant_Name']
-```
 
 Our data looks pretty similar to the CONLL data now. This is good since we can now reuse many of the methods listed by HuggingFace in their Colab notebook.
 
 ## Preprocessing the data
 
 We start by defining some variables that HuggingFace uses later on.
+
 
 ```python
 import torch
@@ -425,10 +354,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 Next, we create our special BERT tokenizer.
 
+
 ```python
 from transformers import AutoTokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 ```
+
 
 ```python
 example = ds["train"][4]
@@ -437,17 +368,16 @@ tokens = tokenizer.convert_ids_to_tokens(tokenized_input["input_ids"])
 print(tokens)
 ```
 
-```
-['[CLS]', 'a', 'great', 'lunch', 'spot', 'but', 'open', 'till', '2', 'a', 'm', 'pass', '##im', '##s', 'kitchen', '[SEP]']
-```
 
 Since our words are broken into just words, and the BERT tokenizer sometimes breaks words into subwords, we need to retokenize our words. We also need to make sure that when we do this, the labels we created don't get misaligned. More details on these methods are available through HuggingFace, but we will simply use their code to do this.
+
 
 ```python
 word_ids = tokenized_input.word_ids()
 aligned_labels = [-100 if i is None else example[f"{task}_tags"][i] for i in word_ids]
 label_all_tokens = True
 ```
+
 
 ```python
 def tokenize_and_align_labels(examples):
@@ -478,30 +408,12 @@ def tokenize_and_align_labels(examples):
     return tokenized_inputs
 ```
 
+
 ```python
 tokenized_datasets = ds.map(tokenize_and_align_labels, batched=True)
 print(tokenized_datasets)
 ```
 
-```
-Map:   0%|          | 0/815 [00:00<?, ? examples/s]
-
-
-DatasetDict({
-    train: Dataset({
-        features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-        num_rows: 7660
-    })
-    validation: Dataset({
-        features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-        num_rows: 815
-    })
-    test: Dataset({
-        features: ['id', 'tokens', 'ner_tags', 'input_ids', 'attention_mask', 'labels'],
-        num_rows: 706
-    })
-})
-```
 
 The preprocessed features we've just added will be the ones used to actually train the model.
 
@@ -551,6 +463,7 @@ label2id = {
 }
 ```
 
+
 ```python
 from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
@@ -564,9 +477,10 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 The warning is telling us we are throwing away some weights. We're training our model, so we should be fine.
 
-\##Configuration Arguments
+##Configuration Arguments
 
 Next, we configure our trainer. The are lots of settings here but the defaults are fine. More detailed documentation on what each of these mean are available through Huggingface:  [`TrainingArguments`](https://huggingface.co/transformers/main_classes/trainer.html#transformers.TrainingArguments),
+
 
 ```python
 model_name = model_checkpoint.split("/")[-1]
@@ -590,6 +504,7 @@ args = TrainingArguments(
 
 One finicky aspect of the model is that all of the inputs have to be the same size. When the sizes do not match, something called a data collator is used to batch our processed examples together and pad them to the same size.
 
+
 ```python
 from transformers import DataCollatorForTokenClassification
 
@@ -600,19 +515,23 @@ data_collator = DataCollatorForTokenClassification(tokenizer)
 
 The last thing we want to define is the metric by which we evaluate how our model did. We will use [`seqeval`](https://github.com/chakki-works/seqeval). The metric used will vary based on the task- make sure to check the huggingface notebooks for the appropriate metric for a given task.
 
+
 ```python
 import evaluate
 
 seqeval = evaluate.load("seqeval")
 ```
 
+
+
 ## Post Processing
 
 Per HuggingFace- we need to do a bit of post-processing on our predictions. The following function and description is taken directly from HuggingFace. The function does the following:
-
 - Selected the predicted index (with the maximum logit) for each token
 - Converts it to its string label
 - Ignore everywhere we set a label of -100
+
+
 
 ```python
 import numpy as np
@@ -642,6 +561,7 @@ def compute_metrics(p):
 
 Finally, after all of the preparation we've done, we're ready to create a Trainer to train our model.
 
+
 ```python
 trainer = Trainer(
     model,
@@ -654,52 +574,22 @@ trainer = Trainer(
 )
 ```
 
-```
-/usr/local/lib/python3.10/dist-packages/accelerate/accelerator.py:432: FutureWarning: Passing the following arguments to `Accelerator` is deprecated and will be removed in version 1.0 of Accelerate: dict_keys(['dispatch_batches', 'split_batches', 'even_batches', 'use_seedable_sampler']). Please pass an `accelerate.DataLoaderConfiguration` instead: 
-dataloader_config = DataLoaderConfiguration(dispatch_batches=None, split_batches=False, even_batches=True, use_seedable_sampler=True)
-  warnings.warn(
-```
-
 We can now finetune our model by just calling the `train` method. Note that this step will take about 5 minutes if you are running it on a GPU, and 4+ hours if you are not.
+
 
 ```python
 print("Training starts NOW")
 trainer.train()
 ```
 
-```
-Training starts NOW
-
-
-
-
-<div>
-
-  <progress value='1437' max='1437' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  [1437/1437 01:46, Epoch 3/3]
-</div>
-<table border="1" class="dataframe">
-```
-
-  <thead>
- <tr style="text-align: left;">   <th>Epoch</th>   <th>Training Loss</th>   <th>Validation Loss</th>   <th>Precision</th>   <th>Recall</th>   <th>F1</th>   <th>Accuracy</th>   </tr>
-  </thead>
-  <tbody>   <tr>   <td>1</td>   <td>No log</td>   <td>0.349238</td>   <td>0.721681</td>   <td>0.784135</td>   <td>0.751613</td>   <td>0.894520</td>   </tr>   <tr>   <td>2</td>   <td>0.617300</td>   <td>0.305807</td>   <td>0.777106</td>   <td>0.802885</td>   <td>0.789785</td>   <td>0.906532</td>   </tr>   <tr>   <td>3</td>   <td>0.290900</td>   <td>0.300976</td>   <td>0.780589</td>   <td>0.815865</td>   <td>0.797837</td>   <td>0.909535</td>   </tr>
-  </tbody>
-</table><p>
-
-```
-TrainOutput(global_step=1437, training_loss=0.39008279799087725, metrics={'train_runtime': 109.3751, 'train_samples_per_second': 210.103, 'train_steps_per_second': 13.138, 'total_flos': 117213322331568.0, 'train_loss': 0.39008279799087725, 'epoch': 3.0})
-```
-
 We've done it! We've fine-tuned the model for our task. Now that it's trained, we want to save our work so that we can reuse the model whenever we wish. A saved version of this model has also been published through huggingface, so if you are using a CPU, skip the remaining evaluation steps and launch a new terminal so you can participate in the
+
 
 ```python
 trainer.save_model("/content/drive/MyDrive/Colab Notebooks/text-analysis/ft-model")
 ```
 
 ## Evaluation Metrics for NER
-
 We have some NER evaluation metrics, so let's discuss what they mean. Accuracy is the most obvious metric for NER. Accuracy is the number of correctly labelled entities divided by the number of total entities. The problem with this metric can be illustrated by supposing we want a model to identify a needle in a haystack. A model that identifies everything as hay would be highly accurate, as most of the entities in a haystack ARE hay, but it wouldn't allow us to find the rare needles we're looking for. Similarly, our named entities will likely not make up most of our documents, so accuracy is not a good metric.
 
 We can classify recommendations made by a model into four categories- true positive, true negative, false positive and false negative.
@@ -716,6 +606,7 @@ We can classify recommendations made by a model into four categories- true posit
 The **F1** score is a harmonic mean between the two, ensuring the model is neither too conservative or too prone to overclassification.
 
 Now let's see how our model did. We'll run a more detailed evaluation step from HuggingFace if desired, to see how well our model performed. It is likely a good idea to have these metrics so that you can compare your performance to more generic models for the task.
+
 
 ```python
 from evaluate import evaluator
@@ -734,29 +625,13 @@ for r in eval_results:
   print(r, eval_results[r])
 ```
 
-```
-Amenity {'precision': 0.6354515050167224, 'recall': 0.7011070110701108, 'f1': 0.6666666666666667, 'number': 271}
-Cuisine {'precision': 0.8378378378378378, 'recall': 0.8641114982578397, 'f1': 0.8507718696397942, 'number': 287}
-Dish {'precision': 0.6935483870967742, 'recall': 0.6991869918699187, 'f1': 0.6963562753036437, 'number': 123}
-Hours {'precision': 0.5675675675675675, 'recall': 0.7078651685393258, 'f1': 0.6299999999999999, 'number': 89}
-Location {'precision': 0.8277777777777777, 'recall': 0.8713450292397661, 'f1': 0.849002849002849, 'number': 342}
-Price {'precision': 0.7875, 'recall': 0.863013698630137, 'f1': 0.8235294117647058, 'number': 73}
-Rating {'precision': 0.7311827956989247, 'recall': 0.8395061728395061, 'f1': 0.7816091954022988, 'number': 81}
-Restaurant_Name {'precision': 0.8323699421965318, 'recall': 0.8323699421965318, 'f1': 0.8323699421965318, 'number': 173}
-overall_precision 0.7552083333333334
-overall_recall 0.8061153578874218
-overall_f1 0.7798319327731092
-overall_accuracy 0.9171441163508154
-total_time_in_seconds 4.749443094000526
-samples_per_second 148.64900705765186
-latency_in_seconds 0.006727256507082897
-```
 
 Whether a F1 score of .779 is 'good enough' depends on the performance of other models, how difficult the task is, and so on. It may be good enough for our needs, or we may want to collect more data, train on a bigger model, or adjust our parameters. For the purposes of the workshop, we will say that this is fine.
 
 ## Using our Model
 
 Now that we've created our model, we can run it just like we did the pretrained models. The code below should do just that. Feel free to compose your own example and see how well the model performs!
+
 
 ```python
 from transformers import pipeline
@@ -775,6 +650,7 @@ nlp = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="fi
 #model = AutoModelForTokenClassification.from_pretrained("karlholten/distilbert-carpentries-restaurant-ner")
 ```
 
+
 ```python
 EXAMPLE = "where is a four star restaurant in milwaukee with tapas"
 ner_results = nlp(EXAMPLE)
@@ -782,13 +658,7 @@ for entity in ner_results:
   print(entity)
 ```
 
-```
-{'entity_group': 'Rating', 'score': 0.96475923, 'word': 'four star', 'start': 11, 'end': 20}
-{'entity_group': 'Location', 'score': 0.9412049, 'word': 'milwaukee', 'start': 35, 'end': 44}
-{'entity_group': 'Dish', 'score': 0.87943256, 'word': 'tapas', 'start': 50, 'end': 55}
-```
-
-## Outro
+##  Outro
 
 That's it! Let's review briefly what we have done. We've discussed how to select a task. We used a HuggingFace example to help decide on a data format, and looked over it to get an idea of what the model expects. We went over Label Studio, one way to label your own data. We retokenized our example data and fine-tuned a model. Then we went over the results of our model.
 
