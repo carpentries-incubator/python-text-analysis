@@ -1,20 +1,24 @@
 ---
-title: "Preparing and Preprocessing Your Data"
+title: Preparing and Preprocessing Your Data
 teaching: 10
 exercises: 10
-questions:
-- "How can I prepare data for NLP?"
-- "What are tokenization, casing and lemmatization?"
-objectives:
-- "Load a test document into Spacy."
-- "Learn preprocessing tasks."
-keypoints:
-- "Tokenization breaks strings into smaller parts for analysis."
-- "Casing removes capital letters."
-- "Stopwords are common words that do not contain much useful information."
-- "Lemmatization reduces words to their root form."
 ---
-# Preparing and Preprocessing Your Data
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
+- Load a test document into Spacy.
+- Learn preprocessing tasks.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- How can I prepare data for NLP?
+- What are tokenization, casing and lemmatization?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Preparing and Preprocessing Your Data
 
 ## Collection
 
@@ -25,52 +29,52 @@ During the setup instructions, we asked you to download a number of files. These
 Take a moment to orient and familiarize yourself with them:
 
 - Austen
-  - Emma - [record](https://gutenberg.org/ebooks/158#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Emma_(novel))
-  - Lady Susan - [record](https://gutenberg.org/ebooks/946#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Lady_Susan)
-  - Northanger Abbey - [record](https://gutenberg.org/ebooks/121#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Northanger_Abbey)
-  - Persuasion - [record](https://www.gutenberg.org/ebooks/105#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Persuasion_(novel))
-  - Pride and Prejudice - [record](https://gutenberg.org/ebooks/1342#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Pride_and_Prejudice)
-  - Sense and Sensibility - [record](https://gutenberg.org/ebooks/21839#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Sense_and_Sensibility)
+  - Emma - [record](https://gutenberg.org/ebooks/158#bibrec) · [wiki](https://en.wikipedia.org/wiki/Emma_\(novel\))
+  - Lady Susan - [record](https://gutenberg.org/ebooks/946#bibrec) · [wiki](https://en.wikipedia.org/wiki/Lady_Susan)
+  - Northanger Abbey - [record](https://gutenberg.org/ebooks/121#bibrec) · [wiki](https://en.wikipedia.org/wiki/Northanger_Abbey)
+  - Persuasion - [record](https://www.gutenberg.org/ebooks/105#bibrec) · [wiki](https://en.wikipedia.org/wiki/Persuasion_\(novel\))
+  - Pride and Prejudice - [record](https://gutenberg.org/ebooks/1342#bibrec) · [wiki](https://en.wikipedia.org/wiki/Pride_and_Prejudice)
+  - Sense and Sensibility - [record](https://gutenberg.org/ebooks/21839#bibrec) · [wiki](https://en.wikipedia.org/wiki/Sense_and_Sensibility)
 - Chesteron
-  - The Ball and the Cross - [record](https://gutenberg.org/ebooks/5265#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Ball_and_the_Cross)
-  - The Innocence of Father Brown - [record](https://gutenberg.org/ebooks/204#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Father_Brown)
-  - The Man Who Knew Too Much - [record](https://gutenberg.org/ebooks/1720#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Man_Who_Knew_Too_Much_(book))
-  - The Napoleon of Notting Hill - [record](https://gutenberg.org/ebooks/20058#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Napoleon_of_Notting_Hill)
-  - The Man Who was Thursday - [record](https://gutenberg.org/ebooks/1695#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Man_Who_Was_Thursday)
-  - The Ballad of the White Horse - [record](https://gutenberg.org/ebooks/1719#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Ballad_of_the_White_Horse)
+  - The Ball and the Cross - [record](https://gutenberg.org/ebooks/5265#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Ball_and_the_Cross)
+  - The Innocence of Father Brown - [record](https://gutenberg.org/ebooks/204#bibrec) · [wiki](https://en.wikipedia.org/wiki/Father_Brown)
+  - The Man Who Knew Too Much - [record](https://gutenberg.org/ebooks/1720#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Man_Who_Knew_Too_Much_\(book\))
+  - The Napoleon of Notting Hill - [record](https://gutenberg.org/ebooks/20058#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Napoleon_of_Notting_Hill)
+  - The Man Who was Thursday - [record](https://gutenberg.org/ebooks/1695#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Man_Who_Was_Thursday)
+  - The Ballad of the White Horse - [record](https://gutenberg.org/ebooks/1719#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Ballad_of_the_White_Horse)
 - Dickens
-  - Bleak House - [record](https://www.gutenberg.org/ebooks/1023#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Bleak_House)
-  - A Christmas Carol - [record](https://gutenberg.org/ebooks/24022#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/A_Christmas_Carol)
-  - David Copperfield - [record](https://gutenberg.org/ebooks/766#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/David_Copperfield)
-  - Great Expectations - [record](https://gutenberg.org/ebooks/1400#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Great_Expectations)
-  - Hard Times - [record](https://gutenberg.org/ebooks/786#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Hard_Times_(novel))
-  - Oliver Twist - [record](https://gutenberg.org/ebooks/730#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Oliver_Twist)
-  - Our Mutual Friend - [record](https://gutenberg.org/ebooks/883#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Our_Mutual_Friend)
-  - The Pickwick Papers - [record](https://gutenberg.org/ebooks/580#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Pickwick_Papers)
-  - A Tale of Two Cities - [record](https://gutenberg.org/ebooks/98#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/A_Tale_of_Two_Cities)
+  - Bleak House - [record](https://www.gutenberg.org/ebooks/1023#bibrec) · [wiki](https://en.wikipedia.org/wiki/Bleak_House)
+  - A Christmas Carol - [record](https://gutenberg.org/ebooks/24022#bibrec) · [wiki](https://en.wikipedia.org/wiki/A_Christmas_Carol)
+  - David Copperfield - [record](https://gutenberg.org/ebooks/766#bibrec) · [wiki](https://en.wikipedia.org/wiki/David_Copperfield)
+  - Great Expectations - [record](https://gutenberg.org/ebooks/1400#bibrec) · [wiki](https://en.wikipedia.org/wiki/Great_Expectations)
+  - Hard Times - [record](https://gutenberg.org/ebooks/786#bibrec) · [wiki](https://en.wikipedia.org/wiki/Hard_Times_\(novel\))
+  - Oliver Twist - [record](https://gutenberg.org/ebooks/730#bibrec) · [wiki](https://en.wikipedia.org/wiki/Oliver_Twist)
+  - Our Mutual Friend - [record](https://gutenberg.org/ebooks/883#bibrec) · [wiki](https://en.wikipedia.org/wiki/Our_Mutual_Friend)
+  - The Pickwick Papers - [record](https://gutenberg.org/ebooks/580#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Pickwick_Papers)
+  - A Tale of Two Cities - [record](https://gutenberg.org/ebooks/98#bibrec) · [wiki](https://en.wikipedia.org/wiki/A_Tale_of_Two_Cities)
 - Dumas
-  - The Black Tulip - [record](https://gutenberg.org/ebooks/965#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Black_Tulip)
-  - The Man in the Iron Mask - [record](https://gutenberg.org/ebooks/2759#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Vicomte_of_Bragelonne:_Ten_Years_Later#Part_Three:_The_Man_in_the_Iron_Mask_(Chapters_181%E2%80%93269))
-  - The Count of Monte Cristo - [record](https://www.gutenberg.org/ebooks/1184#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo)
-  - Ten Years Later - [record](https://gutenberg.org/ebooks/2681#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Vicomte_of_Bragelonne:_Ten_Years_Later)
-  - The Three Musketeers - [record](https://gutenberg.org/ebooks/1257#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Three_Musketeers)
-  - Twenty Years After - [record](https://gutenberg.org/ebooks/1259#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Twenty_Years_After)
+  - The Black Tulip - [record](https://gutenberg.org/ebooks/965#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Black_Tulip)
+  - The Man in the Iron Mask - [record](https://gutenberg.org/ebooks/2759#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Vicomte_of_Bragelonne:_Ten_Years_Later#Part_Three:_The_Man_in_the_Iron_Mask_\(Chapters_181%E2%80%93269\))
+  - The Count of Monte Cristo - [record](https://www.gutenberg.org/ebooks/1184#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo)
+  - Ten Years Later - [record](https://gutenberg.org/ebooks/2681#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Vicomte_of_Bragelonne:_Ten_Years_Later)
+  - The Three Musketeers - [record](https://gutenberg.org/ebooks/1257#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Three_Musketeers)
+  - Twenty Years After - [record](https://gutenberg.org/ebooks/1259#bibrec) · [wiki](https://en.wikipedia.org/wiki/Twenty_Years_After)
 - Melville
-  - Bartleby, the Scrivener - [record](https://gutenberg.org/ebooks/11231#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Bartleby,_the_Scrivener)
-  - The Confidence-Man - [record](https://www.gutenberg.org/ebooks/21816) &middot; [wiki](https://en.wikipedia.org/wiki/The_Confidence-Man)
-  - Moby Dick - [record](https://gutenberg.org/ebooks/2701#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Moby-Dick)
-  - Omoo - [record](https://gutenberg.org/ebooks/4045#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Omoo)
-  - The Piazza Tales - [record](https://gutenberg.org/ebooks/15859#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/The_Piazza_Tales)
-  - Pierre - [record](https://gutenberg.org/ebooks/34970#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Pierre;_or,_The_Ambiguities)
-  - Typee - [record](https://gutenberg.org/ebooks/1900#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Typee)
+  - Bartleby, the Scrivener - [record](https://gutenberg.org/ebooks/11231#bibrec) · [wiki](https://en.wikipedia.org/wiki/Bartleby,_the_Scrivener)
+  - The Confidence-Man - [record](https://www.gutenberg.org/ebooks/21816) · [wiki](https://en.wikipedia.org/wiki/The_Confidence-Man)
+  - Moby Dick - [record](https://gutenberg.org/ebooks/2701#bibrec) · [wiki](https://en.wikipedia.org/wiki/Moby-Dick)
+  - Omoo - [record](https://gutenberg.org/ebooks/4045#bibrec) · [wiki](https://en.wikipedia.org/wiki/Omoo)
+  - The Piazza Tales - [record](https://gutenberg.org/ebooks/15859#bibrec) · [wiki](https://en.wikipedia.org/wiki/The_Piazza_Tales)
+  - Pierre - [record](https://gutenberg.org/ebooks/34970#bibrec) · [wiki](https://en.wikipedia.org/wiki/Pierre;_or,_The_Ambiguities)
+  - Typee - [record](https://gutenberg.org/ebooks/1900#bibrec) · [wiki](https://en.wikipedia.org/wiki/Typee)
 - Shakespeare
-  - The Trajedy of Julius Caesar - [record](https://gutenberg.org/ebooks/1120#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Julius_Caesar_(play))
-  - The Trajedy of King Lear - [record](https://gutenberg.org/ebooks/1532#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/King_Lear)
-  - A Midsummer Night's Dream - [record](https://gutenberg.org/ebooks/1514#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/A_Midsummer_Night%27s_Dream)
-  - Much Ado about Nothing - [record](https://gutenberg.org/ebooks/1519#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Much_Ado_About_Nothing)
-  - Othello, the Moor of Venice - [record](https://www.gutenberg.org/ebooks/1531) &middot; [wiki](https://en.wikipedia.org/wiki/Othello)
-  - Romeo and Juliet - [record](https://gutenberg.org/ebooks/1513#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Romeo_and_Juliet)
-  - Twelfth Night - [record](https://gutenberg.org/ebooks/1526#bibrec) &middot; [wiki](https://en.wikipedia.org/wiki/Twelfth_Night)
+  - The Trajedy of Julius Caesar - [record](https://gutenberg.org/ebooks/1120#bibrec) · [wiki](https://en.wikipedia.org/wiki/Julius_Caesar_\(play\))
+  - The Trajedy of King Lear - [record](https://gutenberg.org/ebooks/1532#bibrec) · [wiki](https://en.wikipedia.org/wiki/King_Lear)
+  - A Midsummer Night's Dream - [record](https://gutenberg.org/ebooks/1514#bibrec) · [wiki](https://en.wikipedia.org/wiki/A_Midsummer_Night%27s_Dream)
+  - Much Ado about Nothing - [record](https://gutenberg.org/ebooks/1519#bibrec) · [wiki](https://en.wikipedia.org/wiki/Much_Ado_About_Nothing)
+  - Othello, the Moor of Venice - [record](https://www.gutenberg.org/ebooks/1531) · [wiki](https://en.wikipedia.org/wiki/Othello)
+  - Romeo and Juliet - [record](https://gutenberg.org/ebooks/1513#bibrec) · [wiki](https://en.wikipedia.org/wiki/Romeo_and_Juliet)
+  - Twelfth Night - [record](https://gutenberg.org/ebooks/1526#bibrec) · [wiki](https://en.wikipedia.org/wiki/Twelfth_Night)
 
 While a full-sized corpus can include thousands of texts, these forty-odd texts will be enough for our illustrative purposes.
 
@@ -85,7 +89,7 @@ drive.mount('/content/drive')
 
 # Show existing colab notebooks and helpers.py file
 from os import listdir
-wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis/code'
+wksp_dir = '/content/drive/My Drive/Colab Notebooks/text-analysis'
 listdir(wksp_dir)
 
 # Add folder to colab's path so we can import the helper functions
@@ -93,7 +97,7 @@ import sys
 sys.path.insert(0, wksp_dir)
 ```
 
-Next, we have a corpus of text files we want to analyze. Let's create a method to list those files. To make this method more flexible, we will also use ```glob``` to allow us to put in regular expressions so we can filter the files if so desired. ```glob``` is a tool for listing files in a directory whose file names match some pattern, like all files ending in ```*.txt```.
+Next, we have a corpus of text files we want to analyze. Let's create a method to list those files. To make this method more flexible, we will also use `glob` to allow us to put in regular expressions so we can filter the files if so desired. `glob` is a tool for listing files in a directory whose file names match some pattern, like all files ending in `*.txt`.
 
 ```python
 !pip install pathlib parse
@@ -112,7 +116,7 @@ def create_file_list(directory, filter_str='*'):
   return files_to_analyze
 ```
 
-Alternatively, we can load this function from the ```helpers.py``` file we provided for learners in this course:
+Alternatively, we can load this function from the `helpers.py` file we provided for learners in this course:
 
 ```python
 from helpers import create_file_list
@@ -126,11 +130,19 @@ corpus_file_list = create_file_list(corpus_dir)
 print(corpus_file_list)
 ```
 
+```txt
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt']
+```
+
 We will use the full corpus later, but it might be useful to filter to just a few specific files. For example, if I want just documents written by Austen, I can filter on part of the file path name:
 
 ```python
 austen_list = create_file_list(corpus_dir, 'austen*')
 print(austen_list)
+```
+
+```txt
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt']
 ```
 
 Let's take a closer look at Emma. We are looking at the first full sentence, which begins with character 50 and ends at character 290.
@@ -146,6 +158,14 @@ with open(emmapath, 'r') as f:
 print(sentence)
 ```
 
+```txt
+/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt
+Emma Woodhouse, handsome, clever, and rich, with a comfortable home
+and happy disposition, seemed to unite some of the best blessings
+of existence; and had lived nearly twenty-one years in the world
+with very little to distress or vex her.
+```
+
 ## Preprocessing
 
 Currently, our data is still in a format that is best for humans to read. Humans, without having to think too consciously about it, understand how words and sentences group up and divide into discrete units of meaning. We also understand that the words *run*, *ran*, and *running* are just different grammatical forms of the same underlying concept. Finally, not only do we understand how punctuation affects the meaning of a text, we also can make sense of texts that have odd amounts or odd placements of punctuation.
@@ -158,12 +178,11 @@ Across the texts in our corpus, our authors write with different styles, preferr
 
 To prepare our data to be more uniformly understood by our NLP models, we need to (a) break it into smaller units, (b) replace words with their roots, and (c) remove unwanted common or unhelpful words and punctuation. These steps encompass the preprocessing stage of the interpretive loop.
 
-![The Interpretive Loop](files/images/01-Interpretive_Loop.JPG)
-
+![](fig/01-Interpretive_Loop.JPG){alt='The Interpretive Loop'}
 
 ### Tokenization
 
-Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as smaller units so that it can be embedded. These are called **tokens**.  
+Tokenization is the process of breaking down texts (strings of characters) into words, groups of words, and sentences. A string of characters needs to be understood by a program as smaller units so that it can be embedded. These are called **tokens**.
 
 While our tokens will be single words for now, this will not always be the case. Different models have different ways of tokenizing strings. The strings may be broken down into multiple word tokens, single word tokens, or even components of words like letters or morphology. Punctuation may or may not be included.
 
@@ -198,6 +217,64 @@ for t in tokens:
  print(t.text)
 ```
 
+```text
+Emma
+Woodhouse
+,
+handsome
+,
+clever
+,
+and
+rich
+,
+with
+a
+comfortable
+home
+
+
+and
+happy
+disposition
+,
+seemed
+to
+unite
+some
+of
+the
+best
+blessings
+
+
+of
+existence
+;
+and
+had
+lived
+nearly
+twenty
+-
+one
+years
+in
+the
+world
+
+
+with
+very
+little
+to
+distress
+or
+vex
+her
+.
+```
+
 The single sentence has been broken down into a set of tokens. Tokens in spacy aren't just strings: They're python objects with a variety of attributes. Full documentation for these attributes can be found at: <https://spacy.io/api/token>
 
 ### Stems and Lemmas
@@ -221,11 +298,125 @@ for t in tokens:
   print(t.lemma)
 ```
 
+```txt
+14931068470291635495
+17859265536816163747
+2593208677638477497
+7792995567492812500
+2593208677638477497
+5763234570816168059
+2593208677638477497
+2283656566040971221
+10580761479554314246
+2593208677638477497
+12510949447758279278
+11901859001352538922
+2973437733319511985
+12006852138382633966
+962983613142996970
+2283656566040971221
+244022080605231780
+3083117615156646091
+2593208677638477497
+15203660437495798636
+3791531372978436496
+1872149278863210280
+7000492816108906599
+886050111519832510
+7425985699627899538
+5711639017775284443
+451024245859800093
+962983613142996970
+886050111519832510
+4708766880135230039
+631425121691394544
+2283656566040971221
+14692702688101715474
+13874798850131827181
+16179521462386381682
+8304598090389628520
+9153284864653046197
+17454115351911680600
+14889849580704678361
+3002984154512732771
+7425985699627899538
+1703489418272052182
+962983613142996970
+12510949447758279278
+9548244504980166557
+9778055143417507723
+3791531372978436496
+14526277127440575953
+3740602843040177340
+14980716871601793913
+6740321247510922449
+12646065887601541794
+962983613142996970
+```
+
 Spacy stores words by an ID number, and not as a full string, to save space in memory. Many spacy functions will return numbers and not words as you might expect. Fortunately, adding an underscore for spacy will return text representations instead. We will also add in the lower case function so that all words are lower case.
 
 ```python
 for t in tokens:
  print(str.lower(t.lemma_))
+```
+
+```txt
+emma
+woodhouse
+,
+handsome
+,
+clever
+,
+and
+rich
+,
+with
+a
+comfortable
+home
+
+
+and
+happy
+disposition
+,
+seem
+to
+unite
+some
+of
+the
+good
+blessing
+
+
+of
+existence
+;
+and
+have
+live
+nearly
+twenty
+-
+one
+year
+in
+the
+world
+
+
+with
+very
+little
+to
+distress
+or
+vex
+she
+.
 ```
 
 Notice how words like *best* and *her* have been changed to their root words like *good* and *she*. Let's change our tokenizer to save the lower cased, lemmatized versions of words instead of the original words.
@@ -249,6 +440,10 @@ Stop-words are common words that are often filtered out for more efficient natur
 ```python
 from spacy.lang.en.stop_words import STOP_WORDS
 print(STOP_WORDS)
+```
+
+```txt
+{''s', 'must', 'again', 'had', 'much', 'a', 'becomes', 'mostly', 'once', 'should', 'anyway', 'call', 'front', 'whence', ''ll', 'whereas', 'therein', 'himself', 'within', 'ourselves', 'than', 'they', 'toward', 'latterly', 'may', 'what', 'her', 'nowhere', 'so', 'whenever', 'herself', 'other', 'get', 'become', 'namely', 'done', 'could', 'although', 'which', 'fifteen', 'seems', 'hereafter', 'whereafter', 'two', "'ve", 'to', 'his', 'one', ''d', 'forty', 'being', 'i', 'four', 'whoever', 'somehow', 'indeed', 'that', 'afterwards', 'us', 'she', "'d", 'herein', ''ll', 'keep', 'latter', 'onto', 'just', 'too', "'m", ''re', 'you', 'no', 'thereby', 'various', 'enough', 'go', 'myself', 'first', 'seemed', 'up', 'until', 'yourselves', 'while', 'ours', 'can', 'am', 'throughout', 'hereupon', 'whereupon', 'somewhere', 'fifty', 'those', 'quite', 'together', 'wherein', 'because', 'itself', 'hundred', 'neither', 'give', 'alone', 'them', 'nor', 'as', 'hers', 'into', 'is', 'several', 'thus', 'whom', 'why', 'over', 'thence', 'doing', 'own', 'amongst', 'thereupon', 'otherwise', 'sometime', 'for', 'full', 'anyhow', 'nine', 'even', 'never', 'your', 'who', 'others', 'whole', 'hereby', 'ever', 'or', 'and', 'side', 'though', 'except', 'him', 'now', 'mine', 'none', 'sixty', "n't", 'nobody', ''m', 'well', "'s", 'then', 'part', 'someone', 'me', 'six', 'less', 'however', 'make', 'upon', ''s', ''re', 'back', 'did', 'during', 'when', ''d', 'perhaps', "'re", 'we', 'hence', 'any', 'our', 'cannot', 'moreover', 'along', 'whither', 'by', 'such', 'via', 'against', 'the', 'most', 'but', 'often', 'where', 'each', 'further', 'whereby', 'ca', 'here', 'he', 'regarding', 'every', 'always', 'are', 'anywhere', 'wherever', 'using', 'there', 'anyone', 'been', 'would', 'with', 'name', 'some', 'might', 'yours', 'becoming', 'seeming', 'former', 'only', 'it', 'became', 'since', 'also', 'beside', 'their', 'else', 'around', 're', 'five', 'an', 'anything', 'please', 'elsewhere', 'themselves', 'everyone', 'next', 'will', 'yourself', 'twelve', 'few', 'behind', 'nothing', 'seem', 'bottom', 'both', 'say', 'out', 'take', 'all', 'used', 'therefore', 'below', 'almost', 'towards', 'many', 'sometimes', 'put', 'were', 'ten', 'of', 'last', 'its', 'under', 'nevertheless', 'whatever', 'something', 'off', 'does', 'top', 'meanwhile', 'how', 'already', 'per', 'beyond', 'everything', 'not', 'thereafter', 'eleven', 'n't', 'above', 'eight', 'before', 'noone', 'besides', 'twenty', 'do', 'everywhere', 'due', 'empty', 'least', 'between', 'down', 'either', 'across', 'see', 'three', 'on', 'formerly', 'be', 'very', 'rather', 'made', 'has', 'this', 'move', 'beforehand', 'if', 'my', 'n't', "'ll", 'third', 'without', ''m', 'yet', 'after', 'still', 'same', 'show', 'in', 'more', 'unless', 'from', 'really', 'whether', ''ve', 'serious', 'these', 'was', 'amount', 'whose', 'have', 'through', 'thru', ''ve', 'about', 'among', 'another', 'at'}
 ```
 
 It's possible to add and remove words as well, for example, *zebra*:
@@ -290,6 +485,34 @@ for token in tokens:
     print(str.lower(token.lemma_))
 ```
 
+```txt
+woodhouse
+handsome
+clever
+rich
+comfortable
+home
+
+
+happy
+disposition
+unite
+good
+blessing
+
+
+existence
+live
+nearly
+year
+world
+
+
+little
+distress
+vex
+```
+
 Notice that because we added *emma* to our stopwords, she is not in our preprocessed sentence any more. Other stopwords are also missing such as numbers.
 
 Let's filter out stopwords and punctuation from our custom tokenizer now as well:
@@ -313,12 +536,42 @@ class Our_Tokenizer:
 
 While we can manually add Emma to our stopword list, it may occur to you that novels are filled with characters with unique and unpredictable names. We've already missed the word "Woodhouse" from our list. Creating an enumerated list of all of the possible character names seems impossible.
 
-One way we might address this problem is by using **Parts of speech (POS)** tagging. POS are things such as nouns, verbs, and adjectives. POS tags often prove useful, so some tokenizers also have built in POS tagging done. Spacy is one such library. These tags are not 100% accurate, but they are a great place to start. Spacy's POS tags can be used by accessing the ```pos_``` method for each token.
+One way we might address this problem is by using **Parts of speech (POS)** tagging. POS are things such as nouns, verbs, and adjectives. POS tags often prove useful, so some tokenizers also have built in POS tagging done. Spacy is one such library. These tags are not 100% accurate, but they are a great place to start. Spacy's POS tags can be used by accessing the `pos_` method for each token.
 
 ```python
 for token in tokens:
   if token.is_stop == False and token.is_punct == False:
     print(str.lower(token.lemma_)+" "+token.pos_)
+```
+
+```txt
+woodhouse PROPN
+handsome ADJ
+clever ADJ
+rich ADJ
+comfortable ADJ
+home NOUN
+
+  SPACE
+happy ADJ
+disposition NOUN
+unite VERB
+good ADJ
+blessing NOUN
+
+  SPACE
+existence NOUN
+live VERB
+nearly ADV
+year NOUN
+world NOUN
+
+  SPACE
+little ADJ
+distress VERB
+vex VERB
+
+  SPACE
 ```
 
 Because our dataset is relatively small, we may find that character names and places weigh very heavily in our early models. We also have a number of blank or white space tokens, which we will also want to remove.
@@ -371,20 +624,27 @@ tokens = tokenizer(sentence)
 print(tokens)
 ```
 
+```txt
+['handsome', 'clever', 'rich', 'comfortable', 'home', 'happy', 'disposition', 'unite', 'good', 'blessing', 'existence', 'live', 'nearly', 'year', 'world', 'little', 'distress', 'vex']
+```
+
 ## Putting it All Together
 
 Now that we've built a tokenizer we're happy with, lets use it to create lemmatized versions of all the books in our corpus.
 
 That is, we want to turn this:
 
-"Emma Woodhouse, handsome, clever, and rich, with a comfortable home
+```txt
+Emma Woodhouse, handsome, clever, and rich, with a comfortable home
 and happy disposition, seemed to unite some of the best blessings
 of existence; and had lived nearly twenty-one years in the world
-with very little to distress or vex her."
+with very little to distress or vex her.
+```
 
 into this:
 
-"handsome
+```txt
+handsome
 clever
 rich
 comfortable
@@ -403,22 +663,25 @@ world
 very
 little
 distress
-vex"
+vex
+```
 
-To help make this *relatively* quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
+To help make this quick for all the text in all our books, we'll use a helper function we prepared for learners to use our tokenizer, do the casing and lemmatization we discussed earlier, and write the results to a file:
 
 ```python
 from helpers import lemmatize_files
-
-# SKIP THIS - it takes too long to run during a live class. Lemma files are preprocessed for you and saved to data/book_lemmas
-#lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
+lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)
 ```
 
-This process may take several minutes to run. If you don't want to wait, you can stop the cell running and use our pre-baked solution (lemma files) found in data/book_lemmas. The next section will walk you through both options.
+```txt
+['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt.lemmas']
+```
 
-## Creating dataframe to work with files and lemmas easily
+This process may take several minutes to run. Doing this preprocessing now however will save us much, much time later.
 
-Let's save a dataframe / spreadsheet that lists all our authors, books, and associated filenames, both the original and lemmatized copies.
+## Saving Our Progress
+
+Let's save our progress by storing a spreadsheet (`*.csv` or `*.xlsx` file) that lists all our authors, books, and associated filenames, both the original and lemmatized copies.
 
 We'll use another helper we prepared to make this easy:
 
@@ -426,30 +689,7 @@ We'll use another helper we prepared to make this easy:
 from helpers import parse_into_dataframe
 pattern = "/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/{author}-{title}.txt"
 data = parse_into_dataframe(pattern, corpus_file_list)
-data.head()
-```
-
-Next, we can add the lemma files to the dataframe. If you ran the lemmatize_files() function above successfully, you can use:
-```python
 data["Lemma_File"] = lemma_file_list
-data.head()
-```
-
-Otherwise, we can add the "pre-baked" lemmas to our dataframe using
-
-```python
-def get_lemma_path(file_path):
-    # Convert to Path object for easier manipulation
-    p = Path(file_path)
-    # Extract the filename like 'austen-sense.txt'
-    file_name = p.name
-    # Create new path with 'book_lemmas' instead of 'books' and add .lemmas
-    lemma_name = file_name + ".lemmas"
-    return str(p.parent.parent / "book_lemmas" / lemma_name)
-
-# Add new column
-data["Lemma_File"] = data["File"].apply(get_lemma_path)
-data.head()
 ```
 
 Finally, we'll save this table to a file:
@@ -463,3 +703,14 @@ data.to_csv("/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv
 This lesson has covered a number of preprocessing steps. We created a list of our files in our corpus, which we can use in future lessons. We customized a tokenizer from Spacy, to better suit the needs of our corpus, which we can also use moving forward.
 
 Next lesson, we will start talking about the concepts behind our model.
+
+:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- Tokenization breaks strings into smaller parts for analysis.
+- Casing removes capital letters.
+- Stopwords are common words that do not contain much useful information.
+- Lemmatization reduces words to their root form.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+

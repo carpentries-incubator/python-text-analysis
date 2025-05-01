@@ -6,19 +6,18 @@
 
 Current maintainers of this lesson are
 
-* [Chris Endemann](https://github.com/qualiaMachine)
-* [Ann Hanlon](https://github.com/annhanlon)
-* [Karl Holten](https://github.com/Karl-Holten/)
-* Jennifer Patino
+- Chris Endemann
+- [Ann Hanlon](https://github.com/annhanlon)
+- [Karl Holten](https://github.com/Karl-Holten/)
+- Mariah A. Knowles
+- Jennifer Patino
 
 ## Authors
 
-A list of contributors to the lesson can be found in [AUTHORS](AUTHORS)
+A list of contributors to the lesson can be found in <AUTHORS>
 
 ## Citation
 
-To cite this lesson, please consult with [CITATION](CITATION)
+To cite this lesson, please consult with <CITATION>
 
-[cdh]: https://cdh.carpentries.org
-[community-lessons]: https://carpentries.org/community-lessons
-[lesson-example]: https://carpentries.github.io/lesson-example
+

@@ -8,29 +8,35 @@
 # lc: Library Carpentry
 # cp: Carpentries (to use for instructor training for instance)
 # incubator: The Carpentries Incubator
-carpentry: 'swc'
+# Note that you can also use a custom carpentry type. For more info,
+# see the documentation: https://carpentries.github.io/sandpaper-docs/editing.html
+carpentry: 'cp'
+
+# Custom carpentry description
+# This will be used as the alt text for the logo
+# carpentry_description: "Custom Carpentry"
 
 # Overall title for pages.
-title: 'Text Analysis using Python'
+title: 'Text Analysis in Python'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: '2025-03-27'
+created: 2020-10-12
 
 # Comma-separated list of keywords for the lesson
-keywords: 'software, data, lesson, The Carpentries, text analysis, python, llm'
+keywords: 'software, data, lesson, The Carpentries'
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'alpha'
+life_cycle: 'pre-alpha'
 
 # License of the lesson materials (recommended CC-BY 4.0)
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/carpentries-incubator/python-text-analysis'
+source: 'https://github.com/josenino95/python-text-analysis'
 
 # Default branch of your lesson
-branch: 'gh-pages'
+branch: 'main'
 
 # Who to contact if there are any issues
 contact: 'team@carpentries.org'
@@ -86,7 +92,7 @@ profiles:
 # sandpaper and varnish versions) should live
 
 
-url: 'https://carpentries-incubator.github.io/python-text-analysis'
+carpentry_description: Lesson Description
+url: 'https://josenino95.github.io/python-text-analysis'
 analytics: carpentries
 lang: en
-

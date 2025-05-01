@@ -1,65 +1,63 @@
 ---
 exercises: 20
-keypoints:
-- You will need to evaluate the suitability of data for inclusion in your corpus and will need to take into consideration issues such as legal/ethical restrictions and data quality among others.
-- It is important to think critically about data sources and the context of how they were created or assembled.
-- Becoming familiar with your data and its characteristics can help you prepare your data for analysis. 
+teaching: 20
+title: Corpus Development- Text Data Collection
+---
 
-- 
-objectives:
+::::::::::::::::::::::::::::::::::::::: objectives
+
 - Become familiar with technical and legal/ethical considerations for data collection.
-- Practice evaluating text data files created through different processes.  
+- Practice evaluating text data files created through different processes.
 
-questions:
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
 - How do I evaluate what kind of data to use for my project?
 - What do I need to consider when building my corpus?
 
-teaching: 20
-title: Corpus Development- Text Data Collection
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
----
-
-# Corpus Development- Text Data Collection
+## Corpus Development- Text Data Collection
 
 ## Building Your Corpus
 
-The best sources to build a corpus, or dataset, for text analysis will ultimately depend on the needs of your project. Datasets and sources are not usually prepared to be used in specific kinds of projects, therefore the burden is on the researcher to select materials that will be suitable for their corpus. 
+The best sources to build a corpus, or dataset, for text analysis will ultimately depend on the needs of your project. Datasets and sources are not usually prepared to be used in specific kinds of projects, therefore the burden is on the researcher to select materials that will be suitable for their corpus.
 
 ## Evaluating Data
 
-It can be tempting to find a source and grab its data in bulk, trusting that it will be a fit for your analyses because it meets certain criteria. However, it is important to think critically about the data you are gathering, its context, and the corpus you are assembling. Doing so will allow you to create a corpus that can both meet your project’s needs and possibly serve as its own contribution to your field. As you collect your data and assemble your corpus, you will need to think critically about  the content, file types, reduction of bias, rights and permissions, quality, and features needed for your analysis. You may find that no one source fits all of these needs and it may be best to put together a corpus from a variety of sources. 
+It can be tempting to find a source and grab its data in bulk, trusting that it will be a fit for your analyses because it meets certain criteria. However, it is important to think critically about the data you are gathering, its context, and the corpus you are assembling. Doing so will allow you to create a corpus that can both meet your project's needs and possibly serve as its own contribution to your field. As you collect your data and assemble your corpus, you will need to think critically about  the content, file types, reduction of bias, rights and permissions, quality, and features needed for your analysis. You may find that no one source fits all of these needs and it may be best to put together a corpus from a variety of sources.
 
 ## Content type
 
 Materials used in projects can be either born digital, meaning that they originated in a digital format, or digitized, meaning that they were converted to a digital format. Common sources of text data for text analysis projects include digitized archival or primary source materials, newspapers, books, social media, and research articles. Depending on your project, you may even need to digitize some materials yourself. If you are accessing born digital materials, you will want to document the dates you accessed the resources as sources that are born digital may change over time and diverge from those in your corpus. If you are digitizing materials, you will want to document your process for digitization and make sure you are considering the rights and restrictions that apply to your materials.
 
-
-The nature of your research question will inform the content type and your potential data sources. A question like “How are women represented in 19th century texts?” is very broad. A corpus that explores this question might quickly exceed your computing power as it is large enough to include all content types. Instead, it would be helpful to narrow the scope of the question and this will also narrow down the content type and potential sources. Which women? Where? What kind of texts - newspapers, novels, magazines, legal documents? A question like “How are women represented in classic 19th century American novels?” narrows the scope and content type to 19th century classic American novels. 
+The nature of your research question will inform the content type and your potential data sources. A question like "How are women represented in 19th century texts?" is very broad. A corpus that explores this question might quickly exceed your computing power as it is large enough to include all content types. Instead, it would be helpful to narrow the scope of the question and this will also narrow down the content type and potential sources. Which women? Where? What kind of texts - newspapers, novels, magazines, legal documents? A question like "How are women represented in classic 19th century American novels?" narrows the scope and content type to 19th century classic American novels.
 
 Once you know the type of materials you need, you can begin exploring data sources for your project. Sources of text data can include government documents, cultural institutions such as archives, libraries, and museums, online projects, and commercial sources. Many sources make their data easily available for download or through an API. Depending on the source, you may also be able to reach out and ask for a copy of data. Other sources, such as commercial vendors, including vendors that work with libraries, can restrict access to their full text data or not allow for download outside of their platform. Although researchers tend to prefer full text data for text analysis, metadata from a source can also be useful for analysis.
 
 ## File types
 
-Text data can come in different forms, including unstructured text in a plain text file, or in a structured file such as json, html, or xml. As you collect files for potential use in your corpus, creating an inventory of the file types will be helpful as you decide whether to include files, which files to convert, and what kind of analyses you may want to explore. 
+Text data can come in different forms, including unstructured text in a plain text file, or in a structured file such as json, html, or xml. As you collect files for potential use in your corpus, creating an inventory of the file types will be helpful as you decide whether to include files, which files to convert, and what kind of analyses you may want to explore.
 
-You may find that the documents you want to analyze may not be in the format you want them to be. They may not even be in text form. A common source of data for text analysis in the digital humanities includes digitized sources. Digitized documents result in jpeg images, which aren’t very useful for text analysis. Some sources also provide a text file for the digitized image which is generated by either Optical Character Recognition (ORC) or, if the document was handwritten, by Handwritten Text Recognition (HTR), which converts images to text. A source may have audio files that are important to your corpus and may or may not contain a transcript generated by speech transcription software. The process of converting files is out of scope for this lesson, but it is worth mentioning that you can also use an OCR tool such as Tesseract, an HTR tool like eScriptorium, or a speech to text tool like DeepSpeech, which are all open source, to convert your files from image or audio to text. 
+You may find that the documents you want to analyze may not be in the format you want them to be. They may not even be in text form. A common source of data for text analysis in the digital humanities includes digitized sources. Digitized documents result in jpeg images, which aren't very useful for text analysis. Some sources also provide a text file for the digitized image which is generated by either Optical Character Recognition (ORC) or, if the document was handwritten, by Handwritten Text Recognition (HTR), which converts images to text. A source may have audio files that are important to your corpus and may or may not contain a transcript generated by speech transcription software. The process of converting files is out of scope for this lesson, but it is worth mentioning that you can also use an OCR tool such as Tesseract, an HTR tool like eScriptorium, or a speech to text tool like DeepSpeech, which are all open source, to convert your files from image or audio to text.
 
 ## Rights and Restrictions
 
-One of the most important criteria for inclusion in your corpus is whether or not you have the right to use the data in the way your project requires. When evaluating data sources for your project, you may need to navigate a variety of legal and ethical issues. We’ll briefly mention some of them below, but to learn more about these issues, we recommend the open access book Building Legal Literacies for Text and Data Mining. If you are working with foreign-held or licensed content or your project involves international research collaborations, we recommend reviewing resources from the Legal Literacies for Text Data Mining- Cross Border Project (LLTDMX).
+One of the most important criteria for inclusion in your corpus is whether or not you have the right to use the data in the way your project requires. When evaluating data sources for your project, you may need to navigate a variety of legal and ethical issues. We'll briefly mention some of them below, but to learn more about these issues, we recommend the open access book Building Legal Literacies for Text and Data Mining. If you are working with foreign-held or licensed content or your project involves international research collaborations, we recommend reviewing resources from the Legal Literacies for Text Data Mining- Cross Border Project (LLTDMX).
 
-*   **Copyright** - Copyright law in the United States protects original works of authorship and grants the right to reproduce the work, to create derivative works, distribute copies, perform the work publicly, and to share the work publicly. Fair use may create exceptions for some TDM activities, but if you are analyzing the full text of copyrighted material, publicly sharing that corpus would most likely not be allowed. 
-*   **Licensing** - Licenses grant permission to use materials in certain ways while usually restricting others. If you are working with databases or other licensed collections of materials, make sure that you understand the license and how it applies to text and data mining. 
-*   **Terms of Use** - If you are collecting text data from other sources, such as websites or applications, make sure that you understand any retrictions on how the data can be used. 
-*   **Technology Protection Measures** - Some publishers and content hosts protect their copyrighted/licensed materials through encryption. While commercial versions of ebooks, for example, would make for easy content to analyze, circumventing these protections would be illegal in the United States under the Digital Millennium Copyright Act. 
-*   **Privacy** - Before sharing a corpus publicly, consider whether doing so would constitute any legal or ethical violations, especially with regards to privacy. Consulting with digital scholarship librarians at your university or professional organizations in your field would be a good place to learn about privacy issues that might arise with the type of data you are working with. 
-*   **Research Protections** - Depending on the type of corpus you are creating, you might need to consider human subject research protections such as informed consent. Your institution’s Institutional Review Board may be able to help you navigate emerging issues surrounding text data that is publicly available but could be sensitive, such as social media data. 
+- **Copyright** - Copyright law in the United States protects original works of authorship and grants the right to reproduce the work, to create derivative works, distribute copies, perform the work publicly, and to share the work publicly. Fair use may create exceptions for some TDM activities, but if you are analyzing the full text of copyrighted material, publicly sharing that corpus would most likely not be allowed.
+- **Licensing** - Licenses grant permission to use materials in certain ways while usually restricting others. If you are working with databases or other licensed collections of materials, make sure that you understand the license and how it applies to text and data mining.
+- **Terms of Use** - If you are collecting text data from other sources, such as websites or applications, make sure that you understand any retrictions on how the data can be used.
+- **Technology Protection Measures** - Some publishers and content hosts protect their copyrighted/licensed materials through encryption. While commercial versions of ebooks, for example, would make for easy content to analyze, circumventing these protections would be illegal in the United States under the Digital Millennium Copyright Act.
+- **Privacy** - Before sharing a corpus publicly, consider whether doing so would constitute any legal or ethical violations, especially with regards to privacy. Consulting with digital scholarship librarians at your university or professional organizations in your field would be a good place to learn about privacy issues that might arise with the type of data you are working with.
+- **Research Protections** - Depending on the type of corpus you are creating, you might need to consider human subject research protections such as informed consent. Your institution's Institutional Review Board may be able to help you navigate emerging issues surrounding text data that is publicly available but could be sensitive, such as social media data.
 
 ## Assessing Data Sources for Bias
 
-Thinking critically about sources of data and the bias they may introduce to your project is important. It can be tempting to think that datasets are objective and that computational analysis can give you objective answers, however, the strength of the humanities is being able to interpret and understand subjectivity. Who created the data you are considering and for what purpose? What biases might they have held and how might that impact what is included or excluded from your data? 
+Thinking critically about sources of data and the bias they may introduce to your project is important. It can be tempting to think that datasets are objective and that computational analysis can give you objective answers, however, the strength of the humanities is being able to interpret and understand subjectivity. Who created the data you are considering and for what purpose? What biases might they have held and how might that impact what is included or excluded from your data?
 
-It is also important to think about the bias you may create as you choose your sources and assemble your corpus. If you are creating a corpus to explore how immigrant women are represented in 19th century American novels, you should consider who you are representing in your own corpus. Are any of the authors you are including women? Are any of them immigrants? Including different perspectives can give you a richer corpus that could lead to multiple insights that wouldn’t have been possible with a more limited corpus. 
+It is also important to think about the bias you may create as you choose your sources and assemble your corpus. If you are creating a corpus to explore how immigrant women are represented in 19th century American novels, you should consider who you are representing in your own corpus. Are any of the authors you are including women? Are any of them immigrants? Including different perspectives can give you a richer corpus that could lead to multiple insights that wouldn't have been possible with a more limited corpus.
 
 Another source of bias that you should consider is the bias in datasets used to train models you might use in your research and what impact they might have on your analysis. Research the models you are considering. What data were they trained on? Are there known issues with those datasets? If there are known bias issues with the model or you discover some, you will need to consider your options. Is it possible to remediate the model by either removing the biased dataset or adding new training data? Is there an alternative model trained on different data?
 
@@ -67,26 +65,33 @@ Another source of bias that you should consider is the bias in datasets used to 
 
 Sources of text data each have their own characteristics depending on content type and whether the source was digitized, born digital, or converted from another medium. This may impact the quality of the data or give it certain characteristics. As you assemble your corpus, you should think critically about how the quality of the data and its features might impact your analysis or your decision to include it.
 
-Text data sources that are born digital, meaning that they are created in digital formats rather than being converted or digitized, tend to have better quality data. However, this does not mean that they will necessarily be the best for your project or easier to work with. You should become familiar with your data sources, the way the data source  impacts the text data, and options for improving the data quality if necessary. 
+Text data sources that are born digital, meaning that they are created in digital formats rather than being converted or digitized, tend to have better quality data. However, this does not mean that they will necessarily be the best for your project or easier to work with. You should become familiar with your data sources, the way the data source  impacts the text data, and options for improving the data quality if necessary.
 
-Let’s look at two different content types, a novel and a newspaper, and how they are formatted. We’ll be working with novels from Project Gutenberg in the next lesson, including the novel “Emma” by Jane Austen. In this lesson we’ll compare the data from that ebook with OCR text data from a digitized newspaper of an article about Jane Austen. 
+Let's look at two different content types, a novel and a newspaper, and how they are formatted. We'll be working with novels from Project Gutenberg in the next lesson, including the novel "Emma" by Jane Austen. In this lesson we'll compare the data from that ebook with OCR text data from a digitized newspaper of an article about Jane Austen.
 
-Let’s explore the Project Gutenberg file for “Emma.” Project Gutenberg offers public domain ebooks in HTML or plain text. Uploaded versions must be proofread and often have had page numbers, headers, and footers removed. This makes for good quality plain text data that is easy to work with. However, it includes language about the project and the rights associated with the ebook at the beginning of each file that may need to be removed for cleaner text. 
+Let's explore the Project Gutenberg file for "Emma." Project Gutenberg offers public domain ebooks in HTML or plain text. Uploaded versions must be proofread and often have had page numbers, headers, and footers removed. This makes for good quality plain text data that is easy to work with. However, it includes language about the project and the rights associated with the ebook at the beginning of each file that may need to be removed for cleaner text.
 
-This novel is formatted to include a table of contents at the beginning that outlines its structure. Depending on your analysis, you could use these features to either divide the text data into its volumes and chapters or if you don’t need it, you can decide to remove the capitalized words volume and chapters from the corpus.
+This novel is formatted to include a table of contents at the beginning that outlines its structure. Depending on your analysis, you could use these features to either divide the text data into its volumes and chapters or if you don't need it, you can decide to remove the capitalized words volume and chapters from the corpus.
 
-Now let’s look at a digitized image of an article about Jane Austen from the Library of Congress’s Chronicling America: Historic American Newspapers collection and its accompanying OCR text. 
+Now let's look at a digitized image of an article about Jane Austen from the Library of Congress's Chronicling America: Historic American Newspapers collection and its accompanying OCR text.
 
-You can see that the text in the image is in columns. Because of the way the OCR process works, the OCR text data will be in columns as well and will preserve all the instances of words being broken up by this feature. When you look at the OCR text file, you can see that it also includes the text of all the other articles in the same image. 
+You can see that the text in the image is in columns. Because of the way the OCR process works, the OCR text data will be in columns as well and will preserve all the instances of words being broken up by this feature. When you look at the OCR text file, you can see that it also includes the text of all the other articles in the same image.
 
-
-When you look at the quality of the text data, you can see that it is full of misspelled and broken up words. If you wanted to include it in a corpus, you might want to improve the quality of the text data by increasing the contrast or sharpening the image of the text you want and running it through OCR tools. An advanced technique involves running the image through three OCR programs and comparing the outputs against each other. 
+When you look at the quality of the text data, you can see that it is full of misspelled and broken up words. If you wanted to include it in a corpus, you might want to improve the quality of the text data by increasing the contrast or sharpening the image of the text you want and running it through OCR tools. An advanced technique involves running the image through three OCR programs and comparing the outputs against each other.
 
 ## Assembling Your Corpus
 
-Now that you have an understanding of what you need to consider when collecting data for a corpus, it can be useful to create a list with the requirements of your specific project to help you evaluate your data. Your corpus might be made up from different sources that you are bringing together. It is important for you to document the sources for your data, including the date accessed, search terms you used, and any decisions you made about what to include or exclude. Whether you are able to make your corpus public later on will depend on the rights and restrictions of the sources used, so make sure to document that information as well. 
+Now that you have an understanding of what you need to consider when collecting data for a corpus, it can be useful to create a list with the requirements of your specific project to help you evaluate your data. Your corpus might be made up from different sources that you are bringing together. It is important for you to document the sources for your data, including the date accessed, search terms you used, and any decisions you made about what to include or exclude. Whether you are able to make your corpus public later on will depend on the rights and restrictions of the sources used, so make sure to document that information as well.
 
-Although it sounds impressive, Big Data doesn’t always make for a better project. The size of your corpus should depend on your project’s needs, your storage capacity, and your computing power. A smaller dataset with more targeted documents might actually be better at helping you arrive at the insights that you need, depending on your use case. Whether your corpus consists of hundreds of documents or millions, the important thing is to create the corpus that works best for your project. 
+Although it sounds impressive, Big Data doesn't always make for a better project. The size of your corpus should depend on your project's needs, your storage capacity, and your computing power. A smaller dataset with more targeted documents might actually be better at helping you arrive at the insights that you need, depending on your use case. Whether your corpus consists of hundreds of documents or millions, the important thing is to create the corpus that works best for your project.
 
+:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- You will need to evaluate the suitability of data for inclusion in your corpus and will need to take into consideration issues such as legal/ethical restrictions and data quality among others.
+- It is important to think critically about data sources and the context of how they were created or assembled.
+- Becoming familiar with your data and its characteristics can help you prepare your data for analysis.
+- NULL
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 

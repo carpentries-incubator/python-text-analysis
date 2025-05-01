@@ -1,11 +1,8 @@
 import pathlib
-from pathlib import Path
 import parse
 import pandas
 import logging
 import matplotlib.pyplot as plt
-import pandas as pd
-
 from collections import defaultdict
 
 import nltk # preprocess_text function
@@ -56,37 +53,26 @@ def parse_into_dataframe(pattern, items, col_name="File"):
 
     return pandas.DataFrame.from_dict(results)
 
+
 def lemmatize_files(tokenizer, corpus_file_list):
     """
-    Lemmatizes the given list of corpus files and stores output in `data/book_lemmas/`.
-
-    Returns a list of lemma file paths (as strings).
+    Example:
+        data["Lemma_File"] = lemmatize_files(tokenizer, corpus_file_list)
     """
     logging.warning("This function is computationally intensive. It may take several minutes to finish running.")
+    N = len(corpus_file_list)
     lemma_filename_list = []
-
     for i, filename in enumerate(corpus_file_list):
-        progress_log = f"{i+1} out of {len(corpus_file_list)}: Lemmatizing {filename}"
+        progress_log = f"{i+1} out of {N}: Lemmatizing {filename}"
         print(progress_log)
         logging.info(progress_log)
-
-        # Parse and build the lemma file path
-        p = Path(filename)
-        output_dir = p.parents[1] / "book_lemmas"
-        output_dir.mkdir(parents=True, exist_ok=True)
-        lemma_path = output_dir / (p.name + ".lemmas")
-
-        # Read, lemmatize, and write to the lemma file
-        with open(filename, "r", encoding="utf-8") as f_in:
-            text = f_in.read()
-        tokens = tokenizer(text)
-        with open(lemma_path, "w", encoding="utf-8") as f_out:
-            f_out.writelines(token.lemma_.lower() + "\n" for token in tokens)
-
-        lemma_filename_list.append(str(lemma_path))
-
+        lemma_filename = filename + ".lemmas"
+        lemma_filename_list.append(lemma_filename)
+        open(lemma_filename, "w", encoding="utf-8").writelines(
+            token.lemma_.lower() + "\n"
+            for token in tokenizer(open(filename, "r", encoding="utf-8").read())
+        )
     return lemma_filename_list
-
 
 def matrix_to_sorted_dataframe(mat, index, sortby):
     df = pandas.DataFrame(mat, index=index, columns=[sortby]) 
@@ -197,23 +183,14 @@ def lsa_plot(data, model, x="X", y="Y", xlabel="Topic X", ylabel="Topic Y", titl
 
     plt.show()
 
-def show_topics(vectorizer, svdmodel, topic_number=1, n=10):
-    # Get the feature names (terms) from the TF-IDF vectorizer
+def show_topics(vectorizer, model, topic_number=1, n=10):
+    """
+    Example:
+        showTopics(vectorizer, model, topic_number=1, n=5)
+    """
     terms = vectorizer.get_feature_names_out()
-    
-    # Get the weights of the terms for the specified topic from the SVD model
-    weights = svdmodel.components_[topic_number]
-    
-    # Create a DataFrame with terms and their corresponding weights
-    df = pd.DataFrame({"Term": terms, "Weight": weights})
-    
-    # Sort the DataFrame by weights in descending order to get top n terms (largest positive weights)
-    highs = df.sort_values(by=["Weight"], ascending=False)[0:n]
-    
-    # Sort the DataFrame by weights in ascending order to get bottom n terms (largest negative weights)
-    lows = df.sort_values(by=["Weight"], ascending=False)[-n:]
-    
-    # Concatenate top and bottom terms into a single DataFrame and return
-    return pd.concat([highs, lows])
-
-    
+    weights = model.components_[topic_number]
+    df = pandas.DataFrame({"Term": terms, "Weight": weights})
+    tops = df.sort_values(by=["Weight"], ascending=False)[0:n]
+    bottoms = df.sort_values(by=["Weight"], ascending=False)[-n:]
+    print(pandas.concat([tops, bottoms]))
