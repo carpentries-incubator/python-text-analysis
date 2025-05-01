@@ -107,12 +107,10 @@ tfidf = vectorizer.fit_transform(list(data["Lemma_File"]))
 print(tfidf.shape)
 ```
 
-```
 
 What do these dimensions mean? We have 41 documents, which we can think of as rows. And we have several thousands of tokens, which is like a dictionary of all the types of words we have in our documents, and which we represent as columns.
 
 #### Dimension Reduction Via Singular Value Decomposition (SVD)
-
 Now we want to reduce the number of dimensions used to represent our documents. We will use a technique called Singular Value Decomposition (SVD) to do so. SVD is a powerful linear algebra tool that works by capturing the underlying patterns and relationships within a given matrix. When applied to a TF-IDF matrix, it identifies the most significant patterns of word co-occurrence across documents and condenses this information into a smaller set of "topics," which are abstract representations of semantic themes present in the corpus. By reducing the number of dimensions, we gradually distill the essence of our corpus into a concise set of topics that capture the key themes and concepts across our documents. This streamlined representation not only simplifies further analysis but also uncovers the latent structure inherent in our text data, enabling us to gain deeper insights into its content and meaning.
 
 To see this, let's begin to reduce the dimensionality of our TF-IDF matrix using SVD, starting with the greatest number of dimensions (min(#rows, #cols)). In this case the maxiumum number of 'topics' corresponds to the number of documents- 41.
@@ -129,23 +127,7 @@ lsa = svdmodel.fit_transform(tfidf)
 print(lsa)
 ```
 
-```output
-[[ 3.91364432e-01 -3.38256707e-01 -1.10255485e-01 ... -3.30703329e-04
-    2.26445596e-03 -1.29373990e-02]
-  [ 2.83139301e-01 -2.03163967e-01  1.72761316e-01 ...  1.98594965e-04
-  -4.41931701e-03 -1.84732254e-02]
-  [ 3.32869588e-01 -2.67008449e-01 -2.43271177e-01 ...  4.50149502e-03
-    1.99200352e-03  2.32871393e-03]
-  ...
-  [ 1.91400319e-01 -1.25861226e-01  4.36682522e-02 ... -8.51158743e-04
-    4.48451964e-03  1.67944132e-03]
-  [ 2.33925324e-01 -8.46322843e-03  1.35493523e-01 ...  5.46406784e-03
-  -1.11972177e-03  3.86332162e-03]
-  [ 4.09480701e-01 -1.78620470e-01 -1.61670733e-01 ... -6.72035999e-02
-    9.27745251e-03 -7.60191949e-05]]
-```
-
-Unlike with a globe, we must make a choice of how many dimensions to cut out. We could have anywhere between 41 topics to 2.
+Unlike with a globe, we must make a choice of how many dimensions to cut out. We could have anywhere between 41 topics to 2. 
 
 How should we pick a number of topics to keep? Fortunately, the dimension reducing technique we used produces something to help us understand how much data each topic explains.
 Let's take a look and see how much data each topic explains. We will visualize it on a graph.
@@ -165,16 +147,6 @@ plt.xlabel("Number of Topics")
 plt.ylabel("Cumulative % of Information Retained")
 plt.ylim(0, 100)  # Adjust y-axis limit to 0-100
 plt.grid(True)    # Add grid lines
-```
-
-```output
-[0.02053967 0.12553786 0.08088013 0.06750632 0.05095583 0.04413301
-  0.03236406 0.02954683 0.02837433 0.02664072 0.02596086 0.02538922
-  0.02499496 0.0240097  0.02356043 0.02203859 0.02162737 0.0210681
-  0.02004    0.01955728 0.01944726 0.01830292 0.01822243 0.01737443
-  0.01664451 0.0160519  0.01494616 0.01461527 0.01455848 0.01374971
-  0.01308112 0.01255502 0.01201655 0.0112603  0.01089138 0.0096127
-  0.00830014 0.00771224 0.00622448 0.00499762]
 ```
 
 ![](fig/LSA_cumulative_information_retained_plot.png){alt='Image of drop-off of variance explained'}
@@ -217,16 +189,6 @@ Let's also mean-center the data, so that the "average" value per topic (across a
 ```python
 data[["X", "Y", "Z", "W", "P", "Q"]] = lsa[:, [1, 2, 3, 4, 5, 6]]-lsa[:, [1, 2, 3, 4, 5, 6]].mean(0)
 data[["X", "Y", "Z", "W", "P", "Q"]].mean()
-```
-
-```output
-X   -7.446618e-18
-Y   -2.707861e-18
-Z   -1.353931e-18
-W   -1.184689e-17
-P    3.046344e-18
-Q    2.200137e-18
-dtype: float64
 ```
 
 Finally, let's save our progress so far.
@@ -319,40 +281,10 @@ What does this topic seem to represent to you? What's the contrast between the t
 print(topic_words_x)
 ```
 
-```output
-            Term    Weight
-8718        thou  0.369606
-4026        hath  0.368384
-3104        exit  0.219252
-8673        thee  0.194711
-8783         tis  0.184968
-9435          ve -0.083406
-555   attachment -0.090431
-294           am -0.103122
-5312          ma -0.117927
-581         aunt -0.139385
-```
-
-And the Y topic.
-
-What does this topic seem to represent to you? What's the contrast between the top and bottom terms?
+And the Y topic. What's the contrast between the top and bottom terms?
 
 ```python
 print(topic_words_y)
-```
-
-```output
-            Term    Weight
-1221    cardinal  0.269191
-5318      madame  0.258087
-6946       queen  0.229547
-4189       honor  0.211801
-5746   musketeer  0.203572
-294           am -0.112988
-5312          ma -0.124932
-555   attachment -0.150380
-783    behaviour -0.158139
-581         aunt -0.216180
 ```
 
 Now that we have names for our first two topics, let's redo the plot with better axis labels.
