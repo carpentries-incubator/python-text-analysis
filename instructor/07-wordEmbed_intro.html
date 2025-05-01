@@ -428,21 +428,33 @@ analysis (PCA)</li>
 <p>We’ll be using the Gensim library. The Gensim library comes with
 several word embedding models including Word2Vec, GloVe, and fastText.
 We’ll start by exploring one of the pre-trained Word2Vec models. We’ll
-discuss the other options later in this lesson.</p>
-<p>If you can’t get the below word2vec model to load quickly enough, you
-can use the GloVe model, instead. The GloVe model produces word
-embeddings that are often very similar to Word2Vec. GloVe can be loaded
-with:<code>wv = api.load('glove-wiki-gigaword-50')</code></p>
+discuss the other options later in this lesson. Gensim is an older
+library that is a little finnicky. We need to make sure we have the
+right version of numpy to go along with it. This next cell will install
+gensim and a compatible version of numpy.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># RUN BEFORE INTRO LECTURE :)</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># api to load word2vec models</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co"># takes 3-10 minutes to load</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>wv <span class="op">=</span> api.load(<span class="st">'word2vec-google-news-300'</span>) <span class="co"># takes 3-10 minutes to load </span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="op">!</span>pip uninstall <span class="op">-</span>y numpy gensim</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="op">!</span>rm <span class="op">-</span>rf <span class="op">/</span>usr<span class="op">/</span>local<span class="op">/</span>lib<span class="op">/</span>python3<span class="fl">.11</span><span class="op">/</span>dist<span class="op">-</span>packages<span class="op">/</span>numpy<span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>cache<span class="op">-</span><span class="bu">dir</span> numpy<span class="op">==</span><span class="fl">1.26.4</span> gensim<span class="op">==</span><span class="fl">4.3.3</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="load-google-news-model-word2vec">Load Google News model (Word2Vec)<a class="anchor" aria-label="anchor" href="#load-google-news-model-word2vec"></a></h3>
+<p><strong>Note</strong>: You may need to restart the kernel after
+installing gensim (above cell) for the import statement (below cell) to
+work.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># RUN BEFORE INTRO LECTURE :)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># api to load word2vec models</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="im">import</span> gensim.downloader <span class="im">as</span> api</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># takes 3-10 minutes to load</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>wv <span class="op">=</span> api.load(<span class="st">'word2vec-google-news-300'</span>) <span class="co"># takes 3-10 minutes to load </span></span></code></pre>
+</div>
 </div>
 </section><section><h2 class="section-heading" id="documentcorpus-embeddings-recap">Document/Corpus Embeddings Recap<a class="anchor" aria-label="anchor" href="#documentcorpus-embeddings-recap"></a></h2>
 <hr class="half-width"><p>So far, we’ve seen how word counts (bag of words), TF-IDF, and LSA
@@ -751,37 +763,25 @@ vectors. The pre-trained model we loaded earlier was trained on a Google
 News dataset (about 100 billion words). We loaded this model as the
 variable <code>wv</code> earlier. Let’s check the type of this
 object.</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(wv))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(wv))</span></code></pre>
 </div>
-<p>&lt;class ‘gensim.models.keyedvectors.KeyedVectors’&gt;</p>
-<pre><code>
-Gensim stores "KeyedVectors" representing the Word2Vec model. They're called keyed vectors because you can use words as keys to extract the corresponding vectors. Let's take a look at the vector representaton of *whale*.
-
-```python
-wv['whale'] </code></pre>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>Gensim stores “KeyedVectors” representing the Word2Vec model. They’re
+called keyed vectors because you can use words as keys to extract the
+corresponding vectors. Let’s take a look at the vector representaton of
+<em>whale</em>.</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>array([ 0.08154297,  0.41992188, -0.44921875, -0.01794434, -0.24414062,
-       -0.21386719, -0.16796875, -0.01831055,  0.32421875, -0.09228516,
-       -0.11523438, -0.5390625 , -0.00637817, -0.41601562, -0.02758789,
-        ...,
-        0.078125  ,  0.29882812,  0.34179688,  0.04248047,  0.03442383],
-      dtype=float32)</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>wv[<span class="st">'whale'</span>] </span></code></pre>
 </div>
 <p>We can also check the shape of this vector with…</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="bu">print</span>(wv[<span class="st">'whale'</span>].shape) </span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>(300,)</code></pre>
 </div>
 <p>In this model, each word has a 300-dimensional representation. You
 can think of these 300 dimensions as 300 different features that encode
@@ -803,45 +803,30 @@ one another</li>
 </ul><p>Words that occur in similar contexts should have similar
 vectors/embeddings. How similar are the word vectors representing
 <em>whale</em> and <em>dolphin</em>?</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>wv.similarity(<span class="st">'whale'</span>,<span class="st">'dolphin'</span>)</span></code></pre>
+</div>
+<p>How about <em>whale</em> and <em>fish</em>?</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>wv.similarity(<span class="st">'whale'</span>,<span class="st">'dolphin'</span>)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code><span><span class="fl">0.77117145</span></span></code></pre>
-</div>
-<p>How about <em>whale</em> and <em>fish</em>?</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>wv.similarity(<span class="st">'whale'</span>,<span class="st">'fish'</span>)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code><span><span class="fl">0.55177623</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>wv.similarity(<span class="st">'whale'</span>,<span class="st">'fish'</span>)</span></code></pre>
 </div>
 <p>How about <em>whale</em> and… <em>potato</em>?</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>wv.similarity(<span class="st">'whale'</span>,<span class="st">'potato'</span>)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code><span><span class="fl">0.15530972</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>wv.similarity(<span class="st">'whale'</span>,<span class="st">'potato'</span>)</span></code></pre>
 </div>
 <p>Our similarity scale seems to be on the right track. We can also use
 the similarity function to quickly extract the top N most similar words
 to <em>whale</em>.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>], topn<span class="op">=</span><span class="dv">10</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'whale'</span>], topn<span class="op">=</span><span class="dv">10</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -882,12 +867,12 @@ words well? Why or why not?</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'bark'</span>], topn<span class="op">=</span><span class="dv">15</span>) <span class="co"># all seem to reflect tree bark</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'park'</span>], topn<span class="op">=</span><span class="dv">15</span>) <span class="co"># all seem to reflect outdoor parks</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'pitcher'</span>], topn<span class="op">=</span><span class="dv">15</span>) <span class="co"># all seem to reflect baseball pitching</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'bark'</span>], topn<span class="op">=</span><span class="dv">15</span>) <span class="co"># all seem to reflect tree bark</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'park'</span>], topn<span class="op">=</span><span class="dv">15</span>) <span class="co"># all seem to reflect outdoor parks</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>wv.most_similar(positive<span class="op">=</span>[<span class="st">'pitcher'</span>], topn<span class="op">=</span><span class="dv">15</span>) <span class="co"># all seem to reflect baseball pitching</span></span></code></pre>
 </div>
 <p>Based on these three lists, it looks like Word2Vec is biased towards
 representing the predominant meaning or sense of a word. In fact, the
@@ -959,15 +944,10 @@ word vector representing <em>King</em>, subtract the <em>Man</em> vector
 from it, and then add the <em>Woman</em> vector to the result. We should
 get a new vector that closely matches the word vector for
 <em>Queen</em>. We can test this idea out in Gensim with:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="bu">print</span>(wv.most_similar(positive<span class="op">=</span>[<span class="st">'woman'</span>,<span class="st">'king'</span>], negative<span class="op">=</span>[<span class="st">'man'</span>], topn<span class="op">=</span><span class="dv">3</span>))</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[('queen', 0.7118193507194519), ('monarch', 0.6189674139022827), ('princess', 0.5902431011199951)]</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="bu">print</span>(wv.most_similar(positive<span class="op">=</span>[<span class="st">'woman'</span>,<span class="st">'king'</span>], negative<span class="op">=</span>[<span class="st">'man'</span>], topn<span class="op">=</span><span class="dv">3</span>))</span></code></pre>
 </div>
 <p>Behind the scenes of the most_similar function, Gensim first unit
 normalizes the <em>length</em> of all vectors included in the positive
@@ -984,18 +964,13 @@ how they relate to one another, we can visualize how a sample of words
 relate by plotting their respecitve word vectors.</p>
 <p>Let’s start by extracting some word vectors from the pre-trained
 Word2Vec model.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">'man'</span>,<span class="st">'woman'</span>,<span class="st">'boy'</span>,<span class="st">'girl'</span>,<span class="st">'king'</span>,<span class="st">'queen'</span>,<span class="st">'prince'</span>,<span class="st">'princess'</span>]</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>sample_vectors <span class="op">=</span> np.array([wv[word] <span class="cf">for</span> word <span class="kw">in</span> words])</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>sample_vectors.shape <span class="co"># 8 words, 300 dimensions </span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>(8, 300)</code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">'man'</span>,<span class="st">'woman'</span>,<span class="st">'boy'</span>,<span class="st">'girl'</span>,<span class="st">'king'</span>,<span class="st">'queen'</span>,<span class="st">'prince'</span>,<span class="st">'princess'</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>sample_vectors <span class="op">=</span> np.array([wv[word] <span class="cf">for</span> word <span class="kw">in</span> words])</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>sample_vectors.shape <span class="co"># 8 words, 300 dimensions </span></span></code></pre>
 </div>
 <p>Recall that each word vector has 300 dimensions that encode a word’s
 meaning. Considering humans can only visualize up to 3 dimensions, this
@@ -1019,11 +994,11 @@ the data with just a couple of dimensions.</p>
 <p>We’ll use scikit-learn’s (a popular machine learning library) PCA
 functionality to explore the power of PCA, and matplotlib as our
 plotting library.</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
 </div>
 <p>In the code below, we will assess how much variance is stored in each
 dimension following PCA. The new dimensions are often referred to as
@@ -1031,45 +1006,45 @@ principal components or eigenvectors, which relates to the underlying
 math behind this algorithm.</p>
 <p>Notice how the first two dimensions capture around 70% of the
 variability in the dataset.</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>pca <span class="op">=</span> PCA() <span class="co"># init PCA object</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>pca.fit(sample_vectors) <span class="co"># the fit function determines the new dimensions or axes to represent the data -- the result is sent back to the pca object</span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co"># Calculate cumulative variance explained</span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>cumulative_variance_explained <span class="op">=</span> np.cumsum(pca.explained_variance_ratio_)<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co"># Plot cumulative variance explained</span></span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>plt.figure()</span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(cumulative_variance_explained) <span class="op">+</span> <span class="dv">1</span>), cumulative_variance_explained, <span class="st">'-o'</span>)</span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Principal Components"</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>plt.ylabel(<span class="st">"Cumulative Variance Explained (%)"</span>)</span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>plt.title(<span class="st">"Cumulative Variance Explained by Principal Components"</span>)</span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>pca <span class="op">=</span> PCA() <span class="co"># init PCA object</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>pca.fit(sample_vectors) <span class="co"># the fit function determines the new dimensions or axes to represent the data -- the result is sent back to the pca object</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co"># Calculate cumulative variance explained</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>cumulative_variance_explained <span class="op">=</span> np.cumsum(pca.explained_variance_ratio_)<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># Plot cumulative variance explained</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>plt.figure()</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(cumulative_variance_explained) <span class="op">+</span> <span class="dv">1</span>), cumulative_variance_explained, <span class="st">'-o'</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Principal Components"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>plt.ylabel(<span class="st">"Cumulative Variance Explained (%)"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>plt.title(<span class="st">"Cumulative Variance Explained by Principal Components"</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="../fig/wordEmbeddings_word2vecPCA_cumulative_variance_explained.jpg" alt="PCA Variance Explained" class="figure mx-auto d-block"></figure><p>We can now use these new dimensions to transform the original
 data.</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># transform the data</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>result <span class="op">=</span> pca.transform(sample_vectors)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># transform the data</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>result <span class="op">=</span> pca.transform(sample_vectors)</span></code></pre>
 </div>
 <p>Once transformed, we can plot the first two principal components
 representing each word in our list:
 <code>['man', 'woman', 'boy', 'girl', 'king', 'queen', 'prince', 'princess']</code></p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>plt.figure()</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>plt.scatter(result[:,<span class="dv">0</span>], result[:,<span class="dv">1</span>])</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="cf">for</span> i, word <span class="kw">in</span> <span class="bu">enumerate</span>(words):</span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  plt.annotate(word, xy<span class="op">=</span>(result[i, <span class="dv">0</span>], result[i, <span class="dv">1</span>]))</span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>plt.xlabel(<span class="st">"PC1"</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>plt.ylabel(<span class="st">"PC2"</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>plt.figure()</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>plt.scatter(result[:,<span class="dv">0</span>], result[:,<span class="dv">1</span>])</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="cf">for</span> i, word <span class="kw">in</span> <span class="bu">enumerate</span>(words):</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  plt.annotate(word, xy<span class="op">=</span>(result[i, <span class="dv">0</span>], result[i, <span class="dv">1</span>]))</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>plt.xlabel(<span class="st">"PC1"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>plt.ylabel(<span class="st">"PC2"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="../fig/wordEmbed_PCAviz.jpg" alt="Visualizing Word Embeddings with PCA" class="figure mx-auto d-block"></figure><p>Note how the principal component 1 seems to represent the royalty
 dimension, while the principal component 2 seems to represent male vs
