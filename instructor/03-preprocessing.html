@@ -239,7 +239,7 @@
 <li><a href="#loading-data-into-python">Loading Data into Python</a></li>
 <li><a href="#preprocessing">Preprocessing</a></li>
 <li><a href="#putting-it-all-together">Putting it All Together</a></li>
-<li><a href="#saving-our-progress">Saving Our Progress</a></li>
+<li><a href="#creating-dataframe-to-work-with-files-and-lemmas-easily">Creating dataframe to work with files and lemmas easily</a></li>
 <li><a href="#outro-and-conclusion">Outro and Conclusion</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -377,7 +377,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Preparing and Preprocessing Your Data</h1>
-        <p>Last updated on 2025-03-21 |
+        <p>Last updated on 2025-05-01 |
 
         <a href="https://github.com/josenino95/python-text-analysis/edit/main/episodes/03-preprocessing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -534,7 +534,7 @@ written in this lesson.</p>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Show existing colab notebooks and helpers.py file</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>wksp_dir <span class="op">=</span> <span class="st">'/content/drive/My Drive/Colab Notebooks/text-analysis'</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>wksp_dir <span class="op">=</span> <span class="st">'/content/drive/My Drive/Colab Notebooks/text-analysis/code'</span></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>listdir(wksp_dir)</span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Add folder to colab's path so we can import the helper functions</span></span>
@@ -584,47 +584,28 @@ corpus:</p>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>corpus_file_list <span class="op">=</span> create_file_list(corpus_dir)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="bu">print</span>(corpus_file_list)</span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt']</span></code></pre>
-</div>
 <p>We will use the full corpus later, but it might be useful to filter
 to just a few specific files. For example, if I want just documents
 written by Austen, I can filter on part of the file path name:</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>austen_list <span class="op">=</span> create_file_list(corpus_dir, <span class="st">'austen*'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="bu">print</span>(austen_list)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt']</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>austen_list <span class="op">=</span> create_file_list(corpus_dir, <span class="st">'austen*'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">print</span>(austen_list)</span></code></pre>
 </div>
 <p>Let’s take a closer look at Emma. We are looking at the first full
 sentence, which begins with character 50 and ends at character 290.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>preview_len <span class="op">=</span> <span class="dv">290</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>emmapath <span class="op">=</span> create_file_list(corpus_dir, <span class="st">'austen-emma*'</span>)[<span class="dv">0</span>]</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="bu">print</span>(emmapath)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">""</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(emmapath, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  sentence <span class="op">=</span> f.read(preview_len)[<span class="dv">50</span>:preview_len]</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="bu">print</span>(sentence)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>Emma Woodhouse, handsome, clever, and rich, with a comfortable home</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>and happy disposition, seemed to unite some of the best blessings</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>of existence; and had lived nearly twenty-one years in the world</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>with very little to distress or vex her.</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>preview_len <span class="op">=</span> <span class="dv">290</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>emmapath <span class="op">=</span> create_file_list(corpus_dir, <span class="st">'austen-emma*'</span>)[<span class="dv">0</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="bu">print</span>(emmapath)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(emmapath, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  sentence <span class="op">=</span> f.read(preview_len)[<span class="dv">50</span>:preview_len]</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="bu">print</span>(sentence)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a></h2>
 <hr class="half-width"><p>Currently, our data is still in a format that is best for humans to
@@ -667,26 +648,26 @@ Punctuation may or may not be included.</p>
 for this lesson.</p>
 <p>Let’s load our tokenizer and test it with the first sentence of
 Emma:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="im">import</span> spacy</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="im">import</span> en_core_web_sm</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="im">import</span> spacy</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="im">import</span> en_core_web_sm</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span></code></pre>
 </div>
 <p>We will define a tokenizer method with the text editor. Keep this
 open so we can add to it throughout the lesson.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="co">#import spacy tokenizer/language model</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>    <span class="cf">return</span> tokens</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    <span class="co">#import spacy tokenizer/language model</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>    <span class="cf">return</span> tokens</span></code></pre>
 </div>
 <p>This will load spacy and its preprocessing pipeline for English.
 <strong>Pipelines</strong> are a series of interrelated tasks, where the
@@ -695,68 +676,13 @@ may have different rulesets, and therefore require different
 preprocessing pipelines. Running the document we created through the NLP
 model we loaded performs a variety of tasks for us. Let’s look at these
 in greater detail.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>tokens <span class="op">=</span> spacyt(sentence)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> tokens:</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a> <span class="bu">print</span>(t.text)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>tokens <span class="op">=</span> spacyt(sentence)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> tokens:</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a> <span class="bu">print</span>(t.text)</span></code></pre>
 </div>
-<pre class="text"><code>Emma
-Woodhouse
-,
-handsome
-,
-clever
-,
-and
-rich
-,
-with
-a
-comfortable
-home
-
-
-and
-happy
-disposition
-,
-seemed
-to
-unite
-some
-of
-the
-best
-blessings
-
-
-of
-existence
-;
-and
-had
-lived
-nearly
-twenty
--
-one
-years
-in
-the
-world
-
-
-with
-very
-little
-to
-distress
-or
-vex
-her
-.</code></pre>
 <p>The single sentence has been broken down into a set of tokens. Tokens
 in spacy aren’t just strings: They’re python objects with a variety of
 attributes. Full documentation for these attributes can be found at: <a href="https://spacy.io/api/token" class="external-link uri">https://spacy.io/api/token</a></p>
@@ -786,155 +712,39 @@ and to allow us to train them from less data.</p>
 <p>When we tokenized the first sentence of Emma above, Spacy also
 created a lemmatized version of itt. Let’s try accessing this by typing
 the following:</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> tokens:</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="bu">print</span>(t.lemma)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb17">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>14931068470291635495</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>17859265536816163747</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>2593208677638477497</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>7792995567492812500</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>2593208677638477497</span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>5763234570816168059</span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>2593208677638477497</span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>2283656566040971221</span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>10580761479554314246</span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>2593208677638477497</span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>12510949447758279278</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>11901859001352538922</span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>2973437733319511985</span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>12006852138382633966</span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>962983613142996970</span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>2283656566040971221</span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>244022080605231780</span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>3083117615156646091</span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>2593208677638477497</span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>15203660437495798636</span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>3791531372978436496</span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a>1872149278863210280</span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a>7000492816108906599</span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>886050111519832510</span>
-<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a>7425985699627899538</span>
-<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a>5711639017775284443</span>
-<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a>451024245859800093</span>
-<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a>962983613142996970</span>
-<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a>886050111519832510</span>
-<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a>4708766880135230039</span>
-<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a>631425121691394544</span>
-<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a>2283656566040971221</span>
-<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a>14692702688101715474</span>
-<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a>13874798850131827181</span>
-<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a>16179521462386381682</span>
-<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a>8304598090389628520</span>
-<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a>9153284864653046197</span>
-<span id="cb17-38"><a href="#cb17-38" tabindex="-1"></a>17454115351911680600</span>
-<span id="cb17-39"><a href="#cb17-39" tabindex="-1"></a>14889849580704678361</span>
-<span id="cb17-40"><a href="#cb17-40" tabindex="-1"></a>3002984154512732771</span>
-<span id="cb17-41"><a href="#cb17-41" tabindex="-1"></a>7425985699627899538</span>
-<span id="cb17-42"><a href="#cb17-42" tabindex="-1"></a>1703489418272052182</span>
-<span id="cb17-43"><a href="#cb17-43" tabindex="-1"></a>962983613142996970</span>
-<span id="cb17-44"><a href="#cb17-44" tabindex="-1"></a>12510949447758279278</span>
-<span id="cb17-45"><a href="#cb17-45" tabindex="-1"></a>9548244504980166557</span>
-<span id="cb17-46"><a href="#cb17-46" tabindex="-1"></a>9778055143417507723</span>
-<span id="cb17-47"><a href="#cb17-47" tabindex="-1"></a>3791531372978436496</span>
-<span id="cb17-48"><a href="#cb17-48" tabindex="-1"></a>14526277127440575953</span>
-<span id="cb17-49"><a href="#cb17-49" tabindex="-1"></a>3740602843040177340</span>
-<span id="cb17-50"><a href="#cb17-50" tabindex="-1"></a>14980716871601793913</span>
-<span id="cb17-51"><a href="#cb17-51" tabindex="-1"></a>6740321247510922449</span>
-<span id="cb17-52"><a href="#cb17-52" tabindex="-1"></a>12646065887601541794</span>
-<span id="cb17-53"><a href="#cb17-53" tabindex="-1"></a>962983613142996970</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> tokens:</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="bu">print</span>(t.lemma)</span></code></pre>
 </div>
 <p>Spacy stores words by an ID number, and not as a full string, to save
 space in memory. Many spacy functions will return numbers and not words
 as you might expect. Fortunately, adding an underscore for spacy will
 return text representations instead. We will also add in the lower case
 function so that all words are lower case.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> tokens:</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a> <span class="bu">print</span>(<span class="bu">str</span>.lower(t.lemma_))</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb19">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>emma</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>woodhouse</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>,</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>handsome</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>,</span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>clever</span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>,</span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>and</span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>rich</span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>,</span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>with</span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>a</span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>comfortable</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>home</span>
-<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a></span>
-<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>and</span>
-<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>happy</span>
-<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>disposition</span>
-<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>,</span>
-<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>seem</span>
-<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a>to</span>
-<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a>unite</span>
-<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a>some</span>
-<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a>of</span>
-<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a>the</span>
-<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>good</span>
-<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>blessing</span>
-<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a></span>
-<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a></span>
-<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a>of</span>
-<span id="cb19-32"><a href="#cb19-32" tabindex="-1"></a>existence</span>
-<span id="cb19-33"><a href="#cb19-33" tabindex="-1"></a>;</span>
-<span id="cb19-34"><a href="#cb19-34" tabindex="-1"></a>and</span>
-<span id="cb19-35"><a href="#cb19-35" tabindex="-1"></a>have</span>
-<span id="cb19-36"><a href="#cb19-36" tabindex="-1"></a>live</span>
-<span id="cb19-37"><a href="#cb19-37" tabindex="-1"></a>nearly</span>
-<span id="cb19-38"><a href="#cb19-38" tabindex="-1"></a>twenty</span>
-<span id="cb19-39"><a href="#cb19-39" tabindex="-1"></a>-</span>
-<span id="cb19-40"><a href="#cb19-40" tabindex="-1"></a>one</span>
-<span id="cb19-41"><a href="#cb19-41" tabindex="-1"></a>year</span>
-<span id="cb19-42"><a href="#cb19-42" tabindex="-1"></a>in</span>
-<span id="cb19-43"><a href="#cb19-43" tabindex="-1"></a>the</span>
-<span id="cb19-44"><a href="#cb19-44" tabindex="-1"></a>world</span>
-<span id="cb19-45"><a href="#cb19-45" tabindex="-1"></a></span>
-<span id="cb19-46"><a href="#cb19-46" tabindex="-1"></a></span>
-<span id="cb19-47"><a href="#cb19-47" tabindex="-1"></a>with</span>
-<span id="cb19-48"><a href="#cb19-48" tabindex="-1"></a>very</span>
-<span id="cb19-49"><a href="#cb19-49" tabindex="-1"></a>little</span>
-<span id="cb19-50"><a href="#cb19-50" tabindex="-1"></a>to</span>
-<span id="cb19-51"><a href="#cb19-51" tabindex="-1"></a>distress</span>
-<span id="cb19-52"><a href="#cb19-52" tabindex="-1"></a>or</span>
-<span id="cb19-53"><a href="#cb19-53" tabindex="-1"></a>vex</span>
-<span id="cb19-54"><a href="#cb19-54" tabindex="-1"></a>she</span>
-<span id="cb19-55"><a href="#cb19-55" tabindex="-1"></a>.</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> tokens:</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a> <span class="bu">print</span>(<span class="bu">str</span>.lower(t.lemma_))</span></code></pre>
 </div>
 <p>Notice how words like <em>best</em> and <em>her</em> have been
 changed to their root words like <em>good</em> and <em>she</em>. Let’s
 change our tokenizer to save the lower cased, lemmatized versions of
 words instead of the original words.</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> [<span class="bu">str</span>.lower(token.lemma_) <span class="cf">for</span> token <span class="kw">in</span> tokens]</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> [<span class="bu">str</span>.lower(token.lemma_) <span class="cf">for</span> token <span class="kw">in</span> tokens]</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -949,37 +759,32 @@ Punctuation also is something we are not interested in, at least not
 until we get to more complex models. Many open-source software packages
 for language processing, such as Spacy, include stop lists. Let’s look
 at Spacy’s stopword list.</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="im">from</span> spacy.lang.en.stop_words <span class="im">import</span> STOP_WORDS</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="bu">print</span>(STOP_WORDS)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb22">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>{''s', 'must', 'again', 'had', 'much', 'a', 'becomes', 'mostly', 'once', 'should', 'anyway', 'call', 'front', 'whence', ''ll', 'whereas', 'therein', 'himself', 'within', 'ourselves', 'than', 'they', 'toward', 'latterly', 'may', 'what', 'her', 'nowhere', 'so', 'whenever', 'herself', 'other', 'get', 'become', 'namely', 'done', 'could', 'although', 'which', 'fifteen', 'seems', 'hereafter', 'whereafter', 'two', "'ve", 'to', 'his', 'one', ''d', 'forty', 'being', 'i', 'four', 'whoever', 'somehow', 'indeed', 'that', 'afterwards', 'us', 'she', "'d", 'herein', ''ll', 'keep', 'latter', 'onto', 'just', 'too', "'m", ''re', 'you', 'no', 'thereby', 'various', 'enough', 'go', 'myself', 'first', 'seemed', 'up', 'until', 'yourselves', 'while', 'ours', 'can', 'am', 'throughout', 'hereupon', 'whereupon', 'somewhere', 'fifty', 'those', 'quite', 'together', 'wherein', 'because', 'itself', 'hundred', 'neither', 'give', 'alone', 'them', 'nor', 'as', 'hers', 'into', 'is', 'several', 'thus', 'whom', 'why', 'over', 'thence', 'doing', 'own', 'amongst', 'thereupon', 'otherwise', 'sometime', 'for', 'full', 'anyhow', 'nine', 'even', 'never', 'your', 'who', 'others', 'whole', 'hereby', 'ever', 'or', 'and', 'side', 'though', 'except', 'him', 'now', 'mine', 'none', 'sixty', "n't", 'nobody', ''m', 'well', "'s", 'then', 'part', 'someone', 'me', 'six', 'less', 'however', 'make', 'upon', ''s', ''re', 'back', 'did', 'during', 'when', ''d', 'perhaps', "'re", 'we', 'hence', 'any', 'our', 'cannot', 'moreover', 'along', 'whither', 'by', 'such', 'via', 'against', 'the', 'most', 'but', 'often', 'where', 'each', 'further', 'whereby', 'ca', 'here', 'he', 'regarding', 'every', 'always', 'are', 'anywhere', 'wherever', 'using', 'there', 'anyone', 'been', 'would', 'with', 'name', 'some', 'might', 'yours', 'becoming', 'seeming', 'former', 'only', 'it', 'became', 'since', 'also', 'beside', 'their', 'else', 'around', 're', 'five', 'an', 'anything', 'please', 'elsewhere', 'themselves', 'everyone', 'next', 'will', 'yourself', 'twelve', 'few', 'behind', 'nothing', 'seem', 'bottom', 'both', 'say', 'out', 'take', 'all', 'used', 'therefore', 'below', 'almost', 'towards', 'many', 'sometimes', 'put', 'were', 'ten', 'of', 'last', 'its', 'under', 'nevertheless', 'whatever', 'something', 'off', 'does', 'top', 'meanwhile', 'how', 'already', 'per', 'beyond', 'everything', 'not', 'thereafter', 'eleven', 'n't', 'above', 'eight', 'before', 'noone', 'besides', 'twenty', 'do', 'everywhere', 'due', 'empty', 'least', 'between', 'down', 'either', 'across', 'see', 'three', 'on', 'formerly', 'be', 'very', 'rather', 'made', 'has', 'this', 'move', 'beforehand', 'if', 'my', 'n't', "'ll", 'third', 'without', ''m', 'yet', 'after', 'still', 'same', 'show', 'in', 'more', 'unless', 'from', 'really', 'whether', ''ve', 'serious', 'these', 'was', 'amount', 'whose', 'have', 'through', 'thru', ''ve', 'about', 'among', 'another', 'at'}</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="im">from</span> spacy.lang.en.stop_words <span class="im">import</span> STOP_WORDS</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="bu">print</span>(STOP_WORDS)</span></code></pre>
 </div>
 <p>It’s possible to add and remove words as well, for example,
 <em>zebra</em>:</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># remember, we need to tokenize things in order for our model to analyze them.</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>z <span class="op">=</span> spacyt(<span class="st">"zebra"</span>)[<span class="dv">0</span>]</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="bu">print</span>(z.is_stop) <span class="co"># False</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co"># add zebra to our stopword list</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>STOP_WORDS.add(<span class="st">"zebra"</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>z <span class="op">=</span> spacyt(<span class="st">"zebra"</span>)[<span class="dv">0</span>]</span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="bu">print</span>(z.is_stop) <span class="co"># True</span></span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co"># remove zebra from our list.</span></span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>STOP_WORDS.remove(<span class="st">"zebra"</span>)</span>
-<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
-<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>z <span class="op">=</span> spacyt(<span class="st">"zebra"</span>)[<span class="dv">0</span>]</span>
-<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="bu">print</span>(z.is_stop) <span class="co"># False</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># remember, we need to tokenize things in order for our model to analyze them.</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>z <span class="op">=</span> spacyt(<span class="st">"zebra"</span>)[<span class="dv">0</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="bu">print</span>(z.is_stop) <span class="co"># False</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># add zebra to our stopword list</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>STOP_WORDS.add(<span class="st">"zebra"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>z <span class="op">=</span> spacyt(<span class="st">"zebra"</span>)[<span class="dv">0</span>]</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="bu">print</span>(z.is_stop) <span class="co"># True</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co"># remove zebra from our list.</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>STOP_WORDS.remove(<span class="st">"zebra"</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>z <span class="op">=</span> spacyt(<span class="st">"zebra"</span>)[<span class="dv">0</span>]</span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="bu">print</span>(z.is_stop) <span class="co"># False</span></span></code></pre>
 </div>
 <p>Let’s add “Emma” to our list of stopwords, since knowing that the
 name “Emma” is often in Jane Austin does not tell us anything
@@ -991,69 +796,40 @@ stopword list to filter words from documents using spacy, or just by
 manually iterating through it like a list.</p>
 <p>Let’s see what our example looks like without stopwords and
 punctuation:</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># add emma to our stopword list</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>STOP_WORDS.add(<span class="st">"emma"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="co"># retokenize our sentence</span></span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>tokens <span class="op">=</span> spacyt(sentence)</span>
-<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="cf">for</span> token <span class="kw">in</span> tokens:</span>
-<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">not</span> token.is_stop <span class="kw">and</span> <span class="kw">not</span> token.is_punct:</span>
-<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">str</span>.lower(token.lemma_))</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb25">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>woodhouse</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>handsome</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>clever</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>rich</span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>comfortable</span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>home</span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>happy</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>disposition</span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>unite</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>good</span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>blessing</span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a></span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a>existence</span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>live</span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a>nearly</span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>year</span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>world</span>
-<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a></span>
-<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a></span>
-<span id="cb25-23"><a href="#cb25-23" tabindex="-1"></a>little</span>
-<span id="cb25-24"><a href="#cb25-24" tabindex="-1"></a>distress</span>
-<span id="cb25-25"><a href="#cb25-25" tabindex="-1"></a>vex</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># add emma to our stopword list</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>STOP_WORDS.add(<span class="st">"emma"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>spacyt <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># retokenize our sentence</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>tokens <span class="op">=</span> spacyt(sentence)</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="cf">for</span> token <span class="kw">in</span> tokens:</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">not</span> token.is_stop <span class="kw">and</span> <span class="kw">not</span> token.is_punct:</span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">str</span>.lower(token.lemma_))</span></code></pre>
 </div>
 <p>Notice that because we added <em>emma</em> to our stopwords, she is
 not in our preprocessed sentence any more. Other stopwords are also
 missing such as numbers.</p>
 <p>Let’s filter out stopwords and punctuation from our custom tokenizer
 now as well:</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> []    </span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>    <span class="cf">for</span> token <span class="kw">in</span> tokens:</span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> token.is_stop <span class="kw">and</span> <span class="kw">not</span> token.is_punct:</span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>            simplified_tokens.append(<span class="bu">str</span>.lower(token.lemma_))</span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> []    </span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>    <span class="cf">for</span> token <span class="kw">in</span> tokens:</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> token.is_stop <span class="kw">and</span> <span class="kw">not</span> token.is_punct:</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>            simplified_tokens.append(<span class="bu">str</span>.lower(token.lemma_))</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -1069,43 +845,12 @@ adjectives. POS tags often prove useful, so some tokenizers also have
 built in POS tagging done. Spacy is one such library. These tags are not
 100% accurate, but they are a great place to start. Spacy’s POS tags can
 be used by accessing the <code>pos_</code> method for each token.</p>
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="cf">for</span> token <span class="kw">in</span> tokens:</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="cf">if</span> token.is_stop <span class="op">==</span> <span class="va">False</span> <span class="kw">and</span> token.is_punct <span class="op">==</span> <span class="va">False</span>:</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">str</span>.lower(token.lemma_)<span class="op">+</span><span class="st">" "</span><span class="op">+</span>token.pos_)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb28">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>woodhouse PROPN</span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>handsome ADJ</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>clever ADJ</span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>rich ADJ</span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>comfortable ADJ</span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>home NOUN</span>
-<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>  SPACE</span>
-<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>happy ADJ</span>
-<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a>disposition NOUN</span>
-<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>unite VERB</span>
-<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a>good ADJ</span>
-<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>blessing NOUN</span>
-<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a></span>
-<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>  SPACE</span>
-<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a>existence NOUN</span>
-<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a>live VERB</span>
-<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a>nearly ADV</span>
-<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>year NOUN</span>
-<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a>world NOUN</span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a></span>
-<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>  SPACE</span>
-<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>little ADJ</span>
-<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>distress VERB</span>
-<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>vex VERB</span>
-<span id="cb28-26"><a href="#cb28-26" tabindex="-1"></a></span>
-<span id="cb28-27"><a href="#cb28-27" tabindex="-1"></a>  SPACE</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="cf">for</span> token <span class="kw">in</span> tokens:</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="cf">if</span> token.is_stop <span class="op">==</span> <span class="va">False</span> <span class="kw">and</span> token.is_punct <span class="op">==</span> <span class="va">False</span>:</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">str</span>.lower(token.lemma_)<span class="op">+</span><span class="st">" "</span><span class="op">+</span>token.pos_)</span></code></pre>
 </div>
 <p>Because our dataset is relatively small, we may find that character
 names and places weigh very heavily in our early models. We also have a
@@ -1113,135 +858,130 @@ number of blank or white space tokens, which we will also want to
 remove.</p>
 <p>We will finish our special tokenizer by removing punctuation and
 proper nouns from our documents:</p>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> [</span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>      <span class="co">#our helper function expects spacy tokens. It will take care of making them lowercase lemmas.</span></span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>      token <span class="cf">for</span> token <span class="kw">in</span> tokens</span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>      <span class="cf">if</span> <span class="kw">not</span> token.is_stop</span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>      <span class="kw">and</span> <span class="kw">not</span> token.is_punct</span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>      <span class="kw">and</span> token.pos_ <span class="op">!=</span> <span class="st">"PROPN"</span></span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>    ]</span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> [</span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>      <span class="co">#our helper function expects spacy tokens. It will take care of making them lowercase lemmas.</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>      token <span class="cf">for</span> token <span class="kw">in</span> tokens</span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>      <span class="cf">if</span> <span class="kw">not</span> token.is_stop</span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>      <span class="kw">and</span> <span class="kw">not</span> token.is_punct</span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>      <span class="kw">and</span> token.pos_ <span class="op">!=</span> <span class="st">"PROPN"</span></span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>    ]</span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
 </div>
 <p>Alternative, instead of “blacklisting” all of the parts of speech we
 don’t want to include, we can “whitelist” just the few that we want,
 based on what they information they might contribute to the meaning of a
 text:</p>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
-<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
-<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
-<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> [</span>
-<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>      <span class="co">#our helper function expects spacy tokens. It will take care of making them lowercase lemmas.</span></span>
-<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>      token <span class="cf">for</span> token <span class="kw">in</span> tokens</span>
-<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>      <span class="cf">if</span> <span class="kw">not</span> token.is_stop</span>
-<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a>      <span class="kw">and</span> <span class="kw">not</span> token.is_punct</span>
-<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>      <span class="kw">and</span> token.pos_ <span class="kw">in</span> {<span class="st">"ADJ"</span>, <span class="st">"ADV"</span>, <span class="st">"INTJ"</span>, <span class="st">"NOUN"</span>, <span class="st">"VERB"</span>}</span>
-<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a>    ]</span>
-<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="kw">class</span> Our_Tokenizer:</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="co"># import spacy tokenizer/language model</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="va">self</span>.nlp <span class="op">=</span> en_core_web_sm.load()</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    <span class="va">self</span>.nlp.max_length <span class="op">=</span> <span class="dv">4500000</span> <span class="co"># increase max number of characters that spacy can process (default = 1,000,000)</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, document):</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>    tokens <span class="op">=</span> <span class="va">self</span>.nlp(document)</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>    simplified_tokens <span class="op">=</span> [</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>      <span class="co">#our helper function expects spacy tokens. It will take care of making them lowercase lemmas.</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>      token <span class="cf">for</span> token <span class="kw">in</span> tokens</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>      <span class="cf">if</span> <span class="kw">not</span> token.is_stop</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>      <span class="kw">and</span> <span class="kw">not</span> token.is_punct</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>      <span class="kw">and</span> token.pos_ <span class="kw">in</span> {<span class="st">"ADJ"</span>, <span class="st">"ADV"</span>, <span class="st">"INTJ"</span>, <span class="st">"NOUN"</span>, <span class="st">"VERB"</span>}</span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>    ]</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>    <span class="cf">return</span> simplified_tokens</span></code></pre>
 </div>
 <p>Either way, let’s test our custom tokenizer on this selection of text
 to see how it works.</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>tokenizer <span class="op">=</span> Our_Tokenizer()</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>tokens <span class="op">=</span> tokenizer(sentence)</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="bu">print</span>(tokens)</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb32">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>['handsome', 'clever', 'rich', 'comfortable', 'home', 'happy', 'disposition', 'unite', 'good', 'blessing', 'existence', 'live', 'nearly', 'year', 'world', 'little', 'distress', 'vex']</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>tokenizer <span class="op">=</span> Our_Tokenizer()</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>tokens <span class="op">=</span> tokenizer(sentence)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="bu">print</span>(tokens)</span></code></pre>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="putting-it-all-together">Putting it All Together<a class="anchor" aria-label="anchor" href="#putting-it-all-together"></a></h2>
 <hr class="half-width"><p>Now that we’ve built a tokenizer we’re happy with, lets use it to
 create lemmatized versions of all the books in our corpus.</p>
 <p>That is, we want to turn this:</p>
-<div class="codewrapper sourceCode" id="cb33">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>Emma Woodhouse, handsome, clever, and rich, with a comfortable home</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>and happy disposition, seemed to unite some of the best blessings</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>of existence; and had lived nearly twenty-one years in the world</span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>with very little to distress or vex her.</span></code></pre>
-</div>
+<p>“Emma Woodhouse, handsome, clever, and rich, with a comfortable home
+and happy disposition, seemed to unite some of the best blessings of
+existence; and had lived nearly twenty-one years in the world with very
+little to distress or vex her.”</p>
 <p>into this:</p>
-<div class="codewrapper sourceCode" id="cb34">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>handsome</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>clever</span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>rich</span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>comfortable</span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>home</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>happy</span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>disposition</span>
-<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>seem</span>
-<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>unite</span>
-<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>good</span>
-<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>blessing</span>
-<span id="cb34-12"><a href="#cb34-12" tabindex="-1"></a>existence</span>
-<span id="cb34-13"><a href="#cb34-13" tabindex="-1"></a>live</span>
-<span id="cb34-14"><a href="#cb34-14" tabindex="-1"></a>nearly</span>
-<span id="cb34-15"><a href="#cb34-15" tabindex="-1"></a>year</span>
-<span id="cb34-16"><a href="#cb34-16" tabindex="-1"></a>world</span>
-<span id="cb34-17"><a href="#cb34-17" tabindex="-1"></a>very</span>
-<span id="cb34-18"><a href="#cb34-18" tabindex="-1"></a>little</span>
-<span id="cb34-19"><a href="#cb34-19" tabindex="-1"></a>distress</span>
-<span id="cb34-20"><a href="#cb34-20" tabindex="-1"></a>vex</span></code></pre>
-</div>
-<p>To help make this quick for all the text in all our books, we’ll use
-a helper function we prepared for learners to use our tokenizer, do the
-casing and lemmatization we discussed earlier, and write the results to
-a file:</p>
-<div class="codewrapper sourceCode" id="cb35">
+<p>“handsome clever rich comfortable home happy disposition seem unite
+good blessing existence live nearly year world very little distress
+vex”</p>
+<p>To help make this <em>relatively</em> quick for all the text in all
+our books, we’ll use a helper function we prepared for learners to use
+our tokenizer, do the casing and lemmatization we discussed earlier, and
+write the results to a file:</p>
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> lemmatize_files</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>lemma_file_list <span class="op">=</span> lemmatize_files(tokenizer, corpus_file_list)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> lemmatize_files</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co"># SKIP THIS - it takes too long to run during a live class. Lemma files are preprocessed for you and saved to data/book_lemmas</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#lemma_file_list = lemmatize_files(tokenizer, corpus_file_list)</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb36">
-<h3 class="code-label">TXT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode txt" tabindex="0"><code class="sourceCode default"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>['/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-olivertwist.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-knewtoomuch.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-tenyearslater.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-twentyyearsafter.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-pride.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-taleoftwocities.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-whitehorse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-hardtimes.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-emma.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-thursday.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-threemusketeers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-ball.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-ladysusan.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-persuasion.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-conman.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-napoleon.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/chesterton-brown.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-maninironmask.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-blacktulip.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-greatexpectations.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-ourmutualfriend.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-sense.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-christmascarol.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-davidcopperfield.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-pickwickpapers.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-bartleby.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dickens-bleakhouse.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/dumas-montecristo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/austen-northanger.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-moby_dick.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-twelfthnight.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-typee.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-romeo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-omoo.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-piazzatales.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-muchado.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-midsummer.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-lear.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/melville-pierre.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-caesar.txt.lemmas', '/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/shakespeare-othello.txt.lemmas']</span></code></pre>
-</div>
-<p>This process may take several minutes to run. Doing this
-preprocessing now however will save us much, much time later.</p>
-</section><section><h2 class="section-heading" id="saving-our-progress">Saving Our Progress<a class="anchor" aria-label="anchor" href="#saving-our-progress"></a></h2>
-<hr class="half-width"><p>Let’s save our progress by storing a spreadsheet (<code>*.csv</code>
-or <code>*.xlsx</code> file) that lists all our authors, books, and
-associated filenames, both the original and lemmatized copies.</p>
+<p>This process may take several minutes to run. If you don’t want to
+wait, you can stop the cell running and use our pre-baked solution
+(lemma files) found in data/book_lemmas. The next section will walk you
+through both options.</p>
+</section><section><h2 class="section-heading" id="creating-dataframe-to-work-with-files-and-lemmas-easily">Creating dataframe to work with files and lemmas easily<a class="anchor" aria-label="anchor" href="#creating-dataframe-to-work-with-files-and-lemmas-easily"></a></h2>
+<hr class="half-width"><p>Let’s save a dataframe / spreadsheet that lists all our authors,
+books, and associated filenames, both the original and lemmatized
+copies.</p>
 <p>We’ll use another helper we prepared to make this easy:</p>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> parse_into_dataframe</span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/</span><span class="sc">{author}</span><span class="st">-</span><span class="sc">{title}</span><span class="st">.txt"</span></span>
-<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>data <span class="op">=</span> parse_into_dataframe(pattern, corpus_file_list)</span>
-<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>data[<span class="st">"Lemma_File"</span>] <span class="op">=</span> lemma_file_list</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="im">from</span> helpers <span class="im">import</span> parse_into_dataframe</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/books/</span><span class="sc">{author}</span><span class="st">-</span><span class="sc">{title}</span><span class="st">.txt"</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>data <span class="op">=</span> parse_into_dataframe(pattern, corpus_file_list)</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>data.head()</span></code></pre>
+</div>
+<p>Next, we can add the lemma files to the dataframe. If you ran the
+lemmatize_files() function above successfully, you can use:</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>data[<span class="st">"Lemma_File"</span>] <span class="op">=</span> lemma_file_list</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>data.head()</span></code></pre>
+</div>
+<p>Otherwise, we can add the “pre-baked” lemmas to our dataframe
+using</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="kw">def</span> get_lemma_path(file_path):</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>    <span class="co"># Convert to Path object for easier manipulation</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>    p <span class="op">=</span> Path(file_path)</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>    <span class="co"># Extract the filename like 'austen-sense.txt'</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>    file_name <span class="op">=</span> p.name</span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>    <span class="co"># Create new path with 'book_lemmas' instead of 'books' and add .lemmas</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>    lemma_name <span class="op">=</span> file_name <span class="op">+</span> <span class="st">".lemmas"</span></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">str</span>(p.parent.parent <span class="op">/</span> <span class="st">"book_lemmas"</span> <span class="op">/</span> lemma_name)</span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a><span class="co"># Add new column</span></span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>data[<span class="st">"Lemma_File"</span>] <span class="op">=</span> data[<span class="st">"File"</span>].<span class="bu">apply</span>(get_lemma_path)</span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>data.head()</span></code></pre>
 </div>
 <p>Finally, we’ll save this table to a file:</p>
-<div class="codewrapper sourceCode" id="cb38">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>data.to_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>data.to_csv(<span class="st">"/content/drive/My Drive/Colab Notebooks/text-analysis/data/data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="outro-and-conclusion">Outro and Conclusion<a class="anchor" aria-label="anchor" href="#outro-and-conclusion"></a></h2>
 <hr class="half-width"><p>This lesson has covered a number of preprocessing steps. We created a
@@ -1323,8 +1063,8 @@ information.</li>
   "url": "https://josenino95.github.io/python-text-analysis/instructor/03-preprocessing.html",
   "identifier": "https://josenino95.github.io/python-text-analysis/instructor/03-preprocessing.html",
   "dateCreated": "2020-10-12",
-  "dateModified": "2025-03-21",
-  "datePublished": "2025-04-29"
+  "dateModified": "2025-05-01",
+  "datePublished": "2025-05-01"
 }
 
   </script><script>
