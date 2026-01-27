@@ -483,25 +483,25 @@ Importantly, LSA is considered a <em>bag of words</em> method since the
 order of words in a document is not considered.</p></li>
 </ul><p>To get a high-level overview of the embedding methods covered thus
 far, study the table below:</p>
-<table class="table"><colgroup><col width="21%"><col width="11%"><col width="13%"><col width="16%"><col width="25%"><col width="11%"></colgroup><thead><tr class="header"><th align="center">Technique</th>
+<table class="table"><colgroup><col width="21%"><col width="11%"><col width="13%"><col width="16%"><col width="25%"><col width="11%"></colgroup><thead><tr><th align="center">Technique</th>
 <th align="center">Input</th>
 <th align="center">Embedding Structure</th>
 <th align="center">Output Vector Dimensions</th>
 <th align="center">Meaning Stored</th>
 <th align="center">Order Dependency</th>
-</tr></thead><tbody><tr class="odd"><td align="center">Word Counts</td>
+</tr></thead><tbody><tr><td align="center">Word Counts</td>
 <td align="center">Raw text corpus</td>
 <td align="center">Sparse vectors</td>
 <td align="center">[1, Vocabulary Size] <br>(per document)</td>
 <td align="center">Word presence in documents</td>
 <td align="center">No <br>(bag of words)</td>
-</tr><tr class="even"><td align="center">TF-IDF</td>
+</tr><tr><td align="center">TF-IDF</td>
 <td align="center">Word Counts</td>
 <td align="center">Sparse vectors</td>
 <td align="center">[1, Vocabulary Size] <br>(per document)</td>
 <td align="center">Importance of terms in documents</td>
 <td align="center">No <br>(bag of words)</td>
-</tr><tr class="odd"><td align="center">Latent Semantic Analysis (LSA)</td>
+</tr><tr><td align="center">Latent Semantic Analysis (LSA)</td>
 <td align="center">TF-IDF or similar</td>
 <td align="center">Dense vectors</td>
 <td align="center">[1, Number of Topics] <br>(per document)</td>
@@ -550,31 +550,31 @@ encountered in a corpus. These embeddings, which are represented as
 high-dimesional vectors, tend to look very similar for words that are
 used in similar contexts. Adding this method to our overview table, we
 get:</p>
-<table class="table"><colgroup><col width="21%"><col width="11%"><col width="13%"><col width="16%"><col width="25%"><col width="11%"></colgroup><thead><tr class="header"><th align="center">Technique</th>
+<table class="table"><colgroup><col width="21%"><col width="11%"><col width="13%"><col width="16%"><col width="25%"><col width="11%"></colgroup><thead><tr><th align="center">Technique</th>
 <th align="center">Input</th>
 <th align="center">Embedding Structure</th>
 <th align="center">Output Vector Dimensions</th>
 <th align="center">Meaning Stored</th>
 <th align="center">Order Dependency</th>
-</tr></thead><tbody><tr class="odd"><td align="center">Word Counts</td>
+</tr></thead><tbody><tr><td align="center">Word Counts</td>
 <td align="center">Raw text corpus</td>
 <td align="center">Sparse vectors</td>
 <td align="center">[1, Vocabulary Size] <br>(per document)</td>
 <td align="center">Word presence in documents</td>
 <td align="center">No <br>(bag of words)</td>
-</tr><tr class="even"><td align="center">TF-IDF</td>
+</tr><tr><td align="center">TF-IDF</td>
 <td align="center">Word Counts</td>
 <td align="center">Sparse vectors</td>
 <td align="center">[1, Vocabulary Size] <br>(per document)</td>
 <td align="center">Importance of terms in documents</td>
 <td align="center">No <br>(bag of words)</td>
-</tr><tr class="odd"><td align="center">Latent Semantic Analysis (LSA)</td>
+</tr><tr><td align="center">Latent Semantic Analysis (LSA)</td>
 <td align="center">TF-IDF or similar</td>
 <td align="center">Dense vectors</td>
 <td align="center">[1, Number of Topics] <br>(per document)</td>
 <td align="center">Semantic topics present in documents</td>
 <td align="center">No <br>(bag of words)</td>
-</tr><tr class="even"><td align="center">Word2Vec</td>
+</tr><tr><td align="center">Word2Vec</td>
 <td align="center">Raw text corpus</td>
 <td align="center">Dense vectors</td>
 <td align="center">[1, Embedding Dimension] <br>(per word)</td>
@@ -703,7 +703,7 @@ Share your thoughts and suggestions with the class.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ul><li>
 <strong>Semantic Change Over Time</strong>: How have the meanings of
@@ -868,7 +868,7 @@ words well? Why or why not?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -924,7 +924,7 @@ make use of Word2Vec to explore newspaper articles from the years
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>One possible approach with this data is to investigate how the
 meaning of certain words can evolve over time by training separate
@@ -1122,7 +1122,7 @@ tasks</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.18.4" class="external-link">sandpaper (0.18.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.9" class="external-link">varnish (1.0.9)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.18.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.0.9)</a></p>
 		</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">

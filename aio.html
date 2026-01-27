@@ -1790,28 +1790,28 @@ for that row, and zero to every other dimension.</p>
 using a <strong>document-term matrix</strong>, which looks like the
 following:</p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Document</th>
 <th>to</th>
 <th>be</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Document A</td>
 <td>1</td>
 <td>10</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Document B</td>
 <td>8</td>
 <td>8</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Document C</td>
 <td>2</td>
 <td>2</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Document D</td>
 <td>2</td>
 <td>2</td>
@@ -1992,7 +1992,7 @@ add more documents with new words in them.</p>
 <li>F: to be or not to be</li>
 </ul>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Document</th>
 <th>to</th>
 <th>be</th>
@@ -2000,42 +2000,42 @@ add more documents with new words in them.</p>
 <th>not</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Document A</td>
 <td>1</td>
 <td>10</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Document B</td>
 <td>8</td>
 <td>8</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Document C</td>
 <td>2</td>
 <td>2</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Document D</td>
 <td>2</td>
 <td>2</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Document E</td>
 <td>0</td>
 <td>2</td>
 <td>1</td>
 <td>1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Document F</td>
 <td>2</td>
 <td>2</td>
@@ -2171,7 +2171,7 @@ below.</p>
 <col width="8%">
 <col width="8%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th></th>
 <th>dodge</th>
 <th>duck</th>
@@ -2184,7 +2184,7 @@ below.</p>
 <th>the</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>feed</td>
 <td>0</td>
 <td>0</td>
@@ -2196,7 +2196,7 @@ below.</p>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="even">
+<tr>
 <td>the</td>
 <td>0</td>
 <td>0</td>
@@ -2208,7 +2208,7 @@ below.</p>
 <td>0</td>
 <td>1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>duck</td>
 <td>0</td>
 <td>1</td>
@@ -2220,7 +2220,7 @@ below.</p>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr class="even">
+<tr>
 <td>-—–</td>
 <td>-——</td>
 <td>-—–</td>
@@ -2232,7 +2232,7 @@ below.</p>
 <td>-—-</td>
 <td>-—-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Document</td>
 <td>0</td>
 <td>1</td>
@@ -2389,7 +2389,7 @@ How does increasing/decreasing each value affect the number of columns
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Increasing <code>max_df</code> results in more words being included
 in the more, since a higher <code>max_df</code> corresponds to accepting
@@ -3081,7 +3081,7 @@ far, study the table below:</p>
 <col width="25%">
 <col width="11%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="center">Technique</th>
 <th align="center">Input</th>
 <th align="center">Embedding Structure</th>
@@ -3090,7 +3090,7 @@ far, study the table below:</p>
 <th align="center">Order Dependency</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="center">Word Counts</td>
 <td align="center">Raw text corpus</td>
 <td align="center">Sparse vectors</td>
@@ -3098,7 +3098,7 @@ far, study the table below:</p>
 <td align="center">Word presence in documents</td>
 <td align="center">No <br>(bag of words)</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">TF-IDF</td>
 <td align="center">Word Counts</td>
 <td align="center">Sparse vectors</td>
@@ -3106,7 +3106,7 @@ far, study the table below:</p>
 <td align="center">Importance of terms in documents</td>
 <td align="center">No <br>(bag of words)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="center">Latent Semantic Analysis (LSA)</td>
 <td align="center">TF-IDF or similar</td>
 <td align="center">Dense vectors</td>
@@ -3174,7 +3174,7 @@ get:</p>
 <col width="25%">
 <col width="11%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="center">Technique</th>
 <th align="center">Input</th>
 <th align="center">Embedding Structure</th>
@@ -3183,7 +3183,7 @@ get:</p>
 <th align="center">Order Dependency</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="center">Word Counts</td>
 <td align="center">Raw text corpus</td>
 <td align="center">Sparse vectors</td>
@@ -3191,7 +3191,7 @@ get:</p>
 <td align="center">Word presence in documents</td>
 <td align="center">No <br>(bag of words)</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">TF-IDF</td>
 <td align="center">Word Counts</td>
 <td align="center">Sparse vectors</td>
@@ -3199,7 +3199,7 @@ get:</p>
 <td align="center">Importance of terms in documents</td>
 <td align="center">No <br>(bag of words)</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="center">Latent Semantic Analysis (LSA)</td>
 <td align="center">TF-IDF or similar</td>
 <td align="center">Dense vectors</td>
@@ -3207,7 +3207,7 @@ get:</p>
 <td align="center">Semantic topics present in documents</td>
 <td align="center">No <br>(bag of words)</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="center">Word2Vec</td>
 <td align="center">Raw text corpus</td>
 <td align="center">Dense vectors</td>
@@ -3349,7 +3349,7 @@ Share your thoughts and suggestions with the class.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ul>
 <li>
@@ -3523,7 +3523,7 @@ words well? Why or why not?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3579,7 +3579,7 @@ make use of Word2Vec to explore newspaper articles from the years
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>One possible approach with this data is to investigate how the
 meaning of certain words can evolve over time by training separate
@@ -3839,44 +3839,44 @@ from tail length, weight, and snout length to the animal’s species label
 <col width="28%">
 <col width="8%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Tail length (in)</th>
 <th>Weight (lbs)</th>
 <th>Snout length (in)</th>
 <th>Label</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>12.2</td>
 <td>10.1</td>
 <td>1.1</td>
 <td>cat</td>
 </tr>
-<tr class="even">
+<tr>
 <td>11.6</td>
 <td>9.8</td>
 <td>.82</td>
 <td>cat</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>9.5</td>
 <td>61.2</td>
 <td>2.6</td>
 <td>dog</td>
 </tr>
-<tr class="even">
+<tr>
 <td>9.1</td>
 <td>65.7</td>
 <td>2.9</td>
 <td>dog</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>…</td>
 <td>…</td>
 <td>…</td>
 <td>…</td>
 </tr>
-<tr class="even">
+<tr>
 <td>11.2</td>
 <td>12.1</td>
 <td>.91</td>
@@ -4115,28 +4115,28 @@ to learn a function that can map each word to its most likely context
 words.</p>
 <p><em>Have a very nice day.</em></p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Input</th>
 <th>Output (context words)</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Have</td>
 <td>a, very</td>
 </tr>
-<tr class="even">
+<tr>
 <td>a</td>
 <td>Have, very, nice</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>very</td>
 <td>Have, a, nice, day</td>
 </tr>
-<tr class="even">
+<tr>
 <td>nice</td>
 <td>a, very, day</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>day</td>
 <td>very, nice</td>
 </tr>
@@ -5541,18 +5541,18 @@ true positive, true negative, false positive and false negative.</p>
 <col width="28%">
 <col width="32%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th></th>
 <th>Document is in our category</th>
 <th>Document is not in our category</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Model predicts it is in our category</td>
 <td>True Positive (TP)</td>
 <td>False Positive (FP)</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Model predicts it is not in category</td>
 <td>False Negative (FN)</td>
 <td>True Negative (TN)</td>
@@ -5878,7 +5878,7 @@ our methods and results</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.18.4" class="external-link">sandpaper (0.18.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.9" class="external-link">varnish (1.0.9)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.18.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.0.9)</a></p>
 		</div>
 		</footer>
 </div> <!-- / div.container -->
