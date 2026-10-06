@@ -1,0 +1,29 @@
+name: text-analysis-cuda118
+channels:
+  - pytorch
+  - nvidia
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - pandas
+  - spacy
+  - pytorch
+  - torchvision
+  - torchaudio
+# UCUDA version tested was 11.8. May not work for other versions. For most up-to-date pytorch config visit: https://pytorch.org/get-started/locally/
+  - pytorch-cuda=11.8
+  - transformers
+  - datasets
+  - pip
+  - spacy-model-en_core_web_sm
+  - gensim
+  - matplotlib
+  - nltk
+  - pip:
+    - seqeval
+    - parse
+    - scikit-learn
+    - scipy
+    - bertviz
